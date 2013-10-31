@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<batch>
+    <batchstep method="net.sf.mzmine.modules.rawdatamethods.rawdataimport.RawDataImportModule">
+        <parameter name="Raw data file names">
+            <file>src/test/resources/rawdata/test.mzXML</file>
+        </parameter>
+    </batchstep>
+    
+</batch>
