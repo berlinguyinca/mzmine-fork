@@ -18,76 +18,19 @@
  */
 package net.sf.mzmine.main;
 
-import net.sf.mzmine.modules.batchmode.BatchModeModule;
-import net.sf.mzmine.modules.masslistmethods.chromatogrambuilder.ChromatogramBuilderModule;
-import net.sf.mzmine.modules.masslistmethods.shoulderpeaksfilter.ShoulderPeaksFilterModule;
-import net.sf.mzmine.modules.peaklistmethods.alignment.join.JoinAlignerModule;
-import net.sf.mzmine.modules.peaklistmethods.alignment.ransac.RansacAlignerModule;
-import net.sf.mzmine.modules.peaklistmethods.dataanalysis.clustering.ClusteringModule;
-import net.sf.mzmine.modules.peaklistmethods.dataanalysis.heatmaps.HeatMapModule;
-import net.sf.mzmine.modules.peaklistmethods.dataanalysis.projectionplots.CDAPlotModule;
-import net.sf.mzmine.modules.peaklistmethods.dataanalysis.projectionplots.PCAPlotModule;
-import net.sf.mzmine.modules.peaklistmethods.dataanalysis.projectionplots.SammonsPlotModule;
-import net.sf.mzmine.modules.peaklistmethods.dataanalysis.rtmzplots.cvplot.CVPlotModule;
-import net.sf.mzmine.modules.peaklistmethods.dataanalysis.rtmzplots.logratioplot.LogratioPlotModule;
-import net.sf.mzmine.modules.peaklistmethods.filtering.duplicatefilter.DuplicateFilterModule;
-import net.sf.mzmine.modules.peaklistmethods.filtering.rowsfilter.RowsFilterModule;
-import net.sf.mzmine.modules.peaklistmethods.gapfilling.peakfinder.PeakFinderModule;
-import net.sf.mzmine.modules.peaklistmethods.gapfilling.samerange.SameRangeGapFillerModule;
-import net.sf.mzmine.modules.peaklistmethods.identification.adductsearch.AdductSearchModule;
-import net.sf.mzmine.modules.peaklistmethods.identification.camera.CameraSearchModule;
-import net.sf.mzmine.modules.peaklistmethods.identification.complexsearch.ComplexSearchModule;
-import net.sf.mzmine.modules.peaklistmethods.identification.custom.CustomDBSearchModule;
-import net.sf.mzmine.modules.peaklistmethods.identification.dbsearch.OnlineDBSearchModule;
-import net.sf.mzmine.modules.peaklistmethods.identification.formulaprediction.FormulaPredictionModule;
-import net.sf.mzmine.modules.peaklistmethods.identification.formulapredictionpeaklist.FormulaPredictionPeakListModule;
-import net.sf.mzmine.modules.peaklistmethods.identification.fragmentsearch.FragmentSearchModule;
-import net.sf.mzmine.modules.peaklistmethods.identification.glycerophospholipidsearch.GPLipidSearchModule;
-import net.sf.mzmine.modules.peaklistmethods.identification.nist.NistMsSearchModule;
-import net.sf.mzmine.modules.peaklistmethods.io.csvexport.CSVExportModule;
-import net.sf.mzmine.modules.peaklistmethods.io.sqlexport.SQLExportModule;
-import net.sf.mzmine.modules.peaklistmethods.io.xmlexport.XMLExportModule;
-import net.sf.mzmine.modules.peaklistmethods.io.xmlimport.XMLImportModule;
-import net.sf.mzmine.modules.peaklistmethods.isotopes.deisotoper.IsotopeGrouperModule;
-import net.sf.mzmine.modules.peaklistmethods.isotopes.isotopeprediction.IsotopePatternCalculator;
-import net.sf.mzmine.modules.peaklistmethods.normalization.linear.LinearNormalizerModule;
-import net.sf.mzmine.modules.peaklistmethods.normalization.rtnormalizer.RTNormalizerModule;
-import net.sf.mzmine.modules.peaklistmethods.normalization.standardcompound.StandardCompoundNormalizerModule;
-import net.sf.mzmine.modules.peaklistmethods.peakpicking.deconvolution.DeconvolutionModule;
-import net.sf.mzmine.modules.peaklistmethods.peakpicking.peakextender.PeakExtenderModule;
-import net.sf.mzmine.modules.peaklistmethods.peakpicking.shapemodeler.ShapeModelerModule;
-import net.sf.mzmine.modules.peaklistmethods.peakpicking.smoothing.SmoothingModule;
-import net.sf.mzmine.modules.projectmethods.projectclose.ProjectCloseModule;
-import net.sf.mzmine.modules.projectmethods.projectload.ProjectLoadModule;
-import net.sf.mzmine.modules.projectmethods.projectsave.ProjectSaveAsModule;
-import net.sf.mzmine.modules.projectmethods.projectsave.ProjectSaveModule;
-import net.sf.mzmine.modules.rawdatamethods.filtering.baselinecorrection.BaselineCorrectionModule;
-import net.sf.mzmine.modules.rawdatamethods.filtering.datasetfilters.DataSetFiltersModule;
-import net.sf.mzmine.modules.rawdatamethods.filtering.scanfilters.ScanFiltersModule;
-import net.sf.mzmine.modules.rawdatamethods.peakpicking.manual.ManualPeakPickerModule;
-import net.sf.mzmine.modules.rawdatamethods.peakpicking.massdetection.MassDetectionModule;
-import net.sf.mzmine.modules.rawdatamethods.peakpicking.msms.MsMsPeakPickerModule;
-import net.sf.mzmine.modules.rawdatamethods.rawdataimport.RawDataImportModule;
-import net.sf.mzmine.modules.rawdatamethods.targetedpeakdetection.TargetedPeakDetectionModule;
-import net.sf.mzmine.modules.tools.mzrangecalculator.MzRangeCalculatorModule;
-import net.sf.mzmine.modules.visualization.histogram.HistogramVisualizerModule;
-import net.sf.mzmine.modules.visualization.infovisualizer.InfoVisualizerModule;
-import net.sf.mzmine.modules.visualization.intensityplot.IntensityPlotModule;
-import net.sf.mzmine.modules.visualization.neutralloss.NeutralLossVisualizerModule;
-import net.sf.mzmine.modules.visualization.peaklist.PeakListTableModule;
-import net.sf.mzmine.modules.visualization.peaklist.export.IsotopePatternExportModule;
-import net.sf.mzmine.modules.visualization.peaklist.export.MSMSExportModule;
-import net.sf.mzmine.modules.visualization.scatterplot.ScatterPlotVisualizerModule;
-import net.sf.mzmine.modules.visualization.spectra.SpectraVisualizerModule;
-import net.sf.mzmine.modules.visualization.threed.ThreeDVisualizerModule;
-import net.sf.mzmine.modules.visualization.tic.TICVisualizerModule;
-import net.sf.mzmine.modules.visualization.twod.TwoDVisualizerModule;
+import net.sf.mzmine.modules.MZmineModule;
+import org.reflections.Reflections;
+
+import java.lang.reflect.Modifier;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * List of modules included in MZmine
  */
 public class MZmineModulesList {
 
+    /*
         public static final Class<?> MODULES[] = new Class<?>[]{
                 // Project methods
                 ProjectLoadModule.class,
@@ -163,4 +106,43 @@ public class MZmineModulesList {
                 InfoVisualizerModule.class, IntensityPlotModule.class,
                 // Tools
                 MzRangeCalculatorModule.class};
+
+                */
+
+
+    /**
+     * loads all available modules in the mzmine package
+     */
+    public static final Set<Class<? extends MZmineModule>> MODULES = findModulesInPackage("net.sf.mzmine");
+
+    /**
+     * scans the local classpath and addes all implementation of our modules to this
+     *
+     * @param packages where would we like to search
+     * @return
+     */
+    private static Set<Class<? extends MZmineModule>> findModulesInPackage(String packages) {
+
+        Reflections reflections = new Reflections(packages);
+
+        Set<Class<? extends MZmineModule>> result = new HashSet<Class<? extends MZmineModule>>();
+
+        //builds all our implementation objects
+        for (Class<? extends MZmineModule> module : reflections.getSubTypesOf(MZmineModule.class)) {
+            if (module.isInterface() == false) {
+                if (module.isAnonymousClass() == false) {
+                    if (module.isAnnotation() == false) {
+                        if (module.isLocalClass() == false) {
+                            if (Modifier.isAbstract(module.getModifiers()) == false) {
+                                if (module.isEnum() == false) {
+                                    result.add(module);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return result;
+    }
 }

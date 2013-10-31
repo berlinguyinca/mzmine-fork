@@ -34,8 +34,8 @@ public class RawDataDirectoryImportModule implements MZmineProcessingModule,
 
     private Logger logger = Logger.getLogger(this.getClass().getName());
 
-    private static final String MODULE_NAME = "Raw data import";
-    private static final String MODULE_DESCRIPTION = "This module imports raw data into the project.";
+    private static final String MODULE_NAME = "Raw data directory import";
+    private static final String MODULE_DESCRIPTION = "This module imports raw data into the project and allows you to select a whole directory at once.";
 
     @Override
     public
