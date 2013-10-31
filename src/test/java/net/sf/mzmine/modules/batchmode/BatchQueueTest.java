@@ -32,6 +32,8 @@ public class BatchQueueTest {
 
 
         assertTrue(newQueue.isEmpty() == false);
+        assertTrue(newQueue.size() == 1);
+
 
     }
 }

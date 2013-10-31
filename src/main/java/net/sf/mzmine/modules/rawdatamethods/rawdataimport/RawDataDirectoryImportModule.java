@@ -35,7 +35,7 @@ public class RawDataDirectoryImportModule implements MZmineProcessingModule,
     private Logger logger = Logger.getLogger(this.getClass().getName());
 
     private static final String MODULE_NAME = "Raw data directory import";
-    private static final String MODULE_DESCRIPTION = "This module imports raw data into the project and allows you to select a whole directory at once.";
+    private static final String MODULE_DESCRIPTION = "This module imports raw data into the project and allows you to specify a whole directory at once.";
 
     @Override
     public
@@ -59,91 +59,108 @@ public class RawDataDirectoryImportModule implements MZmineProcessingModule,
         File fileNames[] = parameters.getParameter(
                 RawDataImportParameters.fileNames).getValue();
 
-        for (int i = 0; i < fileNames.length; i++) {
+        for (File d : fileNames) {
 
-            if ((!fileNames[i].exists()) || (!fileNames[i].canRead())) {
-                MZmineCore.getDesktop().displayErrorMessage(
-                        "Cannot read file " + fileNames[i]);
-                logger.warning("Cannot read file " + fileNames[i]);
-                return ExitCode.ERROR;
-            }
-
-            RawDataFileWriter newMZmineFile;
-            try {
-                newMZmineFile = MZmineCore
-                        .createNewFile(fileNames[i].getName());
-            } catch (IOException e) {
-                MZmineCore.getDesktop().displayErrorMessage(
-                        "Could not create a new temporary file " + e);
-                logger.log(Level.SEVERE,
-                        "Could not create a new temporary file ", e);
-                return ExitCode.ERROR;
-            }
-
-            String extension = fileNames[i].getName()
-                    .substring(fileNames[i].getName().lastIndexOf(".") + 1)
-                    .toLowerCase();
-            Task newTask = null;
-
-            if (extension.endsWith("mzdata")) {
-                newTask = new MzDataReadTask(fileNames[i], newMZmineFile);
-            }
-            if (extension.endsWith("mzxml")) {
-                newTask = new MzXMLReadTask(fileNames[i], newMZmineFile);
-            }
-            if (extension.endsWith("mzml")) {
-                newTask = new MzMLReadTask(fileNames[i], newMZmineFile);
-            }
-            if (extension.endsWith("cdf")) {
-                newTask = new NetCDFReadTask(fileNames[i], newMZmineFile);
-            }
-            if (extension.endsWith("raw")) {
-                newTask = new XcaliburRawFileReadTask(fileNames[i],
-                        newMZmineFile);
-            }
-            if (extension.endsWith("xml")) {
-
-                try {
-                    // Check the first 512 bytes of the file, to determine the
-                    // file type
-                    FileReader reader = new FileReader(fileNames[i]);
-                    char buffer[] = new char[512];
-                    reader.read(buffer);
-                    reader.close();
-                    String fileHeader = new String(buffer);
-                    if (fileHeader.contains("mzXML")) {
-                        newTask = new MzXMLReadTask(fileNames[i], newMZmineFile);
-                    }
-                    if (fileHeader.contains("mzData")) {
-                        newTask = new MzDataReadTask(fileNames[i],
-                                newMZmineFile);
-                    }
-                    if (fileHeader.contains("mzML")) {
-                        newTask = new MzMLReadTask(fileNames[i], newMZmineFile);
-                    }
-                } catch (Exception e) {
-                    logger.warning("Cannot read file " + fileNames[i] + ": "
-                            + e);
-                    return ExitCode.ERROR;
+            if (d.isDirectory()) {
+                File[] files = d.listFiles(RawdataImportDirectoryParameters.getFileFilter());
+                for (File f : files) {
+                    if (readFile(tasks, f)) return ExitCode.ERROR;
                 }
+            } else {
+                logger.warning("ignored " + d + " was not a directory!");
             }
-
-            if (extension.endsWith("csv")) {
-                newTask = new AgilentCsvReadTask(fileNames[i], newMZmineFile);
-            }
-
-            if (newTask == null) {
-                logger.warning("Cannot determine file type of file "
-                        + fileNames[i]);
-                return ExitCode.ERROR;
-            }
-
-            newTask.addTaskListener(this);
-            tasks.add(newTask);
-
         }
 
         return ExitCode.OK;
+    }
+
+    /**
+     * reads a single file
+     * @param tasks
+     * @param fileName
+     * @return
+     */
+    private boolean readFile(Collection<Task> tasks, File fileName) {
+        if ((!fileName.exists()) || (!fileName.canRead())) {
+            MZmineCore.getDesktop().displayErrorMessage(
+                    "Cannot read file " + fileName);
+            logger.warning("Cannot read file " + fileName);
+            return true;
+        }
+
+        RawDataFileWriter newMZmineFile;
+        try {
+            newMZmineFile = MZmineCore
+                    .createNewFile(fileName.getName());
+        } catch (IOException e) {
+            MZmineCore.getDesktop().displayErrorMessage(
+                    "Could not create a new temporary file " + e);
+            logger.log(Level.SEVERE,
+                    "Could not create a new temporary file ", e);
+            return true;
+        }
+
+        String extension = fileName.getName()
+                .substring(fileName.getName().lastIndexOf(".") + 1)
+                .toLowerCase();
+        Task newTask = null;
+
+        if (extension.endsWith("mzdata")) {
+            newTask = new MzDataReadTask(fileName, newMZmineFile);
+        }
+        if (extension.endsWith("mzxml")) {
+            newTask = new MzXMLReadTask(fileName, newMZmineFile);
+        }
+        if (extension.endsWith("mzml")) {
+            newTask = new MzMLReadTask(fileName, newMZmineFile);
+        }
+        if (extension.endsWith("cdf")) {
+            newTask = new NetCDFReadTask(fileName, newMZmineFile);
+        }
+        if (extension.endsWith("raw")) {
+            newTask = new XcaliburRawFileReadTask(fileName,
+                    newMZmineFile);
+        }
+        if (extension.endsWith("xml")) {
+
+            try {
+                // Check the first 512 bytes of the file, to determine the
+                // file type
+                FileReader reader = new FileReader(fileName);
+                char buffer[] = new char[512];
+                reader.read(buffer);
+                reader.close();
+                String fileHeader = new String(buffer);
+                if (fileHeader.contains("mzXML")) {
+                    newTask = new MzXMLReadTask(fileName, newMZmineFile);
+                }
+                if (fileHeader.contains("mzData")) {
+                    newTask = new MzDataReadTask(fileName,
+                            newMZmineFile);
+                }
+                if (fileHeader.contains("mzML")) {
+                    newTask = new MzMLReadTask(fileName, newMZmineFile);
+                }
+            } catch (Exception e) {
+                logger.warning("Cannot read file " + fileName + ": "
+                        + e);
+                return true;
+            }
+        }
+
+        if (extension.endsWith("csv")) {
+            newTask = new AgilentCsvReadTask(fileName, newMZmineFile);
+        }
+
+        if (newTask == null) {
+            logger.warning("Cannot determine file type of file "
+                    + fileName);
+            return true;
+        }
+
+        newTask.addTaskListener(this);
+        tasks.add(newTask);
+        return false;
     }
 
     /**
@@ -171,7 +188,7 @@ public class RawDataDirectoryImportModule implements MZmineProcessingModule,
     public
     @Nonnull
     Class<? extends ParameterSet> getParameterSetClass() {
-        return RawDataImportParameters.class;
+        return RawdataImportDirectoryParameters.class;
     }
 
 }

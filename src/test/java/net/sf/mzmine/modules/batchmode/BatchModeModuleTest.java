@@ -32,4 +32,20 @@ public class BatchModeModuleTest {
 
     }
 
+
+    @Test
+    public void testRunBatchLoadAllFilesFromDirectory() throws Exception {
+
+        MZmineCore.initializeHeadless();
+
+        File batchFile = new File("src/test/resources/readDirectory.xml");
+        Assert.assertTrue(batchFile.exists());
+        ExitCode code = BatchModeModule.runBatch(batchFile);
+
+        assertTrue(code == ExitCode.OK);
+
+    }
+
+
+
 }

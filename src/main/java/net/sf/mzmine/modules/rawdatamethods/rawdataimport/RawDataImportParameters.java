@@ -19,20 +19,19 @@
 
 package net.sf.mzmine.modules.rawdatamethods.rawdataimport;
 
-import java.io.File;
-
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileNameExtensionFilter;
-
 import net.sf.mzmine.main.MZmineCore;
 import net.sf.mzmine.parameters.Parameter;
 import net.sf.mzmine.parameters.impl.SimpleParameterSet;
 import net.sf.mzmine.util.ExitCode;
 
+import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.File;
+
 public class RawDataImportParameters extends SimpleParameterSet {
 
-	private static final FileFilter filters[] = new FileFilter[] {
+	protected static final FileFilter filters[] = new FileFilter[] {
 			new FileNameExtensionFilter("All raw data files", "cdf", "nc",
 					"mzData", "mzML", "mzXML", "xml", "raw", "csv"),
 			new FileNameExtensionFilter("All XML files", "xml"),
