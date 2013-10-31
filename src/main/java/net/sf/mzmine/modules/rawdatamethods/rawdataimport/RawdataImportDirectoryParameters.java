@@ -50,6 +50,10 @@ public class RawdataImportDirectoryParameters extends RawDataImportParameters {
 
     }
 
+    /**
+     * file filter to use for our method
+     * @return
+     */
     public static FileFilter getFileFilter() {
         return new FileFilter() {
             @Override
