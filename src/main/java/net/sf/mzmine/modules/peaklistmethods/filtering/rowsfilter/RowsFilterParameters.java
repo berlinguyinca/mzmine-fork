@@ -34,69 +34,82 @@ import net.sf.mzmine.parameters.parametertypes.RangeParameter;
 import net.sf.mzmine.parameters.parametertypes.StringParameter;
 import net.sf.mzmine.util.ExitCode;
 import net.sf.mzmine.util.Range;
+import org.w3c.dom.Element;
 
 public class RowsFilterParameters extends SimpleParameterSet {
 
-	public static final PeakListsParameter PEAK_LISTS = new PeakListsParameter();
+    public static final PeakListsParameter PEAK_LISTS = new PeakListsParameter();
 
-	public static final StringParameter SUFFIX = new StringParameter(
-			"Name suffix", "Suffix to be added to peak list name", "filtered");
+    public static final StringParameter SUFFIX = new StringParameter(
+            "Name suffix", "Suffix to be added to peak list name", "filtered");
 
-	public static final IntegerParameter MIN_PEAK_COUNT = new IntegerParameter(
-			"Minimum peaks in a row",
-			"Minimum number of peak detections required per row", 1, 0, null);
+    public static final IntegerParameter MIN_PEAK_COUNT = new IntegerParameter(
+            "Minimum peaks in a row",
+            "Minimum number of peak detections required per row", 1, 0, null);
 
-	public static final IntegerParameter MIN_ISOTOPE_PATTERN_COUNT = new IntegerParameter(
-			"Minimum peaks in an isotope pattern",
-			"Minimum number of peaks required in an isotope pattern");
+    public static final IntegerParameter MIN_ISOTOPE_PATTERN_COUNT = new IntegerParameter(
+            "Minimum peaks in an isotope pattern",
+            "Minimum number of peaks required in an isotope pattern");
 
-	public static final MZRangeParameter MZ_RANGE = new MZRangeParameter();
+    public static final MZRangeParameter MZ_RANGE = new MZRangeParameter();
 
-	public static final RTRangeParameter RT_RANGE = new RTRangeParameter();
+    public static final RTRangeParameter RT_RANGE = new RTRangeParameter();
 
-	public static final RangeParameter PEAK_DURATION = new RangeParameter(
-			"Peak duration range",
-			"Permissible range of (average) peak durations per row", MZmineCore
-					.getConfiguration().getRTFormat(), new Range(0.0, 10.0));
+    public static final RangeParameter PEAK_DURATION = new RangeParameter(
+            "Peak duration range",
+            "Permissible range of (average) peak durations per row", MZmineCore
+            .getConfiguration().getRTFormat(), new Range(0.0, 10.0));
 
-	public static final ComboParameter<Object> GROUPSPARAMETER = new ComboParameter<Object>(
-			"Parameter", "Paremeter defining the group of each sample.",
-			new Object[0]);
+    public static final ComboParameter<Object> GROUPSPARAMETER = new ComboParameter<Object>(
+            "Parameter", "Parameter defining the group of each sample.",
+            new Object[0]);
 
-	public static final BooleanParameter HAS_IDENTITIES = new BooleanParameter(
-			"Only identified?", "Select to filter only identified compounds");
+    public static final BooleanParameter HAS_IDENTITIES = new BooleanParameter(
+            "Only identified?", "Select to filter only identified compounds");
 
-	public static final BooleanParameter AUTO_REMOVE = new BooleanParameter(
-			"Remove source peak list after filtering",
-			"If checked, the original peak list will be removed leaving only the filtered version");
+    public static final BooleanParameter AUTO_REMOVE = new BooleanParameter(
+            "Remove source peak list after filtering",
+            "If checked, the original peak list will be removed leaving only the filtered version");
+    public static final String NO_PARAMETERS_DEFINED = "No parameters defined";
 
-	public RowsFilterParameters() {
-		super(new Parameter[]{PEAK_LISTS, SUFFIX, MIN_PEAK_COUNT,
-				MIN_ISOTOPE_PATTERN_COUNT, MZ_RANGE, RT_RANGE, PEAK_DURATION,
-				GROUPSPARAMETER, HAS_IDENTITIES, AUTO_REMOVE});
-	}
+    public RowsFilterParameters() {
+        super(new Parameter[]{PEAK_LISTS, SUFFIX, MIN_PEAK_COUNT,
+                MIN_ISOTOPE_PATTERN_COUNT, MZ_RANGE, RT_RANGE, PEAK_DURATION,
+                GROUPSPARAMETER, HAS_IDENTITIES, AUTO_REMOVE});
+    }
 
-	@Override
-	public ExitCode showSetupDialog() {
+    @Override
+    public void loadValuesFromXML(Element xmlElement) {
+        generateChoices();
+        super.loadValuesFromXML(xmlElement);    //To change body of overridden methods use File | Settings | File Templates.
+    }
 
-		// Update the parameter choices
-		UserParameter newChoices[] = MZmineCore.getCurrentProject()
-				.getParameters();
-		String[] choices;
-		if (newChoices == null || newChoices.length == 0) {
-			choices = new String[1];
-			choices[0] = "No parameters defined";
-		} else {
-			choices = new String[newChoices.length + 1];
-			choices[0] = "Ignore groups";
-			for (int i = 0; i < newChoices.length; i++) {
-				choices[i + 1] = "Filtering by " + newChoices[i].getName();
-			}
-		}
+    @Override
+    public ExitCode showSetupDialog() {
 
-		getParameter(RowsFilterParameters.GROUPSPARAMETER).setChoices(choices);
-		ParameterSetupDialog dialog = new ParameterSetupDialog(this);
-		dialog.setVisible(true);
-		return dialog.getExitCode();
-	}
+        // Update the parameter choices
+        generateChoices();
+        ParameterSetupDialog dialog = new ParameterSetupDialog(this);
+        dialog.setVisible(true);
+        return dialog.getExitCode();
+    }
+
+    protected void generateChoices() {
+        UserParameter newChoices[] = MZmineCore.getCurrentProject()
+                .getParameters();
+
+        String[] choices;
+        if (newChoices == null || newChoices.length == 0) {
+            choices = new String[1];
+            choices[0] = NO_PARAMETERS_DEFINED;
+        } else {
+            choices = new String[newChoices.length + 1];
+            choices[0] = "Ignore groups";
+            for (int i = 0; i < newChoices.length; i++) {
+                choices[i + 1] = "Filtering by " + newChoices[i].getName();
+            }
+        }
+
+        getParameter(RowsFilterParameters.GROUPSPARAMETER).setChoices(choices);
+    }
 }

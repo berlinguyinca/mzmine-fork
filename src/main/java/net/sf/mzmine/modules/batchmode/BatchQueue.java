@@ -93,19 +93,21 @@ public class BatchQueue
 				if (module instanceof MZmineProcessingModule
 						&& module.getClass().getName().equals(methodName)) {
 
-					logger.info("success!");
+					logger.info("success, now loading parameters...");
 					// Get parameters and add step to queue.
 					final ParameterSet parameterSet = MZmineCore
 							.getConfiguration().getModuleParameters(
 									module.getClass());
 					final ParameterSet methodParams = parameterSet
 							.cloneParameter();
+
+                    logger.fine("method parameters are of type: " + methodParams.getClass().getName());
 					methodParams.loadValuesFromXML(stepElement);
 					queue.add(new MZmineProcessingStepImpl<MZmineProcessingModule>(
 							(MZmineProcessingModule) module, methodParams));
 					break;
 				} else {
-					logger.info("=> was of wrong type or name didn't match...");
+					//logger.finest("=> was of wrong type or name didn't match...");
 				}
 			}
 		}

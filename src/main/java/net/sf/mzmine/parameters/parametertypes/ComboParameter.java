@@ -21,6 +21,7 @@ package net.sf.mzmine.parameters.parametertypes;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.logging.Logger;
 
 import javax.swing.JComboBox;
 
@@ -35,6 +36,8 @@ import org.w3c.dom.Element;
 public class ComboParameter<ValueType>
 		implements
 			UserParameter<ValueType, JComboBox> {
+
+    private Logger logger = Logger.getLogger(getClass().getName());
 
 	private String name, description;
 	private ValueType choices[], value;
@@ -115,11 +118,16 @@ public class ComboParameter<ValueType>
 
 	@Override
 	public void loadValueFromXML(Element xmlElement) {
+        logger.fine("loading configuration...");
 		String elementString = xmlElement.getTextContent();
+        logger.fine("element was: " + elementString);
 		if (elementString.length() == 0)
 			return;
+
 		for (ValueType option : choices) {
+            logger.finest("option: " + option.toString());
 			if (option.toString().equals(elementString)) {
+                logger.finest("accepted...");
 				value = option;
 				break;
 			}
