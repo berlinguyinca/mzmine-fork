@@ -30,8 +30,9 @@ import net.sf.mzmine.parameters.ParameterSet;
 import net.sf.mzmine.util.PeakMeasurementType;
 import net.sf.mzmine.util.dialogs.AxesSetupDialog;
 
-public class ProjectionPlotWindow extends JInternalFrame implements
-		ActionListener {
+public class ProjectionPlotWindow extends JInternalFrame
+		implements
+			ActionListener {
 
 	private ProjectionPlotToolbar toolbar;
 	private ProjectionPlotPanel plot;

@@ -35,17 +35,18 @@ public class PeriodicTableDialog extends JDialog implements ICDKChangeListener {
 	private String elementSymbol;
 
 	public PeriodicTableDialog() {
-		
-		super(MZmineCore.getDesktop().getMainFrame(), "Choose an element...", true);
-		
+
+		super(MZmineCore.getDesktop().getMainFrame(), "Choose an element...",
+				true);
+
 		setLayout(new BorderLayout());
-		
+
 		periodicTable = new PeriodicTablePanel();
 		periodicTable.addCDKChangeListener(this);
 		add(BorderLayout.CENTER, periodicTable);
 
 		pack();
-		
+
 		setLocationRelativeTo(MZmineCore.getDesktop().getMainFrame());
 	}
 
@@ -60,7 +61,7 @@ public class PeriodicTableDialog extends JDialog implements ICDKChangeListener {
 			dispose();
 		}
 	}
-	
+
 	public String getSelectedElement() {
 		return elementSymbol;
 	}

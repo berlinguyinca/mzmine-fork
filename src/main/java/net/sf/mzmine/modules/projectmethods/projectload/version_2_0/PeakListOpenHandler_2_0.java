@@ -55,8 +55,9 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import com.Ostermiller.util.Base64;
 
-public class PeakListOpenHandler_2_0 extends DefaultHandler implements
-		PeakListOpenHandler {
+public class PeakListOpenHandler_2_0 extends DefaultHandler
+		implements
+			PeakListOpenHandler {
 
 	private Logger logger = Logger.getLogger(this.getClass().getName());
 

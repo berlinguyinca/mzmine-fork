@@ -25,40 +25,40 @@ public class ModificationPeptide {
 	private double mass;
 	private boolean fixed;
 	private char site;
-	
+
 	/**
-	 * This class represents a modification for any amino acid in the sequence of a peptide.
+	 * This class represents a modification for any amino acid in the sequence
+	 * of a peptide.
 	 * 
 	 * @param name
 	 * @param mass
 	 * @param fixed
 	 */
-	public ModificationPeptide (String name, double mass, char amino, boolean fixed){
+	public ModificationPeptide(String name, double mass, char amino,
+			boolean fixed) {
 		this.name = name;
 		this.mass = mass;
 		this.fixed = fixed;
 	}
-	
-	
+
 	/**
 	 * Returns the name of the modification
 	 * 
 	 * @return name
 	 */
-	public String getName(){
+	public String getName() {
 		return name;
 	}
 
-
 	/**
-	 * Returns true if the modification is fixed (according with Mascot definition)
+	 * Returns true if the modification is fixed (according with Mascot
+	 * definition)
 	 * 
 	 * @return boolean
 	 */
 	public boolean isFixed() {
 		return fixed;
 	}
-
 
 	/**
 	 * Return the mass value of this modification
@@ -68,7 +68,6 @@ public class ModificationPeptide {
 	public double getMass() {
 		return mass;
 	}
-
 
 	/**
 	 * Returns the site (amino acid) where this modification could happen.

@@ -30,31 +30,29 @@ import net.sf.mzmine.util.Range;
 
 public class NoiseAmplitudePeakDetectorParameters extends SimpleParameterSet {
 
-    public static final DoubleParameter MIN_PEAK_HEIGHT = new DoubleParameter(
-	    "Min peak height",
-	    "Minimum acceptable height (intensity) for a chromatographic peak",
-	    MZmineCore.getConfiguration().getIntensityFormat());
+	public static final DoubleParameter MIN_PEAK_HEIGHT = new DoubleParameter(
+			"Min peak height",
+			"Minimum acceptable height (intensity) for a chromatographic peak",
+			MZmineCore.getConfiguration().getIntensityFormat());
 
-    public static final RangeParameter PEAK_DURATION = new RangeParameter(
-	    "Peak duration range (min)", "Range of acceptable peak lengths",
-	    MZmineCore.getConfiguration().getRTFormat(), new Range(0.0, 10.0));
+	public static final RangeParameter PEAK_DURATION = new RangeParameter(
+			"Peak duration range (min)", "Range of acceptable peak lengths",
+			MZmineCore.getConfiguration().getRTFormat(), new Range(0.0, 10.0));
 
-    public static final DoubleParameter NOISE_AMPLITUDE = new DoubleParameter(
-	    "Amplitude of noise",
-	    "This value is the intensity amplitude of the signal in the noise region",
-	    MZmineCore.getConfiguration().getIntensityFormat());
+	public static final DoubleParameter NOISE_AMPLITUDE = new DoubleParameter(
+			"Amplitude of noise",
+			"This value is the intensity amplitude of the signal in the noise region",
+			MZmineCore.getConfiguration().getIntensityFormat());
 
-    public NoiseAmplitudePeakDetectorParameters() {
-	super(
-		new Parameter[] { MIN_PEAK_HEIGHT, PEAK_DURATION,
-			NOISE_AMPLITUDE });
-    }
+	public NoiseAmplitudePeakDetectorParameters() {
+		super(new Parameter[]{MIN_PEAK_HEIGHT, PEAK_DURATION, NOISE_AMPLITUDE});
+	}
 
-    @Override
-    public ExitCode showSetupDialog() {
-	final PeakResolverSetupDialog dialog = new PeakResolverSetupDialog(
-		this, NoiseAmplitudePeakDetector.class);
-	dialog.setVisible(true);
-	return dialog.getExitCode();
-    }
+	@Override
+	public ExitCode showSetupDialog() {
+		final PeakResolverSetupDialog dialog = new PeakResolverSetupDialog(
+				this, NoiseAmplitudePeakDetector.class);
+		dialog.setVisible(true);
+		return dialog.getExitCode();
+	}
 }

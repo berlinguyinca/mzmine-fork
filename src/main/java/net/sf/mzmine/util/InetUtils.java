@@ -38,7 +38,7 @@ public class InetUtils {
 	public static String retrieveData(URL url) throws IOException {
 
 		URLConnection connection = url.openConnection();
-		connection.setRequestProperty ( "User-agent", "MZmine 2");
+		connection.setRequestProperty("User-agent", "MZmine 2");
 		InputStream is = connection.getInputStream();
 
 		if (is == null) {

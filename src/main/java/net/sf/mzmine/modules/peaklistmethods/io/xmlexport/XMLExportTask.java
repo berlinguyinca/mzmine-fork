@@ -56,8 +56,8 @@ public class XMLExportTask extends AbstractTask {
 
 		fileName = parameters.getParameter(XMLExportParameters.filename)
 				.getValue();
-		compression = parameters
-				.getParameter(XMLExportParameters.compression).getValue();
+		compression = parameters.getParameter(XMLExportParameters.compression)
+				.getValue();
 
 		this.peakList = parameters.getParameter(XMLExportParameters.peakList)
 				.getValue()[0];

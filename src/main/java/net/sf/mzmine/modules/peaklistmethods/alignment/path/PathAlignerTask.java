@@ -35,65 +35,64 @@ import net.sf.mzmine.taskcontrol.TaskStatus;
  */
 class PathAlignerTask extends AbstractTask {
 
-    private Logger logger = Logger.getLogger(this.getClass().getName());
-    private PeakList peakLists[], alignedPeakList;
-    private String peakListName;
-    private ParameterSet parameters;
-    private Aligner aligner;
+	private Logger logger = Logger.getLogger(this.getClass().getName());
+	private PeakList peakLists[], alignedPeakList;
+	private String peakListName;
+	private ParameterSet parameters;
+	private Aligner aligner;
 
-    PathAlignerTask(ParameterSet parameters) {
+	PathAlignerTask(ParameterSet parameters) {
 
-	this.parameters = parameters;
-	peakLists = parameters.getParameter(PathAlignerParameters.peakLists)
-		.getValue();
-	;
-	peakListName = parameters.getParameter(
-		PathAlignerParameters.peakListName).getValue();
-    }
-
-    /**
-     * @see net.sf.mzmine.taskcontrol.Task#getTaskDescription()
-     */
-    public String getTaskDescription() {
-	return "Path aligner, " + peakListName + " (" + peakLists.length
-		+ " peak lists)";
-    }
-
-    /**
-     * @see net.sf.mzmine.taskcontrol.Task#getFinishedPercentage()
-     */
-    public double getFinishedPercentage() {
-	if (aligner == null) {
-	    return 0f;
-	} else {
-	    return aligner.getProgress();
+		this.parameters = parameters;
+		peakLists = parameters.getParameter(PathAlignerParameters.peakLists)
+				.getValue();;
+		peakListName = parameters.getParameter(
+				PathAlignerParameters.peakListName).getValue();
 	}
-    }
 
-    /**
-     * @see Runnable#run()
-     */
-    public void run() {
-	setStatus(TaskStatus.PROCESSING);
-	logger.info("Running Path aligner");
+	/**
+	 * @see net.sf.mzmine.taskcontrol.Task#getTaskDescription()
+	 */
+	public String getTaskDescription() {
+		return "Path aligner, " + peakListName + " (" + peakLists.length
+				+ " peak lists)";
+	}
 
-	aligner = (Aligner) new ScoreAligner(this.peakLists, parameters);
-	alignedPeakList = aligner.align();
-	// Add new aligned peak list to the project
-	MZmineProject currentProject = MZmineCore.getCurrentProject();
-	currentProject.addPeakList(alignedPeakList);
+	/**
+	 * @see net.sf.mzmine.taskcontrol.Task#getFinishedPercentage()
+	 */
+	public double getFinishedPercentage() {
+		if (aligner == null) {
+			return 0f;
+		} else {
+			return aligner.getProgress();
+		}
+	}
 
-	// Add task description to peakList
-	alignedPeakList
-		.addDescriptionOfAppliedTask(new SimplePeakListAppliedMethod(
-			"Path aligner", parameters));
+	/**
+	 * @see Runnable#run()
+	 */
+	public void run() {
+		setStatus(TaskStatus.PROCESSING);
+		logger.info("Running Path aligner");
 
-	logger.info("Finished Path aligner");
-	setStatus(TaskStatus.FINISHED);
+		aligner = (Aligner) new ScoreAligner(this.peakLists, parameters);
+		alignedPeakList = aligner.align();
+		// Add new aligned peak list to the project
+		MZmineProject currentProject = MZmineCore.getCurrentProject();
+		currentProject.addPeakList(alignedPeakList);
 
-    }
+		// Add task description to peakList
+		alignedPeakList
+				.addDescriptionOfAppliedTask(new SimplePeakListAppliedMethod(
+						"Path aligner", parameters));
 
-    public Object[] getCreatedObjects() {
-	return new Object[] { alignedPeakList };
-    }
+		logger.info("Finished Path aligner");
+		setStatus(TaskStatus.FINISHED);
+
+	}
+
+	public Object[] getCreatedObjects() {
+		return new Object[]{alignedPeakList};
+	}
 }

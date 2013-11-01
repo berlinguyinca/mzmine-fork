@@ -27,63 +27,64 @@ import net.sf.mzmine.taskcontrol.TaskPriority;
  */
 class WrappedTask {
 
-    private Task task;
-    private TaskPriority priority;
-    private WorkerThread assignedTo;
+	private Task task;
+	private TaskPriority priority;
+	private WorkerThread assignedTo;
 
-    WrappedTask(Task task, TaskPriority priority) {
-        this.task = task;
-        this.priority = priority;
-    }
+	WrappedTask(Task task, TaskPriority priority) {
+		this.task = task;
+		this.priority = priority;
+	}
 
-    /**
-     * @return Returns the priority.
-     */
-    TaskPriority getPriority() {
-        return priority;
-    }
+	/**
+	 * @return Returns the priority.
+	 */
+	TaskPriority getPriority() {
+		return priority;
+	}
 
-    /**
-     * @param priority The priority to set.
-     */
-    void setPriority(TaskPriority priority) {
-        this.priority = priority;
-        if (assignedTo != null) {
+	/**
+	 * @param priority
+	 *            The priority to set.
+	 */
+	void setPriority(TaskPriority priority) {
+		this.priority = priority;
+		if (assignedTo != null) {
 			switch (priority) {
-			case HIGH:
-				assignedTo.setPriority(Thread.MAX_PRIORITY);
-				break;
-			case NORMAL:
-				assignedTo.setPriority(Thread.NORM_PRIORITY);
-				break;
+				case HIGH :
+					assignedTo.setPriority(Thread.MAX_PRIORITY);
+					break;
+				case NORMAL :
+					assignedTo.setPriority(Thread.NORM_PRIORITY);
+					break;
 			}
 		}
-    }
+	}
 
-    /**
-     * @return Returns the assigned.
-     */
-    boolean isAssigned() {
-        return assignedTo != null;
-    }
+	/**
+	 * @return Returns the assigned.
+	 */
+	boolean isAssigned() {
+		return assignedTo != null;
+	}
 
-    void assignTo(WorkerThread thread) {
-        assignedTo = thread;
-    }
+	void assignTo(WorkerThread thread) {
+		assignedTo = thread;
+	}
 
-    /**
-     * @return Returns the task.
-     */
-    synchronized Task getActualTask() {
-        return task;
-    }
+	/**
+	 * @return Returns the task.
+	 */
+	synchronized Task getActualTask() {
+		return task;
+	}
 
-    public synchronized String toString() {
-        return task.getTaskDescription();
-    }
+	public synchronized String toString() {
+		return task.getTaskDescription();
+	}
 
-    synchronized void removeTaskReference() {
-        task = new FinishedTask(task);
-    }
+	synchronized void removeTaskReference() {
+		task = new FinishedTask(task);
+	}
 
 }

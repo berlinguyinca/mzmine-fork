@@ -30,41 +30,43 @@ import net.sf.mzmine.parameters.ParameterSet;
 
 public class RTCorrectionFilter implements RawDataSetFilter {
 
-    @Override
-    public RawDataFile filterDatafile(RawDataFile dataFile,
-	    RawDataFileWriter rawDataFileWriter, ParameterSet parameters) {
+	@Override
+	public RawDataFile filterDatafile(RawDataFile dataFile,
+			RawDataFileWriter rawDataFileWriter, ParameterSet parameters) {
 
-	try {
-	    int[] scanNumbers = dataFile.getScanNumbers(1);
-	    int totalScans = scanNumbers.length;
+		try {
+			int[] scanNumbers = dataFile.getScanNumbers(1);
+			int totalScans = scanNumbers.length;
 
-	    for (int i = 0; i < totalScans; i++) {
-		Scan scan = dataFile.getScan(scanNumbers[i]);
-		if (scan != null) {
-		    rawDataFileWriter.addScan(new SimpleScan(scan));
+			for (int i = 0; i < totalScans; i++) {
+				Scan scan = dataFile.getScan(scanNumbers[i]);
+				if (scan != null) {
+					rawDataFileWriter.addScan(new SimpleScan(scan));
+				}
+			}
+
+			return rawDataFileWriter.finishWriting();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
-	    }
-
-	    return rawDataFileWriter.finishWriting();
-
-	} catch (Exception e) {
-	    e.printStackTrace();
-	    return null;
 	}
-    }
 
-    @Override
-    public double getProgress() {
-	return 0.5f;
-    }
+	@Override
+	public double getProgress() {
+		return 0.5f;
+	}
 
-    @Override
-    public @Nonnull String getName() {
-	return "RT correction filter";
-    }
+	@Override
+	public @Nonnull
+	String getName() {
+		return "RT correction filter";
+	}
 
-    @Override
-    public @Nonnull Class<? extends ParameterSet> getParameterSetClass() {
-	return RTCorrectionFilterParameters.class;
-    }
+	@Override
+	public @Nonnull
+	Class<? extends ParameterSet> getParameterSetClass() {
+		return RTCorrectionFilterParameters.class;
+	}
 }

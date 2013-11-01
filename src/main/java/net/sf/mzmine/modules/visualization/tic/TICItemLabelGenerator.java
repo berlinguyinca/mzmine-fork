@@ -70,7 +70,8 @@ class TICItemLabelGenerator implements XYItemLabelGenerator {
 	public String generateLabel(XYDataset dataSet, int series, int item) {
 
 		// dataSet should be actually TICDataSet
-		if (!(dataSet instanceof TICDataSet)) return null;
+		if (!(dataSet instanceof TICDataSet))
+			return null;
 		TICDataSet ticDataSet = (TICDataSet) dataSet;
 
 		// X and Y values of current data point

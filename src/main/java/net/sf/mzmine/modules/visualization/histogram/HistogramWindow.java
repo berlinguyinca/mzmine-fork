@@ -36,49 +36,54 @@ import net.sf.mzmine.util.Range;
 
 public class HistogramWindow extends JInternalFrame {
 
-    private HistogramChart histogram;
+	private HistogramChart histogram;
 
-    public HistogramWindow(ParameterSet parameters) {
+	public HistogramWindow(ParameterSet parameters) {
 
-        super(null, true, true, true, true);
-        
-        PeakList peakList = parameters.getParameter(HistogramParameters.peakList).getValue()[0];
-        
-        this.setTitle("Histogram of " + peakList.getName());
+		super(null, true, true, true, true);
 
-        RawDataFile rawDataFiles[] = parameters.getParameter(HistogramParameters.dataFiles).getValue();
+		PeakList peakList = parameters.getParameter(
+				HistogramParameters.peakList).getValue()[0];
 
-        HistogramDataType dataType = parameters.getParameter(HistogramParameters.dataRange).getType();
-        int numOfBins =  parameters.getParameter(HistogramParameters.numOfBins).getValue();
-        Range range = parameters.getParameter(HistogramParameters.dataRange).getValue();
+		this.setTitle("Histogram of " + peakList.getName());
 
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setBackground(Color.white);
+		RawDataFile rawDataFiles[] = parameters.getParameter(
+				HistogramParameters.dataFiles).getValue();
 
-        // Creates plot and toolbar
-        histogram = new HistogramChart();
-        HistogramToolBar toolbar = new HistogramToolBar(
-                ((ActionListener) histogram));
+		HistogramDataType dataType = parameters.getParameter(
+				HistogramParameters.dataRange).getType();
+		int numOfBins = parameters.getParameter(HistogramParameters.numOfBins)
+				.getValue();
+		Range range = parameters.getParameter(HistogramParameters.dataRange)
+				.getValue();
 
-        Border one = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
-        Border two = BorderFactory.createEmptyBorder(5, 5, 5, 5);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		setBackground(Color.white);
 
-        JPanel pnlPlot = new JPanel(new BorderLayout());
-        pnlPlot.setBorder(BorderFactory.createCompoundBorder(one, two));
-        pnlPlot.setBackground(Color.white);
+		// Creates plot and toolbar
+		histogram = new HistogramChart();
+		HistogramToolBar toolbar = new HistogramToolBar(
+				((ActionListener) histogram));
 
-        pnlPlot.add(toolbar, BorderLayout.EAST);
-        pnlPlot.add(histogram, BorderLayout.CENTER);
+		Border one = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
+		Border two = BorderFactory.createEmptyBorder(5, 5, 5, 5);
 
-        add(pnlPlot, BorderLayout.CENTER);
-        pack();
+		JPanel pnlPlot = new JPanel(new BorderLayout());
+		pnlPlot.setBorder(BorderFactory.createCompoundBorder(one, two));
+		pnlPlot.setBackground(Color.white);
 
-        if (peakList != null) {
-            HistogramPlotDataset dataSet = new HistogramPlotDataset(peakList,
-                    rawDataFiles, numOfBins, dataType, range);
-            histogram.addDataset(dataSet, dataType);
-        }
+		pnlPlot.add(toolbar, BorderLayout.EAST);
+		pnlPlot.add(histogram, BorderLayout.CENTER);
 
-    }
+		add(pnlPlot, BorderLayout.CENTER);
+		pack();
+
+		if (peakList != null) {
+			HistogramPlotDataset dataSet = new HistogramPlotDataset(peakList,
+					rawDataFiles, numOfBins, dataType, range);
+			histogram.addDataset(dataSet, dataType);
+		}
+
+	}
 
 }

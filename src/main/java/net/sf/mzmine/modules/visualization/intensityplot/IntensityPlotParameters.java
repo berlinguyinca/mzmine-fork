@@ -48,7 +48,7 @@ public class IntensityPlotParameters extends SimpleParameterSet {
 			"Raw data files", "Raw data files to display", new RawDataFile[0]);
 
 	public static final ComboParameter<Object> xAxisValueSource = new ComboParameter<Object>(
-			"X axis value", "X axis value", new Object[] { rawDataFilesOption });
+			"X axis value", "X axis value", new Object[]{rawDataFilesOption});
 
 	public static final ComboParameter<YAxisValueSource> yAxisValueSource = new ComboParameter<YAxisValueSource>(
 			"Y axis value", "Y axis value", YAxisValueSource.values());
@@ -57,29 +57,31 @@ public class IntensityPlotParameters extends SimpleParameterSet {
 			"Peak list rows", "Select peaks to display", new PeakListRow[0]);
 
 	public IntensityPlotParameters() {
-		super(new Parameter[] { peakList, dataFiles, xAxisValueSource,
-				yAxisValueSource, selectedRows });
+		super(new Parameter[]{peakList, dataFiles, xAxisValueSource,
+				yAxisValueSource, selectedRows});
 	}
-	
+
 	@Override
 	public ExitCode showSetupDialog() {
-		
+
 		PeakList selectedPeakLists[] = getParameter(peakList).getValue();
-		
+
 		if (selectedPeakLists.length != 1) {
-			MZmineCore.getDesktop().displayErrorMessage("Please select a single peak list");
+			MZmineCore.getDesktop().displayErrorMessage(
+					"Please select a single peak list");
 			return ExitCode.CANCEL;
 		}
-		
+
 		RawDataFile plDataFiles[] = selectedPeakLists[0].getRawDataFiles();
 		PeakListRow plRows[] = selectedPeakLists[0].getRows();
-		Arrays.sort(plRows, new PeakListRowSorter(SortingProperty.MZ, SortingDirection.Ascending));
-		
+		Arrays.sort(plRows, new PeakListRowSorter(SortingProperty.MZ,
+				SortingDirection.Ascending));
+
 		getParameter(dataFiles).setChoices(plDataFiles);
 		getParameter(dataFiles).setValue(plDataFiles);
-		
+
 		getParameter(selectedRows).setChoices(plRows);
-		
+
 		return super.showSetupDialog();
 	}
 

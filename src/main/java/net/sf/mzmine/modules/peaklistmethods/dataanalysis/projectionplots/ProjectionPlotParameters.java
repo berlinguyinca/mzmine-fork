@@ -43,7 +43,7 @@ public class ProjectionPlotParameters extends SimpleParameterSet {
 			"Peak measurement type", "Measure peaks using",
 			PeakMeasurementType.values());
 
-	public static final Integer[] componentPossibleValues = { 1, 2, 3, 4, 5 };
+	public static final Integer[] componentPossibleValues = {1, 2, 3, 4, 5};
 
 	public static final ComboParameter<Integer> xAxisComponent = new ComboParameter<Integer>(
 			"X-axis component", "Component on the X-axis",
@@ -58,8 +58,8 @@ public class ProjectionPlotParameters extends SimpleParameterSet {
 			new PeakListRow[0]);
 
 	public ProjectionPlotParameters() {
-		super(new Parameter[] { peakLists, dataFiles, rows, coloringType,
-				peakMeasurementType, xAxisComponent, yAxisComponent });
+		super(new Parameter[]{peakLists, dataFiles, rows, coloringType,
+				peakMeasurementType, xAxisComponent, yAxisComponent});
 	}
 
 	@Override

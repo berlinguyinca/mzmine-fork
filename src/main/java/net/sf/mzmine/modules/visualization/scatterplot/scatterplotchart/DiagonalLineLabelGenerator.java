@@ -39,15 +39,15 @@ public class DiagonalLineLabelGenerator implements XYItemLabelGenerator {
 
 		double doubleFold = 0;
 		switch (series) {
-		case 0:
-			doubleFold = diagonalDataSet.getFold();
-			break;
-		case 1:
-			doubleFold = 1d;
-			break;
-		case 2:
-			doubleFold = 1d / diagonalDataSet.getFold();
-			break;
+			case 0 :
+				doubleFold = diagonalDataSet.getFold();
+				break;
+			case 1 :
+				doubleFold = 1d;
+				break;
+			case 2 :
+				doubleFold = 1d / diagonalDataSet.getFold();
+				break;
 		}
 
 		String label = labelFormat.format(doubleFold) + "x";

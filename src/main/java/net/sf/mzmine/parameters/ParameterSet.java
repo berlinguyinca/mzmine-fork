@@ -44,7 +44,7 @@ public interface ParameterSet {
 	public boolean checkUserParameterValues(Collection<String> errorMessages);
 
 	public boolean checkAllParameterValues(Collection<String> errorMessages);
-	
+
 	public ParameterSet cloneParameter();
 
 	/**

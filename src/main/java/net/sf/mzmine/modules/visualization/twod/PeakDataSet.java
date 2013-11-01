@@ -34,7 +34,7 @@ import org.jfree.data.xy.AbstractXYDataset;
  */
 class PeakDataSet extends AbstractXYDataset {
 
-	private PeakList peakList;	
+	private PeakList peakList;
 
 	private ChromatographicPeak peaks[];
 
@@ -45,7 +45,8 @@ class PeakDataSet extends AbstractXYDataset {
 
 		this.peakList = peakList;
 
-		Vector<ChromatographicPeak> processedPeaks = new Vector<ChromatographicPeak>(1024, 1024);
+		Vector<ChromatographicPeak> processedPeaks = new Vector<ChromatographicPeak>(
+				1024, 1024);
 		Vector<PeakDataPoint[]> processedPeakDataPoints = new Vector<PeakDataPoint[]>(
 				1024, 1024);
 		Vector<PeakDataPoint> thisPeakDataPoints = new Vector<PeakDataPoint>();
@@ -71,7 +72,7 @@ class PeakDataSet extends AbstractXYDataset {
 
 			if (thisPeakDataPoints.size() > 0) {
 				PeakDataPoint dpArray[] = thisPeakDataPoints
-				.toArray(new PeakDataPoint[0]);
+						.toArray(new PeakDataPoint[0]);
 				processedPeaks.add(peak);
 				processedPeakDataPoints.add(dpArray);
 				thisPeakDataPoints.clear();
@@ -83,7 +84,6 @@ class PeakDataSet extends AbstractXYDataset {
 		dataPoints = processedPeakDataPoints.toArray(new PeakDataPoint[0][]);
 
 	}
-
 
 	@Override
 	public int getSeriesCount() {

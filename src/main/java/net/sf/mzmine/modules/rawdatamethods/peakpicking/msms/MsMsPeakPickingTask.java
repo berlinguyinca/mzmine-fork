@@ -49,8 +49,7 @@ public class MsMsPeakPickingTask extends AbstractTask {
 
 	private SimplePeakList newPeakList;
 
-	public MsMsPeakPickingTask(RawDataFile dataFile,
-			ParameterSet parameters) {
+	public MsMsPeakPickingTask(RawDataFile dataFile, ParameterSet parameters) {
 		this.dataFile = dataFile;
 		binSize = parameters.getParameter(MsMsPeakPickerParameters.mzWindow)
 				.getValue();
@@ -129,15 +128,15 @@ public class MsMsPeakPickingTask extends AbstractTask {
 			if (bestScan == null) {
 				continue;
 			}
-			
+
 			assert maxPoint != null;
 
 			SimpleChromatographicPeak c = new SimpleChromatographicPeak(
 					dataFile, scan.getPrecursorMZ(),
 					bestScan.getRetentionTime(), maxPoint.getIntensity(),
 					maxPoint.getIntensity(),
-					new int[] { bestScan.getScanNumber() },
-					new DataPoint[] { maxPoint }, PeakStatus.DETECTED,
+					new int[]{bestScan.getScanNumber()},
+					new DataPoint[]{maxPoint}, PeakStatus.DETECTED,
 					bestScan.getScanNumber(), scan.getScanNumber(), new Range(
 							bestScan.getRetentionTime()), new Range(
 							scan.getPrecursorMZ()), new Range(
@@ -159,7 +158,7 @@ public class MsMsPeakPickingTask extends AbstractTask {
 	}
 
 	public Object[] getCreatedObjects() {
-		return new Object[] { newPeakList };
+		return new Object[]{newPeakList};
 	}
 
 }

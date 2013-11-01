@@ -55,7 +55,7 @@ class TwoDDataSet extends AbstractXYDataset implements Task {
 	private int scanNumbers[], totalScans, processedScans;
 
 	private TaskStatus status = TaskStatus.WAITING;
-	private LinkedList <TaskListener> taskListeners = new LinkedList<TaskListener>( );
+	private LinkedList<TaskListener> taskListeners = new LinkedList<TaskListener>();
 
 	@SuppressWarnings("unchecked")
 	TwoDDataSet(RawDataFile rawDataFile, int msLevel, Range rtRange,
@@ -82,7 +82,7 @@ class TwoDDataSet extends AbstractXYDataset implements Task {
 	 */
 	public void run() {
 
-		setStatus( TaskStatus.PROCESSING );
+		setStatus(TaskStatus.PROCESSING);
 
 		for (int index = 0; index < scanNumbers.length; index++) {
 
@@ -103,7 +103,7 @@ class TwoDDataSet extends AbstractXYDataset implements Task {
 
 		fireDatasetChanged();
 
-		setStatus( TaskStatus.FINISHED );
+		setStatus(TaskStatus.FINISHED);
 
 	}
 
@@ -159,8 +159,8 @@ class TwoDDataSet extends AbstractXYDataset implements Task {
 					searchRetentionTimes.length);
 		}
 
-		int startScanIndex = Arrays.binarySearch(searchRetentionTimes, rtRange
-				.getMin());
+		int startScanIndex = Arrays.binarySearch(searchRetentionTimes,
+				rtRange.getMin());
 
 		if (startScanIndex < 0)
 			startScanIndex = (startScanIndex * -1) - 1;
@@ -267,7 +267,7 @@ class TwoDDataSet extends AbstractXYDataset implements Task {
 	}
 
 	public void cancel() {
-		setStatus( TaskStatus.CANCELED );
+		setStatus(TaskStatus.CANCELED);
 	}
 
 	public String getErrorMessage() {
@@ -295,10 +295,11 @@ class TwoDDataSet extends AbstractXYDataset implements Task {
 	/**
 	 * Adds a TaskListener to this Task
 	 * 
-	 * @param t The TaskListener to add
+	 * @param t
+	 *            The TaskListener to add
 	 */
-	public void addTaskListener( TaskListener t ) {
-		this.taskListeners.add( t );
+	public void addTaskListener(TaskListener t) {
+		this.taskListeners.add(t);
 	}
 
 	/**
@@ -306,30 +307,31 @@ class TwoDDataSet extends AbstractXYDataset implements Task {
 	 * 
 	 * @return An array containing the TaskListeners
 	 */
-	public TaskListener[] getTaskListeners( ) {
-		return this.taskListeners.toArray( new TaskListener[ this.taskListeners.size( )]);
+	public TaskListener[] getTaskListeners() {
+		return this.taskListeners.toArray(new TaskListener[this.taskListeners
+				.size()]);
 	}
 
-	private void fireTaskEvent( ) {
-		TaskEvent event = new TaskEvent( this );
-		for( TaskListener t : this.taskListeners ) {
-			t.statusChanged( event );
+	private void fireTaskEvent() {
+		TaskEvent event = new TaskEvent(this);
+		for (TaskListener t : this.taskListeners) {
+			t.statusChanged(event);
 		}
 	}
 
 	/**
 	 * @see net.sf.mzmine.taskcontrol.Task#setStatus()
 	 */
-	public void setStatus( TaskStatus newStatus ) {
+	public void setStatus(TaskStatus newStatus) {
 		this.status = newStatus;
-		this.fireTaskEvent( );
+		this.fireTaskEvent();
 	}
 
-	public boolean isCanceled( ) {
+	public boolean isCanceled() {
 		return status == TaskStatus.CANCELED;
 	}
 
-	public boolean isFinished( ) {
+	public boolean isFinished() {
 		return status == TaskStatus.FINISHED;
 	}
 }

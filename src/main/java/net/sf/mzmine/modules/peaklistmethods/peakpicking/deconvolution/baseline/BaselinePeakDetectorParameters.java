@@ -30,31 +30,29 @@ import net.sf.mzmine.util.Range;
 
 public class BaselinePeakDetectorParameters extends SimpleParameterSet {
 
-    public static final DoubleParameter MIN_PEAK_HEIGHT = new DoubleParameter(
-	    "Min peak height",
-	    "Minimum acceptable peak height (absolute intensity)",
-	    MZmineCore.getConfiguration().getIntensityFormat());
+	public static final DoubleParameter MIN_PEAK_HEIGHT = new DoubleParameter(
+			"Min peak height",
+			"Minimum acceptable peak height (absolute intensity)", MZmineCore
+					.getConfiguration().getIntensityFormat());
 
-    public static final RangeParameter PEAK_DURATION = new RangeParameter(
-	    "Peak duration range (min)", "Range of acceptable peak lengths",
-	    MZmineCore.getConfiguration().getRTFormat(), new Range(0.0, 10.0));
+	public static final RangeParameter PEAK_DURATION = new RangeParameter(
+			"Peak duration range (min)", "Range of acceptable peak lengths",
+			MZmineCore.getConfiguration().getRTFormat(), new Range(0.0, 10.0));
 
-    public static final DoubleParameter BASELINE_LEVEL = new DoubleParameter(
-	    "Baseline level",
-	    "Level below which all data points of the chromatogram are removed (absolute intensity)",
-	    MZmineCore.getConfiguration().getIntensityFormat());
+	public static final DoubleParameter BASELINE_LEVEL = new DoubleParameter(
+			"Baseline level",
+			"Level below which all data points of the chromatogram are removed (absolute intensity)",
+			MZmineCore.getConfiguration().getIntensityFormat());
 
-    public BaselinePeakDetectorParameters() {
-	super(
-		new Parameter[] { MIN_PEAK_HEIGHT, PEAK_DURATION,
-			BASELINE_LEVEL });
-    }
+	public BaselinePeakDetectorParameters() {
+		super(new Parameter[]{MIN_PEAK_HEIGHT, PEAK_DURATION, BASELINE_LEVEL});
+	}
 
-    @Override
-    public ExitCode showSetupDialog() {
-	final PeakResolverSetupDialog dialog = new PeakResolverSetupDialog(
-		this, BaselinePeakDetector.class);
-	dialog.setVisible(true);
-	return dialog.getExitCode();
-    }
+	@Override
+	public ExitCode showSetupDialog() {
+		final PeakResolverSetupDialog dialog = new PeakResolverSetupDialog(
+				this, BaselinePeakDetector.class);
+		dialog.setVisible(true);
+		return dialog.getExitCode();
+	}
 }

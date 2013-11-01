@@ -46,8 +46,8 @@ public interface Task extends Runnable {
 	 */
 	public Object[] getCreatedObjects();
 
-	public void addTaskListener( TaskListener t );
+	public void addTaskListener(TaskListener t);
 
-	public TaskListener[] getTaskListeners( );
+	public TaskListener[] getTaskListeners();
 
 }

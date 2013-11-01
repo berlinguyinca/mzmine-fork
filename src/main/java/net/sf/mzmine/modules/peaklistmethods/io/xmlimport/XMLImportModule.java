@@ -31,37 +31,41 @@ import net.sf.mzmine.util.ExitCode;
 
 public class XMLImportModule implements MZmineProcessingModule {
 
-    private static final String MODULE_NAME = "Import from XML file";
-    private static final String MODULE_DESCRIPTION = "This method imports a peak list from an XML file.";
+	private static final String MODULE_NAME = "Import from XML file";
+	private static final String MODULE_DESCRIPTION = "This method imports a peak list from an XML file.";
 
-    @Override
-    public @Nonnull String getName() {
-	return MODULE_NAME;
-    }
+	@Override
+	public @Nonnull
+	String getName() {
+		return MODULE_NAME;
+	}
 
-    @Override
-    public @Nonnull String getDescription() {
-	return MODULE_DESCRIPTION;
-    }
+	@Override
+	public @Nonnull
+	String getDescription() {
+		return MODULE_DESCRIPTION;
+	}
 
-    @Override
-    @Nonnull
-    public ExitCode runModule(@Nonnull ParameterSet parameters,
-	    @Nonnull Collection<Task> tasks) {
-	XMLImportTask newTask = new XMLImportTask(parameters);
-	tasks.add(newTask);
-	return ExitCode.OK;
+	@Override
+	@Nonnull
+	public ExitCode runModule(@Nonnull ParameterSet parameters,
+			@Nonnull Collection<Task> tasks) {
+		XMLImportTask newTask = new XMLImportTask(parameters);
+		tasks.add(newTask);
+		return ExitCode.OK;
 
-    }
+	}
 
-    @Override
-    public @Nonnull MZmineModuleCategory getModuleCategory() {
-	return MZmineModuleCategory.PEAKLISTEXPORT;
-    }
+	@Override
+	public @Nonnull
+	MZmineModuleCategory getModuleCategory() {
+		return MZmineModuleCategory.PEAKLISTEXPORT;
+	}
 
-    @Override
-    public @Nonnull Class<? extends ParameterSet> getParameterSetClass() {
-	return XMLImportParameters.class;
-    }
+	@Override
+	public @Nonnull
+	Class<? extends ParameterSet> getParameterSetClass() {
+		return XMLImportParameters.class;
+	}
 
 }

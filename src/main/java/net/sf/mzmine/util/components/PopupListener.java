@@ -27,26 +27,26 @@ import javax.swing.JPopupMenu;
 
 /**
  * Simple MouseListener implementation to activate a given popup menu
- *
+ * 
  */
 public class PopupListener extends MouseAdapter {
 
-    private JPopupMenu popup;
+	private JPopupMenu popup;
 
-    public PopupListener(JPopupMenu popup) {
-        this.popup = popup;
-    }
+	public PopupListener(JPopupMenu popup) {
+		this.popup = popup;
+	}
 
-    public void mousePressed(MouseEvent e) {
-        if (e.isPopupTrigger()) {
-            popup.show(e.getComponent(), e.getX(), e.getY());
-        }
-    }
+	public void mousePressed(MouseEvent e) {
+		if (e.isPopupTrigger()) {
+			popup.show(e.getComponent(), e.getX(), e.getY());
+		}
+	}
 
-    public void mouseReleased(MouseEvent e) {
-        if (e.isPopupTrigger()) {
-            popup.show(e.getComponent(), e.getX(), e.getY());
-        }
-    }
+	public void mouseReleased(MouseEvent e) {
+		if (e.isPopupTrigger()) {
+			popup.show(e.getComponent(), e.getX(), e.getY());
+		}
+	}
 
 }

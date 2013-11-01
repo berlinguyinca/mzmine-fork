@@ -21,25 +21,25 @@ package net.sf.mzmine.modules.peaklistmethods.identification.custom;
 
 public enum FieldItem {
 
-    FIELD_ID("ID"), //
-    FIELD_MZ("m/z"), //
-    FIELD_RT("Retention time (min)"), //
-    FIELD_NAME("Identity"), //
-    FIELD_FORMULA("Formula");
+	FIELD_ID("ID"), //
+	FIELD_MZ("m/z"), //
+	FIELD_RT("Retention time (min)"), //
+	FIELD_NAME("Identity"), //
+	FIELD_FORMULA("Formula");
 
-    private final String name;
+	private final String name;
 
-    FieldItem(String name) {
-	this.name = name;
-    }
+	FieldItem(String name) {
+		this.name = name;
+	}
 
-    public String getName() {
-	return this.name;
-    }
+	public String getName() {
+		return this.name;
+	}
 
-    @Override
-    public String toString() {
-	return this.name;
-    }
+	@Override
+	public String toString() {
+		return this.name;
+	}
 
 }

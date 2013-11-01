@@ -43,34 +43,37 @@ public class DataPointSorter implements Comparator<DataPoint> {
 		int result;
 
 		switch (property) {
-		case MZ:
+			case MZ :
 
-			result = Double.compare(dp1.getMZ(), dp2.getMZ());
-
-			// If the data points have same m/z, we do a second comparison of
-			// intensity, to ensure that this comparator is consistent with
-			// equality: (compare(x, y)==0) == (x.equals(y)),
-			if (result == 0)
-				result = Double.compare(dp1.getIntensity(), dp2.getIntensity());
-
-			if (direction == SortingDirection.Ascending)
-				return result;
-			else
-				return -result;
-
-		case Intensity:
-			result = Double.compare(dp1.getIntensity(), dp2.getIntensity());
-
-			// If the data points have same intensity, we do a second comparison
-			// of m/z, to ensure that this comparator is consistent with
-			// equality: (compare(x, y)==0) == (x.equals(y)),
-			if (result == 0)
 				result = Double.compare(dp1.getMZ(), dp2.getMZ());
 
-			if (direction == SortingDirection.Ascending)
-				return result;
-			else
-				return -result;
+				// If the data points have same m/z, we do a second comparison
+				// of
+				// intensity, to ensure that this comparator is consistent with
+				// equality: (compare(x, y)==0) == (x.equals(y)),
+				if (result == 0)
+					result = Double.compare(dp1.getIntensity(),
+							dp2.getIntensity());
+
+				if (direction == SortingDirection.Ascending)
+					return result;
+				else
+					return -result;
+
+			case Intensity :
+				result = Double.compare(dp1.getIntensity(), dp2.getIntensity());
+
+				// If the data points have same intensity, we do a second
+				// comparison
+				// of m/z, to ensure that this comparator is consistent with
+				// equality: (compare(x, y)==0) == (x.equals(y)),
+				if (result == 0)
+					result = Double.compare(dp1.getMZ(), dp2.getMZ());
+
+				if (direction == SortingDirection.Ascending)
+					return result;
+				else
+					return -result;
 
 		}
 

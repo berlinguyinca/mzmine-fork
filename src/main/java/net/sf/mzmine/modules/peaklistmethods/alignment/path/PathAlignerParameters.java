@@ -55,8 +55,8 @@ public class PathAlignerParameters extends SimpleParameterSet {
 			new IsotopePatternScoreParameters());
 
 	public PathAlignerParameters() {
-		super(new Parameter[] { peakLists, peakListName, MZTolerance,
+		super(new Parameter[]{peakLists, peakListName, MZTolerance,
 				RTTolerance, SameChargeRequired, SameIDRequired,
-				compareIsotopePattern });
+				compareIsotopePattern});
 	}
 }

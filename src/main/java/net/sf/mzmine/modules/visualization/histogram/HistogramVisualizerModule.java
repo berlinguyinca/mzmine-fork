@@ -32,36 +32,40 @@ import net.sf.mzmine.util.ExitCode;
 
 public class HistogramVisualizerModule implements MZmineProcessingModule {
 
-    private static final String MODULE_NAME = "Histogram plot";
-    private static final String MODULE_DESCRIPTION = "Histogram plot"; // TODO
+	private static final String MODULE_NAME = "Histogram plot";
+	private static final String MODULE_DESCRIPTION = "Histogram plot"; // TODO
 
-    @Override
-    public @Nonnull String getName() {
-	return MODULE_NAME;
-    }
+	@Override
+	public @Nonnull
+	String getName() {
+		return MODULE_NAME;
+	}
 
-    @Override
-    public @Nonnull String getDescription() {
-	return MODULE_DESCRIPTION;
-    }
+	@Override
+	public @Nonnull
+	String getDescription() {
+		return MODULE_DESCRIPTION;
+	}
 
-    @Override
-    @Nonnull
-    public ExitCode runModule(@Nonnull ParameterSet parameters,
-	    @Nonnull Collection<Task> tasks) {
-	HistogramWindow newWindow = new HistogramWindow(parameters);
-	MZmineCore.getDesktop().addInternalFrame(newWindow);
-	return ExitCode.OK;
-    }
+	@Override
+	@Nonnull
+	public ExitCode runModule(@Nonnull ParameterSet parameters,
+			@Nonnull Collection<Task> tasks) {
+		HistogramWindow newWindow = new HistogramWindow(parameters);
+		MZmineCore.getDesktop().addInternalFrame(newWindow);
+		return ExitCode.OK;
+	}
 
-    @Override
-    public @Nonnull MZmineModuleCategory getModuleCategory() {
-	return MZmineModuleCategory.VISUALIZATIONPEAKLIST;
-    }
+	@Override
+	public @Nonnull
+	MZmineModuleCategory getModuleCategory() {
+		return MZmineModuleCategory.VISUALIZATIONPEAKLIST;
+	}
 
-    @Override
-    public @Nonnull Class<? extends ParameterSet> getParameterSetClass() {
-	return HistogramParameters.class;
-    }
+	@Override
+	public @Nonnull
+	Class<? extends ParameterSet> getParameterSetClass() {
+		return HistogramParameters.class;
+	}
 
 }

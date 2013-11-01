@@ -31,8 +31,9 @@ import org.w3c.dom.Element;
  * 
  * 
  */
-public class NumberFormatParameter implements
-		UserParameter<DecimalFormat, NumberFormatEditor> {
+public class NumberFormatParameter
+		implements
+			UserParameter<DecimalFormat, NumberFormatEditor> {
 
 	private String name, description;
 	private boolean showExponentOption;

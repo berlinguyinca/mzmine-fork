@@ -68,8 +68,8 @@ public class ProjectTreeModel extends DefaultTreeModel {
 	 */
 	public void addObject(final Object object) {
 
-	    	assert object != null;
-	    	
+		assert object != null;
+
 		if (!SwingUtilities.isEventDispatchThread()) {
 			throw new IllegalStateException(
 					"This method must be called from Swing thread");
@@ -78,7 +78,7 @@ public class ProjectTreeModel extends DefaultTreeModel {
 		// Create new node
 		final DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(
 				object);
-		
+
 		treeObjects.put(object, newNode);
 
 		if (object instanceof PeakList) {

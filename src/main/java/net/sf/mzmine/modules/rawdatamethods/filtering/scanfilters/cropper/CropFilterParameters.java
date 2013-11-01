@@ -28,19 +28,19 @@ import net.sf.mzmine.util.ExitCode;
 
 public class CropFilterParameters extends SimpleParameterSet {
 
-    public static final RangeParameter mzRange = new RangeParameter(
-	    "m/z range", "m/z boundary of the cropped region",
-	    MZmineCore.getConfiguration().getMZFormat());
+	public static final RangeParameter mzRange = new RangeParameter(
+			"m/z range", "m/z boundary of the cropped region", MZmineCore
+					.getConfiguration().getMZFormat());
 
-    public CropFilterParameters() {
-	super(new Parameter[] { mzRange });
-    }
+	public CropFilterParameters() {
+		super(new Parameter[]{mzRange});
+	}
 
-    public ExitCode showSetupDialog() {
-	ScanFilterSetupDialog dialog = new ScanFilterSetupDialog(this,
-		CropFilter.class);
-	dialog.setVisible(true);
-	return dialog.getExitCode();
-    }
+	public ExitCode showSetupDialog() {
+		ScanFilterSetupDialog dialog = new ScanFilterSetupDialog(this,
+				CropFilter.class);
+		dialog.setVisible(true);
+		return dialog.getExitCode();
+	}
 
 }

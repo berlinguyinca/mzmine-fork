@@ -53,8 +53,8 @@ public class ShoulderPeaksFilterParameters extends SimpleParameterSet {
 			"If checked, original mass list will be removed and only filtered version remains");
 
 	public ShoulderPeaksFilterParameters() {
-		super(new Parameter[] { dataFiles, massList, resolution, peakModel,
-				suffix, autoRemove });
+		super(new Parameter[]{dataFiles, massList, resolution, peakModel,
+				suffix, autoRemove});
 
 	}
 

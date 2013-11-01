@@ -29,27 +29,27 @@ import net.sf.mzmine.parameters.parametertypes.RawDataFilesParameter;
 
 public class NeutralLossParameters extends SimpleParameterSet {
 
-    public static final String xAxisPrecursor = "Precursor mass";
-    public static final String xAxisRT = "Retention time";
+	public static final String xAxisPrecursor = "Precursor mass";
+	public static final String xAxisRT = "Retention time";
 
-    public static final String[] xAxisTypes = { xAxisPrecursor, xAxisRT };
+	public static final String[] xAxisTypes = {xAxisPrecursor, xAxisRT};
 
-    public static final RawDataFilesParameter dataFiles = new RawDataFilesParameter();
+	public static final RawDataFilesParameter dataFiles = new RawDataFilesParameter();
 
-    public static final ComboParameter<String> xAxisType = new ComboParameter<String>(
-            "X axis", "X axis type", xAxisTypes);
+	public static final ComboParameter<String> xAxisType = new ComboParameter<String>(
+			"X axis", "X axis type", xAxisTypes);
 
-    public static final RTRangeParameter retentionTimeRange = new RTRangeParameter();
+	public static final RTRangeParameter retentionTimeRange = new RTRangeParameter();
 
-    public static final MZRangeParameter mzRange = new MZRangeParameter(
-            "Precursor m/z", "Range of precursor m/z values");
+	public static final MZRangeParameter mzRange = new MZRangeParameter(
+			"Precursor m/z", "Range of precursor m/z values");
 
-    public static final IntegerParameter numOfFragments = new IntegerParameter(
-            "Fragments", "Number of most intense fragments");
+	public static final IntegerParameter numOfFragments = new IntegerParameter(
+			"Fragments", "Number of most intense fragments");
 
-    public NeutralLossParameters() {
-        super(new Parameter[] { dataFiles, xAxisType, retentionTimeRange,
-                mzRange, numOfFragments });
-    }
+	public NeutralLossParameters() {
+		super(new Parameter[]{dataFiles, xAxisType, retentionTimeRange,
+				mzRange, numOfFragments});
+	}
 
 }

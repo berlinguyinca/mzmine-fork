@@ -36,55 +36,56 @@ import java.awt.event.ActionListener;
  */
 public class ExportPopUpMenu extends JMenu implements MenuListener {
 
-    // The visualizer window.
-    private final TICVisualizerWindow visualizer;
+	// The visualizer window.
+	private final TICVisualizerWindow visualizer;
 
-    /**
-     * Create the menu item.
-     *
-     * @param window the visualizer window.
-     */
-    public ExportPopUpMenu(final TICVisualizerWindow window) {
+	/**
+	 * Create the menu item.
+	 * 
+	 * @param window
+	 *            the visualizer window.
+	 */
+	public ExportPopUpMenu(final TICVisualizerWindow window) {
 
-        super("Export chromatogram...");
-        visualizer = window;
-        addMenuListener(this);
-    }
+		super("Export chromatogram...");
+		visualizer = window;
+		addMenuListener(this);
+	}
 
-    @Override
-    public void menuSelected(final MenuEvent e) {
+	@Override
+	public void menuSelected(final MenuEvent e) {
 
-        // Clear the menu.
-        removeAll();
+		// Clear the menu.
+		removeAll();
 
-        // Add the raw data files to the menu and hash table.
-        for (final RawDataFile dataFile : visualizer.getRawDataFiles()) {
+		// Add the raw data files to the menu and hash table.
+		for (final RawDataFile dataFile : visualizer.getRawDataFiles()) {
 
-            // Add menu item for file.
-            final JMenuItem item = new JMenuItem(dataFile.getName());
-            add(item);
+			// Add menu item for file.
+			final JMenuItem item = new JMenuItem(dataFile.getName());
+			add(item);
 
+			// Handle item selection.
+			item.addActionListener(new ActionListener() {
 
-            // Handle item selection.
-            item.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(final ActionEvent event) {
 
-                @Override public void actionPerformed(final ActionEvent event) {
+					if (dataFile != null) {
+						visualizer.exportChromatogram(dataFile);
+					}
+				}
+			});
+		}
+	}
 
-                    if (dataFile != null) {
-                        visualizer.exportChromatogram(dataFile);
-                    }
-                }
-            });
-        }
-    }
+	@Override
+	public void menuDeselected(final MenuEvent e) {
+		// do nothing
+	}
 
-    @Override
-    public void menuDeselected(final MenuEvent e) {
-        // do nothing
-    }
-
-    @Override
-    public void menuCanceled(final MenuEvent e) {
-        // do nothing
-    }
+	@Override
+	public void menuCanceled(final MenuEvent e) {
+		// do nothing
+	}
 }

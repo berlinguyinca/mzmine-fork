@@ -92,7 +92,7 @@ public class XMLImportTask extends AbstractTask {
 		logger.info("Started parsing file " + fileName);
 
 		try {
-			
+
 			if ((!fileName.exists()) || (!fileName.canRead())) {
 				throw new Exception(
 						"Parsing Cancelled, file does not exist or is not readable");
@@ -123,7 +123,7 @@ public class XMLImportTask extends AbstractTask {
 			peakListOpenHander = new PeakListOpenHandler_2_0(dataFilesIDMap);
 
 			buildingPeakList = peakListOpenHander.readPeakList(finalStream);
-			
+
 		} catch (Throwable e) {
 			/* we may already have set the status to CANCELED */
 			if (status == TaskStatus.PROCESSING)
@@ -143,7 +143,7 @@ public class XMLImportTask extends AbstractTask {
 	}
 
 	public Object[] getCreatedObjects() {
-		return new Object[] { buildingPeakList };
+		return new Object[]{buildingPeakList};
 	}
 
 }

@@ -20,28 +20,25 @@
 package net.sf.mzmine.modules.peaklistmethods.io.csvexport;
 
 public enum ExportRowDataFileElement {
-	
-    PEAK_STATUS("Export peak status", false),
-    PEAK_MZ("Export peak m/z", false),
-    PEAK_RT("Export peak retention time", false),
-    PEAK_HEIGHT("Export peak height", false),
-    PEAK_AREA("Export peak area", false);
-    
-  
-    private final String name;
-    private final boolean common;
 
-    ExportRowDataFileElement(String name, boolean common) {
-        this.name = name;
-        this.common = common;
-    }
+	PEAK_STATUS("Export peak status", false), PEAK_MZ("Export peak m/z", false), PEAK_RT(
+			"Export peak retention time", false), PEAK_HEIGHT(
+			"Export peak height", false), PEAK_AREA("Export peak area", false);
 
-    public boolean isCommon(){
-    	return this.common;
-    }
+	private final String name;
+	private final boolean common;
 
-    public String toString(){
-    	return this.name;
-    }
+	ExportRowDataFileElement(String name, boolean common) {
+		this.name = name;
+		this.common = common;
+	}
+
+	public boolean isCommon() {
+		return this.common;
+	}
+
+	public String toString() {
+		return this.name;
+	}
 
 }

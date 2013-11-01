@@ -38,44 +38,46 @@ import net.sf.mzmine.parameters.impl.SimpleParameterSet;
 
 public enum OnlineDatabase implements MZmineModule {
 
-    KEGG("KEGG Compound Database", KEGGGateway.class), //
-    PubChem("PubChem Compound Database", PubChemGateway.class), //
-    HMDB("Human Metabolome Database (HMDB)", HMDBGateway.class), //
-    YMDB("Yeast Metabolome Database (YMDB)", YMDBGateway.class), //
-    METLIN("METLIN Database", MetLinGateway.class, MetLinParameters.class), //
-    LIPIDMAPS("LipidMaps Database", LipidMapsGateway.class), //
-    MASSBANK("MassBank Database", MassBankGateway.class), //
-    CHEMSPIDER("ChemSpider Database", ChemSpiderGateway.class,
-	    ChemSpiderParameters.class), //
-    PLANTCYC("PlantCyc Database", PlantCycGateway.class);
+	KEGG("KEGG Compound Database", KEGGGateway.class), //
+	PubChem("PubChem Compound Database", PubChemGateway.class), //
+	HMDB("Human Metabolome Database (HMDB)", HMDBGateway.class), //
+	YMDB("Yeast Metabolome Database (YMDB)", YMDBGateway.class), //
+	METLIN("METLIN Database", MetLinGateway.class, MetLinParameters.class), //
+	LIPIDMAPS("LipidMaps Database", LipidMapsGateway.class), //
+	MASSBANK("MassBank Database", MassBankGateway.class), //
+	CHEMSPIDER("ChemSpider Database", ChemSpiderGateway.class,
+			ChemSpiderParameters.class), //
+	PLANTCYC("PlantCyc Database", PlantCycGateway.class);
 
-    private final String dbName;
-    private final Class<? extends DBGateway> gatewayClass;
-    private final Class<? extends ParameterSet> parametersClass;
+	private final String dbName;
+	private final Class<? extends DBGateway> gatewayClass;
+	private final Class<? extends ParameterSet> parametersClass;
 
-    OnlineDatabase(final String dbName,
-	    final Class<? extends DBGateway> gatewayClass,
-	    final Class<? extends ParameterSet> parametersClass) {
-	this.dbName = dbName;
-	this.gatewayClass = gatewayClass;
-	this.parametersClass = parametersClass;
-    }
+	OnlineDatabase(final String dbName,
+			final Class<? extends DBGateway> gatewayClass,
+			final Class<? extends ParameterSet> parametersClass) {
+		this.dbName = dbName;
+		this.gatewayClass = gatewayClass;
+		this.parametersClass = parametersClass;
+	}
 
-    OnlineDatabase(final String name,
-	    final Class<? extends DBGateway> gatewayClass) {
-	this(name, gatewayClass, SimpleParameterSet.class);
-    }
+	OnlineDatabase(final String name,
+			final Class<? extends DBGateway> gatewayClass) {
+		this(name, gatewayClass, SimpleParameterSet.class);
+	}
 
-    public Class<? extends DBGateway> getGatewayClass() {
-	return gatewayClass;
-    }
+	public Class<? extends DBGateway> getGatewayClass() {
+		return gatewayClass;
+	}
 
-    public @Nonnull String getName() {
-	return dbName;
-    }
+	public @Nonnull
+	String getName() {
+		return dbName;
+	}
 
-    @Override
-    public @Nonnull Class<? extends ParameterSet> getParameterSetClass() {
-	return parametersClass;
-    }
+	@Override
+	public @Nonnull
+	Class<? extends ParameterSet> getParameterSetClass() {
+		return parametersClass;
+	}
 }

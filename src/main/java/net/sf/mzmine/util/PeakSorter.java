@@ -50,14 +50,14 @@ public class PeakSorter implements Comparator<ChromatographicPeak> {
 
 	private double getValue(ChromatographicPeak peak) {
 		switch (property) {
-		case Area:
-			return peak.getArea();
-		case Height:
-			return peak.getHeight();
-		case MZ:
-			return peak.getMZ();
-		case RT:
-			return peak.getRT();
+			case Area :
+				return peak.getArea();
+			case Height :
+				return peak.getHeight();
+			case MZ :
+				return peak.getMZ();
+			case RT :
+				return peak.getRT();
 		}
 
 		// We should never get here, so throw exception

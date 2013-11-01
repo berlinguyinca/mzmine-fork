@@ -37,6 +37,6 @@ public class SimpleKMeansClustererParameters extends SimpleParameterSet {
 			"Specify the number of clusters to generate.", 3);
 
 	public SimpleKMeansClustererParameters() {
-		super(new Parameter[] { visualization, numberOfGroups });
+		super(new Parameter[]{visualization, numberOfGroups});
 	}
 }

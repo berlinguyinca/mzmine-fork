@@ -30,14 +30,14 @@ public class RTMZToolTipGenerator implements XYZToolTipGenerator {
 	}
 
 	public String generateToolTip(XYDataset dataset, int series, int item) {
-		if (dataset instanceof RTMZDataset) 
-			return ((RTMZDataset)dataset).getPeakListRow(item).toString();
+		if (dataset instanceof RTMZDataset)
+			return ((RTMZDataset) dataset).getPeakListRow(item).toString();
 		return null;
-	}	
+	}
 
 	public String generateToolTip(XYZDataset dataset, int series, int item) {
-		if (dataset instanceof RTMZDataset) 
-			return ((RTMZDataset)dataset).getPeakListRow(item).toString();
+		if (dataset instanceof RTMZDataset)
+			return ((RTMZDataset) dataset).getPeakListRow(item).toString();
 		return null;
-	}	
+	}
 }

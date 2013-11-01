@@ -152,7 +152,7 @@ public class MzXMLReadTask extends AbstractTask {
 	}
 
 	public Object[] getCreatedObjects() {
-		return new Object[] { finalRawDataFile };
+		return new Object[]{finalRawDataFile};
 	}
 
 	private class MzXMLHandler extends DefaultHandler {

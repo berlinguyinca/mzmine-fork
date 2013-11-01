@@ -31,23 +31,24 @@ import net.sf.mzmine.parameters.ParameterSet;
  * MZmine configuration interface
  */
 public interface MZmineConfiguration {
-    
-    public static final File CONFIG_FILE = new File("conf/config.xml");
 
-    public ParameterSet getModuleParameters(Class<? extends MZmineModule> module);
+	public static final File CONFIG_FILE = new File("conf/config.xml");
 
-    public void setModuleParameters(Class<? extends MZmineModule> module, ParameterSet parameters);
+	public ParameterSet getModuleParameters(Class<? extends MZmineModule> module);
 
-    public MZminePreferences getPreferences();
+	public void setModuleParameters(Class<? extends MZmineModule> module,
+			ParameterSet parameters);
 
-    public NumberFormat getMZFormat();
-    
-    public NumberFormat getRTFormat();
-    
-    public NumberFormat getIntensityFormat();
-    
-    public void loadConfiguration(File file) throws IOException;
+	public MZminePreferences getPreferences();
 
-    public void saveConfiguration(File file) throws IOException;
+	public NumberFormat getMZFormat();
+
+	public NumberFormat getRTFormat();
+
+	public NumberFormat getIntensityFormat();
+
+	public void loadConfiguration(File file) throws IOException;
+
+	public void saveConfiguration(File file) throws IOException;
 
 }

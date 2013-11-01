@@ -41,8 +41,9 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-public class UserParameterOpenHandler_2_5 extends DefaultHandler implements
-		UserParameterOpenHandler {
+public class UserParameterOpenHandler_2_5 extends DefaultHandler
+		implements
+			UserParameterOpenHandler {
 
 	private Logger logger = Logger.getLogger(this.getClass().getName());
 
@@ -186,7 +187,8 @@ public class UserParameterOpenHandler_2_5 extends DefaultHandler implements
 				.getElementName())) {
 			if (currentParameter instanceof ComboParameter) {
 				String newChoices[] = currentOptions.toArray(new String[0]);
-				((ComboParameter<String>) currentParameter).setChoices(newChoices);
+				((ComboParameter<String>) currentParameter)
+						.setChoices(newChoices);
 			}
 			newProject.addParameter(currentParameter);
 

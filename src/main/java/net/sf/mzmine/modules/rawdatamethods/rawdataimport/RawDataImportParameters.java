@@ -31,7 +31,7 @@ import java.io.File;
 
 public class RawDataImportParameters extends SimpleParameterSet {
 
-	protected static final FileFilter filters[] = new FileFilter[] {
+	protected static final FileFilter filters[] = new FileFilter[]{
 			new FileNameExtensionFilter("All raw data files", "cdf", "nc",
 					"mzData", "mzML", "mzXML", "xml", "raw", "csv"),
 			new FileNameExtensionFilter("All XML files", "xml"),
@@ -40,13 +40,12 @@ public class RawDataImportParameters extends SimpleParameterSet {
 			new FileNameExtensionFilter("mzML files", "mzML"),
 			new FileNameExtensionFilter("XCalibur RAW files", "raw"),
 			new FileNameExtensionFilter("mzXML files", "mzXML"),
-			new FileNameExtensionFilter("Agilent CSV files", "csv") };
+			new FileNameExtensionFilter("Agilent CSV files", "csv")};
 
 	public static final FileNamesParameter fileNames = new FileNamesParameter();
 
-
 	public RawDataImportParameters() {
-		super(new Parameter[] { fileNames });
+		super(new Parameter[]{fileNames});
 	}
 
 	public ExitCode showSetupDialog() {
@@ -65,7 +64,7 @@ public class RawDataImportParameters extends SimpleParameterSet {
 		}
 
 		chooser.setMultiSelectionEnabled(true);
-		
+
 		int returnVal = chooser.showOpenDialog(MZmineCore.getDesktop()
 				.getMainFrame());
 

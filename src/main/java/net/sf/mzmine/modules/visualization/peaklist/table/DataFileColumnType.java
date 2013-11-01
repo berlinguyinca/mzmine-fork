@@ -24,32 +24,29 @@ import net.sf.mzmine.data.PeakStatus;
 
 public enum DataFileColumnType {
 
-    STATUS("Status", PeakStatus.class), 
-    PEAKSHAPE("Peak shape", ChromatographicPeak.class),
-    MZ("m/z", Double.class), 
-    RT("Ret.time", Double.class),
-    DURATION("Duration", Double.class),
-    HEIGHT("Height", Double.class),
-    AREA("Area", Double.class),
-    CHARGE("Charge", Integer.class);
+	STATUS("Status", PeakStatus.class), PEAKSHAPE("Peak shape",
+			ChromatographicPeak.class), MZ("m/z", Double.class), RT("Ret.time",
+			Double.class), DURATION("Duration", Double.class), HEIGHT("Height",
+			Double.class), AREA("Area", Double.class), CHARGE("Charge",
+			Integer.class);
 
-    private final String columnName;
-    private final Class columnClass;
+	private final String columnName;
+	private final Class columnClass;
 
-    DataFileColumnType(String columnName, Class columnClass) {
-        this.columnName = columnName;
-        this.columnClass = columnClass;
-    }
+	DataFileColumnType(String columnName, Class columnClass) {
+		this.columnName = columnName;
+		this.columnClass = columnClass;
+	}
 
-    public String getColumnName() {
-        return columnName;
-    }
+	public String getColumnName() {
+		return columnName;
+	}
 
-    public Class getColumnClass() {
-        return columnClass;
-    }
+	public Class getColumnClass() {
+		return columnClass;
+	}
 
-    public String toString() {
-    	return columnName;
-    }
+	public String toString() {
+		return columnName;
+	}
 }

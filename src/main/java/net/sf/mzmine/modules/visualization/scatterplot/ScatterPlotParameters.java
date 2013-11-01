@@ -29,9 +29,9 @@ public class ScatterPlotParameters extends SimpleParameterSet {
 	public static final PeakListsParameter peakLists = new PeakListsParameter();
 
 	public ScatterPlotParameters() {
-		super(new Parameter[] { peakLists });
+		super(new Parameter[]{peakLists});
 	}
-	
+
 	public ExitCode showSetupDialog() {
 		return ExitCode.OK;
 	}

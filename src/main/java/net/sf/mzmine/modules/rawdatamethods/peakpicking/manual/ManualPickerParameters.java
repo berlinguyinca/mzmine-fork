@@ -26,16 +26,16 @@ import net.sf.mzmine.parameters.parametertypes.RangeParameter;
 
 public class ManualPickerParameters extends SimpleParameterSet {
 
-    public static final RangeParameter retentionTimeRange = new RangeParameter(
-	    "Retention time", "Retention time range", MZmineCore
-		    .getConfiguration().getRTFormat());
+	public static final RangeParameter retentionTimeRange = new RangeParameter(
+			"Retention time", "Retention time range", MZmineCore
+					.getConfiguration().getRTFormat());
 
-    public static final RangeParameter mzRange = new RangeParameter(
-	    "m/z range", "m/z range", MZmineCore.getConfiguration()
-		    .getMZFormat());
+	public static final RangeParameter mzRange = new RangeParameter(
+			"m/z range", "m/z range", MZmineCore.getConfiguration()
+					.getMZFormat());
 
-    public ManualPickerParameters() {
-	super(new UserParameter[] { retentionTimeRange, mzRange });
-    }
+	public ManualPickerParameters() {
+		super(new UserParameter[]{retentionTimeRange, mzRange});
+	}
 
 }

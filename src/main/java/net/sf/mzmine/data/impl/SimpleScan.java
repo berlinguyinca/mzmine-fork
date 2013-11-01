@@ -88,14 +88,16 @@ public class SimpleScan implements Scan {
 	/**
 	 * @return Returns scan datapoints
 	 */
-	public @Nonnull DataPoint[] getDataPoints() {
+	public @Nonnull
+	DataPoint[] getDataPoints() {
 		return dataPoints;
 	}
 
 	/**
 	 * @return Returns scan datapoints within a given range
 	 */
-	public @Nonnull DataPoint[] getDataPointsByMass(@Nonnull Range mzRange) {
+	public @Nonnull
+	DataPoint[] getDataPointsByMass(@Nonnull Range mzRange) {
 
 		int startIndex, endIndex;
 		for (startIndex = 0; startIndex < dataPoints.length; startIndex++) {
@@ -120,7 +122,8 @@ public class SimpleScan implements Scan {
 	/**
 	 * @return Returns scan datapoints over certain intensity
 	 */
-	public @Nonnull DataPoint[] getDataPointsOverIntensity(double intensity) {
+	public @Nonnull
+	DataPoint[] getDataPointsOverIntensity(double intensity) {
 		int index;
 		Vector<DataPoint> points = new Vector<DataPoint>();
 
@@ -252,7 +255,8 @@ public class SimpleScan implements Scan {
 	/**
 	 * @see net.sf.mzmine.data.Scan#getMZRangeMax()
 	 */
-	public @Nonnull Range getMZRange() {
+	public @Nonnull
+	Range getMZRange() {
 		return mzRange;
 	}
 
@@ -326,7 +330,8 @@ public class SimpleScan implements Scan {
 		return ScanUtils.scanToString(this);
 	}
 
-	public @Nonnull RawDataFile getDataFile() {
+	public @Nonnull
+	RawDataFile getDataFile() {
 		return dataFile;
 	}
 
@@ -342,7 +347,8 @@ public class SimpleScan implements Scan {
 	}
 
 	@Override
-	public @Nonnull MassList[] getMassLists() {
+	public @Nonnull
+	MassList[] getMassLists() {
 		throw new UnsupportedOperationException();
 	}
 

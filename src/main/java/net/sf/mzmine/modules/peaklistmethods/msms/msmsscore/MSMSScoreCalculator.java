@@ -78,7 +78,7 @@ public class MSMSScoreCalculator {
 		int totalMSMSpeaks = 0, interpretedMSMSpeaks = 0;
 		Map<DataPoint, String> msmsAnnotations = new Hashtable<DataPoint, String>();
 
-		msmsCycle: for (DataPoint dp : msmsIons) {
+		msmsCycle : for (DataPoint dp : msmsIons) {
 
 			// Check if this is an isotope
 			Range isotopeCheckRange = new Range(dp.getMZ() - 1.4,

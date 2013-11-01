@@ -29,23 +29,24 @@ import javax.swing.*;
 
 /**
  * A component for selecting adducts.
- *
+ * 
  * @author $Author: cpudney $
  * @version $Revision: 3103 $
  */
 public class AdductsComponent extends MultiChoiceComponent {
 
-    /**
-     * Create the component.
-     *
-     * @param choices the adduct choices.
-     */
-    public AdductsComponent(AdductType[] choices) {
+	/**
+	 * Create the component.
+	 * 
+	 * @param choices
+	 *            the adduct choices.
+	 */
+	public AdductsComponent(AdductType[] choices) {
 
-        super(choices);
-        addButton(new JButton(new AddAdductsAction()));
-        addButton(new JButton(new ImportAdductsAction()));
-        addButton(new JButton(new ExportAdductsAction()));
-        addButton(new JButton(new DefaultAdductsAction()));
-    }
+		super(choices);
+		addButton(new JButton(new AddAdductsAction()));
+		addButton(new JButton(new ImportAdductsAction()));
+		addButton(new JButton(new ExportAdductsAction()));
+		addButton(new JButton(new DefaultAdductsAction()));
+	}
 }

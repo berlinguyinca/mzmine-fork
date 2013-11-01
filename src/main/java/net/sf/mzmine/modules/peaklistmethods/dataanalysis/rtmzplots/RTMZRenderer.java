@@ -30,14 +30,14 @@ import org.jfree.data.xy.AbstractXYZDataset;
 
 public class RTMZRenderer extends XYLineAndShapeRenderer {
 
-	private static final Shape dataPointsShape = new Ellipse2D.Double(-3, -3, 7, 7);
-	
+	private static final Shape dataPointsShape = new Ellipse2D.Double(-3, -3,
+			7, 7);
+
 	private AbstractXYZDataset dataset;
 	private PaintScale paintScale;
-	
-	
+
 	public RTMZRenderer(AbstractXYZDataset dataset, PaintScale paintScale) {
-		super(false,true);
+		super(false, true);
 		this.dataset = dataset;
 		this.paintScale = paintScale;
 		this.setSeriesShape(0, dataPointsShape);
@@ -45,19 +45,17 @@ public class RTMZRenderer extends XYLineAndShapeRenderer {
 
 	@Override
 	public Paint getItemPaint(int series, int item) {
-	
+
 		double cv = dataset.getZValue(series, item);
-		if (Double.isNaN(cv)) return new Color(255,0,0); 
-		
+		if (Double.isNaN(cv))
+			return new Color(255, 0, 0);
+
 		return paintScale.getPaint(cv);
-		
-	
-	
+
 	}
-    
-    void setPaintScale(PaintScale paintScale) {
-        this.paintScale = paintScale;
-    }
-	
-	
+
+	void setPaintScale(PaintScale paintScale) {
+		this.paintScale = paintScale;
+	}
+
 }

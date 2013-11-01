@@ -45,14 +45,15 @@ public class HistogramRangeEditor extends JPanel implements ActionListener {
 		dataTypeCombo = new JComboBox(HistogramDataType.values());
 		add(dataTypeCombo, BorderLayout.WEST);
 
-		dataRangeComponent = new RangeComponent(NumberFormat.getNumberInstance());
+		dataRangeComponent = new RangeComponent(
+				NumberFormat.getNumberInstance());
 		add(dataRangeComponent, BorderLayout.CENTER);
 
 	}
 
 	public void setValue(Range value) {
 	}
-	
+
 	public void setValue(HistogramDataType type, Range value) {
 
 		dataRangeComponent.setValue(value);
@@ -60,36 +61,41 @@ public class HistogramRangeEditor extends JPanel implements ActionListener {
 	}
 
 	public HistogramDataType getSelectedType() {
-	return (HistogramDataType) dataTypeCombo.getSelectedItem();
+		return (HistogramDataType) dataTypeCombo.getSelectedItem();
 	}
-	
+
 	public Range getValue() {
 		return dataRangeComponent.getValue();
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		
+
 		Object src = event.getSource();
-		
+
 		if (src == dataTypeCombo) {
-			HistogramDataType selectedType = (HistogramDataType) dataTypeCombo.getSelectedItem();
-			if (selectedType == null) return;
-			
+			HistogramDataType selectedType = (HistogramDataType) dataTypeCombo
+					.getSelectedItem();
+			if (selectedType == null)
+				return;
+
 			switch (selectedType) {
-			case MASS:
-				dataRangeComponent.setNumberFormat(MZmineCore.getConfiguration().getMZFormat());
-				return;
-			case HEIGHT:
-			case AREA:
-				dataRangeComponent.setNumberFormat(MZmineCore.getConfiguration().getIntensityFormat());
-				return;
-			case RT:
-				dataRangeComponent.setNumberFormat(MZmineCore.getConfiguration().getRTFormat());
-				return;
+				case MASS :
+					dataRangeComponent.setNumberFormat(MZmineCore
+							.getConfiguration().getMZFormat());
+					return;
+				case HEIGHT :
+				case AREA :
+					dataRangeComponent.setNumberFormat(MZmineCore
+							.getConfiguration().getIntensityFormat());
+					return;
+				case RT :
+					dataRangeComponent.setNumberFormat(MZmineCore
+							.getConfiguration().getRTFormat());
+					return;
 			}
 		}
-		
+
 	}
 
 }

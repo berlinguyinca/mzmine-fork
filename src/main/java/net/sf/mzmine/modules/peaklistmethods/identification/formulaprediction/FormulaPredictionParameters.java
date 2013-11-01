@@ -59,9 +59,8 @@ public class FormulaPredictionParameters extends SimpleParameterSet {
 			"MS/MS filter", "Check MS/MS data", new MSMSScoreParameters());
 
 	public FormulaPredictionParameters() {
-		super(new Parameter[] { neutralMass, mzTolerance,
-				elements, elementalRatios, rdbeRestrictions, isotopeFilter,
-				msmsFilter });
+		super(new Parameter[]{neutralMass, mzTolerance, elements,
+				elementalRatios, rdbeRestrictions, isotopeFilter, msmsFilter});
 	}
 
 }

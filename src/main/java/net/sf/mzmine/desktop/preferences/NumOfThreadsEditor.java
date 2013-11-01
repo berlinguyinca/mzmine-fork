@@ -35,7 +35,7 @@ public class NumOfThreadsEditor extends JPanel implements ActionListener {
 	private static final String options[] = {
 			"Set to the number of CPU cores ("
 					+ Runtime.getRuntime().availableProcessors() + ")",
-			"Set manually" };
+			"Set manually"};
 
 	private JComboBox optionCombo;
 	private JFormattedTextField numField;

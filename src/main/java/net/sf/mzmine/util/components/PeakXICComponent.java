@@ -40,106 +40,109 @@ import net.sf.mzmine.util.Range;
  */
 public class PeakXICComponent extends JComponent {
 
-    public static final Color XICColor = Color.blue;
-    public static final Border componentBorder = BorderFactory.createLineBorder(Color.lightGray);
+	public static final Color XICColor = Color.blue;
+	public static final Border componentBorder = BorderFactory
+			.createLineBorder(Color.lightGray);
 
-    private ChromatographicPeak peak;
+	private ChromatographicPeak peak;
 
-    private Range rtRange;
-    private double maxIntensity;
+	private Range rtRange;
+	private double maxIntensity;
 
-    /**
-     * @param peak Picked peak to plot
-     */
-    public PeakXICComponent(ChromatographicPeak peak) {
-        this(peak, peak.getRawDataPointsIntensityRange().getMax());
-    }
+	/**
+	 * @param peak
+	 *            Picked peak to plot
+	 */
+	public PeakXICComponent(ChromatographicPeak peak) {
+		this(peak, peak.getRawDataPointsIntensityRange().getMax());
+	}
 
-    /**
-     * @param peak Picked peak to plot
-     */
-    public PeakXICComponent(ChromatographicPeak peak, double maxIntensity) {
+	/**
+	 * @param peak
+	 *            Picked peak to plot
+	 */
+	public PeakXICComponent(ChromatographicPeak peak, double maxIntensity) {
 
-        this.peak = peak;
+		this.peak = peak;
 
-        // find data boundaries
-        RawDataFile dataFile = peak.getDataFile();
-        this.rtRange = dataFile.getDataRTRange(1);
-        this.maxIntensity = maxIntensity;
+		// find data boundaries
+		RawDataFile dataFile = peak.getDataFile();
+		this.rtRange = dataFile.getDataRTRange(1);
+		this.maxIntensity = maxIntensity;
 
-        this.setBorder(componentBorder);
-        
-        // add tooltip
-        setToolTipText(peak.toString());
+		this.setBorder(componentBorder);
 
-    }
+		// add tooltip
+		setToolTipText(peak.toString());
 
-    public void paint(Graphics g) {
+	}
 
-        super.paint(g);
+	public void paint(Graphics g) {
 
-        // use Graphics2D for antialiasing
-        Graphics2D g2 = (Graphics2D) g;
+		super.paint(g);
 
-        // turn on antialiasing
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
+		// use Graphics2D for antialiasing
+		Graphics2D g2 = (Graphics2D) g;
 
-        // get canvas size
-        Dimension size = getSize();
+		// turn on antialiasing
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON);
 
-        // get scan numbers, one data point per each scan
-        RawDataFile dataFile = peak.getDataFile();
-        int scanNumbers[] = peak.getScanNumbers();
+		// get canvas size
+		Dimension size = getSize();
 
-        // If we have no data, just return
-        if (scanNumbers.length == 0)
-            return;
+		// get scan numbers, one data point per each scan
+		RawDataFile dataFile = peak.getDataFile();
+		int scanNumbers[] = peak.getScanNumbers();
 
-        // for each datapoint, find [X:Y] coordinates of its point in painted
-        // image
-        int xValues[] = new int[scanNumbers.length];
-        int yValues[] = new int[scanNumbers.length];
+		// If we have no data, just return
+		if (scanNumbers.length == 0)
+			return;
 
-        // find one datapoint with maximum intensity in each scan
-        for (int i = 0; i < scanNumbers.length; i++) {
+		// for each datapoint, find [X:Y] coordinates of its point in painted
+		// image
+		int xValues[] = new int[scanNumbers.length];
+		int yValues[] = new int[scanNumbers.length];
 
-            double dataPointIntensity = 0;
-        	DataPoint dataPoint = peak.getDataPoint(scanNumbers[i]);
-        	
-        	if (dataPoint != null)
-        		dataPointIntensity = dataPoint.getIntensity();
-            
+		// find one datapoint with maximum intensity in each scan
+		for (int i = 0; i < scanNumbers.length; i++) {
 
-            // get retention time (X value)
-            double retentionTime = dataFile.getScan(scanNumbers[i]).getRetentionTime();
+			double dataPointIntensity = 0;
+			DataPoint dataPoint = peak.getDataPoint(scanNumbers[i]);
 
-            // calculate [X:Y] coordinates
-            xValues[i] = (int) Math.floor((retentionTime - rtRange.getMin())
-                    / rtRange.getSize() * (size.width - 1));
-            yValues[i] = size.height
-                    - (int) Math.floor(dataPointIntensity / maxIntensity
-                            * (size.height - 1));
+			if (dataPoint != null)
+				dataPointIntensity = dataPoint.getIntensity();
 
-        }
+			// get retention time (X value)
+			double retentionTime = dataFile.getScan(scanNumbers[i])
+					.getRetentionTime();
 
-        // create a path for a peak polygon
-        GeneralPath path = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
-        path.moveTo(xValues[0], size.height - 1);
+			// calculate [X:Y] coordinates
+			xValues[i] = (int) Math.floor((retentionTime - rtRange.getMin())
+					/ rtRange.getSize() * (size.width - 1));
+			yValues[i] = size.height
+					- (int) Math.floor(dataPointIntensity / maxIntensity
+							* (size.height - 1));
 
-        // add data points to the path
-        for (int i = 0; i < (xValues.length - 1); i++) {
-            path.lineTo(xValues[i + 1], yValues[i + 1]);
-        }
-        path.lineTo(xValues[xValues.length - 1], size.height - 1);
+		}
 
-        // close the path to form a polygon
-        path.closePath();
+		// create a path for a peak polygon
+		GeneralPath path = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
+		path.moveTo(xValues[0], size.height - 1);
 
-        // fill the peak area
-        g2.setColor(XICColor);
-        g2.fill(path);
+		// add data points to the path
+		for (int i = 0; i < (xValues.length - 1); i++) {
+			path.lineTo(xValues[i + 1], yValues[i + 1]);
+		}
+		path.lineTo(xValues[xValues.length - 1], size.height - 1);
 
-    }
+		// close the path to form a polygon
+		path.closePath();
+
+		// fill the peak area
+		g2.setColor(XICColor);
+		g2.fill(path);
+
+	}
 
 }

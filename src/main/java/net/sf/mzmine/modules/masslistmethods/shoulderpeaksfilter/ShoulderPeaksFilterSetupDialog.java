@@ -40,7 +40,9 @@ import net.sf.mzmine.parameters.dialogs.ParameterSetupDialogWithScanPreview;
  * is used to preview how the selected mass detector and his parameters works
  * over the raw data file.
  */
-public class ShoulderPeaksFilterSetupDialog extends ParameterSetupDialogWithScanPreview {
+public class ShoulderPeaksFilterSetupDialog
+		extends
+			ParameterSetupDialogWithScanPreview {
 
 	private static final Color removedPeaksColor = Color.orange;
 
@@ -76,14 +78,16 @@ public class ShoulderPeaksFilterSetupDialog extends ParameterSetupDialogWithScan
 		} else {
 			spectrumPlot.setPlotMode(PlotMode.CONTINUOUS);
 		}
-		
+
 		// If the parameters are not complete, exit
 		ArrayList<String> errors = new ArrayList<String>();
 		boolean paramsOK = parameters.checkUserParameterValues(errors);
-		if (! paramsOK) return;
-		
+		if (!paramsOK)
+			return;
+
 		// Get mass list
-		String massListName = parameters.getParameter(ShoulderPeaksFilterParameters.massList).getValue();
+		String massListName = parameters.getParameter(
+				ShoulderPeaksFilterParameters.massList).getValue();
 		MassList massList = previewScan.getMassList(massListName);
 		if (massList == null)
 			return;

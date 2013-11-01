@@ -27,7 +27,8 @@ import net.sf.mzmine.parameters.parametertypes.PeakListsParameter;
 
 public class XMLExportParameters extends SimpleParameterSet {
 
-	public static final PeakListsParameter peakList = new PeakListsParameter(1, 1);
+	public static final PeakListsParameter peakList = new PeakListsParameter(1,
+			1);
 
 	public static final FileNameParameter filename = new FileNameParameter(
 			"Filename",
@@ -38,6 +39,6 @@ public class XMLExportParameters extends SimpleParameterSet {
 			"Compressed file", "Generates a compressed file (.zip)");
 
 	public XMLExportParameters() {
-		super(new Parameter[] { peakList, filename, compression });
+		super(new Parameter[]{peakList, filename, compression});
 	}
 }

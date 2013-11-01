@@ -28,54 +28,55 @@ import net.sf.mzmine.util.interpolatinglookuppaintscale.InterpolatingLookupPaint
  */
 enum TwoDPaletteType {
 
-    PALETTE_GRAY20, PALETTE_GRAY5, PALETTE_GRAY1, PALETTE_RAINBOW;
+	PALETTE_GRAY20, PALETTE_GRAY5, PALETTE_GRAY1, PALETTE_RAINBOW;
 
-    private InterpolatingLookupPaintScale rainbowScale;
+	private InterpolatingLookupPaintScale rainbowScale;
 
-    TwoDPaletteType() {
-        rainbowScale = new InterpolatingLookupPaintScale();
-        rainbowScale.add(0, Color.white);
-        rainbowScale.add(0.04, Color.red);
-        rainbowScale.add(0.125, Color.orange);
-        rainbowScale.add(0.25, Color.yellow);
-        rainbowScale.add(0.5, Color.blue);
-        rainbowScale.add(1, Color.cyan);
-    }
+	TwoDPaletteType() {
+		rainbowScale = new InterpolatingLookupPaintScale();
+		rainbowScale.add(0, Color.white);
+		rainbowScale.add(0.04, Color.red);
+		rainbowScale.add(0.125, Color.orange);
+		rainbowScale.add(0.25, Color.yellow);
+		rainbowScale.add(0.5, Color.blue);
+		rainbowScale.add(1, Color.cyan);
+	}
 
-    /**
-     * 
-     * @param intensity Intensity in range <0-1> inclusive
-     * @return Color
-     */
-    Color getColor(double intensity) {
+	/**
+	 * 
+	 * @param intensity
+	 *            Intensity in range <0-1> inclusive
+	 * @return Color
+	 */
+	Color getColor(double intensity) {
 
-        switch (this) {
+		switch (this) {
 
-        case PALETTE_GRAY20:
-            if (intensity > 0.2f)
-                return Color.black;
-            float gray20color = (float) (1 - (intensity / 0.2d));
-            return new Color(gray20color, gray20color, gray20color);
+			case PALETTE_GRAY20 :
+				if (intensity > 0.2f)
+					return Color.black;
+				float gray20color = (float) (1 - (intensity / 0.2d));
+				return new Color(gray20color, gray20color, gray20color);
 
-        case PALETTE_GRAY5:
-            if (intensity > 0.05f)
-                return Color.black;
-            float gray5color = (float) (1 - (intensity / 0.05d));
-            return new Color(gray5color, gray5color, gray5color);
+			case PALETTE_GRAY5 :
+				if (intensity > 0.05f)
+					return Color.black;
+				float gray5color = (float) (1 - (intensity / 0.05d));
+				return new Color(gray5color, gray5color, gray5color);
 
-        case PALETTE_GRAY1:
-            if (intensity > 0.01f)
-                return Color.black;
-            float gray1color = (float) (1 - (intensity / 0.01d));
-            return new Color(gray1color, gray1color, gray1color);
+			case PALETTE_GRAY1 :
+				if (intensity > 0.01f)
+					return Color.black;
+				float gray1color = (float) (1 - (intensity / 0.01d));
+				return new Color(gray1color, gray1color, gray1color);
 
-        case PALETTE_RAINBOW:
-            return (Color) rainbowScale.getPaint(intensity);
+			case PALETTE_RAINBOW :
+				return (Color) rainbowScale.getPaint(intensity);
 
-        }
+		}
 
-        return Color.white;
+		return Color.white;
 
-    }
+	}
 
 }

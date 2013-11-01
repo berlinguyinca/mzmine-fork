@@ -25,8 +25,9 @@ import org.jfree.chart.labels.StandardXYItemLabelGenerator;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYZDataset;
 
-public class ProjectionPlotItemLabelGenerator extends
-		StandardXYItemLabelGenerator {
+public class ProjectionPlotItemLabelGenerator
+		extends
+			StandardXYItemLabelGenerator {
 
 	private enum LabelMode {
 		None, FileName, ParameterValue
@@ -37,22 +38,22 @@ public class ProjectionPlotItemLabelGenerator extends
 
 	ProjectionPlotItemLabelGenerator(ParameterSet parameters) {
 
-		labelModes = new LabelMode[] { LabelMode.None };
-                ColoringType coloringType = ColoringType.NOCOLORING;
-                try{
-                        coloringType = parameters.getParameter(
-				ProjectionPlotParameters.coloringType).getValue();
-                }catch(IllegalArgumentException exeption){
-                }
+		labelModes = new LabelMode[]{LabelMode.None};
+		ColoringType coloringType = ColoringType.NOCOLORING;
+		try {
+			coloringType = parameters.getParameter(
+					ProjectionPlotParameters.coloringType).getValue();
+		} catch (IllegalArgumentException exeption) {
+		}
 		if (coloringType.equals(ColoringType.NOCOLORING))
-			labelModes = new LabelMode[] { LabelMode.None, LabelMode.FileName };
+			labelModes = new LabelMode[]{LabelMode.None, LabelMode.FileName};
 
 		if (coloringType.equals(ColoringType.COLORBYFILE))
-			labelModes = new LabelMode[] { LabelMode.None, LabelMode.FileName };
+			labelModes = new LabelMode[]{LabelMode.None, LabelMode.FileName};
 
 		if (coloringType.isByParameter())
-			labelModes = new LabelMode[] { LabelMode.None, LabelMode.FileName,
-					LabelMode.ParameterValue };
+			labelModes = new LabelMode[]{LabelMode.None, LabelMode.FileName,
+					LabelMode.ParameterValue};
 
 	}
 
@@ -68,20 +69,20 @@ public class ProjectionPlotItemLabelGenerator extends
 			int item) {
 
 		switch (labelModes[labelModeIndex]) {
-		case None:
-		default:
-			return "";
-
-		case FileName:
-			return dataset.getRawDataFile(item);
-
-		case ParameterValue:
-			int groupNumber = dataset.getGroupNumber(item);
-			Object paramValue = dataset.getGroupParameterValue(groupNumber);
-			if (paramValue != null)
-				return paramValue.toString();
-			else
+			case None :
+			default :
 				return "";
+
+			case FileName :
+				return dataset.getRawDataFile(item);
+
+			case ParameterValue :
+				int groupNumber = dataset.getGroupNumber(item);
+				Object paramValue = dataset.getGroupParameterValue(groupNumber);
+				if (paramValue != null)
+					return paramValue.toString();
+				else
+					return "";
 
 		}
 

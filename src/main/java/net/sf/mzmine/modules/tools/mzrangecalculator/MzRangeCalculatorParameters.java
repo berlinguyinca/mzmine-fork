@@ -29,20 +29,20 @@ import net.sf.mzmine.parameters.parametertypes.MZToleranceParameter;
 
 public class MzRangeCalculatorParameters extends SimpleParameterSet {
 
-    static final FormulaParameter formula = new FormulaParameter();
+	static final FormulaParameter formula = new FormulaParameter();
 
-    static final ComboParameter<IonizationType> ionType = new ComboParameter<IonizationType>(
-	    "Ionization type",
-	    "Please choose the type of ion to produce from the formula",
-	    IonizationType.values());
+	static final ComboParameter<IonizationType> ionType = new ComboParameter<IonizationType>(
+			"Ionization type",
+			"Please choose the type of ion to produce from the formula",
+			IonizationType.values());
 
-    static final IntegerParameter charge = new IntegerParameter("Charge",
-	    "Charge of the ion", 1, 1, null);
+	static final IntegerParameter charge = new IntegerParameter("Charge",
+			"Charge of the ion", 1, 1, null);
 
-    static final MZToleranceParameter mzTolerance = new MZToleranceParameter();
+	static final MZToleranceParameter mzTolerance = new MZToleranceParameter();
 
-    public MzRangeCalculatorParameters() {
-	super(new Parameter[] { formula, ionType, charge, mzTolerance });
-    }
+	public MzRangeCalculatorParameters() {
+		super(new Parameter[]{formula, ionType, charge, mzTolerance});
+	}
 
 }

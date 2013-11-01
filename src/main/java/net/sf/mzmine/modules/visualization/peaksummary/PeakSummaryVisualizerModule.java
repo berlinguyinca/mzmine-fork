@@ -32,27 +32,27 @@ import net.sf.mzmine.parameters.impl.SimpleParameterSet;
  */
 public class PeakSummaryVisualizerModule implements MZmineModule {
 
-    /**
-     * @see net.sf.mzmine.modules.MZmineModule#getName()
-     */
-    @Override
-    public @Nonnull
-    String getName() {
-	return "Peak list row summary";
-    }
+	/**
+	 * @see net.sf.mzmine.modules.MZmineModule#getName()
+	 */
+	@Override
+	public @Nonnull
+	String getName() {
+		return "Peak list row summary";
+	}
 
-    /**
-     * @see net.sf.mzmine.modules.MZmineModule#setParameters(net.sf.mzmine.data.ParameterSet)
-     */
-    public static void showNewPeakSummaryWindow(PeakListRow row) {
-	PeakSummaryWindow newWindow = new PeakSummaryWindow(row);
-	MZmineCore.getDesktop().addInternalFrame(newWindow);
-    }
+	/**
+	 * @see net.sf.mzmine.modules.MZmineModule#setParameters(net.sf.mzmine.data.ParameterSet)
+	 */
+	public static void showNewPeakSummaryWindow(PeakListRow row) {
+		PeakSummaryWindow newWindow = new PeakSummaryWindow(row);
+		MZmineCore.getDesktop().addInternalFrame(newWindow);
+	}
 
-    @Override
-    public @Nonnull
-    Class<? extends ParameterSet> getParameterSetClass() {
-	return SimpleParameterSet.class;
-    }
+	@Override
+	public @Nonnull
+	Class<? extends ParameterSet> getParameterSetClass() {
+		return SimpleParameterSet.class;
+	}
 
 }

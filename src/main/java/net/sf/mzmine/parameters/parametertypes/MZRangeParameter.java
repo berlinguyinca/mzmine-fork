@@ -21,25 +21,25 @@ package net.sf.mzmine.parameters.parametertypes;
 
 public class MZRangeParameter extends RangeParameter {
 
-    public MZRangeParameter() {
-	super("m/z", "m/z range", null, null);
-    }
+	public MZRangeParameter() {
+		super("m/z", "m/z range", null, null);
+	}
 
-    public MZRangeParameter(String name, String description) {
-	super(name, description, null, null);
-    }
+	public MZRangeParameter(String name, String description) {
+		super(name, description, null, null);
+	}
 
-    @Override
-    public MZRangeComponent createEditingComponent() {
-	return new MZRangeComponent();
-    }
+	@Override
+	public MZRangeComponent createEditingComponent() {
+		return new MZRangeComponent();
+	}
 
-    @Override
-    public MZRangeParameter cloneParameter() {
-	MZRangeParameter copy = new MZRangeParameter(getName(),
-		getDescription());
-	copy.setValue(this.getValue());
-	return copy;
-    }
+	@Override
+	public MZRangeParameter cloneParameter() {
+		MZRangeParameter copy = new MZRangeParameter(getName(),
+				getDescription());
+		copy.setValue(this.getValue());
+		return copy;
+	}
 
 }

@@ -33,7 +33,7 @@ public class MSMSExportParameters extends SimpleParameterSet {
 	public static final MassListParameter massList = new MassListParameter();
 
 	public MSMSExportParameters() {
-		super(new Parameter[] { outputFile, massList });
+		super(new Parameter[]{outputFile, massList});
 	}
 
 }

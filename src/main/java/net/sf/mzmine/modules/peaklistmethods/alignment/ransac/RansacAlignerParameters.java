@@ -74,8 +74,8 @@ public class RansacAlignerParameters extends SimpleParameterSet {
 	}
 
 	public RansacAlignerParameters() {
-		super(new Parameter[] { peakLists, peakListName, MZTolerance,
+		super(new Parameter[]{peakLists, peakListName, MZTolerance,
 				RTToleranceBefore, RTToleranceAfter, Iterations, NMinPoints,
-				Margin, Linear, SameChargeRequired });
+				Margin, Linear, SameChargeRequired});
 	}
 }

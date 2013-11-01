@@ -21,19 +21,19 @@ package net.sf.mzmine.modules.visualization.histogram;
 
 public enum HistogramDataType {
 
-    MASS("m/z"), //
-    HEIGHT("Height"), //
-    AREA("Area"), //
-    RT("Retention time");
+	MASS("m/z"), //
+	HEIGHT("Height"), //
+	AREA("Area"), //
+	RT("Retention time");
 
-    private String text;
+	private String text;
 
-    HistogramDataType(String text) {
-	this.text = text;
-    }
+	HistogramDataType(String text) {
+		this.text = text;
+	}
 
-    public String toString() {
-	return text;
-    }
+	public String toString() {
+		return text;
+	}
 
 }

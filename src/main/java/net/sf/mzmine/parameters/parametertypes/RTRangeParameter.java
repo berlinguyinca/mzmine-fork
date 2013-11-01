@@ -21,25 +21,25 @@ package net.sf.mzmine.parameters.parametertypes;
 
 public class RTRangeParameter extends RangeParameter {
 
-    public RTRangeParameter() {
-	super("Retention time", "Retention time range in minutes", null, null);
-    }
+	public RTRangeParameter() {
+		super("Retention time", "Retention time range in minutes", null, null);
+	}
 
-    public RTRangeParameter(String name, String description) {
-	super(name, description, null, null);
-    }
+	public RTRangeParameter(String name, String description) {
+		super(name, description, null, null);
+	}
 
-    @Override
-    public RTRangeComponent createEditingComponent() {
-	return new RTRangeComponent();
-    }
+	@Override
+	public RTRangeComponent createEditingComponent() {
+		return new RTRangeComponent();
+	}
 
-    @Override
-    public RTRangeParameter cloneParameter() {
-	RTRangeParameter copy = new RTRangeParameter(getName(),
-		getDescription());
-	copy.setValue(this.getValue());
-	return copy;
-    }
+	@Override
+	public RTRangeParameter cloneParameter() {
+		RTRangeParameter copy = new RTRangeParameter(getName(),
+				getDescription());
+		copy.setValue(this.getValue());
+		return copy;
+	}
 
 }

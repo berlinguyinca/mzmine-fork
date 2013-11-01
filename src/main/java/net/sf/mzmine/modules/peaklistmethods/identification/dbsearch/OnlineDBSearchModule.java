@@ -37,72 +37,77 @@ import net.sf.mzmine.util.ExitCode;
  */
 public class OnlineDBSearchModule implements MZmineProcessingModule {
 
-    private static final String MODULE_NAME = "Online database search";
-    private static final String MODULE_DESCRIPTION = "This module attepts to find those peaks in a peak list, which form an isotope pattern.";
+	private static final String MODULE_NAME = "Online database search";
+	private static final String MODULE_DESCRIPTION = "This module attepts to find those peaks in a peak list, which form an isotope pattern.";
 
-    @Override
-    public @Nonnull String getName() {
-	return MODULE_NAME;
-    }
-
-    @Override
-    public @Nonnull String getDescription() {
-	return MODULE_DESCRIPTION;
-    }
-
-    @Override
-    @Nonnull
-    public ExitCode runModule(@Nonnull ParameterSet parameters,
-	    @Nonnull Collection<Task> tasks) {
-
-	final PeakList[] peakLists = parameters.getParameter(
-		PeakListIdentificationParameters.peakLists).getValue();
-	for (final PeakList peakList : peakLists) {
-	    Task newTask = new PeakListIdentificationTask(parameters, peakList);
-	    tasks.add(newTask);
+	@Override
+	public @Nonnull
+	String getName() {
+		return MODULE_NAME;
 	}
 
-	return ExitCode.OK;
-    }
-
-    /**
-     * Show dialog for identifying a single peak-list row.
-     * 
-     * @param row
-     *            the peak list row.
-     */
-    public static void showSingleRowIdentificationDialog(final PeakListRow row) {
-
-	final ParameterSet parameters = new SingleRowIdentificationParameters();
-
-	// Set m/z.
-	parameters.getParameter(SingleRowIdentificationParameters.NEUTRAL_MASS)
-		.setIonMass(row.getAverageMZ());
-
-	// Set charge.
-	final int charge = row.getBestPeak().getCharge();
-	if (charge > 0) {
-
-	    parameters.getParameter(
-		    SingleRowIdentificationParameters.NEUTRAL_MASS).setCharge(
-		    charge);
+	@Override
+	public @Nonnull
+	String getDescription() {
+		return MODULE_DESCRIPTION;
 	}
 
-	// Run task.
-	if (parameters.showSetupDialog() == ExitCode.OK) {
+	@Override
+	@Nonnull
+	public ExitCode runModule(@Nonnull ParameterSet parameters,
+			@Nonnull Collection<Task> tasks) {
 
-	    MZmineCore.getTaskController().addTask(
-		    new SingleRowIdentificationTask(parameters.cloneParameter(), row));
+		final PeakList[] peakLists = parameters.getParameter(
+				PeakListIdentificationParameters.peakLists).getValue();
+		for (final PeakList peakList : peakLists) {
+			Task newTask = new PeakListIdentificationTask(parameters, peakList);
+			tasks.add(newTask);
+		}
+
+		return ExitCode.OK;
 	}
-    }
 
-    @Override
-    public @Nonnull MZmineModuleCategory getModuleCategory() {
-	return MZmineModuleCategory.IDENTIFICATION;
-    }
+	/**
+	 * Show dialog for identifying a single peak-list row.
+	 * 
+	 * @param row
+	 *            the peak list row.
+	 */
+	public static void showSingleRowIdentificationDialog(final PeakListRow row) {
 
-    @Override
-    public @Nonnull Class<? extends ParameterSet> getParameterSetClass() {
-	return PeakListIdentificationParameters.class;
-    }
+		final ParameterSet parameters = new SingleRowIdentificationParameters();
+
+		// Set m/z.
+		parameters.getParameter(SingleRowIdentificationParameters.NEUTRAL_MASS)
+				.setIonMass(row.getAverageMZ());
+
+		// Set charge.
+		final int charge = row.getBestPeak().getCharge();
+		if (charge > 0) {
+
+			parameters.getParameter(
+					SingleRowIdentificationParameters.NEUTRAL_MASS).setCharge(
+					charge);
+		}
+
+		// Run task.
+		if (parameters.showSetupDialog() == ExitCode.OK) {
+
+			MZmineCore.getTaskController().addTask(
+					new SingleRowIdentificationTask(
+							parameters.cloneParameter(), row));
+		}
+	}
+
+	@Override
+	public @Nonnull
+	MZmineModuleCategory getModuleCategory() {
+		return MZmineModuleCategory.IDENTIFICATION;
+	}
+
+	@Override
+	public @Nonnull
+	Class<? extends ParameterSet> getParameterSetClass() {
+		return PeakListIdentificationParameters.class;
+	}
 }

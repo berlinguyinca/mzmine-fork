@@ -28,20 +28,20 @@ import net.sf.mzmine.parameters.ParameterSet;
  */
 public interface MZmineModule {
 
-    /**
-     * Returns module name
-     * 
-     * @return Module name
-     */
-    @Nonnull
-    public String getName();
+	/**
+	 * Returns module name
+	 * 
+	 * @return Module name
+	 */
+	@Nonnull
+	public String getName();
 
-    /**
-     * Returns module's parameter class. If the module has no parameters, it can
-     * return SimpleParameterSet class. The returned class must provide a public
-     * constructor without parameters.
-     */
-    @Nonnull
-    public Class<? extends ParameterSet> getParameterSetClass();
+	/**
+	 * Returns module's parameter class. If the module has no parameters, it can
+	 * return SimpleParameterSet class. The returned class must provide a public
+	 * constructor without parameters.
+	 */
+	@Nonnull
+	public Class<? extends ParameterSet> getParameterSetClass();
 
 }

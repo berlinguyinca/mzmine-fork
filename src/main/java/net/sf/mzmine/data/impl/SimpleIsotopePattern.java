@@ -31,49 +31,53 @@ import net.sf.mzmine.util.ScanUtils;
  */
 public class SimpleIsotopePattern implements IsotopePattern {
 
-    private DataPoint dataPoints[], highestIsotope;
-    private IsotopePatternStatus status;
-    private String description;
+	private DataPoint dataPoints[], highestIsotope;
+	private IsotopePatternStatus status;
+	private String description;
 
-    public SimpleIsotopePattern(DataPoint dataPoints[],
-	    IsotopePatternStatus status, String description) {
+	public SimpleIsotopePattern(DataPoint dataPoints[],
+			IsotopePatternStatus status, String description) {
 
-	assert dataPoints.length > 0;
+		assert dataPoints.length > 0;
 
-	highestIsotope = ScanUtils.findTopDataPoint(dataPoints);
-	this.dataPoints = dataPoints;
-	this.status = status;
-	this.description = description;
-    }
+		highestIsotope = ScanUtils.findTopDataPoint(dataPoints);
+		this.dataPoints = dataPoints;
+		this.status = status;
+		this.description = description;
+	}
 
-    @Override
-    public @Nonnull DataPoint[] getDataPoints() {
-	return dataPoints;
-    }
+	@Override
+	public @Nonnull
+	DataPoint[] getDataPoints() {
+		return dataPoints;
+	}
 
-    @Override
-    public int getNumberOfIsotopes() {
-	return dataPoints.length;
-    }
+	@Override
+	public int getNumberOfIsotopes() {
+		return dataPoints.length;
+	}
 
-    @Override
-    public @Nonnull IsotopePatternStatus getStatus() {
-	return status;
-    }
+	@Override
+	public @Nonnull
+	IsotopePatternStatus getStatus() {
+		return status;
+	}
 
-    @Override
-    public @Nonnull DataPoint getHighestIsotope() {
-	return highestIsotope;
-    }
+	@Override
+	public @Nonnull
+	DataPoint getHighestIsotope() {
+		return highestIsotope;
+	}
 
-    @Override
-    public @Nonnull String getDescription() {
-	return description;
-    }
+	@Override
+	public @Nonnull
+	String getDescription() {
+		return description;
+	}
 
-    @Override
-    public String toString() {
-	return "Isotope pattern: " + description;
-    }
+	@Override
+	public String toString() {
+		return "Isotope pattern: " + description;
+	}
 
 }

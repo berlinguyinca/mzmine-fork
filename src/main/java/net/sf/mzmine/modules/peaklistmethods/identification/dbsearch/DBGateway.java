@@ -26,16 +26,16 @@ import net.sf.mzmine.parameters.parametertypes.MZTolerance;
 
 public interface DBGateway {
 
-    /**
-     * Retrieves candidate compounds
-     */
-    public String[] findCompounds(double mass, MZTolerance mzTolerance,
-	    int numOfResults, ParameterSet parameters) throws IOException;
+	/**
+	 * Retrieves candidate compounds
+	 */
+	public String[] findCompounds(double mass, MZTolerance mzTolerance,
+			int numOfResults, ParameterSet parameters) throws IOException;
 
-    /**
-     * This method retrieves the details about a compound
-     */
-    public DBCompound getCompound(String ID, ParameterSet parameters)
-	    throws IOException;
+	/**
+	 * This method retrieves the details about a compound
+	 */
+	public DBCompound getCompound(String ID, ParameterSet parameters)
+			throws IOException;
 
 }

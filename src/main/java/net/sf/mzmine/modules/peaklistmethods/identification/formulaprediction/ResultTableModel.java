@@ -29,17 +29,18 @@ import net.sf.mzmine.main.MZmineCore;
 public class ResultTableModel extends AbstractTableModel {
 
 	public static final String questionMark = "?";
-	public static final String checkMark = new String(new char[] { '\u2713' });
-	public static final String crossMark = new String(new char[] { '\u2717' });
+	public static final String checkMark = new String(new char[]{'\u2713'});
+	public static final String crossMark = new String(new char[]{'\u2717'});
 
-	private static final String[] columnNames = { "Formula", "Mass difference",
-			"RDBE", "Isotope pattern score", "MS/MS score" };
+	private static final String[] columnNames = {"Formula", "Mass difference",
+			"RDBE", "Isotope pattern score", "MS/MS score"};
 
 	private double searchedMass;
 
 	private Vector<ResultFormula> formulas = new Vector<ResultFormula>();
 
-	private final NumberFormat massFormat = MZmineCore.getConfiguration().getMZFormat();
+	private final NumberFormat massFormat = MZmineCore.getConfiguration()
+			.getMZFormat();
 
 	ResultTableModel(double searchedMass) {
 		this.searchedMass = searchedMass;
@@ -51,13 +52,13 @@ public class ResultTableModel extends AbstractTableModel {
 
 	public Class<?> getColumnClass(int col) {
 		switch (col) {
-		case 0:
-		case 1:
-			return String.class;
-		case 2:
-		case 3:
-		case 4:
-			return Double.class;
+			case 0 :
+			case 1 :
+				return String.class;
+			case 2 :
+			case 3 :
+			case 4 :
+				return Double.class;
 		}
 		return null;
 	}
@@ -73,18 +74,18 @@ public class ResultTableModel extends AbstractTableModel {
 	public Object getValueAt(int row, int col) {
 		ResultFormula formula = formulas.get(row);
 		switch (col) {
-		case 0:
-			return "<HTML>" + formula.getFormulaAsHTML() + "</HTML>";
-		case 1:
-			double formulaMass = formula.getExactMass();
-			double massDifference = Math.abs(searchedMass - formulaMass);
-			return massFormat.format(massDifference);
-		case 2:
-			return formula.getRDBE();
-		case 3:
-			return formula.getIsotopeScore();
-		case 4:
-			return formula.getMSMSScore();
+			case 0 :
+				return "<HTML>" + formula.getFormulaAsHTML() + "</HTML>";
+			case 1 :
+				double formulaMass = formula.getExactMass();
+				double massDifference = Math.abs(searchedMass - formulaMass);
+				return massFormat.format(massDifference);
+			case 2 :
+				return formula.getRDBE();
+			case 3 :
+				return formula.getIsotopeScore();
+			case 4 :
+				return formula.getMSMSScore();
 		}
 		return null;
 	}

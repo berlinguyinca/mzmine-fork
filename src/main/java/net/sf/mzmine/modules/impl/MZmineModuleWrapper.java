@@ -27,19 +27,19 @@ import net.sf.mzmine.modules.MZmineModule;
  */
 public class MZmineModuleWrapper {
 
-    private MZmineModule module;
+	private MZmineModule module;
 
-    public MZmineModuleWrapper(MZmineModule module) {
-	this.module = module;
-    }
+	public MZmineModuleWrapper(MZmineModule module) {
+		this.module = module;
+	}
 
-    public MZmineModule getModule() {
-	return module;
-    }
+	public MZmineModule getModule() {
+		return module;
+	}
 
-    @Override
-    public String toString() {
-	return module.getName();
-    }
+	@Override
+	public String toString() {
+		return module.getName();
+	}
 
 }

@@ -37,105 +37,115 @@ import net.sf.mzmine.util.ExitCode;
  */
 public interface Desktop extends MZmineModule {
 
-    /**
-     * Returns a reference to main application window.
-     * May return null if MZmine is running in headless (batch) mode.
-     * 
-     * @return Main window frame
-     */
-    public JFrame getMainFrame();
+	/**
+	 * Returns a reference to main application window. May return null if MZmine
+	 * is running in headless (batch) mode.
+	 * 
+	 * @return Main window frame
+	 */
+	public JFrame getMainFrame();
 
-    /**
-     * Adds a new internal frame (JInternalFrame) to the desktop pane
-     * 
-     * @param frame Internal frame to add
-     */
-    public void addInternalFrame(JInternalFrame frame);
+	/**
+	 * Adds a new internal frame (JInternalFrame) to the desktop pane
+	 * 
+	 * @param frame
+	 *            Internal frame to add
+	 */
+	public void addInternalFrame(JInternalFrame frame);
 
 	/**
 	 * Returns all visible internal frames in the desktop pane
 	 * 
 	 * @return Array of all internal frames
 	 */
-    public JInternalFrame[] getInternalFrames();
+	public JInternalFrame[] getInternalFrames();
 
-    /**
-     * Returns the currently selected frame or null if no frame is selected
-     * 
-     * @return Selected frame
-     */
-    public JInternalFrame getSelectedFrame();
+	/**
+	 * Returns the currently selected frame or null if no frame is selected
+	 * 
+	 * @return Selected frame
+	 */
+	public JInternalFrame getSelectedFrame();
 
-    /**
-     * Displays a given text on the application status bar in black color
-     * 
-     * @param text Text to show
-     */
-    public void setStatusBarText(String text);
+	/**
+	 * Displays a given text on the application status bar in black color
+	 * 
+	 * @param text
+	 *            Text to show
+	 */
+	public void setStatusBarText(String text);
 
-    /**
-     * Displays a given text on the application status bar in a given color
-     * 
-     * @param text Text to show
-     * @param textColor Text color
-     */
-    public void setStatusBarText(String text, Color textColor);
+	/**
+	 * Displays a given text on the application status bar in a given color
+	 * 
+	 * @param text
+	 *            Text to show
+	 * @param textColor
+	 *            Text color
+	 */
+	public void setStatusBarText(String text, Color textColor);
 
-    /**
-     * Displays a message box with a given text
-     * 
-     * @param msg Text to show
-     */
-    public void displayMessage(String msg);
-    
-    /**
-     * Displays a message box with a given text
-     * 
-     * @param title Message box title
-     * @param msg Text to show
-     */
-    public void displayMessage(String title, String msg);
+	/**
+	 * Displays a message box with a given text
+	 * 
+	 * @param msg
+	 *            Text to show
+	 */
+	public void displayMessage(String msg);
 
-    /**
-     * Displays an error message box with a given text
-     * 
-     * @param msg Text to show
-     */
-    public void displayErrorMessage(String msg);
+	/**
+	 * Displays a message box with a given text
+	 * 
+	 * @param title
+	 *            Message box title
+	 * @param msg
+	 *            Text to show
+	 */
+	public void displayMessage(String title, String msg);
 
-    /**
-     * Displays an error message box with a given text
-     * 
-     * @param title Message box title
-     * @param msg Text to show
-     */
-    public void displayErrorMessage(String title, String msg);
-    
-    /**
-     * Displays an error message
-     *
-     */
-    public void displayException(Exception e);
-    
-    /**
-     * Returns array of currently selected raw data files in GUI
-     * 
-     * @return Array of selected raw data files
-     */
-    public RawDataFile[] getSelectedDataFiles();
+	/**
+	 * Displays an error message box with a given text
+	 * 
+	 * @param msg
+	 *            Text to show
+	 */
+	public void displayErrorMessage(String msg);
 
-    /**
-     * Returns array of currently selected peak lists in GUI
-     * 
-     * @return Array of selected peak lists
-     */
-    public PeakList[] getSelectedPeakLists();
-    
-    public void addProjectTreeListener(TreeModelListener listener);
-    
-    public void removeProjectTreeListener(TreeModelListener listener);
+	/**
+	 * Displays an error message box with a given text
+	 * 
+	 * @param title
+	 *            Message box title
+	 * @param msg
+	 *            Text to show
+	 */
+	public void displayErrorMessage(String title, String msg);
 
-    @Nonnull
-    public ExitCode exitMZmine();
-    
+	/**
+	 * Displays an error message
+	 * 
+	 */
+	public void displayException(Exception e);
+
+	/**
+	 * Returns array of currently selected raw data files in GUI
+	 * 
+	 * @return Array of selected raw data files
+	 */
+	public RawDataFile[] getSelectedDataFiles();
+
+	/**
+	 * Returns array of currently selected peak lists in GUI
+	 * 
+	 * @return Array of selected peak lists
+	 */
+	public PeakList[] getSelectedPeakLists();
+
+	public void addProjectTreeListener(TreeModelListener listener);
+
+	public void removeProjectTreeListener(TreeModelListener listener);
+
+	@Nonnull
+	public ExitCode exitMZmine();
+
 }

@@ -25,24 +25,23 @@ package net.sf.mzmine.modules.rawdatamethods.filtering.baselinecorrection;
 
 /**
  * Chromatogram types.
- *
+ * 
  * @author $Author: plusik $
  * @version $Revision: 2728 $
  */
 public enum ChromatogramType {
 
-    TIC("TIC"),
-    BASE_PEAK("Base peak intensity");
+	TIC("TIC"), BASE_PEAK("Base peak intensity");
 
-    private final String name;
+	private final String name;
 
-    ChromatogramType(String name) {
+	ChromatogramType(String name) {
 
-        this.name = name;
-    }
+		this.name = name;
+	}
 
-    public String toString() {
+	public String toString() {
 
-        return this.name;
-    }
+		return this.name;
+	}
 }

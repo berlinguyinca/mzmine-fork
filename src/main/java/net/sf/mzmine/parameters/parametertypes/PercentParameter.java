@@ -30,8 +30,9 @@ import org.w3c.dom.Element;
  * 
  * 
  */
-public class PercentParameter implements
-		UserParameter<Double, PercentComponent> {
+public class PercentParameter
+		implements
+			UserParameter<Double, PercentComponent> {
 
 	private String name, description;
 	private Double value;

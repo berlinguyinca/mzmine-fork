@@ -33,8 +33,9 @@ import org.w3c.dom.NodeList;
  * 
  * 
  */
-public class HistogramRangeParameter implements
-		UserParameter<Range, HistogramRangeEditor> {
+public class HistogramRangeParameter
+		implements
+			UserParameter<Range, HistogramRangeEditor> {
 
 	private String name, description;
 	private HistogramDataType selectedType = HistogramDataType.MASS;
@@ -145,7 +146,7 @@ public class HistogramRangeParameter implements
 		if (value == null) {
 			errorMessages.add(name + " is not set");
 			return false;
-		}		
+		}
 		return true;
 	}
 }

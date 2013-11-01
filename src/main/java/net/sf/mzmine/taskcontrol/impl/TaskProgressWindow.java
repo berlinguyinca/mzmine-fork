@@ -42,8 +42,9 @@ import net.sf.mzmine.util.components.ComponentCellRenderer;
 /**
  * This class represents a window with a table of running tasks
  */
-public class TaskProgressWindow extends JInternalFrame implements
-		ActionListener {
+public class TaskProgressWindow extends JInternalFrame
+		implements
+			ActionListener {
 
 	private JTable taskTable;
 

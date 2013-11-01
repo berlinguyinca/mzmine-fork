@@ -45,263 +45,265 @@ import org.jfree.data.xy.IntervalXYDataset;
  * CategoryDataset is used if X axis is a raw data file or string parameter
  * XYDataset is used if X axis is a number parameter
  */
-class IntensityPlotDataset extends AbstractDataset implements
-	StatisticalCategoryDataset, IntervalXYDataset {
+class IntensityPlotDataset extends AbstractDataset
+		implements
+			StatisticalCategoryDataset,
+			IntervalXYDataset {
 
-    private Object xAxisValueSource;
-    private YAxisValueSource yAxisValueSource;
-    private Comparable<?> xValues[];
-    private RawDataFile selectedFiles[];
-    private PeakListRow selectedRows[];
+	private Object xAxisValueSource;
+	private YAxisValueSource yAxisValueSource;
+	private Comparable<?> xValues[];
+	private RawDataFile selectedFiles[];
+	private PeakListRow selectedRows[];
 
-    IntensityPlotDataset(ParameterSet parameters) {
+	IntensityPlotDataset(ParameterSet parameters) {
 
-	this.xAxisValueSource = parameters.getParameter(
-		IntensityPlotParameters.xAxisValueSource).getValue();
-	this.yAxisValueSource = parameters.getParameter(
-		IntensityPlotParameters.yAxisValueSource).getValue();
-	this.selectedFiles = parameters.getParameter(
-		IntensityPlotParameters.dataFiles).getValue();
+		this.xAxisValueSource = parameters.getParameter(
+				IntensityPlotParameters.xAxisValueSource).getValue();
+		this.yAxisValueSource = parameters.getParameter(
+				IntensityPlotParameters.yAxisValueSource).getValue();
+		this.selectedFiles = parameters.getParameter(
+				IntensityPlotParameters.dataFiles).getValue();
 
-	this.selectedRows = parameters.getParameter(
-		IntensityPlotParameters.selectedRows).getValue();
+		this.selectedRows = parameters.getParameter(
+				IntensityPlotParameters.selectedRows).getValue();
 
-	if (xAxisValueSource instanceof ParameterWrapper) {
-	    MZmineProject project = MZmineCore.getCurrentProject();
-	    UserParameter xAxisParameter = ((ParameterWrapper) xAxisValueSource)
-		    .getParameter();
-	    LinkedHashSet<Comparable> parameterValues = new LinkedHashSet<Comparable>();
-	    for (RawDataFile file : selectedFiles) {
-		Object value = project.getParameterValue(xAxisParameter, file);
-		parameterValues.add((Comparable<?>) value);
-	    }
-	    xValues = parameterValues.toArray(new Comparable[0]);
+		if (xAxisValueSource instanceof ParameterWrapper) {
+			MZmineProject project = MZmineCore.getCurrentProject();
+			UserParameter xAxisParameter = ((ParameterWrapper) xAxisValueSource)
+					.getParameter();
+			LinkedHashSet<Comparable> parameterValues = new LinkedHashSet<Comparable>();
+			for (RawDataFile file : selectedFiles) {
+				Object value = project.getParameterValue(xAxisParameter, file);
+				parameterValues.add((Comparable<?>) value);
+			}
+			xValues = parameterValues.toArray(new Comparable[0]);
 
-	    // if we have a numerical axis, we don't want the values to be
-	    // sorted by the data file order, but rather numerically
-	    if (xAxisParameter instanceof DoubleParameter) {
-		Arrays.sort(xValues);
-	    }
+			// if we have a numerical axis, we don't want the values to be
+			// sorted by the data file order, but rather numerically
+			if (xAxisParameter instanceof DoubleParameter) {
+				Arrays.sort(xValues);
+			}
+		}
+
+		if (xAxisValueSource == IntensityPlotParameters.rawDataFilesOption) {
+			xValues = new String[selectedFiles.length];
+			for (int i = 0; i < selectedFiles.length; i++)
+				xValues[i] = selectedFiles[i].getName();
+		}
 	}
 
-	if (xAxisValueSource == IntensityPlotParameters.rawDataFilesOption) {
-	    xValues = new String[selectedFiles.length];
-	    for (int i = 0; i < selectedFiles.length; i++)
-		xValues[i] = selectedFiles[i].getName();
+	ChromatographicPeak[] getPeaks(int row, int column) {
+		return getPeaks(xValues[column], selectedRows[row]);
 	}
-    }
 
-    ChromatographicPeak[] getPeaks(int row, int column) {
-	return getPeaks(xValues[column], selectedRows[row]);
-    }
-
-    ChromatographicPeak[] getPeaks(Comparable<?> xValue, PeakListRow row) {
-	RawDataFile files[] = getFiles(xValue);
-	ChromatographicPeak[] peaks = new ChromatographicPeak[files.length];
-	for (int i = 0; i < files.length; i++) {
-	    peaks[i] = row.getPeak(files[i]);
+	ChromatographicPeak[] getPeaks(Comparable<?> xValue, PeakListRow row) {
+		RawDataFile files[] = getFiles(xValue);
+		ChromatographicPeak[] peaks = new ChromatographicPeak[files.length];
+		for (int i = 0; i < files.length; i++) {
+			peaks[i] = row.getPeak(files[i]);
+		}
+		return peaks;
 	}
-	return peaks;
-    }
 
-    RawDataFile[] getFiles(int column) {
-	return getFiles(xValues[column]);
-    }
-
-    RawDataFile[] getFiles(Comparable<?> xValue) {
-	if (xAxisValueSource instanceof String) {
-	    RawDataFile columnFile = selectedFiles[getColumnIndex(xValue)];
-	    return new RawDataFile[] { columnFile };
+	RawDataFile[] getFiles(int column) {
+		return getFiles(xValues[column]);
 	}
-	if (xAxisValueSource instanceof ParameterWrapper) {
-	    HashSet<RawDataFile> files = new HashSet<RawDataFile>();
-	    UserParameter xAxisParameter = ((ParameterWrapper) xAxisValueSource)
-		    .getParameter();
-	    MZmineProject project = MZmineCore.getCurrentProject();
-	    for (RawDataFile file : selectedFiles) {
-		Object fileValue = project.getParameterValue(xAxisParameter,
-			file);
-		if (fileValue == null)
-		    continue;
-		if (fileValue.equals(xValue))
-		    files.add(file);
-	    }
-	    return files.toArray(new RawDataFile[0]);
+
+	RawDataFile[] getFiles(Comparable<?> xValue) {
+		if (xAxisValueSource instanceof String) {
+			RawDataFile columnFile = selectedFiles[getColumnIndex(xValue)];
+			return new RawDataFile[]{columnFile};
+		}
+		if (xAxisValueSource instanceof ParameterWrapper) {
+			HashSet<RawDataFile> files = new HashSet<RawDataFile>();
+			UserParameter xAxisParameter = ((ParameterWrapper) xAxisValueSource)
+					.getParameter();
+			MZmineProject project = MZmineCore.getCurrentProject();
+			for (RawDataFile file : selectedFiles) {
+				Object fileValue = project.getParameterValue(xAxisParameter,
+						file);
+				if (fileValue == null)
+					continue;
+				if (fileValue.equals(xValue))
+					files.add(file);
+			}
+			return files.toArray(new RawDataFile[0]);
+		}
+		return null;
 	}
-	return null;
-    }
 
-    public Number getMeanValue(int row, int column) {
-	ChromatographicPeak[] peaks = getPeaks(xValues[column],
-		selectedRows[row]);
-	HashSet<Double> values = new HashSet<Double>();
-	for (int i = 0; i < peaks.length; i++) {
-	    if (peaks[i] == null)
-		continue;
-	    if (yAxisValueSource == YAxisValueSource.HEIGHT)
-		values.add(peaks[i].getHeight());
-	    if (yAxisValueSource == YAxisValueSource.AREA)
-		values.add(peaks[i].getArea());
-	    if (yAxisValueSource == YAxisValueSource.RT)
-		values.add(peaks[i].getRT());
+	public Number getMeanValue(int row, int column) {
+		ChromatographicPeak[] peaks = getPeaks(xValues[column],
+				selectedRows[row]);
+		HashSet<Double> values = new HashSet<Double>();
+		for (int i = 0; i < peaks.length; i++) {
+			if (peaks[i] == null)
+				continue;
+			if (yAxisValueSource == YAxisValueSource.HEIGHT)
+				values.add(peaks[i].getHeight());
+			if (yAxisValueSource == YAxisValueSource.AREA)
+				values.add(peaks[i].getArea());
+			if (yAxisValueSource == YAxisValueSource.RT)
+				values.add(peaks[i].getRT());
+		}
+		double doubleValues[] = CollectionUtils.toDoubleArray(values);
+		if (doubleValues.length == 0)
+			return 0;
+		double mean = MathUtils.calcAvg(doubleValues);
+		return mean;
 	}
-	double doubleValues[] = CollectionUtils.toDoubleArray(values);
-	if (doubleValues.length == 0)
-	    return 0;
-	double mean = MathUtils.calcAvg(doubleValues);
-	return mean;
-    }
 
-    public Number getMeanValue(Comparable rowKey, Comparable columnKey) {
-	throw (new UnsupportedOperationException("Unsupported"));
-    }
-
-    public Number getStdDevValue(int row, int column) {
-	ChromatographicPeak[] peaks = getPeaks(xValues[column],
-		selectedRows[row]);
-
-	// if we have only 1 peak, there is no standard deviation
-	if (peaks.length == 1)
-	    return 0;
-
-	HashSet<Double> values = new HashSet<Double>();
-	for (int i = 0; i < peaks.length; i++) {
-	    if (peaks[i] == null)
-		continue;
-	    if (yAxisValueSource == YAxisValueSource.HEIGHT)
-		values.add(peaks[i].getHeight());
-	    if (yAxisValueSource == YAxisValueSource.AREA)
-		values.add(peaks[i].getArea());
-	    if (yAxisValueSource == YAxisValueSource.RT)
-		values.add(peaks[i].getRT());
+	public Number getMeanValue(Comparable rowKey, Comparable columnKey) {
+		throw (new UnsupportedOperationException("Unsupported"));
 	}
-	double doubleValues[] = CollectionUtils.toDoubleArray(values);
-	double std = MathUtils.calcStd(doubleValues);
-	return std;
-    }
 
-    public Number getStdDevValue(Comparable rowKey, Comparable columnKey) {
-	throw (new UnsupportedOperationException("Unsupported"));
-    }
+	public Number getStdDevValue(int row, int column) {
+		ChromatographicPeak[] peaks = getPeaks(xValues[column],
+				selectedRows[row]);
 
-    public int getColumnIndex(Comparable column) {
-	for (int i = 0; i < selectedFiles.length; i++) {
-	    if (selectedFiles[i].getName().equals(column))
-		return i;
+		// if we have only 1 peak, there is no standard deviation
+		if (peaks.length == 1)
+			return 0;
+
+		HashSet<Double> values = new HashSet<Double>();
+		for (int i = 0; i < peaks.length; i++) {
+			if (peaks[i] == null)
+				continue;
+			if (yAxisValueSource == YAxisValueSource.HEIGHT)
+				values.add(peaks[i].getHeight());
+			if (yAxisValueSource == YAxisValueSource.AREA)
+				values.add(peaks[i].getArea());
+			if (yAxisValueSource == YAxisValueSource.RT)
+				values.add(peaks[i].getRT());
+		}
+		double doubleValues[] = CollectionUtils.toDoubleArray(values);
+		double std = MathUtils.calcStd(doubleValues);
+		return std;
 	}
-	return -1;
-    }
 
-    public Comparable<?> getColumnKey(int column) {
-	return xValues[column];
-    }
-
-    public List getColumnKeys() {
-	return Arrays.asList(xValues);
-    }
-
-    public int getRowIndex(Comparable row) {
-	for (int i = 0; i < selectedRows.length; i++) {
-	    if (selectedRows[i].toString().equals(row))
-		return i;
+	public Number getStdDevValue(Comparable rowKey, Comparable columnKey) {
+		throw (new UnsupportedOperationException("Unsupported"));
 	}
-	return -1;
-    }
 
-    public Comparable<?> getRowKey(int row) {
-	return selectedRows[row].toString();
-    }
+	public int getColumnIndex(Comparable column) {
+		for (int i = 0; i < selectedFiles.length; i++) {
+			if (selectedFiles[i].getName().equals(column))
+				return i;
+		}
+		return -1;
+	}
 
-    public List getRowKeys() {
-	return Arrays.asList(selectedRows);
-    }
+	public Comparable<?> getColumnKey(int column) {
+		return xValues[column];
+	}
 
-    public Number getValue(Comparable rowKey, Comparable columnKey) {
-	return getMeanValue(rowKey, columnKey);
+	public List getColumnKeys() {
+		return Arrays.asList(xValues);
+	}
 
-    }
+	public int getRowIndex(Comparable row) {
+		for (int i = 0; i < selectedRows.length; i++) {
+			if (selectedRows[i].toString().equals(row))
+				return i;
+		}
+		return -1;
+	}
 
-    public int getColumnCount() {
-	return xValues.length;
-    }
+	public Comparable<?> getRowKey(int row) {
+		return selectedRows[row].toString();
+	}
 
-    public int getRowCount() {
-	return selectedRows.length;
-    }
+	public List getRowKeys() {
+		return Arrays.asList(selectedRows);
+	}
 
-    public Number getValue(int row, int column) {
-	return getMeanValue(row, column);
-    }
+	public Number getValue(Comparable rowKey, Comparable columnKey) {
+		return getMeanValue(rowKey, columnKey);
 
-    public Number getEndX(int row, int column) {
-	return getEndXValue(row, column);
-    }
+	}
 
-    public double getEndXValue(int row, int column) {
-	return ((Number) xValues[column]).doubleValue();
+	public int getColumnCount() {
+		return xValues.length;
+	}
 
-    }
+	public int getRowCount() {
+		return selectedRows.length;
+	}
 
-    public Number getEndY(int row, int column) {
-	return getEndYValue(row, column);
-    }
+	public Number getValue(int row, int column) {
+		return getMeanValue(row, column);
+	}
 
-    public double getEndYValue(int row, int column) {
-	return getMeanValue(row, column).doubleValue()
-		+ getStdDevValue(row, column).doubleValue();
-    }
+	public Number getEndX(int row, int column) {
+		return getEndXValue(row, column);
+	}
 
-    public Number getStartX(int row, int column) {
-	return getEndXValue(row, column);
-    }
+	public double getEndXValue(int row, int column) {
+		return ((Number) xValues[column]).doubleValue();
 
-    public double getStartXValue(int row, int column) {
-	return getEndXValue(row, column);
-    }
+	}
 
-    public Number getStartY(int row, int column) {
-	return getStartYValue(row, column);
-    }
+	public Number getEndY(int row, int column) {
+		return getEndYValue(row, column);
+	}
 
-    public double getStartYValue(int row, int column) {
-	return getMeanValue(row, column).doubleValue()
-		- getStdDevValue(row, column).doubleValue();
-    }
+	public double getEndYValue(int row, int column) {
+		return getMeanValue(row, column).doubleValue()
+				+ getStdDevValue(row, column).doubleValue();
+	}
 
-    public DomainOrder getDomainOrder() {
-	return DomainOrder.ASCENDING;
-    }
+	public Number getStartX(int row, int column) {
+		return getEndXValue(row, column);
+	}
 
-    public int getItemCount(int series) {
-	return xValues.length;
-    }
+	public double getStartXValue(int row, int column) {
+		return getEndXValue(row, column);
+	}
 
-    public Number getX(int series, int item) {
-	return getStartX(series, item);
-    }
+	public Number getStartY(int row, int column) {
+		return getStartYValue(row, column);
+	}
 
-    public double getXValue(int series, int item) {
-	return getStartX(series, item).doubleValue();
-    }
+	public double getStartYValue(int row, int column) {
+		return getMeanValue(row, column).doubleValue()
+				- getStdDevValue(row, column).doubleValue();
+	}
 
-    public Number getY(int series, int item) {
-	return getMeanValue(series, item);
-    }
+	public DomainOrder getDomainOrder() {
+		return DomainOrder.ASCENDING;
+	}
 
-    public double getYValue(int series, int item) {
-	return getMeanValue(series, item).doubleValue();
-    }
+	public int getItemCount(int series) {
+		return xValues.length;
+	}
 
-    public int getSeriesCount() {
-	return selectedRows.length;
-    }
+	public Number getX(int series, int item) {
+		return getStartX(series, item);
+	}
 
-    public Comparable<?> getSeriesKey(int series) {
-	return getRowKey(series);
-    }
+	public double getXValue(int series, int item) {
+		return getStartX(series, item).doubleValue();
+	}
 
-    public int indexOf(Comparable value) {
-	return getRowIndex(value);
-    }
+	public Number getY(int series, int item) {
+		return getMeanValue(series, item);
+	}
+
+	public double getYValue(int series, int item) {
+		return getMeanValue(series, item).doubleValue();
+	}
+
+	public int getSeriesCount() {
+		return selectedRows.length;
+	}
+
+	public Comparable<?> getSeriesKey(int series) {
+		return getRowKey(series);
+	}
+
+	public int indexOf(Comparable value) {
+		return getRowIndex(value);
+	}
 
 }

@@ -42,7 +42,7 @@ public class ProjectionPlotPanel extends ChartPanel {
 	private static final Font titleFont = new Font("SansSerif", Font.PLAIN, 11);
 
 	private static final float dataPointAlpha = 0.8f;
-	
+
 	private JFreeChart chart;
 	private XYPlot plot;
 
@@ -58,11 +58,10 @@ public class ProjectionPlotPanel extends ChartPanel {
 				&& (dataset.getNumberOfGroups() < 20))
 			createLegend = true;
 
-		chart = ChartFactory.createXYAreaChart("", dataset.getXLabel(), dataset
-				.getYLabel(), dataset, PlotOrientation.VERTICAL, createLegend,
-				false, false);
+		chart = ChartFactory.createXYAreaChart("", dataset.getXLabel(),
+				dataset.getYLabel(), dataset, PlotOrientation.VERTICAL,
+				createLegend, false, false);
 		chart.setBackgroundPaint(Color.white);
-		
 
 		setChart(chart);
 
@@ -89,9 +88,9 @@ public class ProjectionPlotPanel extends ChartPanel {
 		// set crosshair (selection) properties
 		plot.setDomainCrosshairVisible(false);
 		plot.setRangeCrosshairVisible(false);
-		
+
 		plot.setForegroundAlpha(dataPointAlpha);
-		
+
 		NumberFormat numberFormat = NumberFormat.getNumberInstance();
 
 		// set the X axis (component 1) properties
@@ -124,19 +123,20 @@ public class ProjectionPlotPanel extends ChartPanel {
 					String fileNames = new String();
 					for (int itemNumber = 0; itemNumber < dataset
 							.getItemCount(0); itemNumber++) {
-						String rawDataFile = dataset
-								.getRawDataFile(itemNumber);
+						String rawDataFile = dataset.getRawDataFile(itemNumber);
 						if (dataset.getGroupNumber(itemNumber) == groupNumber)
-							fileNames = fileNames
-									.concat(rawDataFile);
+							fileNames = fileNames.concat(rawDataFile);
 					}
 					if (fileNames.length() == 0)
 						fileNames = "Empty group";
 
 					paramValue = fileNames;
 				}
-				Color nextColor = (Color)spotRenderer.getGroupPaint(groupNumber);
-				Color groupColor = new Color(nextColor.getRed(), nextColor.getGreen(), nextColor.getBlue(), (int)Math.round(255*dataPointAlpha));
+				Color nextColor = (Color) spotRenderer
+						.getGroupPaint(groupNumber);
+				Color groupColor = new Color(nextColor.getRed(),
+						nextColor.getGreen(), nextColor.getBlue(),
+						(int) Math.round(255 * dataPointAlpha));
 				legendItemsCollection.add(new LegendItem(paramValue.toString(),
 						"-", null, null, spotRenderer.getDataPointsShape(),
 						groupColor));

@@ -51,7 +51,7 @@ public class ScatterPlotRenderer extends XYLineAndShapeRenderer {
 
 	public static final AlphaComposite pointAlpha = AlphaComposite.getInstance(
 			AlphaComposite.SRC_OVER, 0.6f);
-	
+
 	public static final AlphaComposite selectionAlpha = AlphaComposite
 			.getInstance(AlphaComposite.SRC_OVER, 0.9f);
 
@@ -135,8 +135,8 @@ public class ScatterPlotRenderer extends XYLineAndShapeRenderer {
 		}
 
 		// work out the label anchor point...
-		Point2D anchorPoint = calculateLabelAnchorPoint(position
-				.getItemLabelAnchor(), x, y, orientation);
+		Point2D anchorPoint = calculateLabelAnchorPoint(
+				position.getItemLabelAnchor(), x, y, orientation);
 
 		FontMetrics metrics = g2.getFontMetrics(labelFont);
 		int width = SwingUtilities.computeStringWidth(metrics, label) + 2;

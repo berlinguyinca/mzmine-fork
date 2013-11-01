@@ -105,7 +105,8 @@ public class StorableScan implements Scan {
 	/**
 	 * @return Scan's datapoints from temporary file.
 	 */
-	public @Nonnull DataPoint[] getDataPoints() {
+	public @Nonnull
+	DataPoint[] getDataPoints() {
 
 		try {
 			DataPoint result[] = rawDataFile.readDataPoints(storageID);
@@ -121,7 +122,8 @@ public class StorableScan implements Scan {
 	/**
 	 * @return Returns scan datapoints within a given range
 	 */
-	public @Nonnull DataPoint[] getDataPointsByMass(@Nonnull Range mzRange) {
+	public @Nonnull
+	DataPoint[] getDataPointsByMass(@Nonnull Range mzRange) {
 
 		DataPoint dataPoints[] = getDataPoints();
 
@@ -150,7 +152,8 @@ public class StorableScan implements Scan {
 	/**
 	 * @return Returns scan datapoints over certain intensity
 	 */
-	public @Nonnull DataPoint[] getDataPointsOverIntensity(double intensity) {
+	public @Nonnull
+	DataPoint[] getDataPointsOverIntensity(double intensity) {
 		int index;
 		Vector<DataPoint> points = new Vector<DataPoint>();
 		DataPoint dataPoints[] = getDataPoints();
@@ -166,10 +169,11 @@ public class StorableScan implements Scan {
 		return pointsOverIntensity;
 	}
 
-	public @Nonnull RawDataFile getDataFile() {
+	public @Nonnull
+	RawDataFile getDataFile() {
 		return rawDataFile;
 	}
-	
+
 	public int getStorageID() {
 		return storageID;
 	}
@@ -248,7 +252,8 @@ public class StorableScan implements Scan {
 	/**
 	 * @see net.sf.mzmine.data.Scan#getMZRangeMax()
 	 */
-	public @Nonnull Range getMZRange() {
+	public @Nonnull
+	Range getMZRange() {
 		if (mzRange == null)
 			updateValues();
 		return mzRange;
@@ -305,7 +310,7 @@ public class StorableScan implements Scan {
 			updateValues();
 		return totalIonCurrent;
 	}
-	
+
 	@Override
 	public String toString() {
 		return ScanUtils.scanToString(this);
@@ -400,7 +405,8 @@ public class StorableScan implements Scan {
 	}
 
 	@Override
-	public @Nonnull MassList[] getMassLists() {
+	public @Nonnull
+	MassList[] getMassLists() {
 		return massLists.toArray(new MassList[0]);
 	}
 

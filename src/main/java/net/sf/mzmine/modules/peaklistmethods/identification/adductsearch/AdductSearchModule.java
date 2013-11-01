@@ -32,45 +32,49 @@ import net.sf.mzmine.util.ExitCode;
 
 public class AdductSearchModule implements MZmineProcessingModule {
 
-    private static final String NAME = "Adduct search";
+	private static final String NAME = "Adduct search";
 
-    private static final String DESCRIPTION =
-            "This method searches for adduct peaks that appear at the same retention time as other peaks and have a defined mass difference.";
+	private static final String DESCRIPTION = "This method searches for adduct peaks that appear at the same retention time as other peaks and have a defined mass difference.";
 
-    @Override
-    public @Nonnull String getName() {
+	@Override
+	public @Nonnull
+	String getName() {
 
-        return NAME;
-    }
+		return NAME;
+	}
 
-    @Override
-    public @Nonnull String getDescription() {
+	@Override
+	public @Nonnull
+	String getDescription() {
 
-        return DESCRIPTION;
-    }
+		return DESCRIPTION;
+	}
 
-    @Override
-    public @Nonnull MZmineModuleCategory getModuleCategory() {
+	@Override
+	public @Nonnull
+	MZmineModuleCategory getModuleCategory() {
 
-        return MZmineModuleCategory.IDENTIFICATION;
-    }
+		return MZmineModuleCategory.IDENTIFICATION;
+	}
 
-    @Override
-    public @Nonnull Class<? extends ParameterSet> getParameterSetClass() {
+	@Override
+	public @Nonnull
+	Class<? extends ParameterSet> getParameterSetClass() {
 
-        return AdductSearchParameters.class;
-    }
+		return AdductSearchParameters.class;
+	}
 
-    @Override
-    @Nonnull
-    public ExitCode runModule(@Nonnull final ParameterSet parameters,
-                              @Nonnull final Collection<Task> tasks) {
+	@Override
+	@Nonnull
+	public ExitCode runModule(@Nonnull final ParameterSet parameters,
+			@Nonnull final Collection<Task> tasks) {
 
-        for (final PeakList peakList : parameters.getParameter(AdductSearchParameters.PEAK_LISTS).getValue()) {
+		for (final PeakList peakList : parameters.getParameter(
+				AdductSearchParameters.PEAK_LISTS).getValue()) {
 
-            tasks.add(new AdductSearchTask(parameters, peakList));
-        }
+			tasks.add(new AdductSearchTask(parameters, peakList));
+		}
 
-        return ExitCode.OK;
-    }
+		return ExitCode.OK;
+	}
 }

@@ -32,8 +32,8 @@ import net.sf.mzmine.parameters.parametertypes.StringParameter;
 
 public class ScanFiltersParameters extends SimpleParameterSet {
 
-	public static final ScanFilter rawDataFilters[] = { new SGFilter(),
-			new MeanFilter(), new CropFilter(), new ResampleFilter() };
+	public static final ScanFilter rawDataFilters[] = {new SGFilter(),
+			new MeanFilter(), new CropFilter(), new ResampleFilter()};
 
 	public static final RawDataFilesParameter dataFiles = new RawDataFilesParameter();
 
@@ -48,7 +48,7 @@ public class ScanFiltersParameters extends SimpleParameterSet {
 			"If checked, original file will be removed and only filtered version remains");
 
 	public ScanFiltersParameters() {
-		super(new Parameter[] { dataFiles, suffix, filter, autoRemove });
+		super(new Parameter[]{dataFiles, suffix, filter, autoRemove});
 	}
 
 }

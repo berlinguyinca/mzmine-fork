@@ -21,7 +21,6 @@ package net.sf.mzmine.modules.peaklistmethods.dataanalysis.projectionplots;
 
 import net.sf.mzmine.parameters.UserParameter;
 
-
 public class ColoringType {
 
 	public static final ColoringType NOCOLORING = new ColoringType(
@@ -55,7 +54,7 @@ public class ColoringType {
 			return false;
 		return name.equals(((ColoringType) obj).name);
 	}
-	
+
 	public String toString() {
 		return name;
 	}

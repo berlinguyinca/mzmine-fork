@@ -34,8 +34,9 @@ import org.w3c.dom.Element;
  * 
  * 
  */
-public class ColoringTypeParameter implements
-		UserParameter<ColoringType, JComboBox> {
+public class ColoringTypeParameter
+		implements
+			UserParameter<ColoringType, JComboBox> {
 
 	private String name, description;
 	private ColoringType value;

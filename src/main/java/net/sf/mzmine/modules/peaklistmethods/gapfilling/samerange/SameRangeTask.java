@@ -60,11 +60,12 @@ class SameRangeTask extends AbstractTask {
 		this.peakList = peakList;
 		this.parameters = parameters;
 
-		suffix = parameters.getParameter(SameRangeGapFillerParameters.suffix).getValue();
-		mzTolerance = parameters.getParameter(SameRangeGapFillerParameters.mzTolerance)
+		suffix = parameters.getParameter(SameRangeGapFillerParameters.suffix)
 				.getValue();
-		removeOriginal = parameters
-				.getParameter(SameRangeGapFillerParameters.autoRemove).getValue();
+		mzTolerance = parameters.getParameter(
+				SameRangeGapFillerParameters.mzTolerance).getValue();
+		removeOriginal = parameters.getParameter(
+				SameRangeGapFillerParameters.autoRemove).getValue();
 
 	}
 
@@ -223,7 +224,7 @@ class SameRangeTask extends AbstractTask {
 	}
 
 	public Object[] getCreatedObjects() {
-		return new Object[] { processedPeakList };
+		return new Object[]{processedPeakList};
 	}
 
 }

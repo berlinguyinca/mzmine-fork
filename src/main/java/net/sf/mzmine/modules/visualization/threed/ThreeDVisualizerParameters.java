@@ -32,24 +32,24 @@ import net.sf.mzmine.parameters.parametertypes.RawDataFilesParameter;
  */
 public class ThreeDVisualizerParameters extends SimpleParameterSet {
 
-    public static final RawDataFilesParameter dataFiles = new RawDataFilesParameter();
+	public static final RawDataFilesParameter dataFiles = new RawDataFilesParameter();
 
-    public static final MSLevelParameter msLevel = new MSLevelParameter();
+	public static final MSLevelParameter msLevel = new MSLevelParameter();
 
-    public static final RTRangeParameter retentionTimeRange = new RTRangeParameter();
+	public static final RTRangeParameter retentionTimeRange = new RTRangeParameter();
 
-    public static final IntegerParameter rtResolution = new IntegerParameter(
-	    "Retention time resolution",
-	    "Number of data points on retention time axis", 500);
+	public static final IntegerParameter rtResolution = new IntegerParameter(
+			"Retention time resolution",
+			"Number of data points on retention time axis", 500);
 
-    public static final MZRangeParameter mzRange = new MZRangeParameter();
+	public static final MZRangeParameter mzRange = new MZRangeParameter();
 
-    public static final IntegerParameter mzResolution = new IntegerParameter(
-	    "m/z resolution", "Number of data points on m/z axis", 500);
+	public static final IntegerParameter mzResolution = new IntegerParameter(
+			"m/z resolution", "Number of data points on m/z axis", 500);
 
-    public ThreeDVisualizerParameters() {
-	super(new Parameter[] { dataFiles, msLevel, retentionTimeRange,
-		rtResolution, mzRange, mzResolution });
-    }
+	public ThreeDVisualizerParameters() {
+		super(new Parameter[]{dataFiles, msLevel, retentionTimeRange,
+				rtResolution, mzRange, mzResolution});
+	}
 
 }

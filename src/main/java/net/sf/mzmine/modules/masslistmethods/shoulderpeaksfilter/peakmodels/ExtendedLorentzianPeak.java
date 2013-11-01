@@ -32,70 +32,70 @@ import net.sf.mzmine.util.Range;
  */
 public class ExtendedLorentzianPeak implements PeakModel {
 
-    /**
-     * This constant defines at what percentage of the intensity we set as the
-     * border between the main and the broad (shoulder) peak models. Default is
-     * 5%.
-     */
-    public static final double shoulderIntensityRatio = 0.05;
+	/**
+	 * This constant defines at what percentage of the intensity we set as the
+	 * border between the main and the broad (shoulder) peak models. Default is
+	 * 5%.
+	 */
+	public static final double shoulderIntensityRatio = 0.05;
 
-    /**
-     * This constant defines what percentage of the resolution shall we use to
-     * build the broad (shoulder) peak model. Default is 5%.
-     */
-    public static final double shoulderResolutionRatio = 0.05;
+	/**
+	 * This constant defines what percentage of the resolution shall we use to
+	 * build the broad (shoulder) peak model. Default is 5%.
+	 */
+	public static final double shoulderResolutionRatio = 0.05;
 
-    private LorentzianPeak mainPeak, shoulderPeak;
-    private Range mainPeakRange;
-    private double shoulderIntensity;
+	private LorentzianPeak mainPeak, shoulderPeak;
+	private Range mainPeakRange;
+	private double shoulderIntensity;
 
-    public ExtendedLorentzianPeak() {
-        mainPeak = new LorentzianPeak();
-        shoulderPeak = new LorentzianPeak();
-    }
+	public ExtendedLorentzianPeak() {
+		mainPeak = new LorentzianPeak();
+		shoulderPeak = new LorentzianPeak();
+	}
 
-    /**
-     * @see net.sf.mzmine.modules.peakpicking.twostep.massdetection.exactmass.peakmodel.PeakModel#setParameters(double,
-     *      double, double)
-     */
-    public void setParameters(double mzMain, double intensityMain,
-            double resolution) {
+	/**
+	 * @see net.sf.mzmine.modules.peakpicking.twostep.massdetection.exactmass.peakmodel.PeakModel#setParameters(double,
+	 *      double, double)
+	 */
+	public void setParameters(double mzMain, double intensityMain,
+			double resolution) {
 
-        mainPeak.setParameters(mzMain, intensityMain, resolution);
-        shoulderPeak.setParameters(mzMain, intensityMain
-                * shoulderIntensityRatio, resolution * shoulderResolutionRatio);
+		mainPeak.setParameters(mzMain, intensityMain, resolution);
+		shoulderPeak.setParameters(mzMain, intensityMain
+				* shoulderIntensityRatio, resolution * shoulderResolutionRatio);
 
-        this.shoulderIntensity = intensityMain * shoulderIntensityRatio;
-        this.mainPeakRange = mainPeak.getWidth(shoulderIntensity);
+		this.shoulderIntensity = intensityMain * shoulderIntensityRatio;
+		this.mainPeakRange = mainPeak.getWidth(shoulderIntensity);
 
-    }
+	}
 
-    /**
-     * @see net.sf.mzmine.modules.peakpicking.twostep.peakmodel.PeakModel#getBasePeakWidth()
-     */
-    public Range getWidth(double partialIntensity) {
+	/**
+	 * @see net.sf.mzmine.modules.peakpicking.twostep.peakmodel.PeakModel#getBasePeakWidth()
+	 */
+	public Range getWidth(double partialIntensity) {
 
-        // The height value must be bigger than zero.
-        if (partialIntensity <= 0)
-            return new Range(0, Double.MAX_VALUE);
+		// The height value must be bigger than zero.
+		if (partialIntensity <= 0)
+			return new Range(0, Double.MAX_VALUE);
 
-        if (partialIntensity < shoulderIntensity)
-            return shoulderPeak.getWidth(partialIntensity);
-        else
-            return mainPeak.getWidth(partialIntensity);
+		if (partialIntensity < shoulderIntensity)
+			return shoulderPeak.getWidth(partialIntensity);
+		else
+			return mainPeak.getWidth(partialIntensity);
 
-    }
+	}
 
-    /**
-     * @see net.sf.mzmine.modules.peakpicking.twostep.peakmodel.PeakModel#getIntensity(double)
-     */
-    public double getIntensity(double mz) {
+	/**
+	 * @see net.sf.mzmine.modules.peakpicking.twostep.peakmodel.PeakModel#getIntensity(double)
+	 */
+	public double getIntensity(double mz) {
 
-        if (mainPeakRange.contains(mz))
-            return mainPeak.getIntensity(mz);
-        else
-            return shoulderPeak.getIntensity(mz);
+		if (mainPeakRange.contains(mz))
+			return mainPeak.getIntensity(mz);
+		else
+			return shoulderPeak.getIntensity(mz);
 
-    }
+	}
 
 }

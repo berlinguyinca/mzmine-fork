@@ -56,8 +56,7 @@ class LinearNormalizerTask extends AbstractTask {
 	private boolean removeOriginal;
 	private ParameterSet parameters;
 
-	public LinearNormalizerTask(PeakList peakList,
-			ParameterSet parameters) {
+	public LinearNormalizerTask(PeakList peakList, ParameterSet parameters) {
 
 		this.originalPeakList = peakList;
 		this.parameters = parameters;
@@ -273,7 +272,7 @@ class LinearNormalizerTask extends AbstractTask {
 	}
 
 	public Object[] getCreatedObjects() {
-		return new Object[] { normalizedPeakList };
+		return new Object[]{normalizedPeakList};
 	}
 
 }

@@ -25,8 +25,9 @@ import net.sf.mzmine.parameters.UserParameter;
 
 import org.w3c.dom.Element;
 
-
-public class MassListParameter implements UserParameter<String, MassListComponent> {
+public class MassListParameter
+		implements
+			UserParameter<String, MassListComponent> {
 
 	private String name, description, value;
 
@@ -93,7 +94,7 @@ public class MassListParameter implements UserParameter<String, MassListComponen
 			return;
 		xmlElement.setTextContent(value);
 	}
-	
+
 	@Override
 	public boolean checkValue(Collection<String> errorMessages) {
 		if ((value == null) || (value.trim().length() == 0)) {

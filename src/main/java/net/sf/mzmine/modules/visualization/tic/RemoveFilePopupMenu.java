@@ -33,60 +33,59 @@ import net.sf.mzmine.data.RawDataFile;
 /**
  * 
  */
-class RemoveFilePopupMenu extends JMenu implements MenuListener,
-        ActionListener {
+class RemoveFilePopupMenu extends JMenu implements MenuListener, ActionListener {
 
-    private Hashtable<JMenuItem, RawDataFile> menuItemFiles;
-    private TICVisualizerWindow visualizer;
+	private Hashtable<JMenuItem, RawDataFile> menuItemFiles;
+	private TICVisualizerWindow visualizer;
 
-    RemoveFilePopupMenu(TICVisualizerWindow visualizer) {
-        super("Remove plot of file...");
-        addMenuListener(this);
-        this.visualizer = visualizer;
-    }
+	RemoveFilePopupMenu(TICVisualizerWindow visualizer) {
+		super("Remove plot of file...");
+		addMenuListener(this);
+		this.visualizer = visualizer;
+	}
 
-    /**
-     * @see javax.swing.event.MenuListener#menuSelected(javax.swing.event.MenuEvent)
-     */
-    public void menuSelected(MenuEvent event) {
-        removeAll();
-        RawDataFile[] files = visualizer.getRawDataFiles();
+	/**
+	 * @see javax.swing.event.MenuListener#menuSelected(javax.swing.event.MenuEvent)
+	 */
+	public void menuSelected(MenuEvent event) {
+		removeAll();
+		RawDataFile[] files = visualizer.getRawDataFiles();
 
-        // if we have only one file, we cannot remove it
-        if (files.length == 1)
-            return;
+		// if we have only one file, we cannot remove it
+		if (files.length == 1)
+			return;
 
-        menuItemFiles = new Hashtable<JMenuItem, RawDataFile>();
-        for (RawDataFile file : files) {
-            JMenuItem newItem = new JMenuItem(file.getName());
-            newItem.addActionListener(this);
-            menuItemFiles.put(newItem, file);
-            add(newItem);
-        }
+		menuItemFiles = new Hashtable<JMenuItem, RawDataFile>();
+		for (RawDataFile file : files) {
+			JMenuItem newItem = new JMenuItem(file.getName());
+			newItem.addActionListener(this);
+			menuItemFiles.put(newItem, file);
+			add(newItem);
+		}
 
-    }
+	}
 
-    /**
-     * @see javax.swing.event.MenuListener#menuDeselected(javax.swing.event.MenuEvent)
-     */
-    public void menuDeselected(MenuEvent arg0) {
-        // do nothing
-    }
+	/**
+	 * @see javax.swing.event.MenuListener#menuDeselected(javax.swing.event.MenuEvent)
+	 */
+	public void menuDeselected(MenuEvent arg0) {
+		// do nothing
+	}
 
-    /**
-     * @see javax.swing.event.MenuListener#menuCanceled(javax.swing.event.MenuEvent)
-     */
-    public void menuCanceled(MenuEvent arg0) {
-        // do nothing
-    }
+	/**
+	 * @see javax.swing.event.MenuListener#menuCanceled(javax.swing.event.MenuEvent)
+	 */
+	public void menuCanceled(MenuEvent arg0) {
+		// do nothing
+	}
 
-    /**
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent event) {
-        Object src = event.getSource();
-        RawDataFile file = menuItemFiles.get(src);
-        if (file != null)
-            visualizer.removeRawDataFile(file);
-    }
+	/**
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent event) {
+		Object src = event.getSource();
+		RawDataFile file = menuItemFiles.get(src);
+		if (file != null)
+			visualizer.removeRawDataFile(file);
+	}
 }

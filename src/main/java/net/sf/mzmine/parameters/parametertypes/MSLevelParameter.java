@@ -27,7 +27,7 @@ public class MSLevelParameter extends ComboParameter<Integer> {
 	public MSLevelParameter() {
 		super("MS level",
 				"MS level 1 means full scans, MS level 2 means MS/MS, etc.",
-				new Integer[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }, 1);
+				new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 1);
 	}
 
 	@Override

@@ -28,8 +28,9 @@ import org.jfree.data.xy.IntervalXYDataset;
 /**
  * Data set for isotope pattern
  */
-public class IsotopesDataSet extends AbstractXYDataset implements
-		IntervalXYDataset {
+public class IsotopesDataSet extends AbstractXYDataset
+		implements
+			IntervalXYDataset {
 
 	private IsotopePattern isotopePattern;
 	private DataPoint[] dataPoints;

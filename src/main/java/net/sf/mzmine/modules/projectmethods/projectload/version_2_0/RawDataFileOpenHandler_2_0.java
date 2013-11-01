@@ -44,8 +44,9 @@ import org.xml.sax.helpers.DefaultHandler;
 import de.schlichtherle.truezip.zip.ZipEntry;
 import de.schlichtherle.truezip.zip.ZipFile;
 
-public class RawDataFileOpenHandler_2_0 extends DefaultHandler implements
-		RawDataFileOpenHandler {
+public class RawDataFileOpenHandler_2_0 extends DefaultHandler
+		implements
+			RawDataFileOpenHandler {
 
 	private Logger logger = Logger.getLogger(this.getClass().getName());
 
@@ -130,15 +131,16 @@ public class RawDataFileOpenHandler_2_0 extends DefaultHandler implements
 	public double getProgress() {
 
 		switch (stepNumber) {
-		case 1:
-			// We can estimate that copying the scan file takes ~75% of the time
-			return copyMachine.getProgress() * 0.75;
-		case 2:
-			if (numberOfScans == 0)
-				return 0;
-			return ((double) parsedScans / numberOfScans) * 0.25 + 0.75;
-		default:
-			return 0.0;
+			case 1 :
+				// We can estimate that copying the scan file takes ~75% of the
+				// time
+				return copyMachine.getProgress() * 0.75;
+			case 2 :
+				if (numberOfScans == 0)
+					return 0;
+				return ((double) parsedScans / numberOfScans) * 0.25 + 0.75;
+			default :
+				return 0.0;
 		}
 	}
 
@@ -217,7 +219,8 @@ public class RawDataFileOpenHandler_2_0 extends DefaultHandler implements
 
 		if (qName
 				.equals(RawDataElementName_2_0.RETENTION_TIME.getElementName())) {
-			// Before MZmine 2.6 retention time was saved in seconds, but now we use
+			// Before MZmine 2.6 retention time was saved in seconds, but now we
+			// use
 			// minutes, so we need to divide by 60
 			retentionTime = Double.parseDouble(getTextOfElement()) / 60d;
 		}

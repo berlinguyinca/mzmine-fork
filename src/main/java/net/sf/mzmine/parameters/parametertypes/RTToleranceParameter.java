@@ -25,8 +25,9 @@ import net.sf.mzmine.parameters.UserParameter;
 
 import org.w3c.dom.Element;
 
-public class RTToleranceParameter implements
-		UserParameter<RTTolerance, RTToleranceComponent> {
+public class RTToleranceParameter
+		implements
+			UserParameter<RTTolerance, RTToleranceComponent> {
 
 	private String name, description;
 	private RTTolerance value;

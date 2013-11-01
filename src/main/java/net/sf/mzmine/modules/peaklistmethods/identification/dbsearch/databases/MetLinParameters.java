@@ -33,16 +33,16 @@ import net.sf.mzmine.parameters.parametertypes.StringParameter;
  */
 public class MetLinParameters extends SimpleParameterSet {
 
-    /**
-     * Search API security token.
-     */
-    public static final StringParameter SECURITY_TOKEN = new StringParameter(
-	    "METLIN security token", "Token for access to the METLIN gateway");
+	/**
+	 * Search API security token.
+	 */
+	public static final StringParameter SECURITY_TOKEN = new StringParameter(
+			"METLIN security token", "Token for access to the METLIN gateway");
 
-    /**
-     * Create the parameter set.
-     */
-    public MetLinParameters() {
-	super(new Parameter[] { SECURITY_TOKEN });
-    }
+	/**
+	 * Create the parameter set.
+	 */
+	public MetLinParameters() {
+		super(new Parameter[]{SECURITY_TOKEN});
+	}
 }

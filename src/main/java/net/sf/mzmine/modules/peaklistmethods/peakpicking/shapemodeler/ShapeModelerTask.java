@@ -185,7 +185,7 @@ class ShapeModelerTask extends AbstractTask {
 	}
 
 	public Object[] getCreatedObjects() {
-		return new Object[] { newPeakList };
+		return new Object[]{newPeakList};
 	}
 
 }

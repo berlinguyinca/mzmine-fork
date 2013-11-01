@@ -33,14 +33,14 @@ class ProjectTreeTransferable implements Transferable {
 
 	public static final DataFlavor transerFlavor = new DataFlavor(
 			TreePath[].class, "TreePath[]");
-	
+
 	public Object getTransferData(DataFlavor flavor)
 			throws UnsupportedFlavorException, IOException {
 		return null;
 	}
 
 	public DataFlavor[] getTransferDataFlavors() {
-		return new DataFlavor[] { transerFlavor };
+		return new DataFlavor[]{transerFlavor};
 	}
 
 	public boolean isDataFlavorSupported(DataFlavor flavor) {

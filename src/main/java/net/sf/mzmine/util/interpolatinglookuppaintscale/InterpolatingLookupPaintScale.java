@@ -29,8 +29,11 @@ import java.util.Map.Entry;
 import org.jfree.chart.renderer.PaintScale;
 import org.jfree.util.PublicCloneable;
 
-public class InterpolatingLookupPaintScale implements PaintScale,
-		PublicCloneable, Serializable {
+public class InterpolatingLookupPaintScale
+		implements
+			PaintScale,
+			PublicCloneable,
+			Serializable {
 
 	private class CompatibleEntry implements Map.Entry<Double, Color> {
 
@@ -105,7 +108,6 @@ public class InterpolatingLookupPaintScale implements PaintScale,
 		Entry<Double, Color> floor = lookupTable.floorEntry(value);
 		Entry<Double, Color> ceil = lookupTable.ceilingEntry(value);
 
-		
 		// Special cases, no floor, ceil or both available for given value
 		if ((floor == null) && (ceil == null))
 			getDefaultPaint();

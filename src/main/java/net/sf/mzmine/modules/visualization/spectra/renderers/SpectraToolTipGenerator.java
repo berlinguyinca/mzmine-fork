@@ -39,7 +39,8 @@ import org.jfree.data.xy.XYDataset;
 class SpectraToolTipGenerator implements XYToolTipGenerator {
 
 	private NumberFormat mzFormat = MZmineCore.getConfiguration().getMZFormat();
-	private NumberFormat intensityFormat = MZmineCore.getConfiguration().getIntensityFormat();
+	private NumberFormat intensityFormat = MZmineCore.getConfiguration()
+			.getIntensityFormat();
 	private NumberFormat percentFormat = new DecimalFormat("0.00");
 
 	/**

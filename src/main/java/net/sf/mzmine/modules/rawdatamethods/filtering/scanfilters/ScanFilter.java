@@ -25,9 +25,9 @@ import net.sf.mzmine.parameters.ParameterSet;
 
 public interface ScanFilter extends MZmineModule {
 
-    /**
-     * Returns a modified scan after being processed by the filter
-     */
-    public Scan filterScan(Scan scan, ParameterSet parameters);
+	/**
+	 * Returns a modified scan after being processed by the filter
+	 */
+	public Scan filterScan(Scan scan, ParameterSet parameters);
 
 }

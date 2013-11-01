@@ -356,7 +356,7 @@ class IsotopeGrouperTask extends AbstractTask {
 			if (!goodCandidates.isEmpty()) {
 
 				fittedPeaks.addAll(goodCandidates);
-				
+
 				// n:th peak was found, so let's move on to n+1
 				n++;
 				followingPeakFound = true;
@@ -367,7 +367,7 @@ class IsotopeGrouperTask extends AbstractTask {
 	}
 
 	public Object[] getCreatedObjects() {
-		return new Object[] { deisotopedPeakList };
+		return new Object[]{deisotopedPeakList};
 	}
 
 }

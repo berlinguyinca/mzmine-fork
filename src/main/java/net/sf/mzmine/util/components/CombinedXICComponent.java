@@ -36,120 +36,123 @@ import net.sf.mzmine.util.Range;
 /**
  * Simple lightweight component for plotting peak shape
  */
-public class CombinedXICComponent extends JComponent{
+public class CombinedXICComponent extends JComponent {
 
-    public static final Border componentBorder = BorderFactory.createLineBorder(Color.lightGray);
+	public static final Border componentBorder = BorderFactory
+			.createLineBorder(Color.lightGray);
 
-    // plot colors for plotted files, circulated by numberOfDataSets
-    public static final Color[] plotColors = { new Color(0, 0, 192), // blue
-            new Color(192, 0, 0), // red
-            new Color(0, 192, 0), // green
-            Color.magenta, Color.cyan, Color.orange };
+	// plot colors for plotted files, circulated by numberOfDataSets
+	public static final Color[] plotColors = {new Color(0, 0, 192), // blue
+			new Color(192, 0, 0), // red
+			new Color(0, 192, 0), // green
+			Color.magenta, Color.cyan, Color.orange};
 
-    private ChromatographicPeak[] peaks;
+	private ChromatographicPeak[] peaks;
 
-    private Range rtRange;
-    private double maxIntensity;
+	private Range rtRange;
+	private double maxIntensity;
 
-    /**
-     * @param ChromatographicPeak[] Picked peaks to plot
-     */
-    public CombinedXICComponent(ChromatographicPeak[] peaks, int id) {
+	/**
+	 * @param ChromatographicPeak
+	 *            [] Picked peaks to plot
+	 */
+	public CombinedXICComponent(ChromatographicPeak[] peaks, int id) {
 
-    	// We use the tool tip text as a id for customTooltipProvider
-    	if (id >= 0)
-            setToolTipText(ComponentToolTipManager.CUSTOM + id);
-    	
-    	double maxIntensity = 0;
-    	this.peaks = peaks;
+		// We use the tool tip text as a id for customTooltipProvider
+		if (id >= 0)
+			setToolTipText(ComponentToolTipManager.CUSTOM + id);
 
-        // find data boundaries
-        for (ChromatographicPeak peak : peaks) {
-        	if (peak == null)
-        		continue;
-        	
-        	maxIntensity = Math.max(maxIntensity, peak.getRawDataPointsIntensityRange().getMax());
-            if (rtRange == null)
-                rtRange = peak.getDataFile().getDataRTRange(1);
-            else
-                rtRange.extendRange(peak.getDataFile().getDataRTRange(1));
-        }
+		double maxIntensity = 0;
+		this.peaks = peaks;
 
-        this.maxIntensity = maxIntensity;
+		// find data boundaries
+		for (ChromatographicPeak peak : peaks) {
+			if (peak == null)
+				continue;
 
-        this.setBorder(componentBorder);
-        
-    }
-    
+			maxIntensity = Math.max(maxIntensity, peak
+					.getRawDataPointsIntensityRange().getMax());
+			if (rtRange == null)
+				rtRange = peak.getDataFile().getDataRTRange(1);
+			else
+				rtRange.extendRange(peak.getDataFile().getDataRTRange(1));
+		}
 
-    public void paint(Graphics g) {
+		this.maxIntensity = maxIntensity;
 
-        super.paint(g);
+		this.setBorder(componentBorder);
 
-        // use Graphics2D for antialiasing
-        Graphics2D g2 = (Graphics2D) g;
+	}
 
-        // turn on antialiasing
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
+	public void paint(Graphics g) {
 
-        // get canvas size
-        Dimension size = getSize();
+		super.paint(g);
 
-        int colorIndex = 0;
+		// use Graphics2D for antialiasing
+		Graphics2D g2 = (Graphics2D) g;
 
-        for (ChromatographicPeak peak : peaks) {
+		// turn on antialiasing
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON);
 
-            // set color for current XIC
-            g2.setColor(plotColors[colorIndex]);
-            colorIndex = (colorIndex + 1) % plotColors.length;
+		// get canvas size
+		Dimension size = getSize();
 
-            // if we have no data, just return
-            if ((peak == null) || (peak.getScanNumbers().length == 0))
-                continue;
+		int colorIndex = 0;
 
-            // get scan numbers, one data point per each scan
-            int scanNumbers[] = peak.getScanNumbers();
+		for (ChromatographicPeak peak : peaks) {
 
-            // for each datapoint, find [X:Y] coordinates of its point in
-            // painted image
-            int xValues[] = new int[scanNumbers.length + 2];
-            int yValues[] = new int[scanNumbers.length + 2];
+			// set color for current XIC
+			g2.setColor(plotColors[colorIndex]);
+			colorIndex = (colorIndex + 1) % plotColors.length;
 
-            // find one datapoint with maximum intensity in each scan
-            for (int i = 0; i < scanNumbers.length; i++) {
+			// if we have no data, just return
+			if ((peak == null) || (peak.getScanNumbers().length == 0))
+				continue;
 
-                double dataPointIntensity = 0;
-                DataPoint dataPoint = peak.getDataPoint(scanNumbers[i]);
+			// get scan numbers, one data point per each scan
+			int scanNumbers[] = peak.getScanNumbers();
 
-                if (dataPoint != null)
-                    dataPointIntensity = dataPoint.getIntensity();
+			// for each datapoint, find [X:Y] coordinates of its point in
+			// painted image
+			int xValues[] = new int[scanNumbers.length + 2];
+			int yValues[] = new int[scanNumbers.length + 2];
 
-                // get retention time (X value)
-                double retentionTime = peak.getDataFile().getScan(scanNumbers[i]).getRetentionTime();
+			// find one datapoint with maximum intensity in each scan
+			for (int i = 0; i < scanNumbers.length; i++) {
 
-                // calculate [X:Y] coordinates
-                xValues[i + 1] = (int) Math.floor((retentionTime - rtRange.getMin())
-                        / rtRange.getSize() * (size.width - 1));
-                yValues[i + 1] = size.height
-                        - (int) Math.floor(dataPointIntensity / maxIntensity
-                                * (size.height - 1));
+				double dataPointIntensity = 0;
+				DataPoint dataPoint = peak.getDataPoint(scanNumbers[i]);
 
-            }
+				if (dataPoint != null)
+					dataPointIntensity = dataPoint.getIntensity();
 
-            // add first point
-            xValues[0] = xValues[1];
-            yValues[0] = size.height - 1;
+				// get retention time (X value)
+				double retentionTime = peak.getDataFile()
+						.getScan(scanNumbers[i]).getRetentionTime();
 
-            // add terminal point
-            xValues[xValues.length - 1] = xValues[xValues.length - 2];
-            yValues[yValues.length - 1] = size.height - 1;
+				// calculate [X:Y] coordinates
+				xValues[i + 1] = (int) Math.floor((retentionTime - rtRange
+						.getMin()) / rtRange.getSize() * (size.width - 1));
+				yValues[i + 1] = size.height
+						- (int) Math.floor(dataPointIntensity / maxIntensity
+								* (size.height - 1));
 
-            // draw the peak shape
-            g2.drawPolyline(xValues, yValues, xValues.length);
+			}
 
-        }
+			// add first point
+			xValues[0] = xValues[1];
+			yValues[0] = size.height - 1;
 
-    }
+			// add terminal point
+			xValues[xValues.length - 1] = xValues[xValues.length - 2];
+			yValues[yValues.length - 1] = size.height - 1;
+
+			// draw the peak shape
+			g2.drawPolyline(xValues, yValues, xValues.length);
+
+		}
+
+	}
 
 }

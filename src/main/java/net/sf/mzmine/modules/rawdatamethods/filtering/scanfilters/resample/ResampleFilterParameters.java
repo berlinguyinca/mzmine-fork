@@ -28,17 +28,18 @@ import net.sf.mzmine.util.ExitCode;
 
 public class ResampleFilterParameters extends SimpleParameterSet {
 
-    public static final DoubleParameter binSize = new DoubleParameter(
-	    "m/z bin length", "The length of m/z bin", MZmineCore.getConfiguration().getMZFormat());
+	public static final DoubleParameter binSize = new DoubleParameter(
+			"m/z bin length", "The length of m/z bin", MZmineCore
+					.getConfiguration().getMZFormat());
 
-    public ResampleFilterParameters() {
-	super(new Parameter[] { binSize });
-    }
+	public ResampleFilterParameters() {
+		super(new Parameter[]{binSize});
+	}
 
-    public ExitCode showSetupDialog() {
-	ScanFilterSetupDialog dialog = new ScanFilterSetupDialog(this,
-		ResampleFilter.class);
-	dialog.setVisible(true);
-	return dialog.getExitCode();
-    }
+	public ExitCode showSetupDialog() {
+		ScanFilterSetupDialog dialog = new ScanFilterSetupDialog(this,
+				ResampleFilter.class);
+		dialog.setVisible(true);
+		return dialog.getExitCode();
+	}
 }

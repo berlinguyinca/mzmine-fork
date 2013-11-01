@@ -23,10 +23,10 @@ import javax.annotation.Nonnull;
 
 public interface PeakListAppliedMethod {
 
-    @Nonnull
-    public String getDescription();
+	@Nonnull
+	public String getDescription();
 
-    @Nonnull
-    public String getParameters();
+	@Nonnull
+	public String getParameters();
 
 }

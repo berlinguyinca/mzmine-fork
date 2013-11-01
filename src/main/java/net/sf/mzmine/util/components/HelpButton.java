@@ -63,7 +63,7 @@ public class HelpButton extends JButton {
 		}
 
 		MZmineHelpMap map = (MZmineHelpMap) hs.getLocalMap();
-		
+
 		if (!map.isValidID(helpID, hs)) {
 			setEnabled(false);
 			return;

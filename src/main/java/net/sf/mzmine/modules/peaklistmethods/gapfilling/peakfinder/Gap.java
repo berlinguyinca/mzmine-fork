@@ -53,8 +53,8 @@ class Gap {
 	 * @param rt
 	 *            RT coordinate of this empty gap
 	 */
-	Gap(PeakListRow peakListRow, RawDataFile rawDataFile, Range mzRange, Range rtRange,
-			double intTolerance) {
+	Gap(PeakListRow peakListRow, RawDataFile rawDataFile, Range mzRange,
+			Range rtRange, double intTolerance) {
 
 		this.peakListRow = peakListRow;
 		this.rawDataFile = rawDataFile;
@@ -81,11 +81,11 @@ class Gap {
 
 		GapDataPoint currentDataPoint;
 		if (basePeak != null) {
-			currentDataPoint = new GapDataPoint(scan.getScanNumber(), basePeak
-					.getMZ(), scanRT, basePeak.getIntensity());
+			currentDataPoint = new GapDataPoint(scan.getScanNumber(),
+					basePeak.getMZ(), scanRT, basePeak.getIntensity());
 		} else {
-			currentDataPoint = new GapDataPoint(scan.getScanNumber(), mzRange.getAverage(),
-					scanRT, 0);
+			currentDataPoint = new GapDataPoint(scan.getScanNumber(),
+					mzRange.getAverage(), scanRT, 0);
 		}
 
 		// If we have not yet started, just create a new peak
@@ -141,15 +141,16 @@ class Gap {
 					finalMZRange = new Range(dp.getMZ());
 					finalIntensityRange = new Range(dp.getIntensity());
 				} else {
-					assert finalRTRange != null && finalMZRange != null && finalIntensityRange != null;
+					assert finalRTRange != null && finalMZRange != null
+							&& finalIntensityRange != null;
 					finalRTRange.extendRange(dp.getRT());
 					finalMZRange.extendRange(dp.getMZ());
 					finalIntensityRange.extendRange(dp.getIntensity());
 				}
 
 				scanNumbers[i] = bestPeakDataPoints.get(i).getScanNumber();
-				finalDataPoint[i] = new SimpleDataPoint(dp.getMZ(), dp
-						.getIntensity());
+				finalDataPoint[i] = new SimpleDataPoint(dp.getMZ(),
+						dp.getIntensity());
 				mz += bestPeakDataPoints.get(i).getMZ();
 
 				// Check height
@@ -165,8 +166,8 @@ class Gap {
 					break;
 
 				// X axis interval length
-				double rtDifference = (bestPeakDataPoints.get(i + 1).getRT()
-						- bestPeakDataPoints.get(i).getRT()) * 60d;
+				double rtDifference = (bestPeakDataPoints.get(i + 1).getRT() - bestPeakDataPoints
+						.get(i).getRT()) * 60d;
 
 				// intensity at the beginning and end of the interval
 				double intensityStart = bestPeakDataPoints.get(i)

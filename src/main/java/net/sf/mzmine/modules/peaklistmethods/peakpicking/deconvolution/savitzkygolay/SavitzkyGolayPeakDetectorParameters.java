@@ -31,30 +31,30 @@ import net.sf.mzmine.util.Range;
 
 public class SavitzkyGolayPeakDetectorParameters extends SimpleParameterSet {
 
-    public static final DoubleParameter MIN_PEAK_HEIGHT = new DoubleParameter(
-	    "Min peak height",
-	    "Minimum acceptable peak height (absolute intensity)", MZmineCore
-		    .getConfiguration().getIntensityFormat());
+	public static final DoubleParameter MIN_PEAK_HEIGHT = new DoubleParameter(
+			"Min peak height",
+			"Minimum acceptable peak height (absolute intensity)", MZmineCore
+					.getConfiguration().getIntensityFormat());
 
-    public static final RangeParameter PEAK_DURATION = new RangeParameter(
-	    "Peak duration range (min)", "Range of acceptable peak lengths",
-	    MZmineCore.getConfiguration().getRTFormat(), new Range(0.0, 10.0));
+	public static final RangeParameter PEAK_DURATION = new RangeParameter(
+			"Peak duration range (min)", "Range of acceptable peak lengths",
+			MZmineCore.getConfiguration().getRTFormat(), new Range(0.0, 10.0));
 
-    public static final PercentParameter DERIVATIVE_THRESHOLD_LEVEL = new PercentParameter(
-	    "Derivative threshold level",
-	    "Minimum acceptable intensity in the 2nd derivative for peak recognition");
+	public static final PercentParameter DERIVATIVE_THRESHOLD_LEVEL = new PercentParameter(
+			"Derivative threshold level",
+			"Minimum acceptable intensity in the 2nd derivative for peak recognition");
 
-    public SavitzkyGolayPeakDetectorParameters() {
-	super(new Parameter[] { MIN_PEAK_HEIGHT, PEAK_DURATION,
-		DERIVATIVE_THRESHOLD_LEVEL });
-    }
+	public SavitzkyGolayPeakDetectorParameters() {
+		super(new Parameter[]{MIN_PEAK_HEIGHT, PEAK_DURATION,
+				DERIVATIVE_THRESHOLD_LEVEL});
+	}
 
-    @Override
-    public ExitCode showSetupDialog() {
-	final PeakResolverSetupDialog dialog = new PeakResolverSetupDialog(
-		this, SavitzkyGolayPeakDetector.class);
-	dialog.setVisible(true);
-	return dialog.getExitCode();
-    }
+	@Override
+	public ExitCode showSetupDialog() {
+		final PeakResolverSetupDialog dialog = new PeakResolverSetupDialog(
+				this, SavitzkyGolayPeakDetector.class);
+		dialog.setVisible(true);
+		return dialog.getExitCode();
+	}
 
 }

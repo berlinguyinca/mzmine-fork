@@ -17,7 +17,6 @@
  * Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-
 package net.sf.mzmine.util.components;
 
 import java.awt.Color;
@@ -28,7 +27,6 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 
-
 public class PeakSummaryTableCellRenderer extends DefaultTableCellRenderer {
 
 	public Component getTableCellRendererComponent(JTable table, Object value,
@@ -36,18 +34,19 @@ public class PeakSummaryTableCellRenderer extends DefaultTableCellRenderer {
 
 		Component newComponent = super.getTableCellRendererComponent(table,
 				value, isSelected, hasFocus, row, column);
-		
-		PeakSummaryTableModel listElementModel = (PeakSummaryTableModel) table.getModel();
 
-		if (column == 0){
+		PeakSummaryTableModel listElementModel = (PeakSummaryTableModel) table
+				.getModel();
+
+		if (column == 0) {
 			newComponent.setForeground(listElementModel.getPeakColor(row));
-			((JLabel)newComponent).setHorizontalAlignment(SwingConstants.LEFT);
-		}
-		else{
+			((JLabel) newComponent).setHorizontalAlignment(SwingConstants.LEFT);
+		} else {
 			newComponent.setForeground(Color.BLACK);
-			((JLabel)newComponent).setHorizontalAlignment(SwingConstants.CENTER);
+			((JLabel) newComponent)
+					.setHorizontalAlignment(SwingConstants.CENTER);
 		}
-		
+
 		return newComponent;
 	}
 

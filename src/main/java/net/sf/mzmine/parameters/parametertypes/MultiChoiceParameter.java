@@ -34,8 +34,9 @@ import org.w3c.dom.NodeList;
  * 
  * 
  */
-public class MultiChoiceParameter<ValueType> implements
-		UserParameter<ValueType[], MultiChoiceComponent> {
+public class MultiChoiceParameter<ValueType>
+		implements
+			UserParameter<ValueType[], MultiChoiceComponent> {
 
 	private String name, description;
 	private ValueType choices[], values[];

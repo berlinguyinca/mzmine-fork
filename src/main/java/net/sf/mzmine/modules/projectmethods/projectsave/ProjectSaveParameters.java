@@ -34,25 +34,26 @@ import net.sf.mzmine.util.ExitCode;
 
 public class ProjectSaveParameters extends SimpleParameterSet {
 
-	private static final FileFilter filters[] = new FileFilter[] { new FileNameExtensionFilter(
-			"MZmine projects", "mzmine") };
+	private static final FileFilter filters[] = new FileFilter[]{new FileNameExtensionFilter(
+			"MZmine projects", "mzmine")};
 
 	public static final FileNameParameter projectFile = new FileNameParameter(
 			"Project file", "File name of project to be saved");
 
 	public ProjectSaveParameters() {
-		super(new Parameter[] { projectFile });
+		super(new Parameter[]{projectFile});
 	}
 
 	public ExitCode showSetupDialog() {
 
-		File currentProjectFile = MZmineCore.getCurrentProject().getProjectFile();
-		
+		File currentProjectFile = MZmineCore.getCurrentProject()
+				.getProjectFile();
+
 		if ((currentProjectFile != null) && (currentProjectFile.canWrite())) {
 			getParameter(projectFile).setValue(currentProjectFile);
 			return ExitCode.OK;
 		}
-		
+
 		JFileChooser chooser = new JFileChooser();
 
 		for (FileFilter filter : filters)

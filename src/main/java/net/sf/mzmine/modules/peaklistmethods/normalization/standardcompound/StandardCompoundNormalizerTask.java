@@ -106,7 +106,7 @@ public class StandardCompoundNormalizerTask extends AbstractTask {
 		totalRows = originalPeakList.getNumberOfRows();
 
 		// Loop through all rows
-		rowIteration: for (PeakListRow row : originalPeakList.getRows()) {
+		rowIteration : for (PeakListRow row : originalPeakList.getRows()) {
 
 			// Cancel ?
 			if (isCanceled()) {
@@ -285,7 +285,7 @@ public class StandardCompoundNormalizerTask extends AbstractTask {
 	}
 
 	public Object[] getCreatedObjects() {
-		return new Object[] { normalizedPeakList };
+		return new Object[]{normalizedPeakList};
 	}
 
 }

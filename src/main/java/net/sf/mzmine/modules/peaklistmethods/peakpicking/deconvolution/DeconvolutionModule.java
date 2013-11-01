@@ -32,44 +32,48 @@ import net.sf.mzmine.util.ExitCode;
 
 public class DeconvolutionModule implements MZmineProcessingModule {
 
-    private static final String MODULE_NAME = "Chromatogram deconvolution";
-    private static final String MODULE_DESCRIPTION =
-            "This module separates each detected chromatogram into individual peaks.";
+	private static final String MODULE_NAME = "Chromatogram deconvolution";
+	private static final String MODULE_DESCRIPTION = "This module separates each detected chromatogram into individual peaks.";
 
-    @Override
-    public @Nonnull String getName() {
+	@Override
+	public @Nonnull
+	String getName() {
 
-        return MODULE_NAME;
-    }
+		return MODULE_NAME;
+	}
 
-    @Override
-    public @Nonnull String getDescription() {
+	@Override
+	public @Nonnull
+	String getDescription() {
 
-        return MODULE_DESCRIPTION;
-    }
+		return MODULE_DESCRIPTION;
+	}
 
-    @Override
-    public @Nonnull MZmineModuleCategory getModuleCategory() {
+	@Override
+	public @Nonnull
+	MZmineModuleCategory getModuleCategory() {
 
-        return MZmineModuleCategory.PEAKLISTPICKING;
-    }
+		return MZmineModuleCategory.PEAKLISTPICKING;
+	}
 
-    @Override
-    public @Nonnull Class<? extends ParameterSet> getParameterSetClass() {
+	@Override
+	public @Nonnull
+	Class<? extends ParameterSet> getParameterSetClass() {
 
-        return DeconvolutionParameters.class;
-    }
+		return DeconvolutionParameters.class;
+	}
 
-    @Override
-    @Nonnull
-    public ExitCode runModule(@Nonnull final ParameterSet parameters,
-                              @Nonnull final Collection<Task> tasks) {
+	@Override
+	@Nonnull
+	public ExitCode runModule(@Nonnull final ParameterSet parameters,
+			@Nonnull final Collection<Task> tasks) {
 
-        for (final PeakList peakList : parameters.getParameter(DeconvolutionParameters.PEAK_LISTS).getValue()) {
+		for (final PeakList peakList : parameters.getParameter(
+				DeconvolutionParameters.PEAK_LISTS).getValue()) {
 
-            tasks.add(new DeconvolutionTask(peakList, parameters));
-        }
+			tasks.add(new DeconvolutionTask(peakList, parameters));
+		}
 
-        return ExitCode.OK;
-    }
+		return ExitCode.OK;
+	}
 }

@@ -57,8 +57,7 @@ public class FragmentSearchTask extends AbstractTask {
 	 * @param parameters
 	 * @param peakList
 	 */
-	public FragmentSearchTask(ParameterSet parameters,
-			PeakList peakList) {
+	public FragmentSearchTask(ParameterSet parameters, PeakList peakList) {
 
 		this.peakList = peakList;
 		this.parameters = parameters;
@@ -138,7 +137,7 @@ public class FragmentSearchTask extends AbstractTask {
 
 		// Repaint the window to reflect the change in the peak list
 		MZmineCore.getDesktop().getMainFrame().repaint();
-		
+
 		setStatus(TaskStatus.FINISHED);
 
 		logger.info("Finished fragments search in " + peakList);
@@ -202,10 +201,10 @@ public class FragmentSearchTask extends AbstractTask {
 	private void addFragmentInfo(PeakListRow mainRow, PeakListRow fragmentRow) {
 		FragmentIdentity newIdentity = new FragmentIdentity(mainRow);
 		fragmentRow.addPeakIdentity(newIdentity, false);
-		
+
 		// Notify the GUI about the change in the project
 		MZmineCore.getCurrentProject().notifyObjectChanged(fragmentRow, false);
-		
+
 	}
 
 	public Object[] getCreatedObjects() {

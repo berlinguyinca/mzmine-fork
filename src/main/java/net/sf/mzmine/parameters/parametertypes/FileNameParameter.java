@@ -30,7 +30,9 @@ import net.sf.mzmine.parameters.UserParameter;
  * Simple Parameter implementation
  * 
  */
-public class FileNameParameter implements UserParameter<File, FileNameComponent> {
+public class FileNameParameter
+		implements
+			UserParameter<File, FileNameComponent> {
 
 	private String name, description;
 	private File value;
@@ -113,7 +115,7 @@ public class FileNameParameter implements UserParameter<File, FileNameComponent>
 			return;
 		xmlElement.setTextContent(value.getPath());
 	}
-	
+
 	@Override
 	public boolean checkValue(Collection<String> errorMessages) {
 		if (value == null) {
@@ -122,5 +124,5 @@ public class FileNameParameter implements UserParameter<File, FileNameComponent>
 		}
 		return true;
 	}
-	
+
 }

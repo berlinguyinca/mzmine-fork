@@ -41,7 +41,7 @@ import org.jfree.chart.title.LegendTitle;
 import org.jfree.chart.title.TextTitle;
 import org.jfree.ui.RectangleInsets;
 
-public class HistogramChart extends ChartPanel{
+public class HistogramChart extends ChartPanel {
 
 	// grid color
 	private static final Color gridColor = Color.lightGray;
@@ -51,17 +51,17 @@ public class HistogramChart extends ChartPanel{
 	private static final Font subTitleFont = new Font("SansSerif", Font.PLAIN,
 			11);
 	private TextTitle chartTitle, chartSubTitle;
-	
+
 	// legend
 	private static final Font legendFont = new Font("SansSerif", Font.PLAIN, 11);
-	
-	//margin
+
+	// margin
 	private static final double marginSize = 0.05;
 
 	private JFreeChart chart;
 	private XYPlot plot;
 	private HistogramPlotDataset dataSet;
-	
+
 	public HistogramChart() {
 
 		super(null, true);
@@ -76,7 +76,7 @@ public class HistogramChart extends ChartPanel{
 				false, // generate tooltips
 				false // generate URLs
 				);
-		
+
 		// title
 		chartTitle = chart.getTitle();
 		chartTitle.setFont(titleFont);
@@ -86,12 +86,11 @@ public class HistogramChart extends ChartPanel{
 		chartSubTitle.setFont(subTitleFont);
 		chartSubTitle.setMargin(5, 0, 0, 0);
 		chart.addSubtitle(chartSubTitle);
-		
+
 		// legend constructed by ChartFactory
 		LegendTitle legend = chart.getLegend();
 		legend.setItemFont(legendFont);
 		legend.setFrame(BlockBorder.NONE);
-
 
 		chart.setBackgroundPaint(Color.white);
 		setChart(chart);
@@ -126,12 +125,11 @@ public class HistogramChart extends ChartPanel{
 
 		plot.setDomainAxis(axisDomain);
 		plot.setRangeAxis(axisRange);
-		
+
 		ClusteredXYBarRenderer renderer = new ClusteredXYBarRenderer();
 		renderer.setMargin(marginSize);
 		renderer.setShadowVisible(false);
 		plot.setRenderer(renderer);
-
 
 		this.setMinimumSize(new Dimension(400, 400));
 		this.setDismissDelay(Integer.MAX_VALUE);
@@ -139,13 +137,14 @@ public class HistogramChart extends ChartPanel{
 
 	}
 
-	synchronized public void addDataset(HistogramPlotDataset newSet, HistogramDataType dataType) {
+	synchronized public void addDataset(HistogramPlotDataset newSet,
+			HistogramDataType dataType) {
 		dataSet = newSet;
 		setAxisNumberFormat(dataType);
-		
+
 		double lower = dataSet.getMinimum();
 		double upper = dataSet.getMaximum();
-		
+
 		HistogramDomainAxis axis = (HistogramDomainAxis) plot.getDomainAxis();
 		axis.setAutoRange(true);
 		axis.setAutoRangeIncludesZero(false);
@@ -153,44 +152,43 @@ public class HistogramChart extends ChartPanel{
 		axis.setRange(lower, upper);
 		axis.setLowerTickValue(lower);
 		axis.setUpperTickValue(upper);
-		axis.setVisibleTickCount(dataSet.getNumberOfBins()+1);
+		axis.setVisibleTickCount(dataSet.getNumberOfBins() + 1);
 		axis.setAutoTickUnitSelection(false);
 		axis.setTickUnit(new NumberTickUnit(dataSet.getBinWidth()));
-		
+
 		if (dataSet.getItemCount(0) > 6)
-		axis.setVerticalTickLabels(true);
+			axis.setVerticalTickLabels(true);
 
 		plot.getRangeAxis().setLabel("Number of peaks");
 		plot.setDataset(0, newSet);
-		setTitle(dataSet.getPeakList().getName(), "Histogram of peaks's " + dataType);
+		setTitle(dataSet.getPeakList().getName(), "Histogram of peaks's "
+				+ dataType);
 	}
-	
-	public void setAxisNumberFormat(HistogramDataType dataType){
-		
+
+	public void setAxisNumberFormat(HistogramDataType dataType) {
+
 		NumberFormat formatter = null;
-		switch (dataType){
-		case AREA:
-			formatter = MZmineCore.getConfiguration().getIntensityFormat();
-			break;
-		case MASS:
-			formatter = MZmineCore.getConfiguration().getMZFormat();
-			break;
-		case HEIGHT:
-			formatter = MZmineCore.getConfiguration().getIntensityFormat();
-			break;
-		case RT:
-			formatter = MZmineCore.getConfiguration().getRTFormat();
-			break;
+		switch (dataType) {
+			case AREA :
+				formatter = MZmineCore.getConfiguration().getIntensityFormat();
+				break;
+			case MASS :
+				formatter = MZmineCore.getConfiguration().getMZFormat();
+				break;
+			case HEIGHT :
+				formatter = MZmineCore.getConfiguration().getIntensityFormat();
+				break;
+			case RT :
+				formatter = MZmineCore.getConfiguration().getRTFormat();
+				break;
 		}
-		((NumberAxis)plot.getDomainAxis()).setNumberFormatOverride(formatter);
-		
+		((NumberAxis) plot.getDomainAxis()).setNumberFormatOverride(formatter);
+
 	}
-	
+
 	void setTitle(String titleText, String subTitleText) {
 		chartTitle.setText(titleText);
 		chartSubTitle.setText(subTitleText);
 	}
-
-
 
 }

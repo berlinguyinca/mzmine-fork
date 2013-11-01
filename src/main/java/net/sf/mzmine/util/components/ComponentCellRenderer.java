@@ -37,8 +37,10 @@ import javax.swing.table.TableCellRenderer;
 /**
  * Simple table cell renderer that renders only JComponents
  */
-public class ComponentCellRenderer implements TableCellRenderer,
-		ListCellRenderer {
+public class ComponentCellRenderer
+		implements
+			TableCellRenderer,
+			ListCellRenderer {
 
 	private boolean createTooltips;
 	private Font font;

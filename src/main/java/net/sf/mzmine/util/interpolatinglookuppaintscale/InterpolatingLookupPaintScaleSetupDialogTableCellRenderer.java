@@ -25,8 +25,9 @@ import java.util.TreeMap;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
-public class InterpolatingLookupPaintScaleSetupDialogTableCellRenderer extends
-		DefaultTableCellRenderer {
+public class InterpolatingLookupPaintScaleSetupDialogTableCellRenderer
+		extends
+			DefaultTableCellRenderer {
 
 	private TreeMap<Double, Color> lookupTable;
 

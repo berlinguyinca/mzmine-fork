@@ -32,19 +32,19 @@ public class AppliedMethodList extends JList {
 	AppliedMethodList(PeakListAppliedMethod[] methods) {
 		super(methods);
 	}
-	
+
 	public String getToolTipText(MouseEvent e) {
-		
+
 		int index = locationToIndex(e.getPoint());
 		if (index > -1) {
-			parameters = ((PeakListAppliedMethod) getModel().getElementAt(index)).getParameters();
+			parameters = ((PeakListAppliedMethod) getModel()
+					.getElementAt(index)).getParameters();
 		}
-		if (parameters != null){
-        String toolTipText = parameters.toString().replace(", ", "\n");
-		return toolTipText;
-		}
-		else
+		if (parameters != null) {
+			String toolTipText = parameters.toString().replace(", ", "\n");
+			return toolTipText;
+		} else
 			return null;
 	}
-	
+
 }

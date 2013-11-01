@@ -17,32 +17,31 @@
  * Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-
 package net.sf.mzmine.modules.peaklistmethods.identification.mascot.data;
 
 import java.util.HashMap;
 
 public class PeptideIonSerie {
-	
-	private HashMap<SerieIonType,IonSignificance> fragmentSeries;
-	
+
+	private HashMap<SerieIonType, IonSignificance> fragmentSeries;
+
 	/**
-	 * This class represents the ion series for one peptide, 
-	 * containing type of series and significance for score calculation
+	 * This class represents the ion series for one peptide, containing type of
+	 * series and significance for score calculation
 	 */
-	public PeptideIonSerie(){
-		this.fragmentSeries = new HashMap<SerieIonType,IonSignificance>();
+	public PeptideIonSerie() {
+		this.fragmentSeries = new HashMap<SerieIonType, IonSignificance>();
 	}
 
 	/**
-	 * This class represents the ion series for one peptide, 
-	 * containing type of series and significance for score calculation
+	 * This class represents the ion series for one peptide, containing type of
+	 * series and significance for score calculation
 	 * 
 	 * @param serie
 	 * @param significance
 	 */
-	public PeptideIonSerie(SerieIonType serie, IonSignificance significance){
-		this.fragmentSeries = new HashMap<SerieIonType,IonSignificance>();
+	public PeptideIonSerie(SerieIonType serie, IonSignificance significance) {
+		this.fragmentSeries = new HashMap<SerieIonType, IonSignificance>();
 		fragmentSeries.put(serie, significance);
 	}
 
@@ -52,19 +51,18 @@ public class PeptideIonSerie {
 	 * @param serie
 	 * @param significance
 	 */
-	public void addSerie(SerieIonType serie, IonSignificance significance){
+	public void addSerie(SerieIonType serie, IonSignificance significance) {
 		if (!fragmentSeries.containsKey(serie))
 			fragmentSeries.put(serie, significance);
 	}
-	
+
 	/**
 	 * Returns all the fragment series and their significance
 	 * 
 	 * @return fragmentSeries
 	 */
-	public HashMap<SerieIonType,IonSignificance> getFragmentSeries(){
+	public HashMap<SerieIonType, IonSignificance> getFragmentSeries() {
 		return fragmentSeries;
 	}
-
 
 }

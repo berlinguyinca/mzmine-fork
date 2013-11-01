@@ -259,7 +259,7 @@ public class PeakExtenderTask extends AbstractTask {
 	}
 
 	public Object[] getCreatedObjects() {
-		return new Object[] { extendedPeakList };
+		return new Object[]{extendedPeakList};
 	}
 
 }

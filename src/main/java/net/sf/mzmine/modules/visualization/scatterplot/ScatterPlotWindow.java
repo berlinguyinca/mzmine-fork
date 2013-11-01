@@ -62,10 +62,11 @@ public class ScatterPlotWindow extends JInternalFrame {
 		toolbar = new ScatterPlotToolBar(chart);
 		add(toolbar, BorderLayout.EAST);
 
-		JComponent leftMargin = (JComponent) Box.createRigidArea(new Dimension(10,10));
+		JComponent leftMargin = (JComponent) Box.createRigidArea(new Dimension(
+				10, 10));
 		leftMargin.setOpaque(false);
 		add(leftMargin, BorderLayout.WEST);
-		
+
 		bottomPanel = new ScatterPlotBottomPanel(chart, peakList);
 		add(bottomPanel, BorderLayout.SOUTH);
 

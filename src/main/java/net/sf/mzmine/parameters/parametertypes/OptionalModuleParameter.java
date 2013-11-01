@@ -31,110 +31,112 @@ import org.w3c.dom.Element;
  * Parameter represented by check box with additional sub-parameters
  * 
  */
-public class OptionalModuleParameter implements
-	UserParameter<Boolean, OptionalModuleComponent> {
+public class OptionalModuleParameter
+		implements
+			UserParameter<Boolean, OptionalModuleComponent> {
 
-    private String name, description;
-    private ParameterSet embeddedParameters;
-    private Boolean value;
+	private String name, description;
+	private ParameterSet embeddedParameters;
+	private Boolean value;
 
-    public OptionalModuleParameter(String name, String description,
-	    ParameterSet embeddedParameters) {
-	this.name = name;
-	this.description = description;
-	this.embeddedParameters = embeddedParameters;
-    }
+	public OptionalModuleParameter(String name, String description,
+			ParameterSet embeddedParameters) {
+		this.name = name;
+		this.description = description;
+		this.embeddedParameters = embeddedParameters;
+	}
 
-    public ParameterSet getEmbeddedParameters() {
-	return embeddedParameters;
-    }
+	public ParameterSet getEmbeddedParameters() {
+		return embeddedParameters;
+	}
 
-    /**
-     * @see net.sf.mzmine.data.Parameter#getName()
-     */
-    @Override
-    public String getName() {
-	return name;
-    }
+	/**
+	 * @see net.sf.mzmine.data.Parameter#getName()
+	 */
+	@Override
+	public String getName() {
+		return name;
+	}
 
-    /**
-     * @see net.sf.mzmine.data.Parameter#getDescription()
-     */
-    @Override
-    public String getDescription() {
-	return description;
-    }
+	/**
+	 * @see net.sf.mzmine.data.Parameter#getDescription()
+	 */
+	@Override
+	public String getDescription() {
+		return description;
+	}
 
-    @Override
-    public OptionalModuleComponent createEditingComponent() {
-	return new OptionalModuleComponent(embeddedParameters);
-    }
+	@Override
+	public OptionalModuleComponent createEditingComponent() {
+		return new OptionalModuleComponent(embeddedParameters);
+	}
 
-    @Override
-    public Boolean getValue() {
-	// If the option is selected, first check that the module has all
-	// parameters set
-	if ((value != null) && (value)) {
-	    for (Parameter p : embeddedParameters.getParameters()) {
-		if (p instanceof UserParameter) {
-		    UserParameter up = (UserParameter) p;
-		    Object upValue = up.getValue();
-		    if (upValue == null)
-			return null;
+	@Override
+	public Boolean getValue() {
+		// If the option is selected, first check that the module has all
+		// parameters set
+		if ((value != null) && (value)) {
+			for (Parameter p : embeddedParameters.getParameters()) {
+				if (p instanceof UserParameter) {
+					UserParameter up = (UserParameter) p;
+					Object upValue = up.getValue();
+					if (upValue == null)
+						return null;
+				}
+			}
 		}
-	    }
+		return value;
 	}
-	return value;
-    }
 
-    @Override
-    public void setValue(Boolean value) {
-	this.value = value;
-    }
-
-    @Override
-    public OptionalModuleParameter cloneParameter() {
-	final ParameterSet embeddedParametersClone = embeddedParameters.cloneParameter();
-	final OptionalModuleParameter copy = new OptionalModuleParameter(name,
-		description, embeddedParametersClone);
-	copy.setValue(this.getValue());
-	return copy;
-    }
-
-    @Override
-    public void setValueFromComponent(OptionalModuleComponent component) {
-	this.value = component.isSelected();
-    }
-
-    @Override
-    public void setValueToComponent(OptionalModuleComponent component,
-	    Boolean newValue) {
-	component.setSelected(newValue);
-    }
-
-    @Override
-    public void loadValueFromXML(Element xmlElement) {
-	embeddedParameters.loadValuesFromXML(xmlElement);
-	String selectedAttr = xmlElement.getAttribute("selected");
-	this.value = Boolean.valueOf(selectedAttr);
-    }
-
-    @Override
-    public void saveValueToXML(Element xmlElement) {
-	if (value != null)
-	    xmlElement.setAttribute("selected", value.toString());
-	embeddedParameters.saveValuesToXML(xmlElement);
-    }
-
-    @Override
-    public boolean checkValue(Collection<String> errorMessages) {
-	if (value == null) {
-	    errorMessages.add(name + " is not set properly");
-	    return false;
+	@Override
+	public void setValue(Boolean value) {
+		this.value = value;
 	}
-	if (value == true) {
-	    return embeddedParameters.checkUserParameterValues(errorMessages);
+
+	@Override
+	public OptionalModuleParameter cloneParameter() {
+		final ParameterSet embeddedParametersClone = embeddedParameters
+				.cloneParameter();
+		final OptionalModuleParameter copy = new OptionalModuleParameter(name,
+				description, embeddedParametersClone);
+		copy.setValue(this.getValue());
+		return copy;
 	}
-	return true;
-    }
+
+	@Override
+	public void setValueFromComponent(OptionalModuleComponent component) {
+		this.value = component.isSelected();
+	}
+
+	@Override
+	public void setValueToComponent(OptionalModuleComponent component,
+			Boolean newValue) {
+		component.setSelected(newValue);
+	}
+
+	@Override
+	public void loadValueFromXML(Element xmlElement) {
+		embeddedParameters.loadValuesFromXML(xmlElement);
+		String selectedAttr = xmlElement.getAttribute("selected");
+		this.value = Boolean.valueOf(selectedAttr);
+	}
+
+	@Override
+	public void saveValueToXML(Element xmlElement) {
+		if (value != null)
+			xmlElement.setAttribute("selected", value.toString());
+		embeddedParameters.saveValuesToXML(xmlElement);
+	}
+
+	@Override
+	public boolean checkValue(Collection<String> errorMessages) {
+		if (value == null) {
+			errorMessages.add(name + " is not set properly");
+			return false;
+		}
+		if (value == true) {
+			return embeddedParameters.checkUserParameterValues(errorMessages);
+		}
+		return true;
+	}
 }

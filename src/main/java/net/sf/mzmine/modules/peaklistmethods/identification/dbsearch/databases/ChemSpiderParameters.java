@@ -29,23 +29,23 @@ import net.sf.mzmine.parameters.parametertypes.StringParameter;
 
 /**
  * Set of parameters specific to ChemSpider searches.
- *
+ * 
  * @author $Author$
  * @version $Revision$
  */
 public class ChemSpiderParameters extends SimpleParameterSet {
 
-    /**
-     * Search API security token.
-     */
-    public static final StringParameter SECURITY_TOKEN =
-            new StringParameter("ChemSpider security token",
-                                "Security token from your ChemSpider account - register at ChemSpider.com");
+	/**
+	 * Search API security token.
+	 */
+	public static final StringParameter SECURITY_TOKEN = new StringParameter(
+			"ChemSpider security token",
+			"Security token from your ChemSpider account - register at ChemSpider.com");
 
-    /**
-     * Create the parameter set.
-     */
-    public ChemSpiderParameters() {
-        super(new Parameter[]{SECURITY_TOKEN});
-    }
+	/**
+	 * Create the parameter set.
+	 */
+	public ChemSpiderParameters() {
+		super(new Parameter[]{SECURITY_TOKEN});
+	}
 }

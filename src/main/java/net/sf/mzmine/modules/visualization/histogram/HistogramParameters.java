@@ -45,7 +45,7 @@ public class HistogramParameters extends SimpleParameterSet {
 			10);
 
 	public HistogramParameters() {
-		super(new Parameter[] { peakList, dataFiles, dataRange, numOfBins });
+		super(new Parameter[]{peakList, dataFiles, dataRange, numOfBins});
 	}
 
 	public ExitCode showSetupDialog() {

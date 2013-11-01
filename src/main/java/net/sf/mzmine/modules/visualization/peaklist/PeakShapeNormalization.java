@@ -23,19 +23,17 @@ package net.sf.mzmine.modules.visualization.peaklist;
  *
  */
 public enum PeakShapeNormalization {
-    
-    PEAKMAX("Peak maximum"),
-    ROWMAX("Row maximum"),
-    GLOBALMAX("Global maximum");
-    
-    private final String displayName;
-    
-    PeakShapeNormalization(final String displayName) {
-        this.displayName = displayName;
-    }
-    
-    public String toString() {
-        return displayName;
-    }
+
+	PEAKMAX("Peak maximum"), ROWMAX("Row maximum"), GLOBALMAX("Global maximum");
+
+	private final String displayName;
+
+	PeakShapeNormalization(final String displayName) {
+		this.displayName = displayName;
+	}
+
+	public String toString() {
+		return displayName;
+	}
 
 }

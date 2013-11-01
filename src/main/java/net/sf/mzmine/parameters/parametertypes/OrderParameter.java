@@ -32,8 +32,9 @@ import org.w3c.dom.NodeList;
  * 
  * 
  */
-public class OrderParameter<ValueType> implements
-		UserParameter<ValueType[], OrderComponent> {
+public class OrderParameter<ValueType>
+		implements
+			UserParameter<ValueType[], OrderComponent> {
 
 	private String name, description;
 	private ValueType value[];
@@ -127,7 +128,7 @@ public class OrderParameter<ValueType> implements
 			xmlElement.appendChild(newElement);
 		}
 	}
-	
+
 	@Override
 	public boolean checkValue(Collection<String> errorMessages) {
 		if (value == null) {

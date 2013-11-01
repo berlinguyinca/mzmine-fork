@@ -30,8 +30,9 @@ import org.w3c.dom.Element;
  * 
  * 
  */
-public class NumOfThreadsParameter implements
-		UserParameter<Integer, NumOfThreadsEditor> {
+public class NumOfThreadsParameter
+		implements
+			UserParameter<Integer, NumOfThreadsEditor> {
 
 	private String name, description;
 	private boolean automatic;
@@ -125,7 +126,7 @@ public class NumOfThreadsParameter implements
 		xmlElement.setAttribute("isautomatic", String.valueOf(automatic));
 		xmlElement.setTextContent(value.toString());
 	}
-	
+
 	@Override
 	public boolean checkValue(Collection<String> errorMessages) {
 		if (value == null) {

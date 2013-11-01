@@ -38,7 +38,7 @@ import org.jfree.data.xy.IntervalXYDataset;
 
 /**
  * @author Alex
- *
+ * 
  */
 public class HistogramPlotDataset extends AbstractIntervalXYDataset {
 
@@ -54,8 +54,8 @@ public class HistogramPlotDataset extends AbstractIntervalXYDataset {
 	/** The histogram type. */
 	private HistogramType type;
 
-	public HistogramPlotDataset(PeakList peakList, RawDataFile[] rawDataFiles, int numOfBins,
-			HistogramDataType dataType, Range range) {
+	public HistogramPlotDataset(PeakList peakList, RawDataFile[] rawDataFiles,
+			int numOfBins, HistogramDataType dataType, Range range) {
 
 		this.list = new Vector<HashMap>();
 		this.type = HistogramType.FREQUENCY;
@@ -63,7 +63,7 @@ public class HistogramPlotDataset extends AbstractIntervalXYDataset {
 		this.peakList = peakList;
 		this.numOfBins = numOfBins;
 		this.rawDataFiles = rawDataFiles;
-		
+
 		minimum = range.getMin();
 		maximum = range.getMax();
 
@@ -79,21 +79,21 @@ public class HistogramPlotDataset extends AbstractIntervalXYDataset {
 			peaks = peakList.getPeaks(dataFile);
 			values = new double[peaks.length];
 			for (int i = 0; i < peaks.length; i++) {
-				switch(dataType){
-				case AREA:
-					values[i] = peaks[i].getArea();
-					break;
-				case HEIGHT:
-					values[i] = peaks[i].getHeight();
-					break;
-				case MASS:
-					values[i] = peaks[i].getMZ();
-					break;
-				case RT:
-					values[i] = peaks[i].getRT();
-					break;
+				switch (dataType) {
+					case AREA :
+						values[i] = peaks[i].getArea();
+						break;
+					case HEIGHT :
+						values[i] = peaks[i].getHeight();
+						break;
+					case MASS :
+						values[i] = peaks[i].getMZ();
+						break;
+					case RT :
+						values[i] = peaks[i].getRT();
+						break;
 				}
-				
+
 			}
 			addSeries(dataFile.getName(), values);
 		}
@@ -103,11 +103,11 @@ public class HistogramPlotDataset extends AbstractIntervalXYDataset {
 	public void setNumberOfBins(int numOfBins) {
 		this.numOfBins = numOfBins;
 	}
-	
-	public int getNumberOfBins(){
+
+	public int getNumberOfBins() {
 		return this.numOfBins;
 	}
-	
+
 	public void setBinWidth(double binWidth) {
 		int numBins;
 		updateHistogramDataset();
@@ -117,16 +117,16 @@ public class HistogramPlotDataset extends AbstractIntervalXYDataset {
 		numBins = (int) ((maximum - minimum) / binWidth);
 		setNumberOfBins(numBins);
 	}
-	
-	public double getBinWidth(){
+
+	public double getBinWidth() {
 		return this.getBinWidth(0);
 	}
-	
+
 	public void setHistogramDataType(HistogramDataType dataType) {
 		this.dataType = dataType;
 	}
-	
-	public PeakList getPeakList(){
+
+	public PeakList getPeakList() {
 		return this.peakList;
 	}
 
@@ -171,7 +171,7 @@ public class HistogramPlotDataset extends AbstractIntervalXYDataset {
 	 * @param maximum
 	 *            the upper bound of the bin range.
 	 */
-	public void addSeries(Comparable<?> key, double[] values){
+	public void addSeries(Comparable<?> key, double[] values) {
 
 		if (key == null) {
 			throw new IllegalArgumentException("Null 'key' argument.");
@@ -290,13 +290,12 @@ public class HistogramPlotDataset extends AbstractIntervalXYDataset {
 		HashMap map = (HashMap) this.list.get(series);
 		return (List) map.get("bins");
 	}
-	
-	
+
 	/**
 	 * @param series
 	 * @return
 	 */
-	private double[] getValues(int series){
+	private double[] getValues(int series) {
 		HashMap map = (HashMap) this.list.get(series);
 		return (double[]) map.get("values");
 	}
@@ -505,12 +504,12 @@ public class HistogramPlotDataset extends AbstractIntervalXYDataset {
 	public Number getEndY(int series, int item) {
 		return getY(series, item);
 	}
-	
-	public double getMinimum(){
+
+	public double getMinimum() {
 		return minimum;
 	}
 
-	public double getMaximum(){
+	public double getMaximum() {
 		return maximum;
 	}
 

@@ -32,70 +32,70 @@ import net.sf.mzmine.util.ExitCode;
 
 public class MZminePreferences extends SimpleParameterSet {
 
-    public static final NumberFormatParameter mzFormat = new NumberFormatParameter(
-	    "m/z value format", "Format of m/z values", false,
-	    new DecimalFormat("0.0000"));
+	public static final NumberFormatParameter mzFormat = new NumberFormatParameter(
+			"m/z value format", "Format of m/z values", false,
+			new DecimalFormat("0.0000"));
 
-    public static final NumberFormatParameter rtFormat = new NumberFormatParameter(
-	    "Retention time value format", "Format of retention time values",
-	    false, new DecimalFormat("0.0"));
+	public static final NumberFormatParameter rtFormat = new NumberFormatParameter(
+			"Retention time value format", "Format of retention time values",
+			false, new DecimalFormat("0.0"));
 
-    public static final NumberFormatParameter intensityFormat = new NumberFormatParameter(
-	    "Intensity format", "Format of intensity values", true,
-	    new DecimalFormat("0.0E0"));
+	public static final NumberFormatParameter intensityFormat = new NumberFormatParameter(
+			"Intensity format", "Format of intensity values", true,
+			new DecimalFormat("0.0E0"));
 
-    public static final NumOfThreadsParameter numOfThreads = new NumOfThreadsParameter();
+	public static final NumOfThreadsParameter numOfThreads = new NumOfThreadsParameter();
 
-    public static final OptionalModuleParameter proxySettings = new OptionalModuleParameter(
-	    "Use proxy", "Use proxy for internet connection?",
-	    new ProxySettings());
+	public static final OptionalModuleParameter proxySettings = new OptionalModuleParameter(
+			"Use proxy", "Use proxy for internet connection?",
+			new ProxySettings());
 
-    public static final WindowStateParameter windowState = new WindowStateParameter();
+	public static final WindowStateParameter windowState = new WindowStateParameter();
 
-    public MZminePreferences() {
-	super(new Parameter[] { mzFormat, rtFormat, intensityFormat,
-		numOfThreads, proxySettings, windowState });
-    }
-
-    public ExitCode showSetupDialog() {
-
-	ExitCode retVal = super.showSetupDialog();
-
-	if (retVal == ExitCode.OK) {
-
-	    // Update proxy settings
-	    updateSystemProxySettings();
-
-	    // Repaint windows to update number formats
-	    MZmineCore.getDesktop().getMainFrame().repaint();
+	public MZminePreferences() {
+		super(new Parameter[]{mzFormat, rtFormat, intensityFormat,
+				numOfThreads, proxySettings, windowState});
 	}
 
-	return retVal;
-    }
+	public ExitCode showSetupDialog() {
 
-    public void loadValuesFromXML(Element xmlElement) {
-	super.loadValuesFromXML(xmlElement);
-	updateSystemProxySettings();
-    }
+		ExitCode retVal = super.showSetupDialog();
 
-    private void updateSystemProxySettings() {
-	// Update system proxy settings
-	Boolean proxyEnabled = getParameter(proxySettings).getValue();
-	if ((proxyEnabled != null) && (proxyEnabled)) {
-	    ParameterSet proxyParams = getParameter(proxySettings)
-		    .getEmbeddedParameters();
-	    String address = proxyParams.getParameter(
-		    ProxySettings.proxyAddress).getValue();
-	    String port = proxyParams.getParameter(ProxySettings.proxyPort)
-		    .getValue();
-	    System.setProperty("http.proxySet", "true");
-	    System.setProperty("http.proxyHost", address);
-	    System.setProperty("http.proxyPort", port);
-	} else {
-	    System.clearProperty("http.proxySet");
-	    System.clearProperty("http.proxyHost");
-	    System.clearProperty("http.proxyPort");
+		if (retVal == ExitCode.OK) {
+
+			// Update proxy settings
+			updateSystemProxySettings();
+
+			// Repaint windows to update number formats
+			MZmineCore.getDesktop().getMainFrame().repaint();
+		}
+
+		return retVal;
 	}
-    }
+
+	public void loadValuesFromXML(Element xmlElement) {
+		super.loadValuesFromXML(xmlElement);
+		updateSystemProxySettings();
+	}
+
+	private void updateSystemProxySettings() {
+		// Update system proxy settings
+		Boolean proxyEnabled = getParameter(proxySettings).getValue();
+		if ((proxyEnabled != null) && (proxyEnabled)) {
+			ParameterSet proxyParams = getParameter(proxySettings)
+					.getEmbeddedParameters();
+			String address = proxyParams.getParameter(
+					ProxySettings.proxyAddress).getValue();
+			String port = proxyParams.getParameter(ProxySettings.proxyPort)
+					.getValue();
+			System.setProperty("http.proxySet", "true");
+			System.setProperty("http.proxyHost", address);
+			System.setProperty("http.proxyPort", port);
+		} else {
+			System.clearProperty("http.proxySet");
+			System.clearProperty("http.proxyHost");
+			System.clearProperty("http.proxyPort");
+		}
+	}
 
 }

@@ -36,53 +36,51 @@ import net.sf.mzmine.util.ExitCode;
 
 public class ClusteringParameters extends SimpleParameterSet {
 
-    public static final PeakListsParameter peakLists = new PeakListsParameter();
+	public static final PeakListsParameter peakLists = new PeakListsParameter();
 
-    private static ClusteringAlgorithm algorithms[] = new ClusteringAlgorithm[] {
-	    new EMClusterer(), new FarthestFirstClusterer(),
-	    new SimpleKMeansClusterer(), new HierarClusterer() };
+	private static ClusteringAlgorithm algorithms[] = new ClusteringAlgorithm[]{
+			new EMClusterer(), new FarthestFirstClusterer(),
+			new SimpleKMeansClusterer(), new HierarClusterer()};
 
-    public static final ModuleComboParameter<ClusteringAlgorithm> clusteringAlgorithm = new ModuleComboParameter<ClusteringAlgorithm>(
-	    "Clustering algorithm",
-	    "Select the algorithm you want to use for clustering", algorithms);
+	public static final ModuleComboParameter<ClusteringAlgorithm> clusteringAlgorithm = new ModuleComboParameter<ClusteringAlgorithm>(
+			"Clustering algorithm",
+			"Select the algorithm you want to use for clustering", algorithms);
 
-    public static final ComboParameter<ClusteringDataType> typeOfData = new ComboParameter<ClusteringDataType>(
-	    "Type of data",
-	    "Specify the type of data used for the clustering: samples or variables",
-	    ClusteringDataType.values());
+	public static final ComboParameter<ClusteringDataType> typeOfData = new ComboParameter<ClusteringDataType>(
+			"Type of data",
+			"Specify the type of data used for the clustering: samples or variables",
+			ClusteringDataType.values());
 
-    public ClusteringParameters() {
-	super(
-		new Parameter[] { peakLists,
-			ProjectionPlotParameters.peakMeasurementType,
-			ProjectionPlotParameters.dataFiles,
-			ProjectionPlotParameters.rows, clusteringAlgorithm,
-			typeOfData });
-    }
-
-    @Override
-    public ExitCode showSetupDialog() {
-
-	PeakList selectedPeakList[] = getParameter(peakLists).getValue();
-
-	RawDataFile dataFileChoices[];
-	if (selectedPeakList.length == 1) {
-	    dataFileChoices = selectedPeakList[0].getRawDataFiles();
-	} else {
-	    dataFileChoices = new RawDataFile[0];
+	public ClusteringParameters() {
+		super(new Parameter[]{peakLists,
+				ProjectionPlotParameters.peakMeasurementType,
+				ProjectionPlotParameters.dataFiles,
+				ProjectionPlotParameters.rows, clusteringAlgorithm, typeOfData});
 	}
 
-	PeakListRow rowChoices[];
-	if (selectedPeakList.length == 1) {
-	    rowChoices = selectedPeakList[0].getRows();
-	} else {
-	    rowChoices = new PeakListRow[0];
+	@Override
+	public ExitCode showSetupDialog() {
+
+		PeakList selectedPeakList[] = getParameter(peakLists).getValue();
+
+		RawDataFile dataFileChoices[];
+		if (selectedPeakList.length == 1) {
+			dataFileChoices = selectedPeakList[0].getRawDataFiles();
+		} else {
+			dataFileChoices = new RawDataFile[0];
+		}
+
+		PeakListRow rowChoices[];
+		if (selectedPeakList.length == 1) {
+			rowChoices = selectedPeakList[0].getRows();
+		} else {
+			rowChoices = new PeakListRow[0];
+		}
+
+		getParameter(ProjectionPlotParameters.dataFiles).setChoices(
+				dataFileChoices);
+		getParameter(ProjectionPlotParameters.rows).setChoices(rowChoices);
+
+		return super.showSetupDialog();
 	}
-
-	getParameter(ProjectionPlotParameters.dataFiles).setChoices(
-		dataFileChoices);
-	getParameter(ProjectionPlotParameters.rows).setChoices(rowChoices);
-
-	return super.showSetupDialog();
-    }
 }

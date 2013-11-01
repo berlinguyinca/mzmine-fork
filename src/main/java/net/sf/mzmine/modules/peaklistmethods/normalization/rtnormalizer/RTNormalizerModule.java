@@ -31,37 +31,41 @@ import net.sf.mzmine.util.ExitCode;
 
 public class RTNormalizerModule implements MZmineProcessingModule {
 
-    private static final String MODULE_NAME = "Retention time normalizer";
-    private static final String MODULE_DESCRIPTION = "The retention time normalizer attempts to reduce the deviation of retention times between peak lists, by searching for common peaks in these peak lists and using them as normalization standards.";
+	private static final String MODULE_NAME = "Retention time normalizer";
+	private static final String MODULE_DESCRIPTION = "The retention time normalizer attempts to reduce the deviation of retention times between peak lists, by searching for common peaks in these peak lists and using them as normalization standards.";
 
-    @Override
-    public @Nonnull String getName() {
-	return MODULE_NAME;
-    }
+	@Override
+	public @Nonnull
+	String getName() {
+		return MODULE_NAME;
+	}
 
-    @Override
-    public @Nonnull String getDescription() {
-	return MODULE_DESCRIPTION;
-    }
+	@Override
+	public @Nonnull
+	String getDescription() {
+		return MODULE_DESCRIPTION;
+	}
 
-    @Override
-    @Nonnull
-    public ExitCode runModule(@Nonnull ParameterSet parameters,
-	    @Nonnull Collection<Task> tasks) {
-	RTNormalizerTask newTask = new RTNormalizerTask(parameters);
-	tasks.add(newTask);
-	return ExitCode.OK;
+	@Override
+	@Nonnull
+	public ExitCode runModule(@Nonnull ParameterSet parameters,
+			@Nonnull Collection<Task> tasks) {
+		RTNormalizerTask newTask = new RTNormalizerTask(parameters);
+		tasks.add(newTask);
+		return ExitCode.OK;
 
-    }
+	}
 
-    @Override
-    public @Nonnull MZmineModuleCategory getModuleCategory() {
-	return MZmineModuleCategory.NORMALIZATION;
-    }
+	@Override
+	public @Nonnull
+	MZmineModuleCategory getModuleCategory() {
+		return MZmineModuleCategory.NORMALIZATION;
+	}
 
-    @Override
-    public @Nonnull Class<? extends ParameterSet> getParameterSetClass() {
-	return RTNormalizerParameters.class;
-    }
+	@Override
+	public @Nonnull
+	Class<? extends ParameterSet> getParameterSetClass() {
+		return RTNormalizerParameters.class;
+	}
 
 }

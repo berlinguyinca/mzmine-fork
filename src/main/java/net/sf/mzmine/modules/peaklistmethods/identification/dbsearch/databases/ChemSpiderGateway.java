@@ -50,114 +50,114 @@ import com.chemspider.www.MassSpecAPISoap;
  */
 public class ChemSpiderGateway implements DBGateway {
 
-    // Logger.
-    private static final Logger LOG = Logger.getLogger(ChemSpiderGateway.class
-	    .getName());
+	// Logger.
+	private static final Logger LOG = Logger.getLogger(ChemSpiderGateway.class
+			.getName());
 
-    // Compound names.
-    private static final String UNKNOWN_NAME = "Unknown name";
-    private static final String ERROR_MESSAGE = "Error fetching compound info (possible invalid search token or deprecated structure?)";
+	// Compound names.
+	private static final String UNKNOWN_NAME = "Unknown name";
+	private static final String ERROR_MESSAGE = "Error fetching compound info (possible invalid search token or deprecated structure?)";
 
-    // Pattern for chemical structure URLs - replace CSID.
-    private static final String STRUCTURE_URL_PATTERN = "http://www.chemspider.com/Chemical-Structure.CSID.html";
-    private static final String STRUCTURE2D_URL_PATTERN = "http://www.chemspider.com/FilesHandler.ashx?type=str&id=CSID";
-    private static final String STRUCTURE3D_URL_PATTERN = "http://www.chemspider.com/FilesHandler.ashx?type=str&3d=yes&id=CSID";
+	// Pattern for chemical structure URLs - replace CSID.
+	private static final String STRUCTURE_URL_PATTERN = "http://www.chemspider.com/Chemical-Structure.CSID.html";
+	private static final String STRUCTURE2D_URL_PATTERN = "http://www.chemspider.com/FilesHandler.ashx?type=str&id=CSID";
+	private static final String STRUCTURE3D_URL_PATTERN = "http://www.chemspider.com/FilesHandler.ashx?type=str&3d=yes&id=CSID";
 
-    // Pattern to clean-up formulas.
-    private static final Pattern FORMULA_PATTERN = Pattern.compile("[\\W_]*");
+	// Pattern to clean-up formulas.
+	private static final Pattern FORMULA_PATTERN = Pattern.compile("[\\W_]*");
 
-    @Override
-    public String[] findCompounds(final double mass,
-	    final MZTolerance mzTolerance, final int numOfResults,
-	    ParameterSet parameters) throws IOException {
+	@Override
+	public String[] findCompounds(final double mass,
+			final MZTolerance mzTolerance, final int numOfResults,
+			ParameterSet parameters) throws IOException {
 
-	LOG.finest("Searching by mass...");
+		LOG.finest("Searching by mass...");
 
-	// Get search range
-	final Range mzRange = mzTolerance.getToleranceRange(mass);
+		// Get search range
+		final Range mzRange = mzTolerance.getToleranceRange(mass);
 
-	// These are returned in #CSID (numerical) order.
-	final String[] results = createMassSpecAPI().searchByMass2(
-		mzRange.getAverage(), mzRange.getSize() / 2.0);
+		// These are returned in #CSID (numerical) order.
+		final String[] results = createMassSpecAPI().searchByMass2(
+				mzRange.getAverage(), mzRange.getSize() / 2.0);
 
-	// Copy results.
-	final int len = Math.min(numOfResults, results.length);
-	final String[] ids = new String[len];
-	System.arraycopy(results, 0, ids, 0, len);
+		// Copy results.
+		final int len = Math.min(numOfResults, results.length);
+		final String[] ids = new String[len];
+		System.arraycopy(results, 0, ids, 0, len);
 
-	return ids;
-    }
-
-    @Override
-    public DBCompound getCompound(final String ID, ParameterSet parameters)
-	    throws IOException {
-
-	LOG.finest("Fetching compound info for CSID #" + ID);
-
-	final MassSpecAPISoap massSpec = createMassSpecAPI();
-
-	// Get security token.
-	final String token = parameters.getParameter(
-		ChemSpiderParameters.SECURITY_TOKEN).getValue();
-
-	// Fetch compound info.
-	ExtendedCompoundInfo info = null;
-	try {
-	    info = massSpec.getExtendedCompoundInfo(Integer.valueOf(ID), token);
-	} catch (final RemoteException e) {
-
-	    // We need to catch exceptions here - usually from deprecated
-	    // structures in the ChemSpider database or
-	    // invalid security token.
-	    LOG.log(Level.WARNING, "Failed to fetch compound info for CSID #"
-		    + ID, e);
+		return ids;
 	}
 
-	// Determine name and formula.
-	final String name;
-	final String formula;
-	if (info != null) {
+	@Override
+	public DBCompound getCompound(final String ID, ParameterSet parameters)
+			throws IOException {
 
-	    // Use returned info.
-	    final String commonName = info.getCommonName();
-	    name = commonName == null ? UNKNOWN_NAME : commonName;
-	    formula = FORMULA_PATTERN.matcher(info.getMF()).replaceAll("");
+		LOG.finest("Fetching compound info for CSID #" + ID);
 
-	} else {
+		final MassSpecAPISoap massSpec = createMassSpecAPI();
 
-	    // An error occurred.
-	    name = ERROR_MESSAGE;
-	    formula = null;
+		// Get security token.
+		final String token = parameters.getParameter(
+				ChemSpiderParameters.SECURITY_TOKEN).getValue();
+
+		// Fetch compound info.
+		ExtendedCompoundInfo info = null;
+		try {
+			info = massSpec.getExtendedCompoundInfo(Integer.valueOf(ID), token);
+		} catch (final RemoteException e) {
+
+			// We need to catch exceptions here - usually from deprecated
+			// structures in the ChemSpider database or
+			// invalid security token.
+			LOG.log(Level.WARNING, "Failed to fetch compound info for CSID #"
+					+ ID, e);
+		}
+
+		// Determine name and formula.
+		final String name;
+		final String formula;
+		if (info != null) {
+
+			// Use returned info.
+			final String commonName = info.getCommonName();
+			name = commonName == null ? UNKNOWN_NAME : commonName;
+			formula = FORMULA_PATTERN.matcher(info.getMF()).replaceAll("");
+
+		} else {
+
+			// An error occurred.
+			name = ERROR_MESSAGE;
+			formula = null;
+		}
+
+		// Create and return the compound record.
+		return new DBCompound(OnlineDatabase.CHEMSPIDER, ID, name, formula,
+				new URL(STRUCTURE_URL_PATTERN.replaceFirst("CSID", ID)),
+				new URL(STRUCTURE2D_URL_PATTERN.replaceFirst("CSID", ID)),
+				new URL(STRUCTURE3D_URL_PATTERN.replaceFirst("CSID", ID)));
 	}
 
-	// Create and return the compound record.
-	return new DBCompound(OnlineDatabase.CHEMSPIDER, ID, name, formula,
-		new URL(STRUCTURE_URL_PATTERN.replaceFirst("CSID", ID)),
-		new URL(STRUCTURE2D_URL_PATTERN.replaceFirst("CSID", ID)),
-		new URL(STRUCTURE3D_URL_PATTERN.replaceFirst("CSID", ID)));
-    }
+	/**
+	 * Create a Mass Spec API handle.
+	 * 
+	 * @return the newly created handle.
+	 * @throws IOException
+	 *             if there were any problems.
+	 */
+	private static MassSpecAPISoap createMassSpecAPI() throws IOException {
 
-    /**
-     * Create a Mass Spec API handle.
-     * 
-     * @return the newly created handle.
-     * @throws IOException
-     *             if there were any problems.
-     */
-    private static MassSpecAPISoap createMassSpecAPI() throws IOException {
+		LOG.finest("Create mass-spec API handle...");
 
-	LOG.finest("Create mass-spec API handle...");
-
-	// Create API handles.
-	final MassSpecAPISoap handle;
-	try {
-	    handle = new MassSpecAPILocator().getMassSpecAPISoap();
-	} catch (ServiceException e) {
-	    LOG.log(Level.WARNING,
-		    "Problem initializing ChemSpider Mass-Spec API", e);
-	    throw new IOException("Problem initializing ChemSpider API", e);
+		// Create API handles.
+		final MassSpecAPISoap handle;
+		try {
+			handle = new MassSpecAPILocator().getMassSpecAPISoap();
+		} catch (ServiceException e) {
+			LOG.log(Level.WARNING,
+					"Problem initializing ChemSpider Mass-Spec API", e);
+			throw new IOException("Problem initializing ChemSpider API", e);
+		}
+		return handle;
 	}
-	return handle;
-    }
 
 }

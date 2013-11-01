@@ -25,26 +25,27 @@ import net.sf.mzmine.parameters.parametertypes.*;
 
 public class AdductSearchParameters extends SimpleParameterSet {
 
-    public static final PeakListsParameter PEAK_LISTS = new PeakListsParameter();
+	public static final PeakListsParameter PEAK_LISTS = new PeakListsParameter();
 
-    public static final RTToleranceParameter RT_TOLERANCE = new RTToleranceParameter(
-            "RT tolerance",
-            "Maximum allowed difference of retention time to set a relationship between peaks");
+	public static final RTToleranceParameter RT_TOLERANCE = new RTToleranceParameter(
+			"RT tolerance",
+			"Maximum allowed difference of retention time to set a relationship between peaks");
 
-    public static final AdductsParameter ADDUCTS = new AdductsParameter(
-            "Adducts",
-            "List of adducts, each one refers a specific distance in m/z axis between related peaks");
+	public static final AdductsParameter ADDUCTS = new AdductsParameter(
+			"Adducts",
+			"List of adducts, each one refers a specific distance in m/z axis between related peaks");
 
-    public static final MZToleranceParameter MZ_TOLERANCE = new MZToleranceParameter(
-            "m/z tolerance",
-            "Tolerance value of the m/z difference between peaks");
+	public static final MZToleranceParameter MZ_TOLERANCE = new MZToleranceParameter(
+			"m/z tolerance",
+			"Tolerance value of the m/z difference between peaks");
 
-    public static final PercentParameter MAX_ADDUCT_HEIGHT = new PercentParameter(
-            "Max relative adduct peak height",
-            "Maximum height of the recognized adduct peak, relative to the main peak");
+	public static final PercentParameter MAX_ADDUCT_HEIGHT = new PercentParameter(
+			"Max relative adduct peak height",
+			"Maximum height of the recognized adduct peak, relative to the main peak");
 
-    public AdductSearchParameters() {
+	public AdductSearchParameters() {
 
-        super(new Parameter[]{PEAK_LISTS, RT_TOLERANCE, ADDUCTS, MZ_TOLERANCE, MAX_ADDUCT_HEIGHT});
-    }
+		super(new Parameter[]{PEAK_LISTS, RT_TOLERANCE, ADDUCTS, MZ_TOLERANCE,
+				MAX_ADDUCT_HEIGHT});
+	}
 }

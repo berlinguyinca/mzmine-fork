@@ -26,15 +26,15 @@ import net.sf.mzmine.parameters.parametertypes.RawDataFilesParameter;
 
 public class BatchModeParameters extends SimpleParameterSet {
 
-    public static final RawDataFilesParameter dataFiles = new RawDataFilesParameter(
-	    0);
+	public static final RawDataFilesParameter dataFiles = new RawDataFilesParameter(
+			0);
 
-    public static final PeakListsParameter peakLists = new PeakListsParameter(0);
+	public static final PeakListsParameter peakLists = new PeakListsParameter(0);
 
-    public static final BatchQueueParameter batchQueue = new BatchQueueParameter();
+	public static final BatchQueueParameter batchQueue = new BatchQueueParameter();
 
-    public BatchModeParameters() {
-	super(new Parameter[] { dataFiles, peakLists, batchQueue });
-    }
+	public BatchModeParameters() {
+		super(new Parameter[]{dataFiles, peakLists, batchQueue});
+	}
 
 }

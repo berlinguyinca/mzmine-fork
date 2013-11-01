@@ -36,116 +36,116 @@ import org.rosuda.JRI.Rengine;
  */
 public class RUtilities {
 
-    // Logger.
-    private static final Logger LOG = Logger.getLogger(RUtilities.class
-            .getName());
+	// Logger.
+	private static final Logger LOG = Logger.getLogger(RUtilities.class
+			.getName());
 
-    /**
-     * R semaphore - all usage of R engine must be synchronized using this
-     * semaphore.
-     */
-    public static final Object R_SEMAPHORE = new Object();
+	/**
+	 * R semaphore - all usage of R engine must be synchronized using this
+	 * semaphore.
+	 */
+	public static final Object R_SEMAPHORE = new Object();
 
-    // An R Engine singleton.
-    private static Rengine rEngine = null;
+	// An R Engine singleton.
+	private static Rengine rEngine = null;
 
-    /**
-     * Utility class - no public access.
-     */
-    private RUtilities() {
-        // no public access.
-    }
+	/**
+	 * Utility class - no public access.
+	 */
+	private RUtilities() {
+		// no public access.
+	}
 
-    /**
-     * Gets the R Engine.
-     * 
-     * @return the R Engine - creating it if necessary.
-     */
-    public static Rengine getREngine() {
+	/**
+	 * Gets the R Engine.
+	 * 
+	 * @return the R Engine - creating it if necessary.
+	 */
+	public static Rengine getREngine() {
 
-        synchronized (R_SEMAPHORE) {
+		synchronized (R_SEMAPHORE) {
 
-            if (rEngine == null) {
+			if (rEngine == null) {
 
-                try {
+				try {
 
-                    LOG.finest("Checking R Engine.");
+					LOG.finest("Checking R Engine.");
 
-                    /*
-                     * For some reason if we run Rengine.versionCheck() and R is
-                     * not installed, it will crash the JVM. This was observed
-                     * at least on Windows and Mac OS X. However, if we call
-                     * System.loadLibrary("jri") before calling Rengine class,
-                     * the crash is avoided and we can catch the
-                     * UnsatisfiedLinkError properly.
-                     */
-                    System.loadLibrary("jri");
+					/*
+					 * For some reason if we run Rengine.versionCheck() and R is
+					 * not installed, it will crash the JVM. This was observed
+					 * at least on Windows and Mac OS X. However, if we call
+					 * System.loadLibrary("jri") before calling Rengine class,
+					 * the crash is avoided and we can catch the
+					 * UnsatisfiedLinkError properly.
+					 */
+					System.loadLibrary("jri");
 
-                    if (!Rengine.versionCheck()) {
-                        throw new IllegalStateException("JRI version mismatch");
-                    }
+					if (!Rengine.versionCheck()) {
+						throw new IllegalStateException("JRI version mismatch");
+					}
 
-                } catch (UnsatisfiedLinkError error) {
-                    throw new IllegalStateException(
-                            "Could not start R. Please check if R is installed and path to the "
-                                    + "libraries is set properly in the startMZmine script.");
-                }
+				} catch (UnsatisfiedLinkError error) {
+					throw new IllegalStateException(
+							"Could not start R. Please check if R is installed and path to the "
+									+ "libraries is set properly in the startMZmine script.");
+				}
 
-                LOG.finest("Creating R Engine.");
-                rEngine = new Rengine(new String[] { "--vanilla" }, false,
-                        new LoggerConsole());
+				LOG.finest("Creating R Engine.");
+				rEngine = new Rengine(new String[]{"--vanilla"}, false,
+						new LoggerConsole());
 
-                LOG.finest("Rengine created, waiting for R.");
-                if (!rEngine.waitForR()) {
-                    throw new IllegalStateException("Could not start R");
-                }
+				LOG.finest("Rengine created, waiting for R.");
+				if (!rEngine.waitForR()) {
+					throw new IllegalStateException("Could not start R");
+				}
 
-            }
-            return rEngine;
-        }
-    }
+			}
+			return rEngine;
+		}
+	}
 
-    /**
-     * Logs all output.
-     */
-    private static class LoggerConsole implements RMainLoopCallbacks {
-        @Override
-        public void rWriteConsole(final Rengine re, final String text,
-                final int oType) {
-            LOG.finest(text);
-        }
+	/**
+	 * Logs all output.
+	 */
+	private static class LoggerConsole implements RMainLoopCallbacks {
+		@Override
+		public void rWriteConsole(final Rengine re, final String text,
+				final int oType) {
+			LOG.finest(text);
+		}
 
-        @Override
-        public void rBusy(final Rengine re, final int which) {
-            LOG.finest("rBusy(" + which + ')');
-        }
+		@Override
+		public void rBusy(final Rengine re, final int which) {
+			LOG.finest("rBusy(" + which + ')');
+		}
 
-        @Override
-        public String rReadConsole(final Rengine re, final String prompt,
-                final int addToHistory) {
-            return null;
-        }
+		@Override
+		public String rReadConsole(final Rengine re, final String prompt,
+				final int addToHistory) {
+			return null;
+		}
 
-        @Override
-        public void rShowMessage(final Rengine re, final String message) {
-            LOG.finest("rShowMessage \"" + message + '\"');
-        }
+		@Override
+		public void rShowMessage(final Rengine re, final String message) {
+			LOG.finest("rShowMessage \"" + message + '\"');
+		}
 
-        @Override
-        public String rChooseFile(final Rengine re, final int newFile) {
-            return null;
-        }
+		@Override
+		public String rChooseFile(final Rengine re, final int newFile) {
+			return null;
+		}
 
-        @Override
-        public void rFlushConsole(final Rengine re) {
-        }
+		@Override
+		public void rFlushConsole(final Rengine re) {
+		}
 
-        @Override
-        public void rLoadHistory(final Rengine re, final String filename) {
-        }
+		@Override
+		public void rLoadHistory(final Rengine re, final String filename) {
+		}
 
-        @Override
-        public void rSaveHistory(final Rengine re, final String filename) {
-        }
-    }
+		@Override
+		public void rSaveHistory(final Rengine re, final String filename) {
+		}
+	}
 }

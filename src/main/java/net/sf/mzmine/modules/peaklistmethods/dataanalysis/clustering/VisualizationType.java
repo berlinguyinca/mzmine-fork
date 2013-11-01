@@ -20,18 +20,17 @@
 package net.sf.mzmine.modules.peaklistmethods.dataanalysis.clustering;
 
 public enum VisualizationType {
-	
-    PCA("PCA"),
-    SAMMONS("Sammon's projection");  
-    
-    private final String name;
 
-    VisualizationType(String name) {
-        this.name = name;
-    }
+	PCA("PCA"), SAMMONS("Sammon's projection");
 
-    public String toString(){
-    	return this.name;
-    }
+	private final String name;
+
+	VisualizationType(String name) {
+		this.name = name;
+	}
+
+	public String toString() {
+		return this.name;
+	}
 
 }

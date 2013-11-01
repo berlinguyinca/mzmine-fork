@@ -77,13 +77,13 @@ public class SpectraToolBar extends JToolBar {
 				"SHOW_PICKED_PEAKS", "Toggle displaying of picked peaks");
 
 		addSeparator();
-		
+
 		GUIUtils.addButton(this, null, isotopePeakIcon, masterFrame,
 				"SHOW_ISOTOPE_PEAKS",
 				"Toggle displaying of predicted isotope peaks");
 
 		addSeparator();
-		
+
 		GUIUtils.addButton(this, null, axesIcon, masterFrame, "SETUP_AXES",
 				"Setup ranges for axes");
 

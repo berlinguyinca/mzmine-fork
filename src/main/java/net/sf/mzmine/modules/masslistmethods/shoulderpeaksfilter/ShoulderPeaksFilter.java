@@ -101,7 +101,8 @@ public class ShoulderPeaksFilter {
 	 * 
 	 */
 	private static void removeLateralPeaks(DataPoint currentCandidate,
-			TreeSet<DataPoint> candidates, PeakModel peakModel, double resolution) {
+			TreeSet<DataPoint> candidates, PeakModel peakModel,
+			double resolution) {
 
 		// We set our peak model with same position(m/z), height(intensity) and
 		// resolution of the current peak

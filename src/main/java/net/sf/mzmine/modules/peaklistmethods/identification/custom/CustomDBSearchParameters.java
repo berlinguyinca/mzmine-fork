@@ -57,8 +57,8 @@ public class CustomDBSearchParameters extends SimpleParameterSet {
 	public static final RTToleranceParameter rtTolerance = new RTToleranceParameter();
 
 	public CustomDBSearchParameters() {
-		super(new Parameter[] { peakLists, dataBaseFile, fieldSeparator,
-				fieldOrder, ignoreFirstLine, mzTolerance, rtTolerance });
+		super(new Parameter[]{peakLists, dataBaseFile, fieldSeparator,
+				fieldOrder, ignoreFirstLine, mzTolerance, rtTolerance});
 	}
 
 }

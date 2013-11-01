@@ -143,7 +143,8 @@ public class SpectraPlot extends ChartPanel {
 		plot.setRangeCrosshairVisible(false);
 
 		NumberFormat mzFormat = MZmineCore.getConfiguration().getMZFormat();
-		NumberFormat intensityFormat = MZmineCore.getConfiguration().getIntensityFormat();
+		NumberFormat intensityFormat = MZmineCore.getConfiguration()
+				.getIntensityFormat();
 
 		// set the X axis (retention time) properties
 		NumberAxis xAxis = (NumberAxis) plot.getDomainAxis();
@@ -335,7 +336,7 @@ public class SpectraPlot extends ChartPanel {
 		} else {
 			newRenderer = new PeakRenderer(color, transparency);
 		}
-		
+
 		plot.setDataset(numOfDataSets, dataSet);
 		plot.setRenderer(numOfDataSets, newRenderer);
 		numOfDataSets++;

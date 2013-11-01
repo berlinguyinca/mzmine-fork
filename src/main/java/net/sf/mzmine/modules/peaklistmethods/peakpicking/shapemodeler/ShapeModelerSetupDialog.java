@@ -55,8 +55,10 @@ import net.sf.mzmine.parameters.ParameterSet;
 import net.sf.mzmine.parameters.dialogs.ParameterSetupDialog;
 import net.sf.mzmine.util.GUIUtils;
 
-public class ShapeModelerSetupDialog extends ParameterSetupDialog implements
-		ActionListener, PropertyChangeListener {
+public class ShapeModelerSetupDialog extends ParameterSetupDialog
+		implements
+			ActionListener,
+			PropertyChangeListener {
 
 	private Logger logger = Logger.getLogger(this.getClass().getName());
 
@@ -206,7 +208,8 @@ public class ShapeModelerSetupDialog extends ParameterSetupDialog implements
 
 		try {
 			Class<?> shapeModelClass = model.getModelClass();
-			Constructor<?> shapeModelConstruct = shapeModelClass.getConstructors()[0];
+			Constructor<?> shapeModelConstruct = shapeModelClass
+					.getConstructors()[0];
 
 			// shapePeakModel(ChromatographicPeak originalDetectedShape, int[]
 			// scanNumbers,

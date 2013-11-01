@@ -30,7 +30,7 @@ public class ClusteringReportWindow extends JInternalFrame {
 	public ClusteringReportWindow(String[] samplesOrVariables,
 			Integer[] clusteringData, String title) {
 		super(title, true, true, true, true);
-		String[] columnNames = { "Variables", "Cluster number" };
+		String[] columnNames = {"Variables", "Cluster number"};
 		Object[][] data = new Object[samplesOrVariables.length][2];
 		for (int i = 0; i < samplesOrVariables.length; i++) {
 			data[i][0] = samplesOrVariables[i];

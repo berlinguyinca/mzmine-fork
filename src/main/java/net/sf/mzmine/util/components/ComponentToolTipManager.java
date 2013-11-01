@@ -36,8 +36,9 @@ import javax.swing.JPopupMenu;
 import javax.swing.JWindow;
 import javax.swing.ToolTipManager;
 
-public class ComponentToolTipManager extends MouseAdapter implements
-		MouseMotionListener {
+public class ComponentToolTipManager extends MouseAdapter
+		implements
+			MouseMotionListener {
 
 	String toolTipText;
 	Point preferredLocation;

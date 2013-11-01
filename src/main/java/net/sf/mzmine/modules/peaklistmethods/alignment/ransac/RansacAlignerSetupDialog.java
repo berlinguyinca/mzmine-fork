@@ -52,8 +52,9 @@ import net.sf.mzmine.util.Range;
  * is used to preview how the selected mass detector and his parameters works
  * over the raw data file.
  */
-public class RansacAlignerSetupDialog extends ParameterSetupDialog implements
-		ActionListener {
+public class RansacAlignerSetupDialog extends ParameterSetupDialog
+		implements
+			ActionListener {
 
 	// Dialog components
 	private JPanel pnlPlotXY, peakListsPanel;

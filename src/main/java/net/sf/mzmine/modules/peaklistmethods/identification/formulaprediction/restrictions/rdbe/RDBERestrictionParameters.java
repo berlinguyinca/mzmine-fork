@@ -39,7 +39,7 @@ public class RDBERestrictionParameters extends SimpleParameterSet {
 			"Only integer values are allowed for RDBE", true);
 
 	public RDBERestrictionParameters() {
-		super(new Parameter[] { rdbeRange, rdbeWholeNum });
+		super(new Parameter[]{rdbeRange, rdbeWholeNum});
 	}
 
 }

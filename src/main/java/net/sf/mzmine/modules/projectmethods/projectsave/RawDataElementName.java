@@ -21,34 +21,22 @@ package net.sf.mzmine.modules.projectmethods.projectsave;
 
 enum RawDataElementName {
 
-	RAWDATA ("rawdata"),	
-	NAME ("name"),
-	QUANTITY_SCAN("num_scans"),
-	ID ("id"),	
-	SCAN ("scan"),
-	SCAN_ID ("id"),
-	MS_LEVEL("mslevel"),
-	QUANTITY_FRAGMENT_SCAN ("fragmentscans"),
-	FRAGMENT_SCAN ("fragmentscan"),
-	QUANTITY ("quantity"),
-	PARENT_SCAN ("parent"),
-	PRECURSOR_MZ ("precursor_mz"),
-	PRECURSOR_CHARGE ("precursor_charge"),
-	RETENTION_TIME("rt"),
-	CENTROIDED ("centroid"),
-	QUANTITY_DATAPOINTS ("num_dp"),
-	MASS_LIST("mass_list"),
-	STORED_DATAPOINTS("stored_datapoints"),
-	STORED_DATA("stored_data"),
-	STORAGE_ID("storage_id");
+	RAWDATA("rawdata"), NAME("name"), QUANTITY_SCAN("num_scans"), ID("id"), SCAN(
+			"scan"), SCAN_ID("id"), MS_LEVEL("mslevel"), QUANTITY_FRAGMENT_SCAN(
+			"fragmentscans"), FRAGMENT_SCAN("fragmentscan"), QUANTITY(
+			"quantity"), PARENT_SCAN("parent"), PRECURSOR_MZ("precursor_mz"), PRECURSOR_CHARGE(
+			"precursor_charge"), RETENTION_TIME("rt"), CENTROIDED("centroid"), QUANTITY_DATAPOINTS(
+			"num_dp"), MASS_LIST("mass_list"), STORED_DATAPOINTS(
+			"stored_datapoints"), STORED_DATA("stored_data"), STORAGE_ID(
+			"storage_id");
 
 	private String elementName;
 
-	private RawDataElementName(String itemName){
+	private RawDataElementName(String itemName) {
 		this.elementName = itemName;
 	}
 
-	public String getElementName(){
+	public String getElementName() {
 		return elementName;
 	}
 

@@ -25,7 +25,7 @@ import java.util.EventObject;
  * A class for relaying Changes in TaskStatus to listeners
  */
 public class TaskEvent extends EventObject {
-	
+
 	private TaskStatus status;
 
 	/**

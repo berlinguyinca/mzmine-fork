@@ -40,7 +40,7 @@ public class ExactMzDataPoint implements DataPoint {
 	 */
 	public ExactMzDataPoint(DataPoint dataPoint) {
 		this(dataPoint.getMZ(), dataPoint.getIntensity(),
-				new DataPoint[] { dataPoint });
+				new DataPoint[]{dataPoint});
 	}
 
 	/**
@@ -111,7 +111,8 @@ public class ExactMzDataPoint implements DataPoint {
 
 	public String getName() {
 		Format mzFormat = MZmineCore.getConfiguration().getMZFormat();
-		Format intensityFormat = MZmineCore.getConfiguration().getIntensityFormat();
+		Format intensityFormat = MZmineCore.getConfiguration()
+				.getIntensityFormat();
 		String str = "m/z: " + mzFormat.format(mz) + ", intensity: "
 				+ intensityFormat.format(intensity);
 		return str;

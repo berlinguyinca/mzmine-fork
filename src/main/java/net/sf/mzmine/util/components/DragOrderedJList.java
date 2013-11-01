@@ -26,71 +26,73 @@ import java.awt.event.MouseMotionAdapter;
 import java.util.Vector;
 
 /**
- * A modified JList that can reorder items in the DefaultListModel by dragging with the mouse.
+ * A modified JList that can reorder items in the DefaultListModel by dragging
+ * with the mouse.
  */
 public class DragOrderedJList extends JList {
 
-    private int dragFrom;
+	private int dragFrom;
 
-    /**
-     * Create the list.
-     */
-    public DragOrderedJList() {
+	/**
+	 * Create the list.
+	 */
+	public DragOrderedJList() {
 
-        // Initialize.
-        super(new DefaultListModel());
-        dragFrom = -1;
+		// Initialize.
+		super(new DefaultListModel());
+		dragFrom = -1;
 
-        // Add mouse button pressed listener.
-        addMouseListener(new MouseAdapter() {
+		// Add mouse button pressed listener.
+		addMouseListener(new MouseAdapter() {
 
-            @Override
-            public void mousePressed(final MouseEvent e) {
-                dragFrom = getSelectedIndex();
-            }
-        });
+			@Override
+			public void mousePressed(final MouseEvent e) {
+				dragFrom = getSelectedIndex();
+			}
+		});
 
-        // Add mouse drag listener.
-        addMouseMotionListener(new MouseMotionAdapter() {
+		// Add mouse drag listener.
+		addMouseMotionListener(new MouseMotionAdapter() {
 
-            @Override
-            public void mouseDragged(final MouseEvent e) {
+			@Override
+			public void mouseDragged(final MouseEvent e) {
 
-                // Get drag target
-                final int dragTo = getSelectedIndex();
+				// Get drag target
+				final int dragTo = getSelectedIndex();
 
-                // ignore event if order has not changed
-                if (dragTo != dragFrom && dragFrom >= 0 && dragTo >= 0) {
+				// ignore event if order has not changed
+				if (dragTo != dragFrom && dragFrom >= 0 && dragTo >= 0) {
 
-                    // Reorder the items.
-                    final DefaultListModel listModel = (DefaultListModel) getModel();
-                    final Object item = listModel.getElementAt(dragFrom);
-                    listModel.removeElementAt(dragFrom);
-                    listModel.add(dragTo, item);
+					// Reorder the items.
+					final DefaultListModel listModel = (DefaultListModel) getModel();
+					final Object item = listModel.getElementAt(dragFrom);
+					listModel.removeElementAt(dragFrom);
+					listModel.add(dragTo, item);
 
-                    // Update drag source.
-                    dragFrom = dragTo;
-                }
-            }
-        });
-    }
+					// Update drag source.
+					dragFrom = dragTo;
+				}
+			}
+		});
+	}
 
-    @Override
-    public void setModel(final ListModel model) {
+	@Override
+	public void setModel(final ListModel model) {
 
-        // Ensure only DefaultListModels are used.
-        if (!(model instanceof DefaultListModel)) {
-            throw new IllegalArgumentException("Only DefaultListModels can be used with this component");
-        }
-        super.setModel(model);
-    }
+		// Ensure only DefaultListModels are used.
+		if (!(model instanceof DefaultListModel)) {
+			throw new IllegalArgumentException(
+					"Only DefaultListModels can be used with this component");
+		}
+		super.setModel(model);
+	}
 
-    @Override
-    public void setListData(final Vector<?> listData) {
-        final DefaultListModel model = new DefaultListModel();
-        for (final Object element : listData) {
-            model.addElement(element);
-        }
-        setModel(model);
-    }
+	@Override
+	public void setListData(final Vector<?> listData) {
+		final DefaultListModel model = new DefaultListModel();
+		for (final Object element : listData) {
+			model.addElement(element);
+		}
+		setModel(model);
+	}
 }

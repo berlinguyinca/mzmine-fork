@@ -26,21 +26,22 @@ import net.sf.mzmine.parameters.parametertypes.StringParameter;
 
 public class SQLExportParameters extends SimpleParameterSet {
 
-    public static final PeakListsParameter peakList = new PeakListsParameter(1,
-	    1);
+	public static final PeakListsParameter peakList = new PeakListsParameter(1,
+			1);
 
-    public static final StringParameter connectionString = new StringParameter(
-	    "JDBC connection string",
-	    "JDBC connection string to identify the database, e.g. jdbc:mysql://localhost/dbname?user=sqluser&password=sqluserpw");
+	public static final StringParameter connectionString = new StringParameter(
+			"JDBC connection string",
+			"JDBC connection string to identify the database, e.g. jdbc:mysql://localhost/dbname?user=sqluser&password=sqluserpw");
 
-    public static final StringParameter tableName = new StringParameter(
-	    "Database table",
-	    "Name of the table into which the peak list is going to be exported");
+	public static final StringParameter tableName = new StringParameter(
+			"Database table",
+			"Name of the table into which the peak list is going to be exported");
 
-    public static final SQLColumnSettingsParameter exportColumns = new SQLColumnSettingsParameter();
+	public static final SQLColumnSettingsParameter exportColumns = new SQLColumnSettingsParameter();
 
-    public SQLExportParameters() {
-	super(new Parameter[] { peakList, connectionString, tableName, exportColumns });
-    }
+	public SQLExportParameters() {
+		super(new Parameter[]{peakList, connectionString, tableName,
+				exportColumns});
+	}
 
 }

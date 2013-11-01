@@ -49,8 +49,8 @@ public class DuplicateFilterParameters extends SimpleParameterSet {
 			"If checked, original peaklist will be removed and only deisotoped version remains");
 
 	public DuplicateFilterParameters() {
-		super(new Parameter[] { peakLists, suffix, mzDifferenceMax,
-				rtDifferenceMax, requireSameIdentification, autoRemove, });
+		super(new Parameter[]{peakLists, suffix, mzDifferenceMax,
+				rtDifferenceMax, requireSameIdentification, autoRemove,});
 	}
 
 }

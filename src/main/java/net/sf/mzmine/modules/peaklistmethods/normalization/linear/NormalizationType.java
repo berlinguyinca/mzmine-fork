@@ -18,13 +18,12 @@
  */
 
 package net.sf.mzmine.modules.peaklistmethods.normalization.linear;
-	
+
 public enum NormalizationType {
 
-	AverageIntensity("Average intensity"),
-	AverageSquaredIntensity("Average squared intensity"),
-	MaximumPeakHeight("Maximum peak intensity"),
-	TotalRawSignal("Total raw signal");
+	AverageIntensity("Average intensity"), AverageSquaredIntensity(
+			"Average squared intensity"), MaximumPeakHeight(
+			"Maximum peak intensity"), TotalRawSignal("Total raw signal");
 
 	private final String name;
 

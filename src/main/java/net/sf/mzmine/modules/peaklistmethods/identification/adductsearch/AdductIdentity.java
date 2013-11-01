@@ -25,17 +25,22 @@ import net.sf.mzmine.main.MZmineCore;
 
 public class AdductIdentity extends SimplePeakIdentity {
 
-    /**
-     * Create the identity.
-     *
-     * @param originalPeakListRow adduct of this peak list row.
-     * @param adduct              type of adduct.
-     */
-    public AdductIdentity(final PeakListRow originalPeakListRow, final AdductType adduct) {
+	/**
+	 * Create the identity.
+	 * 
+	 * @param originalPeakListRow
+	 *            adduct of this peak list row.
+	 * @param adduct
+	 *            type of adduct.
+	 */
+	public AdductIdentity(final PeakListRow originalPeakListRow,
+			final AdductType adduct) {
 
-        super(adduct.toString() + " adduct of "
-              + MZmineCore.getConfiguration().getMZFormat().format(originalPeakListRow.getAverageMZ()) + " m/z");
+		super(adduct.toString()
+				+ " adduct of "
+				+ MZmineCore.getConfiguration().getMZFormat()
+						.format(originalPeakListRow.getAverageMZ()) + " m/z");
 
-        setPropertyValue(PROPERTY_METHOD, "Adduct search");
-    }
+		setPropertyValue(PROPERTY_METHOD, "Adduct search");
+	}
 }

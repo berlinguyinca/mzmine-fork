@@ -36,12 +36,12 @@ public class ProjectionPlotToolTipGenerator implements XYZToolTipGenerator {
 	private LabelMode labelMode;
 
 	ProjectionPlotToolTipGenerator(ParameterSet parameters) {
-                try{
-                        coloringType = parameters.getParameter(
-				ProjectionPlotParameters.coloringType).getValue();
-                }catch(IllegalArgumentException exeption){
-                        coloringType = ColoringType.NOCOLORING;
-                }
+		try {
+			coloringType = parameters.getParameter(
+					ProjectionPlotParameters.coloringType).getValue();
+		} catch (IllegalArgumentException exeption) {
+			coloringType = ColoringType.NOCOLORING;
+		}
 		if (coloringType.equals(ColoringType.NOCOLORING))
 			labelMode = LabelMode.FileName;
 
@@ -57,23 +57,23 @@ public class ProjectionPlotToolTipGenerator implements XYZToolTipGenerator {
 
 		switch (labelMode) {
 
-		case FileName:
-		default:
-			return dataset.getRawDataFile(item);
+			case FileName :
+			default :
+				return dataset.getRawDataFile(item);
 
-		case FileNameAndParameterValue:
-			String ret = dataset.getRawDataFile(item) + "\n";
+			case FileNameAndParameterValue :
+				String ret = dataset.getRawDataFile(item) + "\n";
 
-			ret += coloringType.getParameter().getName() + ": ";
+				ret += coloringType.getParameter().getName() + ": ";
 
-			int groupNumber = dataset.getGroupNumber(item);
-			Object paramValue = dataset.getGroupParameterValue(groupNumber);
-			if (paramValue != null)
-				ret += paramValue.toString();
-			else
-				ret += "N/A";
+				int groupNumber = dataset.getGroupNumber(item);
+				Object paramValue = dataset.getGroupParameterValue(groupNumber);
+				if (paramValue != null)
+					ret += paramValue.toString();
+				else
+					ret += "N/A";
 
-			return ret;
+				return ret;
 		}
 
 	}

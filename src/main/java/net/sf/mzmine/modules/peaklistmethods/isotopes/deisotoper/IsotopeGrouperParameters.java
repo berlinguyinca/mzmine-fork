@@ -35,7 +35,7 @@ public class IsotopeGrouperParameters extends SimpleParameterSet {
 	public static final String ChooseLowestMZ = "Lowest m/z";
 
 	public static final String[] representativeIsotopeValues = {
-			ChooseTopIntensity, ChooseLowestMZ };
+			ChooseTopIntensity, ChooseLowestMZ};
 
 	public static final PeakListsParameter peakLists = new PeakListsParameter();
 
@@ -67,9 +67,9 @@ public class IsotopeGrouperParameters extends SimpleParameterSet {
 			"If checked, original peaklist will be removed and only deisotoped version remains");
 
 	public IsotopeGrouperParameters() {
-		super(new Parameter[] { peakLists, suffix, mzTolerance, rtTolerance,
+		super(new Parameter[]{peakLists, suffix, mzTolerance, rtTolerance,
 				monotonicShape, maximumCharge, representativeIsotope,
-				autoRemove });
+				autoRemove});
 	}
 
 }

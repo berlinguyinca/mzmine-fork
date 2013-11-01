@@ -60,8 +60,8 @@ public class ScatterPlotBottomPanel extends JPanel implements ActionListener {
 	private JLabel labelRange;
 	private JCheckBox labeledItems;
 
-	private static final String[] foldXvalues = { "2", "4", "5", "8", "10",
-			"15", "20", "50", "100", "200", "1000" };
+	private static final String[] foldXvalues = {"2", "4", "5", "8", "10",
+			"15", "20", "50", "100", "200", "1000"};
 
 	private PeakList peakList;
 	private ScatterPlotChart chart;
@@ -72,8 +72,9 @@ public class ScatterPlotBottomPanel extends JPanel implements ActionListener {
 		this.chart = chart;
 
 		// Axes combo boxes
-		ScatterPlotAxisSelection axesOptions[] = ScatterPlotAxisSelection.generateOptionsForPeakList(peakList);
-		
+		ScatterPlotAxisSelection axesOptions[] = ScatterPlotAxisSelection
+				.generateOptionsForPeakList(peakList);
+
 		comboX = new JComboBox(axesOptions);
 		comboX.addActionListener(this);
 		comboX.setActionCommand("DATA_CHANGE");
@@ -138,9 +139,9 @@ public class ScatterPlotBottomPanel extends JPanel implements ActionListener {
 		pnlGridSearch.add(maxSearchField, cSrch);
 
 		JPanel pnlSearch = new JPanel();
-		pnlSearch.setBorder(BorderFactory.createTitledBorder(BorderFactory
-				.createEtchedBorder(EtchedBorder.LOWERED), "Search by",
-				TitledBorder.LEFT, TitledBorder.TOP));
+		pnlSearch.setBorder(BorderFactory.createTitledBorder(
+				BorderFactory.createEtchedBorder(EtchedBorder.LOWERED),
+				"Search by", TitledBorder.LEFT, TitledBorder.TOP));
 
 		pnlSearch.add(comboSearchDataType);
 		pnlSearch.add(pnlGridSearch);
@@ -205,8 +206,10 @@ public class ScatterPlotBottomPanel extends JPanel implements ActionListener {
 
 		if (command.equals("DATA_CHANGE")) {
 
-			ScatterPlotAxisSelection optionX = (ScatterPlotAxisSelection) comboX.getSelectedItem();
-			ScatterPlotAxisSelection optionY = (ScatterPlotAxisSelection) comboY.getSelectedItem();
+			ScatterPlotAxisSelection optionX = (ScatterPlotAxisSelection) comboX
+					.getSelectedItem();
+			ScatterPlotAxisSelection optionY = (ScatterPlotAxisSelection) comboY
+					.getSelectedItem();
 
 			if ((optionX == null) || (optionY == null))
 				return;
@@ -235,8 +238,8 @@ public class ScatterPlotBottomPanel extends JPanel implements ActionListener {
 			Number maxValue = ((Number) maxSearchField.getValue());
 			if (maxValue == null)
 				maxValue = 0;
-			Range searchRange = new Range(minValue.doubleValue(), maxValue
-					.doubleValue());
+			Range searchRange = new Range(minValue.doubleValue(),
+					maxValue.doubleValue());
 			try {
 				SearchDefinition newSearch = new SearchDefinition(searchType,
 						searchRegex, searchRange);
@@ -255,42 +258,44 @@ public class ScatterPlotBottomPanel extends JPanel implements ActionListener {
 
 			switch (searchType) {
 
-			case MASS:
-				minSearchField.setVisible(true);
-				maxSearchField.setVisible(true);
-				labelRange.setVisible(true);
-				txtSearchField.setVisible(false);
-				NumberFormat mzFormatter = MZmineCore.getConfiguration().getMZFormat();
-				Range mzRange = peakList.getRowsMZRange();
-				DefaultFormatterFactory mzFormatFac = new DefaultFormatterFactory(
-						new NumberFormatter(mzFormatter));
-				minSearchField.setFormatterFactory(mzFormatFac);
-				minSearchField.setValue(mzRange.getMin());
-				maxSearchField.setFormatterFactory(mzFormatFac);
-				maxSearchField.setValue(mzRange.getMax());
-				break;
+				case MASS :
+					minSearchField.setVisible(true);
+					maxSearchField.setVisible(true);
+					labelRange.setVisible(true);
+					txtSearchField.setVisible(false);
+					NumberFormat mzFormatter = MZmineCore.getConfiguration()
+							.getMZFormat();
+					Range mzRange = peakList.getRowsMZRange();
+					DefaultFormatterFactory mzFormatFac = new DefaultFormatterFactory(
+							new NumberFormatter(mzFormatter));
+					minSearchField.setFormatterFactory(mzFormatFac);
+					minSearchField.setValue(mzRange.getMin());
+					maxSearchField.setFormatterFactory(mzFormatFac);
+					maxSearchField.setValue(mzRange.getMax());
+					break;
 
-			case RT:
-				minSearchField.setVisible(true);
-				maxSearchField.setVisible(true);
-				labelRange.setVisible(true);
-				txtSearchField.setVisible(false);
-				NumberFormat rtFormatter = MZmineCore.getConfiguration().getRTFormat();
-				Range rtRange = peakList.getRowsRTRange();
-				DefaultFormatterFactory rtFormatFac = new DefaultFormatterFactory(
-						new NumberFormatter(rtFormatter));
-				minSearchField.setFormatterFactory(rtFormatFac);
-				minSearchField.setValue(rtRange.getMin());
-				maxSearchField.setFormatterFactory(rtFormatFac);
-				maxSearchField.setValue(rtRange.getMax());
-				break;
+				case RT :
+					minSearchField.setVisible(true);
+					maxSearchField.setVisible(true);
+					labelRange.setVisible(true);
+					txtSearchField.setVisible(false);
+					NumberFormat rtFormatter = MZmineCore.getConfiguration()
+							.getRTFormat();
+					Range rtRange = peakList.getRowsRTRange();
+					DefaultFormatterFactory rtFormatFac = new DefaultFormatterFactory(
+							new NumberFormatter(rtFormatter));
+					minSearchField.setFormatterFactory(rtFormatFac);
+					minSearchField.setValue(rtRange.getMin());
+					maxSearchField.setFormatterFactory(rtFormatFac);
+					maxSearchField.setValue(rtRange.getMax());
+					break;
 
-			case NAME:
-				minSearchField.setVisible(false);
-				maxSearchField.setVisible(false);
-				labelRange.setVisible(false);
-				txtSearchField.setVisible(true);
-				break;
+				case NAME :
+					minSearchField.setVisible(false);
+					maxSearchField.setVisible(false);
+					labelRange.setVisible(false);
+					txtSearchField.setVisible(true);
+					break;
 			}
 
 			return;

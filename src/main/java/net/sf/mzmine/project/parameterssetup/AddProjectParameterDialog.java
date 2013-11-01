@@ -44,8 +44,9 @@ import net.sf.mzmine.parameters.parametertypes.ComboParameter;
 import net.sf.mzmine.parameters.parametertypes.DoubleParameter;
 import net.sf.mzmine.parameters.parametertypes.StringParameter;
 
-public class AddProjectParameterDialog extends JDialog implements
-		ActionListener {
+public class AddProjectParameterDialog extends JDialog
+		implements
+			ActionListener {
 
 	private JPanel panelAddNewParameter;
 	private JLabel labelAddNewParameter;

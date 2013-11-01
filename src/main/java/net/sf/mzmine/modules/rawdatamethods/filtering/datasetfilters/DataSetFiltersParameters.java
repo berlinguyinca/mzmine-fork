@@ -29,7 +29,7 @@ import net.sf.mzmine.parameters.parametertypes.StringParameter;
 
 public class DataSetFiltersParameters extends SimpleParameterSet {
 
-	public static final RawDataSetFilter rawDataFilters[] = { new CropFilter() };
+	public static final RawDataSetFilter rawDataFilters[] = {new CropFilter()};
 
 	public static final RawDataFilesParameter dataFiles = new RawDataFilesParameter();
 
@@ -44,7 +44,7 @@ public class DataSetFiltersParameters extends SimpleParameterSet {
 			"If checked, original file will be removed and only filtered version remains");
 
 	public DataSetFiltersParameters() {
-		super(new Parameter[] { dataFiles, suffix, filter, autoRemove });
+		super(new Parameter[]{dataFiles, suffix, filter, autoRemove});
 	}
 
 }

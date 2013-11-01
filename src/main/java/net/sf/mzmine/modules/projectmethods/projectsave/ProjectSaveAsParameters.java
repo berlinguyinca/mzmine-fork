@@ -34,14 +34,14 @@ import net.sf.mzmine.util.ExitCode;
 
 public class ProjectSaveAsParameters extends SimpleParameterSet {
 
-	private static final FileFilter filters[] = new FileFilter[] { new FileNameExtensionFilter(
-			"MZmine projects", "mzmine") };
+	private static final FileFilter filters[] = new FileFilter[]{new FileNameExtensionFilter(
+			"MZmine projects", "mzmine")};
 
 	public static final FileNameParameter projectFile = new FileNameParameter(
 			"Project file", "File name of project to be saved");
 
 	public ProjectSaveAsParameters() {
-		super(new Parameter[] { projectFile });
+		super(new Parameter[]{projectFile});
 	}
 
 	public ExitCode showSetupDialog() {
@@ -57,7 +57,7 @@ public class ProjectSaveAsParameters extends SimpleParameterSet {
 			if ((currentDir != null) && (currentDir.exists()))
 				chooser.setCurrentDirectory(currentDir);
 		}
-		
+
 		chooser.setMultiSelectionEnabled(false);
 
 		int returnVal = chooser.showSaveDialog(MZmineCore.getDesktop()

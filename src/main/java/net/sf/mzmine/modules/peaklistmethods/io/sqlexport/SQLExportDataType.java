@@ -21,30 +21,30 @@ package net.sf.mzmine.modules.peaklistmethods.io.sqlexport;
 
 public enum SQLExportDataType {
 
-    CONSTANT("Constant value", true), //
-    MZ("m/z", false), //
-    RT("Retention time", false), //
-    HEIGHT("Peak height", false), //
-    AREA("Peak area", false), //
-    COMMENT("Comment", false), //
-    IDENTITY("Identity", false), //
-    MSMS("MS/MS pattern (BLOB)", true), //
-    ISOTOPEPATTERN("Isotope pattern (BLOB)", false);
+	CONSTANT("Constant value", true), //
+	MZ("m/z", false), //
+	RT("Retention time", false), //
+	HEIGHT("Peak height", false), //
+	AREA("Peak area", false), //
+	COMMENT("Comment", false), //
+	IDENTITY("Identity", false), //
+	MSMS("MS/MS pattern (BLOB)", true), //
+	ISOTOPEPATTERN("Isotope pattern (BLOB)", false);
 
-    private final String name;
-    private final boolean hasAdditionalValue;
+	private final String name;
+	private final boolean hasAdditionalValue;
 
-    SQLExportDataType(String name, boolean hasAdditionalValue) {
-	this.name = name;
-	this.hasAdditionalValue = hasAdditionalValue;
-    }
+	SQLExportDataType(String name, boolean hasAdditionalValue) {
+		this.name = name;
+		this.hasAdditionalValue = hasAdditionalValue;
+	}
 
-    public String toString() {
-	return this.name;
-    }
+	public String toString() {
+		return this.name;
+	}
 
-    public boolean hasAdditionalValue() {
-	return hasAdditionalValue;
-    }
+	public boolean hasAdditionalValue() {
+		return hasAdditionalValue;
+	}
 
 }

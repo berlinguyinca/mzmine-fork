@@ -63,7 +63,7 @@ public class ProjectTree extends JTree {
 		addMouseListener(popupHandler);
 
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public <T> T[] getSelectedObjects(Class<T> objectClass) {
 		Vector<T> selectedObjects = new Vector<T>();
@@ -82,7 +82,8 @@ public class ProjectTree extends JTree {
 
 		for (int row : selectedRows) {
 			TreePath path = getPathForRow(row);
-			DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) path.getLastPathComponent();
+			DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) path
+					.getLastPathComponent();
 			Object selectedObject = selectedNode.getUserObject();
 			if (objectClass.isInstance(selectedObject))
 				selectedObjects.add((T) selectedObject);

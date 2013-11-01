@@ -44,7 +44,7 @@ public class WaveletMassDetectorParameters extends SimpleParameterSet {
 			"Size in % of wavelet window to apply in m/z peak detection");
 
 	public WaveletMassDetectorParameters() {
-		super(new Parameter[] { noiseLevel, scaleLevel, waveletWindow });
+		super(new Parameter[]{noiseLevel, scaleLevel, waveletWindow});
 	}
 
 	public ExitCode showSetupDialog() {

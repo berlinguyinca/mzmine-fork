@@ -41,8 +41,9 @@ import net.sf.mzmine.util.PeakMeasurementType;
 
 import org.jfree.data.xy.AbstractXYDataset;
 
-public class SammonsDataset extends AbstractXYDataset implements
-		ProjectionPlotDataset {
+public class SammonsDataset extends AbstractXYDataset
+		implements
+			ProjectionPlotDataset {
 
 	private Logger logger = Logger.getLogger(this.getClass().getName());
 	private LinkedList<TaskListener> taskListeners = new LinkedList<TaskListener>();
@@ -73,14 +74,15 @@ public class SammonsDataset extends AbstractXYDataset implements
 
 	public SammonsDataset(ParameterSet parameters) {
 
-		this.peakList = parameters.getParameter(ProjectionPlotParameters.peakLists).getValue()[0];
+		this.peakList = parameters.getParameter(
+				ProjectionPlotParameters.peakLists).getValue()[0];
 		this.parameters = parameters;
 		this.xAxisDimension = parameters.getParameter(
 				ProjectionPlotParameters.xAxisComponent).getValue();
 		this.yAxisDimension = parameters.getParameter(
 				ProjectionPlotParameters.yAxisComponent).getValue();
 
-                        coloringType = parameters.getParameter(
+		coloringType = parameters.getParameter(
 				ProjectionPlotParameters.coloringType).getValue();
 		selectedRawDataFiles = parameters.getParameter(
 				ProjectionPlotParameters.dataFiles).getValue();
@@ -249,8 +251,8 @@ public class SammonsDataset extends AbstractXYDataset implements
 		component1Coords = result[xAxisDimension - 1];
 		component2Coords = result[yAxisDimension - 1];
 
-		ProjectionPlotWindow newFrame = new ProjectionPlotWindow(peakList, this,
-				parameters);
+		ProjectionPlotWindow newFrame = new ProjectionPlotWindow(peakList,
+				this, parameters);
 		MZmineCore.getDesktop().addInternalFrame(newFrame);
 
 		setStatus(TaskStatus.FINISHED);

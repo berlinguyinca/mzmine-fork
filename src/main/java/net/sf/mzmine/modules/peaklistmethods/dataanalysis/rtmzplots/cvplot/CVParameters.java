@@ -32,38 +32,38 @@ import net.sf.mzmine.util.PeakMeasurementType;
 
 public class CVParameters extends SimpleParameterSet {
 
-    public static final PeakListsParameter peakLists = new PeakListsParameter(
-	    1, 1);
+	public static final PeakListsParameter peakLists = new PeakListsParameter(
+			1, 1);
 
-    public static final MultiChoiceParameter<RawDataFile> dataFiles = new MultiChoiceParameter<RawDataFile>(
-	    "Data files", "Samples for CV analysis", new RawDataFile[0], null,
-	    2);
+	public static final MultiChoiceParameter<RawDataFile> dataFiles = new MultiChoiceParameter<RawDataFile>(
+			"Data files", "Samples for CV analysis", new RawDataFile[0], null,
+			2);
 
-    public static final ComboParameter<PeakMeasurementType> measurementType = new ComboParameter<PeakMeasurementType>(
-	    "Peak measurement type",
-	    "Determines whether peak's area or height is used in computations.",
-	    PeakMeasurementType.values());
+	public static final ComboParameter<PeakMeasurementType> measurementType = new ComboParameter<PeakMeasurementType>(
+			"Peak measurement type",
+			"Determines whether peak's area or height is used in computations.",
+			PeakMeasurementType.values());
 
-    public CVParameters() {
-	super(new Parameter[] { peakLists, dataFiles, measurementType });
-    }
-
-    @Override
-    public ExitCode showSetupDialog() {
-
-	PeakList selectedPeakLists[] = getParameter(peakLists).getValue();
-
-	if (selectedPeakLists.length != 1) {
-	    MZmineCore.getDesktop().displayErrorMessage(
-		    "Please select a single peak list");
-	    return ExitCode.CANCEL;
+	public CVParameters() {
+		super(new Parameter[]{peakLists, dataFiles, measurementType});
 	}
 
-	RawDataFile plDataFiles[] = selectedPeakLists[0].getRawDataFiles();
+	@Override
+	public ExitCode showSetupDialog() {
 
-	getParameter(dataFiles).setChoices(plDataFiles);
+		PeakList selectedPeakLists[] = getParameter(peakLists).getValue();
 
-	return super.showSetupDialog();
-    }
+		if (selectedPeakLists.length != 1) {
+			MZmineCore.getDesktop().displayErrorMessage(
+					"Please select a single peak list");
+			return ExitCode.CANCEL;
+		}
+
+		RawDataFile plDataFiles[] = selectedPeakLists[0].getRawDataFiles();
+
+		getParameter(dataFiles).setChoices(plDataFiles);
+
+		return super.showSetupDialog();
+	}
 
 }

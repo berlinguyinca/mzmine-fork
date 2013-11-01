@@ -20,6 +20,7 @@
 package net.sf.mzmine.modules.peaklistmethods.filtering.rowsfilter;
 
 import java.util.Collection;
+import java.util.logging.Logger;
 
 import javax.annotation.Nonnull;
 
@@ -36,44 +37,51 @@ import net.sf.mzmine.util.ExitCode;
  */
 public class RowsFilterModule implements MZmineProcessingModule {
 
-    private static final String MODULE_NAME = "Peak list rows filter";
-    private static final String MODULE_DESCRIPTION = "This method removes certain entries for a peak list based on given restrictions.";
+	private Logger logger = Logger.getLogger(getName());
 
-    @Override
-    public @Nonnull String getName() {
-	return MODULE_NAME;
-    }
+	private static final String MODULE_NAME = "Peak list rows filter";
+	private static final String MODULE_DESCRIPTION = "This method removes certain entries for a peak list based on given restrictions.";
 
-    @Override
-    public @Nonnull String getDescription() {
-	return MODULE_DESCRIPTION;
-    }
-
-    @Override
-    @Nonnull
-    public ExitCode runModule(@Nonnull ParameterSet parameters,
-	    @Nonnull Collection<Task> tasks) {
-
-	final PeakList[] peakLists = parameters.getParameter(
-		RowsFilterParameters.PEAK_LISTS).getValue();
-
-	for (PeakList peakList : peakLists) {
-
-	    Task newTask = new RowsFilterTask(peakList, parameters);
-	    tasks.add(newTask);
-
+	@Override
+	public @Nonnull
+	String getName() {
+		return MODULE_NAME;
 	}
 
-	return ExitCode.OK;
-    }
+	@Override
+	public @Nonnull
+	String getDescription() {
+		return MODULE_DESCRIPTION;
+	}
 
-    @Override
-    public @Nonnull MZmineModuleCategory getModuleCategory() {
-	return MZmineModuleCategory.PEAKLISTFILTERING;
-    }
+	@Override
+	@Nonnull
+	public ExitCode runModule(@Nonnull ParameterSet parameters,
+			@Nonnull Collection<Task> tasks) {
 
-    @Override
-    public @Nonnull Class<? extends ParameterSet> getParameterSetClass() {
-	return RowsFilterParameters.class;
-    }
+		final PeakList[] peakLists = parameters.getParameter(
+				RowsFilterParameters.PEAK_LISTS).getValue();
+		logger.info("registered peakLists: " + peakLists);
+
+		for (PeakList peakList : peakLists) {
+
+			Task newTask = new RowsFilterTask(peakList, parameters);
+			tasks.add(newTask);
+
+		}
+
+		return ExitCode.OK;
+	}
+
+	@Override
+	public @Nonnull
+	MZmineModuleCategory getModuleCategory() {
+		return MZmineModuleCategory.PEAKLISTFILTERING;
+	}
+
+	@Override
+	public @Nonnull
+	Class<? extends ParameterSet> getParameterSetClass() {
+		return RowsFilterParameters.class;
+	}
 }

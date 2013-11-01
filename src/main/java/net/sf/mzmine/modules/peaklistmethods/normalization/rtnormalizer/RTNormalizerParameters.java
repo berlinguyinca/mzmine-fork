@@ -31,27 +31,27 @@ import net.sf.mzmine.parameters.parametertypes.StringParameter;
 
 public class RTNormalizerParameters extends SimpleParameterSet {
 
-    public static final PeakListsParameter peakLists = new PeakListsParameter(2);
+	public static final PeakListsParameter peakLists = new PeakListsParameter(2);
 
-    public static final StringParameter suffix = new StringParameter(
-	    "Name suffix", "Suffix to be added to peak list name", "normalized");
+	public static final StringParameter suffix = new StringParameter(
+			"Name suffix", "Suffix to be added to peak list name", "normalized");
 
-    public static final MZToleranceParameter MZTolerance = new MZToleranceParameter();
+	public static final MZToleranceParameter MZTolerance = new MZToleranceParameter();
 
-    public static final RTToleranceParameter RTTolerance = new RTToleranceParameter();
+	public static final RTToleranceParameter RTTolerance = new RTToleranceParameter();
 
-    public static final DoubleParameter minHeight = new DoubleParameter(
-	    "Minimum standard intensity",
-	    "Minimum height of a peak to be selected as normalization standard",
-	    MZmineCore.getConfiguration().getIntensityFormat());
+	public static final DoubleParameter minHeight = new DoubleParameter(
+			"Minimum standard intensity",
+			"Minimum height of a peak to be selected as normalization standard",
+			MZmineCore.getConfiguration().getIntensityFormat());
 
-    public static final BooleanParameter autoRemove = new BooleanParameter(
-	    "Remove original peak list",
-	    "If checked, original peak list will be removed and only normalized version remains");
+	public static final BooleanParameter autoRemove = new BooleanParameter(
+			"Remove original peak list",
+			"If checked, original peak list will be removed and only normalized version remains");
 
-    public RTNormalizerParameters() {
-	super(new Parameter[] { peakLists, suffix, MZTolerance, RTTolerance,
-		minHeight, autoRemove });
-    }
+	public RTNormalizerParameters() {
+		super(new Parameter[]{peakLists, suffix, MZTolerance, RTTolerance,
+				minHeight, autoRemove});
+	}
 
 }

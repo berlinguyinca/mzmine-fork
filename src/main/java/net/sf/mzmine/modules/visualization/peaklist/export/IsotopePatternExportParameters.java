@@ -30,7 +30,7 @@ public class IsotopePatternExportParameters extends SimpleParameterSet {
 			"Please set the path and name of the output text file");
 
 	public IsotopePatternExportParameters() {
-		super(new Parameter[] { outputFile });
+		super(new Parameter[]{outputFile});
 	}
 
 }

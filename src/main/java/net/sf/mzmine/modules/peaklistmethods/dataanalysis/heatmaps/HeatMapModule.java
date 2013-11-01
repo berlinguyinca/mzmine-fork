@@ -33,39 +33,43 @@ import net.sf.mzmine.util.ExitCode;
 
 public class HeatMapModule implements MZmineProcessingModule {
 
-    private static final String MODULE_NAME = "Heat map plot";
-    private static final String MODULE_DESCRIPTION = "Heat map plot.";
+	private static final String MODULE_NAME = "Heat map plot";
+	private static final String MODULE_DESCRIPTION = "Heat map plot.";
 
-    @Override
-    public @Nonnull String getName() {
-	return MODULE_NAME;
-    }
+	@Override
+	public @Nonnull
+	String getName() {
+		return MODULE_NAME;
+	}
 
-    @Override
-    public @Nonnull String getDescription() {
-	return MODULE_DESCRIPTION;
-    }
+	@Override
+	public @Nonnull
+	String getDescription() {
+		return MODULE_DESCRIPTION;
+	}
 
-    @Override
-    @Nonnull
-    public ExitCode runModule(@Nonnull ParameterSet parameters,
-	    @Nonnull Collection<Task> tasks) {
-	PeakList[] selectedDatasets = MZmineCore.getDesktop()
-		.getSelectedPeakLists();
-	HeatMapTask heatMapTask = new HeatMapTask(selectedDatasets[0],
-		parameters);
-	tasks.add(heatMapTask);
-	return ExitCode.OK;
+	@Override
+	@Nonnull
+	public ExitCode runModule(@Nonnull ParameterSet parameters,
+			@Nonnull Collection<Task> tasks) {
+		PeakList[] selectedDatasets = MZmineCore.getDesktop()
+				.getSelectedPeakLists();
+		HeatMapTask heatMapTask = new HeatMapTask(selectedDatasets[0],
+				parameters);
+		tasks.add(heatMapTask);
+		return ExitCode.OK;
 
-    }
+	}
 
-    public @Nonnull MZmineModuleCategory getModuleCategory() {
-	return MZmineModuleCategory.DATAANALYSIS;
-    }
+	public @Nonnull
+	MZmineModuleCategory getModuleCategory() {
+		return MZmineModuleCategory.DATAANALYSIS;
+	}
 
-    @Override
-    public @Nonnull Class<? extends ParameterSet> getParameterSetClass() {
-	return HeatMapParameters.class;
-    }
+	@Override
+	public @Nonnull
+	Class<? extends ParameterSet> getParameterSetClass() {
+		return HeatMapParameters.class;
+	}
 
 }

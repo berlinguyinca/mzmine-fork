@@ -34,7 +34,7 @@ public class ExactMassDetectorParameters extends SimpleParameterSet {
 			MZmineCore.getConfiguration().getIntensityFormat());
 
 	public ExactMassDetectorParameters() {
-		super(new UserParameter[] { noiseLevel });
+		super(new UserParameter[]{noiseLevel});
 	}
 
 	public ExitCode showSetupDialog() {

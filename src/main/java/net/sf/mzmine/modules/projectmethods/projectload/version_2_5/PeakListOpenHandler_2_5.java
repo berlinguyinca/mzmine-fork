@@ -54,8 +54,9 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import com.Ostermiller.util.Base64;
 
-public class PeakListOpenHandler_2_5 extends DefaultHandler implements
-		PeakListOpenHandler {
+public class PeakListOpenHandler_2_5 extends DefaultHandler
+		implements
+			PeakListOpenHandler {
 
 	private Logger logger = Logger.getLogger(this.getClass().getName());
 
@@ -118,9 +119,9 @@ public class PeakListOpenHandler_2_5 extends DefaultHandler implements
 
 		// If there were no rows in the peaklist, it is still not initialized
 		if (buildingPeakList == null) {
-		    initializePeakList();
+			initializePeakList();
 		}
-		
+
 		return buildingPeakList;
 
 	}

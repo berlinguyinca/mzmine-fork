@@ -66,7 +66,7 @@ public class RDBERestrictionChecker {
 	public static Double calculateRDBE(MolecularFormula formula) {
 
 		double sum = 0;
-		
+
 		Map<String, Integer> valences2 = new HashMap<String, Integer>();
 		valences2.put("H", 1);
 		valences2.put("C", 4);
@@ -81,7 +81,7 @@ public class RDBERestrictionChecker {
 		valences2.put("I", 1);
 		valences2.put("Na", 1);
 		valences2.put("K", 1);
-		
+
 		for (IIsotope isotope : formula.isotopes()) {
 
 			Integer valence = valences2.get(isotope.getSymbol());

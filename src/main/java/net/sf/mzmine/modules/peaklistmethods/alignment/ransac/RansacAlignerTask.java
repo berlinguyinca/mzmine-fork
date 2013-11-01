@@ -76,7 +76,7 @@ class RansacAlignerTask extends AbstractTask {
 
 		rtToleranceBefore = parameters.getParameter(
 				RansacAlignerParameters.RTToleranceBefore).getValue();
-		
+
 		rtToleranceAfter = parameters.getParameter(
 				RansacAlignerParameters.RTToleranceAfter).getValue();
 
@@ -373,7 +373,8 @@ class RansacAlignerTask extends AbstractTask {
 			}
 			// Calculate limits for a row with which the row can be aligned
 			Range mzRange = mzTolerance.getToleranceRange(row.getAverageMZ());
-			Range rtRange = rtToleranceBefore.getToleranceRange(row.getAverageRT());
+			Range rtRange = rtToleranceBefore.getToleranceRange(row
+					.getAverageRT());
 
 			// Get all rows of the aligned peaklist within parameter limits
 			PeakListRow candidateRows[] = peakListY
@@ -388,6 +389,6 @@ class RansacAlignerTask extends AbstractTask {
 	}
 
 	public Object[] getCreatedObjects() {
-		return new Object[] { alignedPeakList };
+		return new Object[]{alignedPeakList};
 	}
 }

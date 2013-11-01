@@ -158,7 +158,7 @@ public class MzDataReadTask extends AbstractTask {
 	}
 
 	public Object[] getCreatedObjects() {
-		return new Object[] { finalRawDataFile };
+		return new Object[]{finalRawDataFile};
 	}
 
 	private class MzDataHandler extends DefaultHandler {
@@ -375,7 +375,7 @@ public class MzDataReadTask extends AbstractTask {
 				intensityDataPoints = new double[peaksCount];
 
 				byte[] peakBytes = Base64.decode(charBuffer.toString());
-				
+
 				ByteBuffer currentIntensityBytes = ByteBuffer.wrap(peakBytes);
 
 				if (endian.equals("big")) {

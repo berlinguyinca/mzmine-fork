@@ -24,7 +24,7 @@ import java.util.HashMap;
 import net.sf.mzmine.util.ProteomeUtils;
 
 public class Peptide {
-	
+
 	private int queryNumber;
 	private String sequence;
 	private double ionScore;
@@ -35,20 +35,20 @@ public class Peptide {
 	private double deltaMass;
 	private int missedCleavages;
 	private boolean isTopScore;
-	private HashMap<Integer,ModificationPeptide> modifications;
+	private HashMap<Integer, ModificationPeptide> modifications;
 	private PeptideIonSerie ionSerie;
 	private PeptideScan scan;
 	private PeptideFragmentation fragmentation;
 
 	// Protein info
 	private Protein protein;
-    
-    private String identificationMethod;
-	
-	
-	public Peptide(int queryNumber, String sequence, double ionScore2,double mass, 
-			double massExpected, int charge, double precursorMass, double deltaMass, 
-			int missed, PeptideScan scan, String identificationMethod, boolean isTopScore){
+
+	private String identificationMethod;
+
+	public Peptide(int queryNumber, String sequence, double ionScore2,
+			double mass, double massExpected, int charge, double precursorMass,
+			double deltaMass, int missed, PeptideScan scan,
+			String identificationMethod, boolean isTopScore) {
 		this.queryNumber = queryNumber;
 		this.sequence = sequence;
 		this.ionScore = ionScore2;
@@ -66,67 +66,67 @@ public class Peptide {
 	/**
 	 * Returns the number of query
 	 */
-	public int getQueryNumber(){
+	public int getQueryNumber() {
 		return queryNumber;
 	}
-	
+
 	/**
 	 * Returns the amino acid sequence
 	 */
-	public String getSequence(){
+	public String getSequence() {
 		return sequence;
 	}
 
 	/**
-	 * Returns the ion score 
+	 * Returns the ion score
 	 */
-	public double getIonScore(){
+	public double getIonScore() {
 		return ionScore;
 	}
-	
+
 	/**
 	 * Returns the raw data mass of this peptide
 	 */
-	public double getMass(){
+	public double getMass() {
 		return mass;
 	}
-	
+
 	/**
 	 * Returns the expected mass for this peptide
 	 */
-	public double getMassExpected(){
+	public double getMassExpected() {
 		return massExpected;
 	}
-	
+
 	/**
 	 * Returns the number of missed cleavages
 	 */
-	public int getMissedCleavages(){
+	public int getMissedCleavages() {
 		return missedCleavages;
 	}
-	
+
 	/**
-	 * Returns a HashMap<Integer,ModificationPeptide> with the modifications detected in this peptide
-	 * and position
+	 * Returns a HashMap<Integer,ModificationPeptide> with the modifications
+	 * detected in this peptide and position
 	 */
-	public HashMap<Integer,ModificationPeptide> getModifications(){
+	public HashMap<Integer, ModificationPeptide> getModifications() {
 		return modifications;
 	}
-	
+
 	/**
 	 * Returns the ion series
 	 */
-	public PeptideIonSerie getIonSeries(){
+	public PeptideIonSerie getIonSeries() {
 		return ionSerie;
 	}
-	
+
 	/**
 	 * @return Returns PeptideScan scan
 	 */
 	public PeptideScan getScan() {
 		return scan;
 	}
-	
+
 	/**
 	 * Sets the scan related with this peptide
 	 * 
@@ -136,20 +136,20 @@ public class Peptide {
 		this.scan = peptideScan;
 	}
 
-	
 	/**
 	 * Returns a precursor mass.
 	 */
 	public double getPrecursorMass() {
 		return precursorMass;
 	}
-	
+
 	/**
-	 * Returns the delta mass or difference between the calculated mass and detected mass by the instrument
+	 * Returns the delta mass or difference between the calculated mass and
+	 * detected mass by the instrument
 	 * 
 	 * @return deltaMass
 	 */
-	public double getDeltaMass(){
+	public double getDeltaMass() {
 		return deltaMass;
 	}
 
@@ -161,39 +161,41 @@ public class Peptide {
 	public int getPrecursorCharge() {
 		return precursorCharge;
 	}
-	
+
 	/**
 	 * Return the fragmentation of this peptide (B-ions, Y-ions, etc.)
 	 * 
 	 * @return fragmentation
 	 */
-	public PeptideFragmentation getFragmentation(){
+	public PeptideFragmentation getFragmentation() {
 		return fragmentation;
 	}
-	
+
 	/**
 	 * Set the fragmentation for this peptide
 	 * 
 	 * @param fragmentation
 	 */
-	public void setFragmentation(PeptideFragmentation fragmentation){
+	public void setFragmentation(PeptideFragmentation fragmentation) {
 		this.fragmentation = fragmentation;
 	}
-	
+
 	/**
-	 * Sets a Vector<ModificationPeptide> with the modifications detected in this peptide
+	 * Sets a Vector<ModificationPeptide> with the modifications detected in
+	 * this peptide
 	 */
-	public void setModifications(HashMap<Integer,ModificationPeptide> modifications){
+	public void setModifications(
+			HashMap<Integer, ModificationPeptide> modifications) {
 		this.modifications = modifications;
 	}
-	
+
 	/**
 	 * Sets the Ion Series
 	 */
-	public void setIonSeries(PeptideIonSerie ionSerie){
+	public void setIonSeries(PeptideIonSerie ionSerie) {
 		this.ionSerie = ionSerie;
 	}
-	
+
 	/**
 	 * Returns an array of Proteins that this peptide's sequence could fix into
 	 * 
@@ -211,7 +213,7 @@ public class Peptide {
 	public void setProtein(Protein protein) {
 		this.protein = protein;
 	}
-	
+
 	/**
 	 * Returns a description of how this data was generated (Mascot, etc.)
 	 * 
@@ -230,18 +232,15 @@ public class Peptide {
 		this.identificationMethod = identificationMethod;
 	}
 
-	
 	/**
 	 * Returns a description of this peptide
 	 */
 	public String getName() {
 		return ProteomeUtils.peptideToString(this);
 	}
-	
-	public boolean isTopScore(){
+
+	public boolean isTopScore() {
 		return isTopScore;
 	}
-
-	
 
 }

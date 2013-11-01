@@ -37,53 +37,53 @@ import net.sf.mzmine.util.Range;
 
 public class LorentzianPeak implements PeakModel {
 
-    private double mzMain, intensityMain, squareHWHM;
+	private double mzMain, intensityMain, squareHWHM;
 
-    /**
-     * @see net.sf.mzmine.modules.peakpicking.twostep.massdetection.exactmass.peakmodel.PeakModel#setParameters(double,
-     *      double, double)
-     */
-    public void setParameters(double mzMain, double intensityMain,
-            double resolution) {
+	/**
+	 * @see net.sf.mzmine.modules.peakpicking.twostep.massdetection.exactmass.peakmodel.PeakModel#setParameters(double,
+	 *      double, double)
+	 */
+	public void setParameters(double mzMain, double intensityMain,
+			double resolution) {
 
-        this.mzMain = mzMain;
-        this.intensityMain = intensityMain;
+		this.mzMain = mzMain;
+		this.intensityMain = intensityMain;
 
-        // HWFM (Half Width at Half Maximum) ^ 2
-        squareHWHM = (double) Math.pow((mzMain / resolution) / 2, 2);
-    }
+		// HWFM (Half Width at Half Maximum) ^ 2
+		squareHWHM = (double) Math.pow((mzMain / resolution) / 2, 2);
+	}
 
-    /**
-     * @see net.sf.mzmine.modules.peakpicking.twostep.peakmodel.PeakModel#getBasePeakWidth()
-     */
-    public Range getWidth(double partialIntensity) {
+	/**
+	 * @see net.sf.mzmine.modules.peakpicking.twostep.peakmodel.PeakModel#getBasePeakWidth()
+	 */
+	public Range getWidth(double partialIntensity) {
 
-        // The height value must be bigger than zero.
-        if (partialIntensity <= 0)
-            return new Range(0, Double.MAX_VALUE);
+		// The height value must be bigger than zero.
+		if (partialIntensity <= 0)
+			return new Range(0, Double.MAX_VALUE);
 
-        // Using the Lorentzian function we calculate the peak width
-        double squareX = ((intensityMain / partialIntensity) - 1) * squareHWHM;
+		// Using the Lorentzian function we calculate the peak width
+		double squareX = ((intensityMain / partialIntensity) - 1) * squareHWHM;
 
-        double sideRange = (double) Math.sqrt(squareX);
+		double sideRange = (double) Math.sqrt(squareX);
 
-        // This range represents the width of our peak in m/z terms
-        Range rangePeak = new Range(mzMain - sideRange, mzMain + sideRange);
+		// This range represents the width of our peak in m/z terms
+		Range rangePeak = new Range(mzMain - sideRange, mzMain + sideRange);
 
-        return rangePeak;
-    }
+		return rangePeak;
+	}
 
-    /**
-     * @see net.sf.mzmine.modules.peakpicking.twostep.peakmodel.PeakModel#getIntensity(double)
-     */
-    public double getIntensity(double mz) {
+	/**
+	 * @see net.sf.mzmine.modules.peakpicking.twostep.peakmodel.PeakModel#getIntensity(double)
+	 */
+	public double getIntensity(double mz) {
 
-        // Using the Lorentzian function we calculate the intensity at given
-        // m/z
-        double squareX = (double) Math.pow((mz - mzMain), 2);
-        double ratio = squareX / squareHWHM;
-        double intensity = intensityMain / (1 + ratio);
-        return intensity;
-    }
+		// Using the Lorentzian function we calculate the intensity at given
+		// m/z
+		double squareX = (double) Math.pow((mz - mzMain), 2);
+		double ratio = squareX / squareHWHM;
+		double intensity = intensityMain / (1 + ratio);
+		return intensity;
+	}
 
 }

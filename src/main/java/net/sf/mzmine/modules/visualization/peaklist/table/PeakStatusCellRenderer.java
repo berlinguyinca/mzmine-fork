@@ -70,7 +70,7 @@ class PeakStatusCellRenderer implements TableCellRenderer {
 						.getBorder("Table.focusSelectedCellHighlightBorder");
 			if (border == null)
 				border = UIManager.getBorder("Table.focusCellHighlightBorder");
-	        
+
 			/*
 			 * The "border.getBorderInsets(newPanel) != null" is a workaround
 			 * for OpenJDK 1.6.0 bug, otherwise setBorder() may throw a
@@ -79,25 +79,25 @@ class PeakStatusCellRenderer implements TableCellRenderer {
 			if ((border != null) && (border.getBorderInsets(newPanel) != null)) {
 				newPanel.setBorder(border);
 			}
-			
+
 		}
 
 		if (value != null) {
 			PeakStatus status = (PeakStatus) value;
 
 			switch (status) {
-			case DETECTED:
-				newPanel.add(greenCircle);
-				break;
-			case ESTIMATED:
-				newPanel.add(yellowCircle);
-				break;
-			case MANUAL:
-				newPanel.add(orangeCircle);
-				break;
-			default:
-				newPanel.add(redCircle);
-				break;
+				case DETECTED :
+					newPanel.add(greenCircle);
+					break;
+				case ESTIMATED :
+					newPanel.add(yellowCircle);
+					break;
+				case MANUAL :
+					newPanel.add(orangeCircle);
+					break;
+				default :
+					newPanel.add(redCircle);
+					break;
 			}
 
 			newPanel.setToolTipText(status.toString());

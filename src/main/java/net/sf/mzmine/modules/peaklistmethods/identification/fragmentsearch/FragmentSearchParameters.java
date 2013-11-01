@@ -44,12 +44,12 @@ public class FragmentSearchParameters extends SimpleParameterSet {
 
 	public static final DoubleParameter minMS2peakHeight = new DoubleParameter(
 			"Min MS2 peak height",
-			"Minimum absolute intensity of the MS2 fragment peak",
-			MZmineCore.getConfiguration().getIntensityFormat());
+			"Minimum absolute intensity of the MS2 fragment peak", MZmineCore
+					.getConfiguration().getIntensityFormat());
 
 	public FragmentSearchParameters() {
-		super(new Parameter[] { peakLists, rtTolerance, ms2mzTolerance,
-				maxFragmentHeight, minMS2peakHeight });
+		super(new Parameter[]{peakLists, rtTolerance, ms2mzTolerance,
+				maxFragmentHeight, minMS2peakHeight});
 	}
 
 }

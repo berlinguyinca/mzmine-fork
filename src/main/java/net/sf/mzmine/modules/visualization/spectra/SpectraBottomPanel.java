@@ -47,8 +47,8 @@ class SpectraBottomPanel extends JPanel implements TreeModelListener {
 	private Logger logger = Logger.getLogger(this.getClass().getName());
 
 	// Get arrow characters by their UTF16 code
-	public static final String leftArrow = new String(new char[] { '\u2190' });
-	public static final String rightArrow = new String(new char[] { '\u2192' });
+	public static final String leftArrow = new String(new char[]{'\u2190'});
+	public static final String rightArrow = new String(new char[]{'\u2192'});
 
 	public static final Font smallFont = new Font("SansSerif", Font.PLAIN, 10);
 
@@ -118,7 +118,7 @@ class SpectraBottomPanel extends JPanel implements TreeModelListener {
 		showButton.setFont(smallFont);
 
 		bottomPanel.add(Box.createHorizontalGlue());
-		
+
 	}
 
 	JComboBox getMSMSSelector() {
@@ -144,7 +144,7 @@ class SpectraBottomPanel extends JPanel implements TreeModelListener {
 	void rebuildPeakListSelector() {
 
 		logger.finest("Rebuilding the peak list selector");
-		
+
 		PeakList selectedPeakList = (PeakList) peakListSelector
 				.getSelectedItem();
 		PeakList currentPeakLists[] = MZmineCore.getCurrentProject()

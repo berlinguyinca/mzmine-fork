@@ -24,7 +24,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JComponent;
 
 public interface ComponentToolTipProvider {
-	
+
 	public JComponent getCustomToolTipComponent(MouseEvent event);
 
 }

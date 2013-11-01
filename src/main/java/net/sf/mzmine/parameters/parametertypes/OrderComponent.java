@@ -34,8 +34,10 @@ import javax.swing.border.Border;
  * mouse
  * 
  */
-public class OrderComponent extends JList implements MouseListener,
-		MouseMotionListener {
+public class OrderComponent extends JList
+		implements
+			MouseListener,
+			MouseMotionListener {
 
 	private int dragFrom;
 	private final DefaultListModel listModel;

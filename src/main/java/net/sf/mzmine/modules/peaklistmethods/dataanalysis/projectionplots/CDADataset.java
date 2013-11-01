@@ -41,8 +41,9 @@ import net.sf.mzmine.util.PeakMeasurementType;
 
 import org.jfree.data.xy.AbstractXYDataset;
 
-public class CDADataset extends AbstractXYDataset implements
-		ProjectionPlotDataset {
+public class CDADataset extends AbstractXYDataset
+		implements
+			ProjectionPlotDataset {
 
 	private Logger logger = Logger.getLogger(this.getClass().getName());
 	private LinkedList<TaskListener> taskListeners = new LinkedList<TaskListener>();
@@ -73,7 +74,8 @@ public class CDADataset extends AbstractXYDataset implements
 
 	public CDADataset(ParameterSet parameters) {
 
-		this.peakList = parameters.getParameter(ProjectionPlotParameters.peakLists).getValue()[0];
+		this.peakList = parameters.getParameter(
+				ProjectionPlotParameters.peakLists).getValue()[0];
 		this.parameters = parameters;
 
 		this.xAxisDimension = parameters.getParameter(

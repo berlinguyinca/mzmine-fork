@@ -51,9 +51,9 @@ public class PeakFinderParameters extends SimpleParameterSet {
 			"Remove original peak list",
 			"If checked, the original peak list will be removed");
 
-		public PeakFinderParameters() {
-		super(new Parameter[] { peakLists, suffix, intTolerance, MZTolerance,
-				RTTolerance, RTCorrection, autoRemove });
+	public PeakFinderParameters() {
+		super(new Parameter[]{peakLists, suffix, intTolerance, MZTolerance,
+				RTTolerance, RTCorrection, autoRemove});
 	}
 
 }

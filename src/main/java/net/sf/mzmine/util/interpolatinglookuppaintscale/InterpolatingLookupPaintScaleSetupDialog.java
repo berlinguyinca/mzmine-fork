@@ -44,8 +44,10 @@ import javax.swing.event.ListSelectionListener;
 import net.sf.mzmine.main.MZmineCore;
 import net.sf.mzmine.util.ExitCode;
 
-public class InterpolatingLookupPaintScaleSetupDialog extends JDialog implements
-		ActionListener, ListSelectionListener {
+public class InterpolatingLookupPaintScaleSetupDialog extends JDialog
+		implements
+			ActionListener,
+			ListSelectionListener {
 
 	public static final int VALUEFIELD_COLUMNS = 4;
 
@@ -69,7 +71,8 @@ public class InterpolatingLookupPaintScaleSetupDialog extends JDialog implements
 
 	public InterpolatingLookupPaintScaleSetupDialog(
 			InterpolatingLookupPaintScale paintScale) {
-		super(MZmineCore.getDesktop().getMainFrame(), "Select colors for paint scale", true);
+		super(MZmineCore.getDesktop().getMainFrame(),
+				"Select colors for paint scale", true);
 
 		// Build the form
 		initComponents();
@@ -124,9 +127,12 @@ public class InterpolatingLookupPaintScaleSetupDialog extends JDialog implements
 		tableModel = new InterpolatingLookupPaintScaleSetupDialogTableModel(
 				lookupTable);
 		tableLookupValues = new JTable(tableModel);
-		tableLookupValues.getColumnModel().getColumn(1).setCellRenderer(
-				new InterpolatingLookupPaintScaleSetupDialogTableCellRenderer(
-						lookupTable));
+		tableLookupValues
+				.getColumnModel()
+				.getColumn(1)
+				.setCellRenderer(
+						new InterpolatingLookupPaintScaleSetupDialogTableCellRenderer(
+								lookupTable));
 		tableLookupValues.getSelectionModel().addListSelectionListener(this);
 
 		panelControlsAndList.add(panelList, BorderLayout.CENTER);

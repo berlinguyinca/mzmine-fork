@@ -46,8 +46,9 @@ import net.sf.mzmine.parameters.parametertypes.StringParameter;
 import net.sf.mzmine.project.MZmineProject;
 import net.sf.mzmine.util.ExitCode;
 
-public class ProjectParametersSetupDialog extends JDialog implements
-		ActionListener {
+public class ProjectParametersSetupDialog extends JDialog
+		implements
+			ActionListener {
 
 	private JPanel panelParameterValues;
 	private JScrollPane scrollParameterValues;
@@ -343,7 +344,8 @@ public class ProjectParametersSetupDialog extends JDialog implements
 			UserParameter parameter = tablemodelParameterValues
 					.getParameter(columnIndex + 1);
 			if (parameter instanceof ComboParameter) {
-				Object choices[] = ((ComboParameter<Object>) parameter).getChoices();
+				Object choices[] = ((ComboParameter<Object>) parameter)
+						.getChoices();
 				tableParameterValues
 						.getColumnModel()
 						.getColumn(columnIndex + 1)

@@ -32,6 +32,6 @@ public class HierarClustererParameters extends SimpleParameterSet {
 			"Distances", "Distances", DistanceType.values());
 
 	public HierarClustererParameters() {
-		super(new Parameter[] { linkType, distanceType });
+		super(new Parameter[]{linkType, distanceType});
 	}
 }

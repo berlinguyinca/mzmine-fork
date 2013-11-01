@@ -45,7 +45,7 @@ public class ContinuousRenderer extends XYLineAndShapeRenderer {
 	// data points shape
 	private static final Shape dataPointsShape = new Ellipse2D.Double(-2, -2,
 			5, 5);
-	
+
 	private boolean isTransparent;
 
 	public ContinuousRenderer(Color color, boolean isTransparent) {
@@ -56,17 +56,17 @@ public class ContinuousRenderer extends XYLineAndShapeRenderer {
 		setBasePaint(color);
 		setBaseFillPaint(color);
 		setUseFillPaint(true);
-		
+
 		// Set shape properties
 		setBaseShape(dataPointsShape);
 		setBaseShapesFilled(true);
 		setBaseShapesVisible(false);
 		setDrawOutlines(false);
-				
+
 		// Set the tooltip generator
 		SpectraToolTipGenerator tooltipGenerator = new SpectraToolTipGenerator();
 		setBaseToolTipGenerator(tooltipGenerator);
-		
+
 	}
 
 	public void drawItem(Graphics2D g2, XYItemRendererState state,

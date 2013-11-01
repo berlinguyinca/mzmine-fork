@@ -20,18 +20,17 @@
 package net.sf.mzmine.modules.peaklistmethods.dataanalysis.clustering;
 
 public enum ClusteringDataType {
-	
-    SAMPLES("Samples"),
-    VARIABLES("Variables");  
-    
-    private final String name;
 
-    ClusteringDataType(String name) {
-        this.name = name;
-    }
+	SAMPLES("Samples"), VARIABLES("Variables");
 
-    public String toString(){
-    	return this.name;
-    }
+	private final String name;
+
+	ClusteringDataType(String name) {
+		this.name = name;
+	}
+
+	public String toString() {
+		return this.name;
+	}
 
 }

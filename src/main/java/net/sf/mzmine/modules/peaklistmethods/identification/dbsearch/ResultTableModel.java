@@ -30,78 +30,79 @@ import net.sf.mzmine.util.FormulaUtils;
 
 public class ResultTableModel extends AbstractTableModel {
 
-    private static final String[] columnNames = { "ID", "Common Name",
-	    "Formula", "Mass difference", "Isotope pattern score" };
+	private static final String[] columnNames = {"ID", "Common Name",
+			"Formula", "Mass difference", "Isotope pattern score"};
 
-    private double searchedMass;
-    private Vector<DBCompound> compounds = new Vector<DBCompound>();
+	private double searchedMass;
+	private Vector<DBCompound> compounds = new Vector<DBCompound>();
 
-    final NumberFormat percentFormat = NumberFormat.getPercentInstance();
-    final NumberFormat massFormat = MZmineCore.getConfiguration().getMZFormat();
+	final NumberFormat percentFormat = NumberFormat.getPercentInstance();
+	final NumberFormat massFormat = MZmineCore.getConfiguration().getMZFormat();
 
-    ResultTableModel(double searchedMass) {
-	this.searchedMass = searchedMass;
-    }
-
-    public String getColumnName(int col) {
-	return columnNames[col];
-    }
-
-    public int getRowCount() {
-	return compounds.size();
-    }
-
-    public int getColumnCount() {
-	return columnNames.length;
-    }
-
-    public Object getValueAt(int row, int col) {
-	Object value = null;
-	DBCompound comp = compounds.get(row);
-	switch (col) {
-	case (0):
-
-	    value = comp.getPropertyValue(PeakIdentity.PROPERTY_ID);
-	    break;
-	case (1):
-	    value = comp.getName();
-	    break;
-	case (2):
-	    value = comp.getPropertyValue(PeakIdentity.PROPERTY_FORMULA);
-	    break;
-	case (3):
-	    String compFormula = comp
-		    .getPropertyValue(PeakIdentity.PROPERTY_FORMULA);
-	    if (compFormula != null) {
-		double compMass = FormulaUtils.calculateExactMass(compFormula);
-		double massDifference = Math.abs(searchedMass - compMass);
-		value = massFormat.format(massDifference);
-	    }
-	    break;
-	case (4):
-	    Double score = comp.getIsotopePatternScore();
-	    if (score != null)
-		value = percentFormat.format(score);
-	    break;
+	ResultTableModel(double searchedMass) {
+		this.searchedMass = searchedMass;
 	}
 
-	return value;
-    }
+	public String getColumnName(int col) {
+		return columnNames[col];
+	}
 
-    public DBCompound getCompoundAt(int row) {
-	return compounds.get(row);
-    }
+	public int getRowCount() {
+		return compounds.size();
+	}
 
-    public boolean isCellEditable(int row, int col) {
-	return false;
-    }
+	public int getColumnCount() {
+		return columnNames.length;
+	}
 
-    public void addElement(DBCompound compound) {
-	compounds.add(compound);
-	fireTableRowsInserted(compounds.size() - 1, compounds.size() - 1);
-    }
+	public Object getValueAt(int row, int col) {
+		Object value = null;
+		DBCompound comp = compounds.get(row);
+		switch (col) {
+			case (0) :
 
-    public void setValueAt(Object value, int row, int col) {
-    }
+				value = comp.getPropertyValue(PeakIdentity.PROPERTY_ID);
+				break;
+			case (1) :
+				value = comp.getName();
+				break;
+			case (2) :
+				value = comp.getPropertyValue(PeakIdentity.PROPERTY_FORMULA);
+				break;
+			case (3) :
+				String compFormula = comp
+						.getPropertyValue(PeakIdentity.PROPERTY_FORMULA);
+				if (compFormula != null) {
+					double compMass = FormulaUtils
+							.calculateExactMass(compFormula);
+					double massDifference = Math.abs(searchedMass - compMass);
+					value = massFormat.format(massDifference);
+				}
+				break;
+			case (4) :
+				Double score = comp.getIsotopePatternScore();
+				if (score != null)
+					value = percentFormat.format(score);
+				break;
+		}
+
+		return value;
+	}
+
+	public DBCompound getCompoundAt(int row) {
+		return compounds.get(row);
+	}
+
+	public boolean isCellEditable(int row, int col) {
+		return false;
+	}
+
+	public void addElement(DBCompound compound) {
+		compounds.add(compound);
+		fireTableRowsInserted(compounds.size() - 1, compounds.size() - 1);
+	}
+
+	public void setValueAt(Object value, int row, int col) {
+	}
 
 }

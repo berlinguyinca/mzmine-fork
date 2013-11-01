@@ -53,34 +53,34 @@ public class PeakListRowSorter implements Comparator<PeakListRow> {
 
 	private double getValue(PeakListRow row) {
 		switch (property) {
-		case Area:
-			ChromatographicPeak[] areaPeaks = row.getPeaks();
-			double[] peakAreas = new double[areaPeaks.length];
-			for (int i = 0; i < peakAreas.length; i++)
-				peakAreas[i] = areaPeaks[i].getArea();
-			double medianArea = MathUtils.calcQuantile(peakAreas, 0.5);
-			return medianArea;
-		case Intensity:
-			ChromatographicPeak[] intensityPeaks = row.getPeaks();
-			double[] peakIntensities = new double[intensityPeaks.length];
-			for (int i = 0; i < intensityPeaks.length; i++)
-				peakIntensities[i] = intensityPeaks[i].getArea();
-			double medianIntensity = MathUtils.calcQuantile(peakIntensities,
-					0.5);
-			return medianIntensity;
-		case Height:
-			ChromatographicPeak[] heightPeaks = row.getPeaks();
-			double[] peakHeights = new double[heightPeaks.length];
-			for (int i = 0; i < peakHeights.length; i++)
-				peakHeights[i] = heightPeaks[i].getHeight();
-			double medianHeight = MathUtils.calcQuantile(peakHeights, 0.5);
-			return medianHeight;
-		case MZ:
-			return row.getAverageMZ();
-		case RT:
-			return row.getAverageRT();
-		case ID:
-			return row.getID();
+			case Area :
+				ChromatographicPeak[] areaPeaks = row.getPeaks();
+				double[] peakAreas = new double[areaPeaks.length];
+				for (int i = 0; i < peakAreas.length; i++)
+					peakAreas[i] = areaPeaks[i].getArea();
+				double medianArea = MathUtils.calcQuantile(peakAreas, 0.5);
+				return medianArea;
+			case Intensity :
+				ChromatographicPeak[] intensityPeaks = row.getPeaks();
+				double[] peakIntensities = new double[intensityPeaks.length];
+				for (int i = 0; i < intensityPeaks.length; i++)
+					peakIntensities[i] = intensityPeaks[i].getArea();
+				double medianIntensity = MathUtils.calcQuantile(
+						peakIntensities, 0.5);
+				return medianIntensity;
+			case Height :
+				ChromatographicPeak[] heightPeaks = row.getPeaks();
+				double[] peakHeights = new double[heightPeaks.length];
+				for (int i = 0; i < peakHeights.length; i++)
+					peakHeights[i] = heightPeaks[i].getHeight();
+				double medianHeight = MathUtils.calcQuantile(peakHeights, 0.5);
+				return medianHeight;
+			case MZ :
+				return row.getAverageMZ();
+			case RT :
+				return row.getAverageRT();
+			case ID :
+				return row.getID();
 		}
 
 		// We should never get here, so throw exception

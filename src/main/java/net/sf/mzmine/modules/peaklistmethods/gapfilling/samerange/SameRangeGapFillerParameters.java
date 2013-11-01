@@ -40,7 +40,7 @@ public class SameRangeGapFillerParameters extends SimpleParameterSet {
 			"If checked, the original peak list will be removed");
 
 	public SameRangeGapFillerParameters() {
-		super(new Parameter[] { peakLists, suffix, mzTolerance, autoRemove });
+		super(new Parameter[]{peakLists, suffix, mzTolerance, autoRemove});
 	}
 
 }

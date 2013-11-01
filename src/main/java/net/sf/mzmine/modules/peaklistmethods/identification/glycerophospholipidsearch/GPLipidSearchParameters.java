@@ -56,8 +56,8 @@ public class GPLipidSearchParameters extends SimpleParameterSet {
 			IonizationType.values());
 
 	public GPLipidSearchParameters() {
-		super(new Parameter[] { peakLists, lipidTypes, minChainLength,
-				maxChainLength, maxDoubleBonds, mzTolerance, ionizationMethod });
+		super(new Parameter[]{peakLists, lipidTypes, minChainLength,
+				maxChainLength, maxDoubleBonds, mzTolerance, ionizationMethod});
 	}
 
 }

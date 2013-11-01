@@ -28,13 +28,13 @@ import org.jfree.data.xy.AbstractXYDataset;
 public class ChromatogramTICDataSet extends AbstractXYDataset {
 
 	private ChromatographicPeak chromatogram;
-    private RawDataFile dataFile;
-    private int scanNumbers[];
+	private RawDataFile dataFile;
+	private int scanNumbers[];
 
 	public ChromatogramTICDataSet(ChromatographicPeak chromatogram) {
 		this.chromatogram = chromatogram;
-        this.dataFile = chromatogram.getDataFile();
-        this.scanNumbers = dataFile.getScanNumbers(1);
+		this.dataFile = chromatogram.getDataFile();
+		this.scanNumbers = dataFile.getScanNumbers(1);
 	}
 
 	public Comparable<?> getSeriesKey(int series) {

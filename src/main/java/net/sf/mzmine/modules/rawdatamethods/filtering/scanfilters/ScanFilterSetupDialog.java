@@ -36,51 +36,51 @@ import net.sf.mzmine.parameters.dialogs.ParameterSetupDialogWithScanPreview;
  */
 public class ScanFilterSetupDialog extends ParameterSetupDialogWithScanPreview {
 
-    private ParameterSet filterParameters;
-    private ScanFilter rawDataFilter;
+	private ParameterSet filterParameters;
+	private ScanFilter rawDataFilter;
 
-    /**
-     * @param parameters
-     * @param rawDataFilterTypeNumber
-     */
-    public ScanFilterSetupDialog(ParameterSet filterParameters,
-	    Class<? extends ScanFilter> filterClass) {
+	/**
+	 * @param parameters
+	 * @param rawDataFilterTypeNumber
+	 */
+	public ScanFilterSetupDialog(ParameterSet filterParameters,
+			Class<? extends ScanFilter> filterClass) {
 
-	super(filterParameters);
-	this.filterParameters = filterParameters;
+		super(filterParameters);
+		this.filterParameters = filterParameters;
 
-	try {
-	    this.rawDataFilter = filterClass.newInstance();
-	} catch (Exception e) {
-	    e.printStackTrace();
-	}
-    }
-
-    /**
-     * This function set all the information into the plot chart
-     * 
-     * @param scanNumber
-     */
-    protected void loadPreview(SpectraPlot spectrumPlot, Scan previewScan) {
-
-	Scan newScan = rawDataFilter.filterScan(previewScan, filterParameters);
-
-	ScanDataSet spectraDataSet = new ScanDataSet("Filtered scan", newScan);
-	ScanDataSet spectraOriginalDataSet = new ScanDataSet("Original scan",
-		previewScan);
-
-	spectrumPlot.removeAllDataSets();
-
-	spectrumPlot.addDataSet(spectraOriginalDataSet,
-		SpectraVisualizerWindow.scanColor, true);
-	spectrumPlot.addDataSet(spectraDataSet, Color.green, true);
-
-	// if the scan is centroided, switch to centroid mode
-	if (previewScan.isCentroided()) {
-	    spectrumPlot.setPlotMode(PlotMode.CENTROID);
-	} else {
-	    spectrumPlot.setPlotMode(PlotMode.CONTINUOUS);
+		try {
+			this.rawDataFilter = filterClass.newInstance();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-    }
+	/**
+	 * This function set all the information into the plot chart
+	 * 
+	 * @param scanNumber
+	 */
+	protected void loadPreview(SpectraPlot spectrumPlot, Scan previewScan) {
+
+		Scan newScan = rawDataFilter.filterScan(previewScan, filterParameters);
+
+		ScanDataSet spectraDataSet = new ScanDataSet("Filtered scan", newScan);
+		ScanDataSet spectraOriginalDataSet = new ScanDataSet("Original scan",
+				previewScan);
+
+		spectrumPlot.removeAllDataSets();
+
+		spectrumPlot.addDataSet(spectraOriginalDataSet,
+				SpectraVisualizerWindow.scanColor, true);
+		spectrumPlot.addDataSet(spectraDataSet, Color.green, true);
+
+		// if the scan is centroided, switch to centroid mode
+		if (previewScan.isCentroided()) {
+			spectrumPlot.setPlotMode(PlotMode.CENTROID);
+		} else {
+			spectrumPlot.setPlotMode(PlotMode.CONTINUOUS);
+		}
+
+	}
 }

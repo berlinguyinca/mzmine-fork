@@ -34,10 +34,9 @@ public class FarthestFirstClustererParameters extends SimpleParameterSet {
 
 	public static final IntegerParameter numberOfGroups = new IntegerParameter(
 			"Number of clusters to generate",
-			"Specify the number of clusters to generate.",
-			3);
+			"Specify the number of clusters to generate.", 3);
 
 	public FarthestFirstClustererParameters() {
-		super(new Parameter[] { visualization, numberOfGroups });
+		super(new Parameter[]{visualization, numberOfGroups});
 	}
 }

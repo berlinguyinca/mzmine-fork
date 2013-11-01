@@ -48,8 +48,8 @@ public class ShapeModelerParameters extends SimpleParameterSet {
 			"If checked, original peak list will be removed and only resolved version remains");
 
 	public ShapeModelerParameters() {
-		super(new Parameter[] { peakLists, suffix, massResolution,
-				shapeModelerType, autoRemove });
+		super(new Parameter[]{peakLists, suffix, massResolution,
+				shapeModelerType, autoRemove});
 	}
 
 }

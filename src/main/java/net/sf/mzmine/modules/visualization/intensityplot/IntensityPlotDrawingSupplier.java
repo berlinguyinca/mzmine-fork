@@ -28,28 +28,31 @@ import org.jfree.chart.plot.DefaultDrawingSupplier;
 
 /**
  * Supplier for shapes and color for the intensity plot data series
- *
+ * 
  */
 class IntensityPlotDrawingSupplier extends DefaultDrawingSupplier {
 
-    // use shapes 1.75 times bigger than default
-    private final AffineTransform resizeTransform = AffineTransform.getScaleInstance(1.75, 1.75);
-    
-    public Shape getNextShape() {
-        Shape baseShape = super.getNextShape();
-        return resizeTransform.createTransformedShape(baseShape);
-    }
+	// use shapes 1.75 times bigger than default
+	private final AffineTransform resizeTransform = AffineTransform
+			.getScaleInstance(1.75, 1.75);
 
-    public Paint getNextPaint() {
-        
-        // get new color from the default supplier
-        Color baseColor = (Color) super.getNextPaint();
+	public Shape getNextShape() {
+		Shape baseShape = super.getNextShape();
+		return resizeTransform.createTransformedShape(baseShape);
+	}
 
-        // ban colors that are too bright
-        int colorSum = baseColor.getRed() + baseColor.getGreen() + baseColor.getBlue();
-        if (colorSum > 520) baseColor = baseColor.darker();
-        
-        return baseColor;
-    }
-    
+	public Paint getNextPaint() {
+
+		// get new color from the default supplier
+		Color baseColor = (Color) super.getNextPaint();
+
+		// ban colors that are too bright
+		int colorSum = baseColor.getRed() + baseColor.getGreen()
+				+ baseColor.getBlue();
+		if (colorSum > 520)
+			baseColor = baseColor.darker();
+
+		return baseColor;
+	}
+
 }

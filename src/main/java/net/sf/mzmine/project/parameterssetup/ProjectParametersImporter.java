@@ -116,8 +116,7 @@ public class ProjectParametersImporter {
 
 		FileNameExtensionFilter filter = new FileNameExtensionFilter(
 				"TXT & CSV files", "txt", "csv");
-		chooser
-				.setDialogTitle("Please select a file containing project parameter values for files.");
+		chooser.setDialogTitle("Please select a file containing project parameter values for files.");
 		chooser.setFileFilter(filter);
 		int returnVal = chooser.showOpenDialog(desktop.getMainFrame());
 		if (returnVal == JFileChooser.CANCEL_OPTION) {
@@ -153,9 +152,8 @@ public class ProjectParametersImporter {
 			while (st.hasMoreTokens()) {
 				String paramName = st.nextToken();
 				if (parameterValues.containsKey(paramName)) {
-					logger
-							.severe("Did not import parameters because of a non-unique parameter name: "
-									+ paramName);
+					logger.severe("Did not import parameters because of a non-unique parameter name: "
+							+ paramName);
 					desktop.displayErrorMessage("Could not open file "
 							+ parameterFile);
 					return null;
@@ -176,12 +174,10 @@ public class ProjectParametersImporter {
 				while (st.hasMoreTokens()) {
 
 					if (st.hasMoreTokens() ^ parameterNameIterator.hasNext()) {
-						logger
-								.severe("Incorrect number of parameter values on row "
-										+ rowNumber);
-						desktop
-								.displayErrorMessage("Incorrect number of parameter values on row "
-										+ rowNumber);
+						logger.severe("Incorrect number of parameter values on row "
+								+ rowNumber);
+						desktop.displayErrorMessage("Incorrect number of parameter values on row "
+								+ rowNumber);
 						return null;
 					}
 					parameterValues.get(parameterNameIterator.next()).add(
@@ -212,8 +208,7 @@ public class ProjectParametersImporter {
 					}
 				}
 				if (isAllNumeric) {
-					parameters.add(new DoubleParameter(
-							name, null));
+					parameters.add(new DoubleParameter(name, null));
 					continue;
 				}
 
@@ -226,15 +221,13 @@ public class ProjectParametersImporter {
 						uniqueValues.add(val);
 				}
 				if (uniqueValues.size() < vals.size()) {
-					parameters.add(new ComboParameter<String>(
-							name, null, uniqueValues
-									.toArray(new String[0])));
+					parameters.add(new ComboParameter<String>(name, null,
+							uniqueValues.toArray(new String[0])));
 					continue;
 				}
 
 				// Otherwise it is a free text parameter
-				parameters.add(new StringParameter(name,
-						null));
+				parameters.add(new StringParameter(name, null));
 
 			}
 
@@ -249,9 +242,7 @@ public class ProjectParametersImporter {
 			parameterFileReader.close();
 		} catch (IOException ex) {
 			logger.severe("Could not close file " + parameterFile);
-			desktop
-					.displayErrorMessage("Could not close file "
-							+ parameterFile);
+			desktop.displayErrorMessage("Could not close file " + parameterFile);
 			return null;
 		}
 
@@ -346,9 +337,7 @@ public class ProjectParametersImporter {
 			parameterFileReader.close();
 		} catch (IOException ex) {
 			logger.severe("Could not close file " + parameterFile);
-			desktop
-					.displayErrorMessage("Could not close file "
-							+ parameterFile);
+			desktop.displayErrorMessage("Could not close file " + parameterFile);
 			return false;
 		}
 

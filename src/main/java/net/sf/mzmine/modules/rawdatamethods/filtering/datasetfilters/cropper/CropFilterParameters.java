@@ -28,19 +28,19 @@ import net.sf.mzmine.util.ExitCode;
 
 public class CropFilterParameters extends SimpleParameterSet {
 
-    public static final RangeParameter retentionTimeRange = new RangeParameter(
-	    "Retention time", "retention time boundary of the cropped region",
-	    MZmineCore.getConfiguration().getRTFormat());
+	public static final RangeParameter retentionTimeRange = new RangeParameter(
+			"Retention time", "retention time boundary of the cropped region",
+			MZmineCore.getConfiguration().getRTFormat());
 
-    public CropFilterParameters() {
-	super(new Parameter[] { retentionTimeRange });
-    }
+	public CropFilterParameters() {
+		super(new Parameter[]{retentionTimeRange});
+	}
 
-    public ExitCode showSetupDialog() {
-	DataSetFilterSetupDialog dialog = new DataSetFilterSetupDialog(this,
-		CropFilter.class);
-	dialog.setVisible(true);
-	return dialog.getExitCode();
-    }
+	public ExitCode showSetupDialog() {
+		DataSetFilterSetupDialog dialog = new DataSetFilterSetupDialog(this,
+				CropFilter.class);
+		dialog.setVisible(true);
+		return dialog.getExitCode();
+	}
 
 }

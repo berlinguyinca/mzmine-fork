@@ -31,30 +31,30 @@ import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
  */
 class PeakDataRenderer extends XYLineAndShapeRenderer {
 
-    private static final Color peakColor = Color.green;
+	private static final Color peakColor = Color.green;
 
-    // data points shape
-    private static final Shape dataPointsShape = new Ellipse2D.Double(-2, -2, 5,
-            5);
+	// data points shape
+	private static final Shape dataPointsShape = new Ellipse2D.Double(-2, -2,
+			5, 5);
 
-    PeakDataRenderer() {
-        setBaseShapesFilled(true);
-        setDrawOutlines(false);
-        setUseFillPaint(false);
-        setBaseShapesVisible(false);
-        setBaseShape(dataPointsShape);
-        
-        PeakToolTipGenerator toolTipGenerator = new PeakToolTipGenerator();
-        setBaseToolTipGenerator(toolTipGenerator);
+	PeakDataRenderer() {
+		setBaseShapesFilled(true);
+		setDrawOutlines(false);
+		setUseFillPaint(false);
+		setBaseShapesVisible(false);
+		setBaseShape(dataPointsShape);
 
-    }
+		PeakToolTipGenerator toolTipGenerator = new PeakToolTipGenerator();
+		setBaseToolTipGenerator(toolTipGenerator);
 
-    public Paint getItemPaint(int row, int column) {
-        return peakColor;
-    }
+	}
 
-    public Shape getItemShape(int row, int column) {
-        return dataPointsShape;
-    }
-    
+	public Paint getItemPaint(int row, int column) {
+		return peakColor;
+	}
+
+	public Shape getItemShape(int row, int column) {
+		return dataPointsShape;
+	}
+
 }

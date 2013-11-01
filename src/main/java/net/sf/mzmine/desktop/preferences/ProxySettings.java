@@ -35,7 +35,7 @@ public class ProxySettings extends SimpleParameterSet {
 			"Proxy port", "TCP port of proxy server");
 
 	public ProxySettings() {
-		super(new Parameter[] { proxyAddress, proxyPort });
+		super(new Parameter[]{proxyAddress, proxyPort});
 	}
 
 }

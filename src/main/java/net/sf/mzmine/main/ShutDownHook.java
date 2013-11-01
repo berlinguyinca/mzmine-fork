@@ -27,21 +27,21 @@ import net.sf.mzmine.data.RawDataFile;
  */
 class ShutDownHook extends Thread {
 
-    public void start() {
+	public void start() {
 
-	// Save configuration
-	try {
-	    MZmineCore.getConfiguration().saveConfiguration(
-		    MZmineConfiguration.CONFIG_FILE);
-	} catch (Exception e) {
-	    e.printStackTrace();
+		// Save configuration
+		try {
+			MZmineCore.getConfiguration().saveConfiguration(
+					MZmineConfiguration.CONFIG_FILE);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		// Close all temporary files
+		RawDataFile dataFiles[] = MZmineCore.getCurrentProject().getDataFiles();
+		for (RawDataFile dataFile : dataFiles) {
+			dataFile.close();
+		}
+
 	}
-
-	// Close all temporary files
-	RawDataFile dataFiles[] = MZmineCore.getCurrentProject().getDataFiles();
-	for (RawDataFile dataFile : dataFiles) {
-	    dataFile.close();
-	}
-
-    }
 }

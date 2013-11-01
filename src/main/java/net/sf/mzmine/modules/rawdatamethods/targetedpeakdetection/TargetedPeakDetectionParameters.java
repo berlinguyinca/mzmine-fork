@@ -30,25 +30,27 @@ import net.sf.mzmine.parameters.parametertypes.StringParameter;
 
 public class TargetedPeakDetectionParameters extends SimpleParameterSet {
 
-        public static final RawDataFilesParameter rawDataFile = new RawDataFilesParameter();
-        public static final StringParameter suffix = new StringParameter(
-                "Name suffix", "Suffix to be added to peak list name", "detectedPeak");
-        public static final FileNameParameter peakListFile = new FileNameParameter(
-                "Peak list file",
-                "Name of the file that contains a list of peaks for targeted peak detection.");
-        public static final StringParameter fieldSeparator = new StringParameter(
-                "Field separator",
-                "Character(s) used to separate fields in the database file", ",");
-        public static final BooleanParameter ignoreFirstLine = new BooleanParameter(
-                "Ignore first line", "Ignore the first line of database file");
-        public static final PercentParameter intTolerance = new PercentParameter(
+	public static final RawDataFilesParameter rawDataFile = new RawDataFilesParameter();
+	public static final StringParameter suffix = new StringParameter(
+			"Name suffix", "Suffix to be added to peak list name",
+			"detectedPeak");
+	public static final FileNameParameter peakListFile = new FileNameParameter(
+			"Peak list file",
+			"Name of the file that contains a list of peaks for targeted peak detection.");
+	public static final StringParameter fieldSeparator = new StringParameter(
+			"Field separator",
+			"Character(s) used to separate fields in the database file", ",");
+	public static final BooleanParameter ignoreFirstLine = new BooleanParameter(
+			"Ignore first line", "Ignore the first line of database file");
+	public static final PercentParameter intTolerance = new PercentParameter(
 			"Intensity tolerance",
 			"Maximum allowed deviation from expected /\\ shape of a peak in chromatographic direction");
-        public static final MZToleranceParameter MZTolerance = new MZToleranceParameter();
-        public static final RTToleranceParameter RTTolerance = new RTToleranceParameter();        
+	public static final MZToleranceParameter MZTolerance = new MZToleranceParameter();
+	public static final RTToleranceParameter RTTolerance = new RTToleranceParameter();
 
-        public TargetedPeakDetectionParameters() {
-                super(new Parameter[]{rawDataFile, suffix, peakListFile, fieldSeparator, ignoreFirstLine, intTolerance, MZTolerance,
-                                RTTolerance});
-        }
+	public TargetedPeakDetectionParameters() {
+		super(new Parameter[]{rawDataFile, suffix, peakListFile,
+				fieldSeparator, ignoreFirstLine, intTolerance, MZTolerance,
+				RTTolerance});
+	}
 }

@@ -27,19 +27,19 @@ import net.sf.mzmine.parameters.UserParameter;
  */
 public class ParameterWrapper {
 
-    private UserParameter<?, ?> parameter;
+	private UserParameter<?, ?> parameter;
 
-    public ParameterWrapper(UserParameter<?, ?> parameter) {
-	this.parameter = parameter;
-    }
+	public ParameterWrapper(UserParameter<?, ?> parameter) {
+		this.parameter = parameter;
+	}
 
-    public UserParameter<?, ?> getParameter() {
-	return parameter;
-    }
+	public UserParameter<?, ?> getParameter() {
+		return parameter;
+	}
 
-    @Override
-    public String toString() {
-	return parameter.getName();
-    }
+	@Override
+	public String toString() {
+		return parameter.getName();
+	}
 
 }

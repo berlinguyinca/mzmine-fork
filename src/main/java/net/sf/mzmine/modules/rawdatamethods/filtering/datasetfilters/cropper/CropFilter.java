@@ -33,43 +33,45 @@ import net.sf.mzmine.util.Range;
 
 public class CropFilter implements RawDataSetFilter {
 
-    private int processedScans, totalScans;
+	private int processedScans, totalScans;
 
-    public RawDataFile filterDatafile(RawDataFile dataFile,
-	    RawDataFileWriter rawDataFileWriter, ParameterSet parameters)
-	    throws IOException {
+	public RawDataFile filterDatafile(RawDataFile dataFile,
+			RawDataFileWriter rawDataFileWriter, ParameterSet parameters)
+			throws IOException {
 
-	Range RTRange = parameters.getParameter(
-		CropFilterParameters.retentionTimeRange).getValue();
+		Range RTRange = parameters.getParameter(
+				CropFilterParameters.retentionTimeRange).getValue();
 
-	int[] scanNumbers = dataFile.getScanNumbers();
-	totalScans = scanNumbers.length;
+		int[] scanNumbers = dataFile.getScanNumbers();
+		totalScans = scanNumbers.length;
 
-	for (processedScans = 0; processedScans < totalScans; processedScans++) {
-	    Scan scan = dataFile.getScan(scanNumbers[processedScans]);
+		for (processedScans = 0; processedScans < totalScans; processedScans++) {
+			Scan scan = dataFile.getScan(scanNumbers[processedScans]);
 
-	    if (RTRange.contains(scan.getRetentionTime())) {
-		Scan scanCopy = new SimpleScan(scan);
-		rawDataFileWriter.addScan(scanCopy);
-	    }
+			if (RTRange.contains(scan.getRetentionTime())) {
+				Scan scanCopy = new SimpleScan(scan);
+				rawDataFileWriter.addScan(scanCopy);
+			}
+		}
+
+		return rawDataFileWriter.finishWriting();
+
 	}
 
-	return rawDataFileWriter.finishWriting();
+	public double getProgress() {
+		if (totalScans == 0)
+			return 0;
+		return (double) processedScans / totalScans;
+	}
 
-    }
+	public @Nonnull
+	String getName() {
+		return "Crop filter";
+	}
 
-    public double getProgress() {
-	if (totalScans == 0)
-	    return 0;
-	return (double) processedScans / totalScans;
-    }
-
-    public @Nonnull String getName() {
-	return "Crop filter";
-    }
-
-    @Override
-    public @Nonnull Class<? extends ParameterSet> getParameterSetClass() {
-	return CropFilterParameters.class;
-    }
+	@Override
+	public @Nonnull
+	Class<? extends ParameterSet> getParameterSetClass() {
+		return CropFilterParameters.class;
+	}
 }

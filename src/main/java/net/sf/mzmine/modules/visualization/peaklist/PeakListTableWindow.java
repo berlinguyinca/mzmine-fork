@@ -36,8 +36,9 @@ import net.sf.mzmine.modules.visualization.peaklist.table.PeakListTableColumnMod
 import net.sf.mzmine.parameters.ParameterSet;
 import net.sf.mzmine.util.ExitCode;
 
-public class PeakListTableWindow extends JInternalFrame implements
-		ActionListener {
+public class PeakListTableWindow extends JInternalFrame
+		implements
+			ActionListener {
 
 	private JScrollPane scrollPane;
 

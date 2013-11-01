@@ -51,22 +51,22 @@ public class DiagonalLineDataset extends AbstractXYDataset {
 
 		if (item == 0)
 			switch (series) {
-			case 0:
-				return (min * fold);
-			case 1:
-				return min;
-			case 2:
-				return (min / fold);
+				case 0 :
+					return (min * fold);
+				case 1 :
+					return min;
+				case 2 :
+					return (min / fold);
 			}
 		else {
 
 			switch (series) {
-			case 0:
-				return (max * fold);
-			case 1:
-				return max;
-			case 2:
-				return (max / fold);
+				case 0 :
+					return (max * fold);
+				case 1 :
+					return max;
+				case 2 :
+					return (max / fold);
 			}
 		}
 

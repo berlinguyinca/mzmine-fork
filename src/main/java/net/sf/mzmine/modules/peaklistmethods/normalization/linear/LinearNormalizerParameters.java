@@ -47,8 +47,8 @@ public class LinearNormalizerParameters extends SimpleParameterSet {
 			"If checked, original peak list will be removed and only normalized version remains");
 
 	public LinearNormalizerParameters() {
-		super(new Parameter[] { peakLists, suffix, normalizationType,
-				peakMeasurementType, autoRemove });
+		super(new Parameter[]{peakLists, suffix, normalizationType,
+				peakMeasurementType, autoRemove});
 	}
 
 }

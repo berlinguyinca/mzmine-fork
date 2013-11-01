@@ -60,10 +60,11 @@ public class MascotSearchTask extends AbstractTask {
 	private String submisionString;
 	private File tmpFile;
 	private String details = null;
-	private static final String MGFIDENT="RowIdx";
+	private static final String MGFIDENT = "RowIdx";
 
 	/**
 	 * The default constructor
+	 * 
 	 * @param parameters
 	 *            the search parameter
 	 * @param peakList
@@ -78,7 +79,7 @@ public class MascotSearchTask extends AbstractTask {
 	/**
 	 * Create an mgf file from the given scan. The title has the following
 	 * format: Row <RowID> (rt=<retention time>)
-	 *
+	 * 
 	 * @param writer
 	 *            the writer
 	 * @param rawFile
@@ -86,16 +87,17 @@ public class MascotSearchTask extends AbstractTask {
 	 * @param scan
 	 *            the scan
 	 */
-	private void writeMgf(PrintWriter writer, RawDataFile rawFile, Scan scan, Integer query) {
+	private void writeMgf(PrintWriter writer, RawDataFile rawFile, Scan scan,
+			Integer query) {
 		if (scan.getMSLevel() < MIN_MSMS_LEVEL) {
 			logger.warning("Scan " + scan.getScanNumber()
-					+ " is not a MS/MS scan."+scan.getMSLevel());
+					+ " is not a MS/MS scan." + scan.getMSLevel());
 			return;
 		}
 		writer.println();
 		writer.println("BEGIN IONS");
-		writer.println("TITLE="+MGFIDENT+" " + query.toString() + " (scan="+scan.getScanNumber()+"rt="
-				+ scan.getRetentionTime() + ")");
+		writer.println("TITLE=" + MGFIDENT + " " + query.toString() + " (scan="
+				+ scan.getScanNumber() + "rt=" + scan.getRetentionTime() + ")");
 
 		writer.println("PEPMASS=" + scan.getPrecursorMZ());
 		if (scan.getRetentionTime() > 0) {
@@ -111,13 +113,13 @@ public class MascotSearchTask extends AbstractTask {
 		DataPoint[] dps = scan.getDataPoints();
 
 		if (!scan.isCentroided()) {
-			/*LocalMaxMassDetector detector = new LocalMaxMassDetector();
-			//ParameterSet params = detector.getParameterSet();
-			DataPoint[] peaks = null; // detector.getMassValues(scan, params);
-			for (int i = 0; i < peaks.length; i++) {
-				writer.println(peaks[i].getMZ() + "\t"
-						+ peaks[i].getIntensity());
-			}*/
+			/*
+			 * LocalMaxMassDetector detector = new LocalMaxMassDetector();
+			 * //ParameterSet params = detector.getParameterSet(); DataPoint[]
+			 * peaks = null; // detector.getMassValues(scan, params); for (int i
+			 * = 0; i < peaks.length; i++) { writer.println(peaks[i].getMZ() +
+			 * "\t" + peaks[i].getIntensity()); }
+			 */
 		} else {
 			for (int k = 0; k < dps.length; k++) {
 				writer.println(dps[k].getMZ() + "\t" + dps[k].getIntensity());
@@ -151,12 +153,12 @@ public class MascotSearchTask extends AbstractTask {
 	 */
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see net.sf.mzmine.taskcontrol.Task#run()
 	 */
 	public void run() {
 
-		setStatus( TaskStatus.PROCESSING );
+		setStatus(TaskStatus.PROCESSING);
 		totalRows = 100;
 
 		try {
@@ -165,15 +167,21 @@ public class MascotSearchTask extends AbstractTask {
 			PrintWriter mgfWriter = new PrintWriter(tmpFile);
 			for (int i = 0; i < pp.getRows().length; i++) {
 				// Check if we are not canceled
-				if ( isCanceled( ))
+				if (isCanceled())
 					return;
 				PeakListRow row = pp.getRows()[i];
-				//TODO search for the peak with the best fragmentation not the most intense peak
-				Scan msmsScan = row.getBestPeak().getDataFile().getScan(
-						row.getBestPeak().getMostIntenseFragmentScanNumber());
+				// TODO search for the peak with the best fragmentation not the
+				// most intense peak
+				Scan msmsScan = row
+						.getBestPeak()
+						.getDataFile()
+						.getScan(
+								row.getBestPeak()
+										.getMostIntenseFragmentScanNumber());
 				if (msmsScan == null)
 					continue;
-				writeMgf(mgfWriter, row.getBestPeak().getDataFile(), msmsScan,i);
+				writeMgf(mgfWriter, row.getBestPeak().getDataFile(), msmsScan,
+						i);
 				mgfWriter.flush();
 			}
 			mgfWriter.close();
@@ -195,7 +203,8 @@ public class MascotSearchTask extends AbstractTask {
 			mascotConnection.setRequestProperty("Cache-Control", " no-cache");
 			// Write the POST information.
 			OutputStream serverOutput = mascotConnection.getOutputStream();
-			PrintWriter mascotSubmitWriter = new PrintWriter(new OutputStreamWriter(serverOutput));
+			PrintWriter mascotSubmitWriter = new PrintWriter(
+					new OutputStreamWriter(serverOutput));
 			mascotSubmitWriter.print(submisionString);
 			mascotSubmitWriter.flush();
 			// Retrieve the result.
@@ -204,15 +213,17 @@ public class MascotSearchTask extends AbstractTask {
 				tmpFile.deleteOnExit();
 			}
 
-			InputStream serverResponseStream = mascotConnection.getInputStream();
-			BufferedReader responseReader = new BufferedReader(new InputStreamReader(serverResponseStream));
+			InputStream serverResponseStream = mascotConnection
+					.getInputStream();
+			BufferedReader responseReader = new BufferedReader(
+					new InputStreamReader(serverResponseStream));
 			String line = null;
 			StringBuffer buffer = new StringBuffer("");
 			String mascotXmlResponse = null;
 			int startIndex, stopIndex;
-			
+
 			while ((line = responseReader.readLine()) != null) {
-				if ( isCanceled( ))
+				if (isCanceled())
 					return;
 				// check for Mascot error messages;
 				if (line.matches(".*M\\d\\d\\d\\d\\d]<BR>")) {
@@ -227,8 +238,8 @@ public class MascotSearchTask extends AbstractTask {
 							temp = temp.substring(1);
 						}
 
-						finishedRows = new Integer(temp.substring(0, temp
-								.indexOf("%"))).intValue();
+						finishedRows = new Integer(temp.substring(0,
+								temp.indexOf("%"))).intValue();
 					}
 				} catch (StringIndexOutOfBoundsException e) {
 					// e.printStackTrace();
@@ -237,7 +248,6 @@ public class MascotSearchTask extends AbstractTask {
 					// ignore that
 				}
 
-
 				String detect = "<A HREF=\"";
 				int offset = detect.length();
 				if ((startIndex = line.indexOf(detect)) >= 0) {
@@ -245,7 +255,8 @@ public class MascotSearchTask extends AbstractTask {
 					// HREF="../cgi/master_results.pl?file=../data/20100601/F021799.dat">
 					buffer.append(line);
 					stopIndex = line.indexOf("\">");
-					mascotXmlResponse = line.substring(startIndex + offset, stopIndex);
+					mascotXmlResponse = line.substring(startIndex + offset,
+							stopIndex);
 				}
 			}
 			serverResponseStream.close();
@@ -255,7 +266,7 @@ public class MascotSearchTask extends AbstractTask {
 
 			if (mascotXmlResponse == null) {
 				logger.info(buffer.toString());
-				setStatus( TaskStatus.ERROR );
+				setStatus(TaskStatus.ERROR);
 				return;
 			}
 
@@ -267,63 +278,62 @@ public class MascotSearchTask extends AbstractTask {
 				detect = "data/";
 				startIndex = mascotXmlResponse.indexOf(detect);
 				offset = detect.length();
-				String [] temp = mascotXmlResponse.substring(startIndex + offset).split("/");
+				String[] temp = mascotXmlResponse
+						.substring(startIndex + offset).split("/");
 				lDate = temp[0];
 				lDatfileFilename = temp[1];
-			
-			} else{
+
+			} else {
 				logger.info(buffer.toString());
-				setStatus( TaskStatus.ERROR );
+				setStatus(TaskStatus.ERROR);
 				return;
 			}
 
-				
 			MascotDatfile mdf = null;
 			String resultString = parameters.getMascotInstallUrlString()
-									+"x-cgi/ms-status.exe?Autorefresh=false&Show=RESULTFILE&DateDir=" + lDate + "&ResJob=" + lDatfileFilename;
+					+ "x-cgi/ms-status.exe?Autorefresh=false&Show=RESULTFILE&DateDir="
+					+ lDate + "&ResJob=" + lDatfileFilename;
 			logger.info(resultString);
-            try {
-                URL lDatfileLocation = new URL(resultString);
-                URLConnection lURLConnection = lDatfileLocation.openConnection();
-                BufferedReader br = new BufferedReader(new InputStreamReader(lURLConnection.getInputStream()));
-                mdf = new MascotDatfile(br);
+			try {
+				URL lDatfileLocation = new URL(resultString);
+				URLConnection lURLConnection = lDatfileLocation
+						.openConnection();
+				BufferedReader br = new BufferedReader(new InputStreamReader(
+						lURLConnection.getInputStream()));
+				mdf = new MascotDatfile(br);
 
-            } catch(MalformedURLException e) {
-                e.printStackTrace();
-            } catch(IOException ioe) {
-                ioe.printStackTrace();
-            }
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			} catch (IOException ioe) {
+				ioe.printStackTrace();
+			}
 
-            assert mdf != null;
-            
-            QueryToPeptideMap queryPeptideMap = mdf.getQueryToPeptideMap();
-            int numberOfQueries = mdf.getNumberOfQueries();
+			assert mdf != null;
 
-            for (int i = 1; i <= numberOfQueries; i++) {
-            	PeptideHit pepHit = queryPeptideMap.getPeptideHitOfOneQuery(i);
-            	if (pepHit != null){
-            		Query q = mdf.getQuery(i);
-            		String title = q.getTitle();
-            		String[] tokens = title.split(" ");
-            		int rowId = Integer.parseInt(tokens[1]);
-            		MascotPeakIdentity mpid = new MascotPeakIdentity(pepHit);
-            		pp.getRows()[rowId].addPeakIdentity(mpid, true);
-            	}
-            }
+			QueryToPeptideMap queryPeptideMap = mdf.getQueryToPeptideMap();
+			int numberOfQueries = mdf.getNumberOfQueries();
 
-
-
+			for (int i = 1; i <= numberOfQueries; i++) {
+				PeptideHit pepHit = queryPeptideMap.getPeptideHitOfOneQuery(i);
+				if (pepHit != null) {
+					Query q = mdf.getQuery(i);
+					String title = q.getTitle();
+					String[] tokens = title.split(" ");
+					int rowId = Integer.parseInt(tokens[1]);
+					MascotPeakIdentity mpid = new MascotPeakIdentity(pepHit);
+					pp.getRows()[rowId].addPeakIdentity(mpid, true);
+				}
+			}
 
 		} catch (Exception e) {
 			logger.info(e.getMessage());
 			e.printStackTrace();
-			setStatus( TaskStatus.ERROR );
+			setStatus(TaskStatus.ERROR);
 			return;
 		}
-		setStatus( TaskStatus.FINISHED );
+		setStatus(TaskStatus.FINISHED);
 		logger.info("Finished peaks search");
 	}
-
 
 	public Object[] getCreatedObjects() {
 		return null;

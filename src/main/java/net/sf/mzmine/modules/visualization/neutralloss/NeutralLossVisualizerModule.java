@@ -36,42 +36,46 @@ import net.sf.mzmine.util.ExitCode;
  */
 public class NeutralLossVisualizerModule implements MZmineProcessingModule {
 
-    private static final String MODULE_NAME = "Neutral loss visualizer";
-    private static final String MODULE_DESCRIPTION = "This visualizer plots neutral losses from MS/MS scans.";
+	private static final String MODULE_NAME = "Neutral loss visualizer";
+	private static final String MODULE_DESCRIPTION = "This visualizer plots neutral losses from MS/MS scans.";
 
-    @Override
-    public @Nonnull String getName() {
-        return MODULE_NAME;
-    }
+	@Override
+	public @Nonnull
+	String getName() {
+		return MODULE_NAME;
+	}
 
-    @Override
-    public @Nonnull String getDescription() {
-        return MODULE_DESCRIPTION;
-    }
+	@Override
+	public @Nonnull
+	String getDescription() {
+		return MODULE_DESCRIPTION;
+	}
 
-    @Override
-    @Nonnull
-    public ExitCode runModule(@Nonnull ParameterSet parameters,
-            @Nonnull Collection<Task> tasks) {
+	@Override
+	@Nonnull
+	public ExitCode runModule(@Nonnull ParameterSet parameters,
+			@Nonnull Collection<Task> tasks) {
 
-        RawDataFile dataFiles[] = parameters.getParameter(
-                NeutralLossParameters.dataFiles).getValue();
+		RawDataFile dataFiles[] = parameters.getParameter(
+				NeutralLossParameters.dataFiles).getValue();
 
-        NeutralLossVisualizerWindow newWindow = new NeutralLossVisualizerWindow(
-                dataFiles[0], parameters);
-        MZmineCore.getDesktop().addInternalFrame(newWindow);
+		NeutralLossVisualizerWindow newWindow = new NeutralLossVisualizerWindow(
+				dataFiles[0], parameters);
+		MZmineCore.getDesktop().addInternalFrame(newWindow);
 
-        return ExitCode.OK;
-    }
+		return ExitCode.OK;
+	}
 
-    @Override
-    public @Nonnull MZmineModuleCategory getModuleCategory() {
-        return MZmineModuleCategory.VISUALIZATIONRAWDATA;
-    }
+	@Override
+	public @Nonnull
+	MZmineModuleCategory getModuleCategory() {
+		return MZmineModuleCategory.VISUALIZATIONRAWDATA;
+	}
 
-    @Override
-    public @Nonnull Class<? extends ParameterSet> getParameterSetClass() {
-        return NeutralLossParameters.class;
-    }
+	@Override
+	public @Nonnull
+	Class<? extends ParameterSet> getParameterSetClass() {
+		return NeutralLossParameters.class;
+	}
 
 }

@@ -63,7 +63,7 @@ class InfoWindow extends JInternalFrame {
 			mzRange = new Range(0, 0);
 			rtRange = new Range(0, 0);
 		}
-		
+
 		// Raw data file list
 		JList rawDataFileList = new JList(peakList.getRawDataFiles());
 		rawDataFileList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -80,7 +80,8 @@ class InfoWindow extends JInternalFrame {
 		rawPanel.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
 		// Applied methods list
-		AppliedMethodList appliedMethodList = new AppliedMethodList(peakList.getAppliedMethods());
+		AppliedMethodList appliedMethodList = new AppliedMethodList(
+				peakList.getAppliedMethods());
 		appliedMethodList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		appliedMethodList.setLayoutOrientation(JList.VERTICAL);
 		JScrollPane methodlistScroller = new JScrollPane(appliedMethodList);
@@ -100,15 +101,15 @@ class InfoWindow extends JInternalFrame {
 		pnlGrid.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 
-		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(5, 5, 5, 5);
 		c.gridwidth = 1;
 
 		c.gridx = 0;
 		c.gridy = 0;
-		pnlGrid.add(new JLabel("<html>Name: <font color=\"blue\">"
-				+ peakList.getName() + "</font></html>"), c);
+		pnlGrid.add(
+				new JLabel("<html>Name: <font color=\"blue\">"
+						+ peakList.getName() + "</font></html>"), c);
 		c.gridx = 0;
 		c.gridy = 1;
 		pnlGrid.add(new JLabel(
@@ -124,10 +125,8 @@ class InfoWindow extends JInternalFrame {
 				+ numOfRows + "</font></html>"), c);
 		c.gridx = 0;
 		c.gridy = 4;
-		String text = mzFormat.format(
-				mzRange.getMin()) + " - "
-				+ mzFormat.format(
-						mzRange.getMax());
+		String text = mzFormat.format(mzRange.getMin()) + " - "
+				+ mzFormat.format(mzRange.getMax());
 		pnlGrid.add(new JLabel("<html>m/z range: <font color=\"blue\">" + text
 				+ "</font></html>"), c);
 		c.gridx = 0;

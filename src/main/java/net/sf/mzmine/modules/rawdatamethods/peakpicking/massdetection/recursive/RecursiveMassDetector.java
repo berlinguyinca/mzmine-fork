@@ -145,13 +145,15 @@ public class RecursiveMassDetector implements MassDetector {
 
 	}
 
-	public @Nonnull String getName() {
+	public @Nonnull
+	String getName() {
 		return "Recursive threshold";
 	}
 
 	@Override
-	public @Nonnull Class<? extends ParameterSet> getParameterSetClass() {
-	    return RecursiveMassDetectorParameters.class;
+	public @Nonnull
+	Class<? extends ParameterSet> getParameterSetClass() {
+		return RecursiveMassDetectorParameters.class;
 	}
 
 }

@@ -31,39 +31,39 @@ import net.sf.mzmine.util.Range;
 
 public class RTRangeComponent extends RangeComponent implements ActionListener {
 
-    private final JButton setAutoButton;
+	private final JButton setAutoButton;
 
-    public RTRangeComponent() {
+	public RTRangeComponent() {
 
-	super(MZmineCore.getConfiguration().getRTFormat());
+		super(MZmineCore.getConfiguration().getRTFormat());
 
-	setAutoButton = new JButton("Auto range");
-	setAutoButton.addActionListener(this);
-	RawDataFile currentFiles[] = MZmineCore.getCurrentProject()
-		.getDataFiles();
-	setAutoButton.setEnabled(currentFiles.length > 0);
-	add(setAutoButton, 3, 0, 1, 1, 1, 0, GridBagConstraints.NONE);
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent event) {
-
-	Object src = event.getSource();
-
-	if (src == setAutoButton) {
-	    Range rtRange = null;
-	    RawDataFile currentFiles[] = MZmineCore.getCurrentProject()
-		    .getDataFiles();
-	    for (RawDataFile file : currentFiles) {
-		Range fileRange = file.getDataRTRange();
-		if (rtRange == null)
-		    rtRange = fileRange;
-		else
-		    rtRange.extendRange(fileRange);
-	    }
-	    setValue(rtRange);
+		setAutoButton = new JButton("Auto range");
+		setAutoButton.addActionListener(this);
+		RawDataFile currentFiles[] = MZmineCore.getCurrentProject()
+				.getDataFiles();
+		setAutoButton.setEnabled(currentFiles.length > 0);
+		add(setAutoButton, 3, 0, 1, 1, 1, 0, GridBagConstraints.NONE);
 	}
 
-    }
+	@Override
+	public void actionPerformed(ActionEvent event) {
+
+		Object src = event.getSource();
+
+		if (src == setAutoButton) {
+			Range rtRange = null;
+			RawDataFile currentFiles[] = MZmineCore.getCurrentProject()
+					.getDataFiles();
+			for (RawDataFile file : currentFiles) {
+				Range fileRange = file.getDataRTRange();
+				if (rtRange == null)
+					rtRange = fileRange;
+				else
+					rtRange.extendRange(fileRange);
+			}
+			setValue(rtRange);
+		}
+
+	}
 
 }

@@ -36,74 +36,75 @@ import javax.swing.ListSelectionModel;
 
 import net.sf.mzmine.util.GUIUtils;
 
-public class SQLColumnSettingsComponent extends JPanel implements
-	ActionListener {
+public class SQLColumnSettingsComponent extends JPanel
+		implements
+			ActionListener {
 
-    private final JTable columnsTable;
-    private final JButton addColumnButton, removeColumnButton;
+	private final JTable columnsTable;
+	private final JButton addColumnButton, removeColumnButton;
 
-    @Nonnull
-    private SQLColumnSettings value;
+	@Nonnull
+	private SQLColumnSettings value;
 
-    public SQLColumnSettingsComponent() {
+	public SQLColumnSettingsComponent() {
 
-	super(new BorderLayout());
+		super(new BorderLayout());
 
-	value = new SQLColumnSettings();
+		value = new SQLColumnSettings();
 
-	columnsTable = new JTable(value);
-	columnsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-	columnsTable.setRowSelectionAllowed(true);
-	columnsTable.setColumnSelectionAllowed(false);
-	columnsTable.getTableHeader().setReorderingAllowed(false);
-	columnsTable.getTableHeader().setResizingAllowed(true);
-	columnsTable.setPreferredScrollableViewportSize(new Dimension(400, 80));
+		columnsTable = new JTable(value);
+		columnsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		columnsTable.setRowSelectionAllowed(true);
+		columnsTable.setColumnSelectionAllowed(false);
+		columnsTable.getTableHeader().setReorderingAllowed(false);
+		columnsTable.getTableHeader().setResizingAllowed(true);
+		columnsTable.setPreferredScrollableViewportSize(new Dimension(400, 80));
 
-	JComboBox dataTypeCombo = new JComboBox(SQLExportDataType.values());
-	DefaultCellEditor dataTypeEditor = new DefaultCellEditor(dataTypeCombo);
-	columnsTable.setDefaultEditor(SQLExportDataType.class, dataTypeEditor);
+		JComboBox dataTypeCombo = new JComboBox(SQLExportDataType.values());
+		DefaultCellEditor dataTypeEditor = new DefaultCellEditor(dataTypeCombo);
+		columnsTable.setDefaultEditor(SQLExportDataType.class, dataTypeEditor);
 
-	JScrollPane elementsScroll = new JScrollPane(columnsTable);
-	add(elementsScroll, BorderLayout.CENTER);
+		JScrollPane elementsScroll = new JScrollPane(columnsTable);
+		add(elementsScroll, BorderLayout.CENTER);
 
-	// Add buttons
-	JPanel buttonsPanel = new JPanel();
-	BoxLayout buttonsPanelLayout = new BoxLayout(buttonsPanel,
-		BoxLayout.Y_AXIS);
-	buttonsPanel.setLayout(buttonsPanelLayout);
-	addColumnButton = GUIUtils.addButton(buttonsPanel, "Add", null, this);
-	removeColumnButton = GUIUtils.addButton(buttonsPanel, "Remove", null,
-		this);
-	add(buttonsPanel, BorderLayout.EAST);
+		// Add buttons
+		JPanel buttonsPanel = new JPanel();
+		BoxLayout buttonsPanelLayout = new BoxLayout(buttonsPanel,
+				BoxLayout.Y_AXIS);
+		buttonsPanel.setLayout(buttonsPanelLayout);
+		addColumnButton = GUIUtils.addButton(buttonsPanel, "Add", null, this);
+		removeColumnButton = GUIUtils.addButton(buttonsPanel, "Remove", null,
+				this);
+		add(buttonsPanel, BorderLayout.EAST);
 
-    }
-
-    public void actionPerformed(ActionEvent event) {
-
-	Object src = event.getSource();
-
-	if (src == addColumnButton) {
-	    value.addNewRow();
 	}
 
-	if (src == removeColumnButton) {
-	    int selectedRow = columnsTable.getSelectedRow();
-	    if (selectedRow < 0)
-		return;
-	    value.removeRow(selectedRow);
+	public void actionPerformed(ActionEvent event) {
+
+		Object src = event.getSource();
+
+		if (src == addColumnButton) {
+			value.addNewRow();
+		}
+
+		if (src == removeColumnButton) {
+			int selectedRow = columnsTable.getSelectedRow();
+			if (selectedRow < 0)
+				return;
+			value.removeRow(selectedRow);
+		}
 	}
-    }
 
-    void setValue(@Nonnull SQLColumnSettings newValue) {
+	void setValue(@Nonnull SQLColumnSettings newValue) {
 
-	// Clear the table
-	this.value = newValue;
-	columnsTable.setModel(newValue);
-    }
+		// Clear the table
+		this.value = newValue;
+		columnsTable.setModel(newValue);
+	}
 
-    @Nonnull
-    synchronized SQLColumnSettings getValue() {
-	return value;
-    }
+	@Nonnull
+	synchronized SQLColumnSettings getValue() {
+		return value;
+	}
 
 }

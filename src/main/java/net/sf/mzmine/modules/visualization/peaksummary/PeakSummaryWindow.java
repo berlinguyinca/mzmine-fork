@@ -31,20 +31,20 @@ import net.sf.mzmine.util.components.PeakSummaryComponent;
  */
 public class PeakSummaryWindow extends JInternalFrame {
 
-    public PeakSummaryWindow(PeakListRow row) {
+	public PeakSummaryWindow(PeakListRow row) {
 
-        super(row.toString(), true, true, true, true);
+		super(row.toString(), true, true, true, true);
 
-        setLayout(new BorderLayout());
+		setLayout(new BorderLayout());
 
-        PeakSummaryComponent peakRowSummary = new PeakSummaryComponent(row,
-                row.getRawDataFiles(), true, false, true, true, true,
-                this.getBackground());
+		PeakSummaryComponent peakRowSummary = new PeakSummaryComponent(row,
+				row.getRawDataFiles(), true, false, true, true, true,
+				this.getBackground());
 
-        add(peakRowSummary, BorderLayout.CENTER);
+		add(peakRowSummary, BorderLayout.CENTER);
 
-        pack();
+		pack();
 
-    }
+	}
 
 }

@@ -28,7 +28,8 @@ import net.sf.mzmine.parameters.parametertypes.StringParameter;
 
 public class CSVExportParameters extends SimpleParameterSet {
 
-	public static final PeakListsParameter peakList = new PeakListsParameter(1, 1);
+	public static final PeakListsParameter peakList = new PeakListsParameter(1,
+			1);
 
 	public static final FileNameParameter filename = new FileNameParameter(
 			"Filename",
@@ -51,8 +52,8 @@ public class CSVExportParameters extends SimpleParameterSet {
 			ExportRowDataFileElement.values());
 
 	public CSVExportParameters() {
-		super(new Parameter[] { peakList, filename, fieldSeparator,
-				exportCommonItems, exportIdentityItems, exportDataFileItems });
+		super(new Parameter[]{peakList, filename, fieldSeparator,
+				exportCommonItems, exportIdentityItems, exportDataFileItems});
 	}
 
 }

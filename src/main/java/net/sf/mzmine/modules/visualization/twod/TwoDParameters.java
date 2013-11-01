@@ -31,19 +31,19 @@ import net.sf.mzmine.parameters.parametertypes.RawDataFilesParameter;
  */
 public class TwoDParameters extends SimpleParameterSet {
 
-    public static final RawDataFilesParameter dataFiles = new RawDataFilesParameter();
+	public static final RawDataFilesParameter dataFiles = new RawDataFilesParameter();
 
-    public static final MSLevelParameter msLevel = new MSLevelParameter();
+	public static final MSLevelParameter msLevel = new MSLevelParameter();
 
-    public static final RTRangeParameter retentionTimeRange = new RTRangeParameter();
+	public static final RTRangeParameter retentionTimeRange = new RTRangeParameter();
 
-    public static final MZRangeParameter mzRange = new MZRangeParameter();
+	public static final MZRangeParameter mzRange = new MZRangeParameter();
 
-    public static final PeakThresholdParameter peakThresholdSettings = new PeakThresholdParameter();
+	public static final PeakThresholdParameter peakThresholdSettings = new PeakThresholdParameter();
 
-    public TwoDParameters() {
-	super(new Parameter[] { dataFiles, msLevel, retentionTimeRange,
-		mzRange, peakThresholdSettings });
-    }
+	public TwoDParameters() {
+		super(new Parameter[]{dataFiles, msLevel, retentionTimeRange, mzRange,
+				peakThresholdSettings});
+	}
 
 }

@@ -33,20 +33,20 @@ import net.sf.mzmine.util.GUIUtils;
  */
 class NeutralLossToolBar extends JToolBar {
 
-    static final Icon dataPointsIcon = new ImageIcon("icons/datapointsicon.png");
+	static final Icon dataPointsIcon = new ImageIcon("icons/datapointsicon.png");
 
-    NeutralLossToolBar(NeutralLossVisualizerWindow masterFrame) {
+	NeutralLossToolBar(NeutralLossVisualizerWindow masterFrame) {
 
-        super(JToolBar.VERTICAL);
+		super(JToolBar.VERTICAL);
 
-        setFloatable(false);
-        setFocusable(false);
-        setMargin(new Insets(5, 5, 5, 5));
-        setBackground(Color.white);
+		setFloatable(false);
+		setFocusable(false);
+		setMargin(new Insets(5, 5, 5, 5));
+		setBackground(Color.white);
 
-        GUIUtils.addButton(this, null, dataPointsIcon, masterFrame,
-                "HIGHLIGHT", "Highlight selected precursor mass range");
+		GUIUtils.addButton(this, null, dataPointsIcon, masterFrame,
+				"HIGHLIGHT", "Highlight selected precursor mass range");
 
-    }
+	}
 
 }

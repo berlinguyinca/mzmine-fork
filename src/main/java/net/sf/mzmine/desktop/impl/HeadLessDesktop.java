@@ -36,101 +36,101 @@ import net.sf.mzmine.util.ExitCode;
 
 public class HeadLessDesktop implements Desktop {
 
-    private static final String MODULE_NAME = "Desktop";
+	private static final String MODULE_NAME = "Desktop";
 
-    private Logger logger = Logger.getLogger(this.getClass().getName());
+	private Logger logger = Logger.getLogger(this.getClass().getName());
 
-    @Override
-    public JFrame getMainFrame() {
-	return null;
-    }
+	@Override
+	public JFrame getMainFrame() {
+		return null;
+	}
 
-    @Override
-    public void addInternalFrame(JInternalFrame frame) {
-	throw new UnsupportedOperationException();
-    }
+	@Override
+	public void addInternalFrame(JInternalFrame frame) {
+		throw new UnsupportedOperationException();
+	}
 
-    @Override
-    public JInternalFrame[] getInternalFrames() {
-	throw new UnsupportedOperationException();
-    }
+	@Override
+	public JInternalFrame[] getInternalFrames() {
+		throw new UnsupportedOperationException();
+	}
 
-    @Override
-    public JInternalFrame getSelectedFrame() {
-	throw new UnsupportedOperationException();
-    }
+	@Override
+	public JInternalFrame getSelectedFrame() {
+		throw new UnsupportedOperationException();
+	}
 
-    @Override
-    public void setStatusBarText(String text) {
-	throw new UnsupportedOperationException();
-    }
+	@Override
+	public void setStatusBarText(String text) {
+		throw new UnsupportedOperationException();
+	}
 
-    @Override
-    public void setStatusBarText(String text, Color textColor) {
-    }
+	@Override
+	public void setStatusBarText(String text, Color textColor) {
+	}
 
-    @Override
-    public void displayMessage(String msg) {
-	logger.info(msg);
-    }
+	@Override
+	public void displayMessage(String msg) {
+		logger.info(msg);
+	}
 
-    @Override
-    public void displayMessage(String title, String msg) {
-	logger.info(msg);
-    }
+	@Override
+	public void displayMessage(String title, String msg) {
+		logger.info(msg);
+	}
 
-    @Override
-    public void displayErrorMessage(String msg) {
-	logger.severe(msg);
-    }
+	@Override
+	public void displayErrorMessage(String msg) {
+		logger.severe(msg);
+	}
 
-    @Override
-    public void displayErrorMessage(String title, String msg) {
-	logger.severe(msg);
-    }
+	@Override
+	public void displayErrorMessage(String title, String msg) {
+		logger.severe(msg);
+	}
 
-    @Override
-    public void displayException(Exception e) {
-	e.printStackTrace();
-    }
+	@Override
+	public void displayException(Exception e) {
+		e.printStackTrace();
+	}
 
-    @Override
-    public RawDataFile[] getSelectedDataFiles() {
-	throw new UnsupportedOperationException();
-    }
+	@Override
+	public RawDataFile[] getSelectedDataFiles() {
+		throw new UnsupportedOperationException();
+	}
 
-    @Override
-    public PeakList[] getSelectedPeakLists() {
-	throw new UnsupportedOperationException();
-    }
+	@Override
+	public PeakList[] getSelectedPeakLists() {
+		throw new UnsupportedOperationException();
+	}
 
-    @Override
-    public void addProjectTreeListener(TreeModelListener listener) {
-	throw new UnsupportedOperationException();
-    }
+	@Override
+	public void addProjectTreeListener(TreeModelListener listener) {
+		throw new UnsupportedOperationException();
+	}
 
-    @Override
-    public void removeProjectTreeListener(TreeModelListener listener) {
-	throw new UnsupportedOperationException();
-    }
+	@Override
+	public void removeProjectTreeListener(TreeModelListener listener) {
+		throw new UnsupportedOperationException();
+	}
 
-    @Override
-    public @Nonnull
-    Class<? extends ParameterSet> getParameterSetClass() {
-	return SimpleParameterSet.class;
-    }
+	@Override
+	public @Nonnull
+	Class<? extends ParameterSet> getParameterSetClass() {
+		return SimpleParameterSet.class;
+	}
 
-    @Override
-    public @Nonnull
-    String getName() {
-	return MODULE_NAME;
-    }
+	@Override
+	public @Nonnull
+	String getName() {
+		return MODULE_NAME;
+	}
 
-    @Override
-    public @Nonnull
-    ExitCode exitMZmine() {
-	System.exit(0);
-	return ExitCode.OK;
-    }
+	@Override
+	public @Nonnull
+	ExitCode exitMZmine() {
+		System.exit(0);
+		return ExitCode.OK;
+	}
 
 }

@@ -35,7 +35,7 @@ import org.w3c.dom.NodeList;
 public class FileNamesParameter implements Parameter<File[]> {
 
 	private File value[];
-	
+
 	@Override
 	public String getName() {
 		return "Raw data file names";
@@ -78,7 +78,7 @@ public class FileNamesParameter implements Parameter<File[]> {
 			xmlElement.appendChild(newElement);
 		}
 	}
-	
+
 	@Override
 	public boolean checkValue(Collection<String> errorMessages) {
 		if (value == null) {

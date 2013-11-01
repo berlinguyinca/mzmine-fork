@@ -28,8 +28,9 @@ import org.jfree.data.xy.IntervalXYDataset;
 /**
  * Data set for a single highlighted peak
  */
-public class SinglePeakDataSet extends AbstractXYDataset implements
-		IntervalXYDataset {
+public class SinglePeakDataSet extends AbstractXYDataset
+		implements
+			IntervalXYDataset {
 
 	private DataPoint dataPoint;
 	private String label;

@@ -36,8 +36,9 @@ import net.sf.mzmine.parameters.dialogs.ParameterSetupDialogWithScanPreview;
  * is used to preview how the selected mass detector and his parameters works
  * over the raw data file.
  */
-public class MassDetectorSetupDialog extends
-		ParameterSetupDialogWithScanPreview {
+public class MassDetectorSetupDialog
+		extends
+			ParameterSetupDialogWithScanPreview {
 
 	private MassDetector massDetector;
 	private ParameterSet parameters;
@@ -82,10 +83,11 @@ public class MassDetectorSetupDialog extends
 		if (!paramsOK)
 			return;
 
-		DataPoint[] mzValues = massDetector.getMassValues(previewScan, parameters);
+		DataPoint[] mzValues = massDetector.getMassValues(previewScan,
+				parameters);
 
-		DataPointsDataSet peaksDataSet = new DataPointsDataSet("Detected peaks",
-				mzValues);
+		DataPointsDataSet peaksDataSet = new DataPointsDataSet(
+				"Detected peaks", mzValues);
 
 		spectrumPlot.addDataSet(peaksDataSet,
 				SpectraVisualizerWindow.peaksColor, false);

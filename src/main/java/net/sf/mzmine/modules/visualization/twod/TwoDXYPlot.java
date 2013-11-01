@@ -50,7 +50,8 @@ class TwoDXYPlot extends XYPlot {
 
 	private PlotMode plotMode = PlotMode.UNDEFINED;
 
-	TwoDXYPlot(TwoDDataSet dataset, Range rtRange, Range mzRange, ValueAxis domainAxis, ValueAxis rangeAxis) {
+	TwoDXYPlot(TwoDDataSet dataset, Range rtRange, Range mzRange,
+			ValueAxis domainAxis, ValueAxis rangeAxis) {
 
 		super(dataset, domainAxis, rangeAxis, null);
 
@@ -74,15 +75,20 @@ class TwoDXYPlot extends XYPlot {
 		final int width = (int) dataArea.getWidth();
 		final int height = (int) dataArea.getHeight();
 
-		final double imageRTMin = (double) getDomainAxis().getRange().getLowerBound();
-		final double imageRTMax = (double) getDomainAxis().getRange().getUpperBound();
+		final double imageRTMin = (double) getDomainAxis().getRange()
+				.getLowerBound();
+		final double imageRTMax = (double) getDomainAxis().getRange()
+				.getUpperBound();
 		final double imageRTStep = (imageRTMax - imageRTMin) / width;
-		final double imageMZMin = (double) getRangeAxis().getRange().getLowerBound();
-		final double imageMZMax = (double) getRangeAxis().getRange().getUpperBound();
+		final double imageMZMin = (double) getRangeAxis().getRange()
+				.getLowerBound();
+		final double imageMZMax = (double) getRangeAxis().getRange()
+				.getUpperBound();
 		final double imageMZStep = (imageMZMax - imageMZMin) / height;
 
 		if ((zoomOutBitmap != null) && (imageRTMin == totalRTRange.getMin())
-				&& (imageRTMax == totalRTRange.getMax()) && (imageMZMin == totalMZRange.getMin())
+				&& (imageRTMax == totalRTRange.getMax())
+				&& (imageMZMin == totalMZRange.getMin())
 				&& (imageMZMax == totalMZRange.getMax())
 				&& (zoomOutBitmap.getWidth() == width)
 				&& (zoomOutBitmap.getHeight() == height)) {
@@ -105,8 +111,9 @@ class TwoDXYPlot extends XYPlot {
 				double pointMZMin = imageMZMin + (j * imageMZStep);
 				double pointMZMax = pointMZMin + imageMZStep;
 
-				values[i][j] = dataset.getMaxIntensity(new Range(pointRTMin, pointRTMax),
-						new Range(pointMZMin, pointMZMax), plotMode);
+				values[i][j] = dataset.getMaxIntensity(new Range(pointRTMin,
+						pointRTMax), new Range(pointMZMin, pointMZMax),
+						plotMode);
 
 				if (values[i][j] > maxValue)
 					maxValue = values[i][j];
@@ -135,8 +142,10 @@ class TwoDXYPlot extends XYPlot {
 			}
 
 		// if we are zoomed out, save the values
-		if ((imageRTMin == totalRTRange.getMin()) && (imageRTMax == totalRTRange.getMax())
-				&& (imageMZMin == totalMZRange.getMin()) && (imageMZMax == totalMZRange.getMax())) {
+		if ((imageRTMin == totalRTRange.getMin())
+				&& (imageRTMax == totalRTRange.getMax())
+				&& (imageMZMin == totalMZRange.getMin())
+				&& (imageMZMax == totalMZRange.getMax())) {
 			zoomOutBitmap = image;
 		}
 
@@ -153,12 +162,14 @@ class TwoDXYPlot extends XYPlot {
 
 	}
 
-	Range getDomainRange(){
-		return new Range(getDomainAxis().getRange().getLowerBound(),getDomainAxis().getRange().getUpperBound());
+	Range getDomainRange() {
+		return new Range(getDomainAxis().getRange().getLowerBound(),
+				getDomainAxis().getRange().getUpperBound());
 	}
 
-	Range getAxisRange(){
-		return new Range(getRangeAxis().getRange().getLowerBound(),getRangeAxis().getRange().getUpperBound());
+	Range getAxisRange() {
+		return new Range(getRangeAxis().getRange().getLowerBound(),
+				getRangeAxis().getRange().getUpperBound());
 	}
 
 	void switchPalette() {
@@ -180,7 +191,7 @@ class TwoDXYPlot extends XYPlot {
 
 		// clear the zoom out image cache
 		zoomOutBitmap = null;
-		
+
 		datasetChanged(new DatasetChangeEvent(dataset, dataset));
 	}
 

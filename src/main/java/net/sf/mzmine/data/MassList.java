@@ -27,13 +27,13 @@ import javax.annotation.Nonnull;
  */
 public interface MassList {
 
-    @Nonnull
-    public String getName();
+	@Nonnull
+	public String getName();
 
-    @Nonnull
-    public Scan getScan();
+	@Nonnull
+	public Scan getScan();
 
-    @Nonnull
-    public DataPoint[] getDataPoints();
+	@Nonnull
+	public DataPoint[] getDataPoints();
 
 }

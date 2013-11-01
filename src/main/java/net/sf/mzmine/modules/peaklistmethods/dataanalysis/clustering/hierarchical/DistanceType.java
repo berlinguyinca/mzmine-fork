@@ -20,20 +20,18 @@
 package net.sf.mzmine.modules.peaklistmethods.dataanalysis.clustering.hierarchical;
 
 public enum DistanceType {
-	
-    EUCLIDIAN("Euclidian"),
-    CHEBYSHEV("Chebyshev"),
-    MANHATTAN("Manhattan"),
-    MINKOWSKI("Minkowski");  
-    
-    private final String name;
 
-    DistanceType(String name) {
-        this.name = name;
-    }
+	EUCLIDIAN("Euclidian"), CHEBYSHEV("Chebyshev"), MANHATTAN("Manhattan"), MINKOWSKI(
+			"Minkowski");
 
-    public String getName(){
-    	return this.name;
-    }
+	private final String name;
+
+	DistanceType(String name) {
+		this.name = name;
+	}
+
+	public String getName() {
+		return this.name;
+	}
 
 }

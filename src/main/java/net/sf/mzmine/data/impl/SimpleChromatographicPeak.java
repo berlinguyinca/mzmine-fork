@@ -36,245 +36,245 @@ import net.sf.mzmine.util.Range;
  */
 public class SimpleChromatographicPeak implements ChromatographicPeak {
 
-    private PeakStatus peakStatus;
-    private RawDataFile dataFile;
+	private PeakStatus peakStatus;
+	private RawDataFile dataFile;
 
-    // Scan numbers
-    private int scanNumbers[];
+	// Scan numbers
+	private int scanNumbers[];
 
-    private DataPoint dataPointsPerScan[];
+	private DataPoint dataPointsPerScan[];
 
-    // M/Z, RT, Height and Area
-    private double mz, rt, height, area;
+	// M/Z, RT, Height and Area
+	private double mz, rt, height, area;
 
-    // Boundaries of the peak raw data points
-    private Range rtRange, mzRange, intensityRange;
+	// Boundaries of the peak raw data points
+	private Range rtRange, mzRange, intensityRange;
 
-    // Number of representative scan
-    private int representativeScan;
+	// Number of representative scan
+	private int representativeScan;
 
-    // Number of most intense fragment scan
-    private int fragmentScanNumber;
+	// Number of most intense fragment scan
+	private int fragmentScanNumber;
 
-    // Isotope pattern. Null by default but can be set later by deisotoping
-    // method.
-    private IsotopePattern isotopePattern;
-    private int charge = 0;
+	// Isotope pattern. Null by default but can be set later by deisotoping
+	// method.
+	private IsotopePattern isotopePattern;
+	private int charge = 0;
 
-    /**
-     * Initializes a new peak using given values
-     * 
-     */
-    public SimpleChromatographicPeak(RawDataFile dataFile, double MZ,
-	    double RT, double height, double area, int[] scanNumbers,
-	    DataPoint[] dataPointsPerScan, PeakStatus peakStatus,
-	    int representativeScan, int fragmentScanNumber, Range rtRange,
-	    Range mzRange, Range intensityRange) {
+	/**
+	 * Initializes a new peak using given values
+	 * 
+	 */
+	public SimpleChromatographicPeak(RawDataFile dataFile, double MZ,
+			double RT, double height, double area, int[] scanNumbers,
+			DataPoint[] dataPointsPerScan, PeakStatus peakStatus,
+			int representativeScan, int fragmentScanNumber, Range rtRange,
+			Range mzRange, Range intensityRange) {
 
-	if (dataPointsPerScan.length == 0) {
-	    throw new IllegalArgumentException(
-		    "Cannot create a SimplePeak instance with no data points");
+		if (dataPointsPerScan.length == 0) {
+			throw new IllegalArgumentException(
+					"Cannot create a SimplePeak instance with no data points");
+		}
+
+		this.dataFile = dataFile;
+		this.mz = MZ;
+		this.rt = RT;
+		this.height = height;
+		this.area = area;
+		this.scanNumbers = scanNumbers;
+		this.peakStatus = peakStatus;
+		this.representativeScan = representativeScan;
+		this.fragmentScanNumber = fragmentScanNumber;
+		this.rtRange = rtRange;
+		this.mzRange = mzRange;
+		this.intensityRange = intensityRange;
+		this.dataPointsPerScan = dataPointsPerScan;
+
 	}
 
-	this.dataFile = dataFile;
-	this.mz = MZ;
-	this.rt = RT;
-	this.height = height;
-	this.area = area;
-	this.scanNumbers = scanNumbers;
-	this.peakStatus = peakStatus;
-	this.representativeScan = representativeScan;
-	this.fragmentScanNumber = fragmentScanNumber;
-	this.rtRange = rtRange;
-	this.mzRange = mzRange;
-	this.intensityRange = intensityRange;
-	this.dataPointsPerScan = dataPointsPerScan;
+	/**
+	 * Copy constructor
+	 */
+	public SimpleChromatographicPeak(ChromatographicPeak p) {
 
-    }
+		this.dataFile = p.getDataFile();
 
-    /**
-     * Copy constructor
-     */
-    public SimpleChromatographicPeak(ChromatographicPeak p) {
+		this.mz = p.getMZ();
+		this.rt = p.getRT();
+		this.height = p.getHeight();
+		this.area = p.getArea();
 
-	this.dataFile = p.getDataFile();
+		// Create a copy of the mutable properties, not a reference
+		this.rtRange = new Range(p.getRawDataPointsRTRange());
+		this.mzRange = new Range(p.getRawDataPointsMZRange());
+		this.intensityRange = new Range(p.getRawDataPointsIntensityRange());
 
-	this.mz = p.getMZ();
-	this.rt = p.getRT();
-	this.height = p.getHeight();
-	this.area = p.getArea();
+		this.scanNumbers = p.getScanNumbers();
 
-	// Create a copy of the mutable properties, not a reference
-	this.rtRange = new Range(p.getRawDataPointsRTRange());
-	this.mzRange = new Range(p.getRawDataPointsMZRange());
-	this.intensityRange = new Range(p.getRawDataPointsIntensityRange());
+		this.dataPointsPerScan = new DataPoint[scanNumbers.length];
 
-	this.scanNumbers = p.getScanNumbers();
+		for (int i = 0; i < scanNumbers.length; i++) {
+			dataPointsPerScan[i] = p.getDataPoint(scanNumbers[i]);
+		}
 
-	this.dataPointsPerScan = new DataPoint[scanNumbers.length];
+		this.peakStatus = p.getPeakStatus();
 
-	for (int i = 0; i < scanNumbers.length; i++) {
-	    dataPointsPerScan[i] = p.getDataPoint(scanNumbers[i]);
+		this.representativeScan = p.getRepresentativeScanNumber();
+		this.fragmentScanNumber = p.getMostIntenseFragmentScanNumber();
+
 	}
 
-	this.peakStatus = p.getPeakStatus();
+	/**
+	 * This method returns the status of the peak
+	 */
+	public @Nonnull
+	PeakStatus getPeakStatus() {
+		return peakStatus;
+	}
 
-	this.representativeScan = p.getRepresentativeScanNumber();
-	this.fragmentScanNumber = p.getMostIntenseFragmentScanNumber();
+	/**
+	 * This method returns M/Z value of the peak
+	 */
+	public double getMZ() {
+		return mz;
+	}
 
-    }
+	public void setMZ(double mz) {
+		this.mz = mz;
+	}
 
-    /**
-     * This method returns the status of the peak
-     */
-    public @Nonnull
-    PeakStatus getPeakStatus() {
-	return peakStatus;
-    }
+	public void setRT(double rt) {
+		this.rt = rt;
+	}
 
-    /**
-     * This method returns M/Z value of the peak
-     */
-    public double getMZ() {
-	return mz;
-    }
+	/**
+	 * This method returns retention time of the peak
+	 */
+	public double getRT() {
+		return rt;
+	}
 
-    public void setMZ(double mz) {
-	this.mz = mz;
-    }
+	/**
+	 * This method returns the raw height of the peak
+	 */
+	public double getHeight() {
+		return height;
+	}
 
-    public void setRT(double rt) {
-	this.rt = rt;
-    }
+	/**
+	 * @param height
+	 *            The height to set.
+	 */
+	public void setHeight(double height) {
+		this.height = height;
+	}
 
-    /**
-     * This method returns retention time of the peak
-     */
-    public double getRT() {
-	return rt;
-    }
+	/**
+	 * This method returns the raw area of the peak
+	 */
+	public double getArea() {
+		return area;
+	}
 
-    /**
-     * This method returns the raw height of the peak
-     */
-    public double getHeight() {
-	return height;
-    }
+	/**
+	 * @param area
+	 *            The area to set.
+	 */
+	public void setArea(double area) {
+		this.area = area;
+	}
 
-    /**
-     * @param height
-     *            The height to set.
-     */
-    public void setHeight(double height) {
-	this.height = height;
-    }
+	/**
+	 * This method returns numbers of scans that contain this peak
+	 */
+	public @Nonnull
+	int[] getScanNumbers() {
+		return scanNumbers;
+	}
 
-    /**
-     * This method returns the raw area of the peak
-     */
-    public double getArea() {
-	return area;
-    }
+	/**
+	 * This method returns a representative datapoint of this peak in a given
+	 * scan
+	 */
+	public DataPoint getDataPoint(int scanNumber) {
+		int index = Arrays.binarySearch(scanNumbers, scanNumber);
+		if (index < 0)
+			return null;
+		return dataPointsPerScan[index];
+	}
 
-    /**
-     * @param area
-     *            The area to set.
-     */
-    public void setArea(double area) {
-	this.area = area;
-    }
+	/**
+	 * @see net.sf.mzmine.data.ChromatographicPeak#getDataFile()
+	 */
+	public @Nonnull
+	RawDataFile getDataFile() {
+		return dataFile;
+	}
 
-    /**
-     * This method returns numbers of scans that contain this peak
-     */
-    public @Nonnull
-    int[] getScanNumbers() {
-	return scanNumbers;
-    }
+	/**
+	 * @see net.sf.mzmine.data.ChromatographicPeak#setDataFile()
+	 */
+	public void setDataFile(RawDataFile dataFile) {
+		this.dataFile = dataFile;
+	}
 
-    /**
-     * This method returns a representative datapoint of this peak in a given
-     * scan
-     */
-    public DataPoint getDataPoint(int scanNumber) {
-	int index = Arrays.binarySearch(scanNumbers, scanNumber);
-	if (index < 0)
-	    return null;
-	return dataPointsPerScan[index];
-    }
+	/**
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return PeakUtils.peakToString(this);
+	}
 
-    /**
-     * @see net.sf.mzmine.data.ChromatographicPeak#getDataFile()
-     */
-    public @Nonnull
-    RawDataFile getDataFile() {
-	return dataFile;
-    }
+	/**
+	 * @see net.sf.mzmine.data.ChromatographicPeak#getRawDataPointsIntensityRange()
+	 */
+	public @Nonnull
+	Range getRawDataPointsIntensityRange() {
+		return intensityRange;
+	}
 
-    /**
-     * @see net.sf.mzmine.data.ChromatographicPeak#setDataFile()
-     */
-    public void setDataFile(RawDataFile dataFile) {
-	this.dataFile = dataFile;
-    }
+	/**
+	 * @see net.sf.mzmine.data.ChromatographicPeak#getRawDataPointsMZRange()
+	 */
+	public @Nonnull
+	Range getRawDataPointsMZRange() {
+		return mzRange;
+	}
 
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-	return PeakUtils.peakToString(this);
-    }
+	/**
+	 * @see net.sf.mzmine.data.ChromatographicPeak#getRawDataPointsRTRange()
+	 */
+	public @Nonnull
+	Range getRawDataPointsRTRange() {
+		return rtRange;
+	}
 
-    /**
-     * @see net.sf.mzmine.data.ChromatographicPeak#getRawDataPointsIntensityRange()
-     */
-    public @Nonnull
-    Range getRawDataPointsIntensityRange() {
-	return intensityRange;
-    }
+	/**
+	 * @see net.sf.mzmine.data.ChromatographicPeak#getRepresentativeScanNumber()
+	 */
+	public int getRepresentativeScanNumber() {
+		return representativeScan;
+	}
 
-    /**
-     * @see net.sf.mzmine.data.ChromatographicPeak#getRawDataPointsMZRange()
-     */
-    public @Nonnull
-    Range getRawDataPointsMZRange() {
-	return mzRange;
-    }
+	public int getMostIntenseFragmentScanNumber() {
+		return fragmentScanNumber;
+	}
 
-    /**
-     * @see net.sf.mzmine.data.ChromatographicPeak#getRawDataPointsRTRange()
-     */
-    public @Nonnull
-    Range getRawDataPointsRTRange() {
-	return rtRange;
-    }
+	public IsotopePattern getIsotopePattern() {
+		return isotopePattern;
+	}
 
-    /**
-     * @see net.sf.mzmine.data.ChromatographicPeak#getRepresentativeScanNumber()
-     */
-    public int getRepresentativeScanNumber() {
-	return representativeScan;
-    }
+	public void setIsotopePattern(@Nonnull IsotopePattern isotopePattern) {
+		this.isotopePattern = isotopePattern;
+	}
 
-    public int getMostIntenseFragmentScanNumber() {
-	return fragmentScanNumber;
-    }
+	public int getCharge() {
+		return charge;
+	}
 
-    public IsotopePattern getIsotopePattern() {
-	return isotopePattern;
-    }
-
-    public void setIsotopePattern(@Nonnull IsotopePattern isotopePattern) {
-	this.isotopePattern = isotopePattern;
-    }
-
-    public int getCharge() {
-	return charge;
-    }
-
-    public void setCharge(int charge) {
-	this.charge = charge;
-    }
+	public void setCharge(int charge) {
+		this.charge = charge;
+	}
 
 }

@@ -32,44 +32,48 @@ import net.sf.mzmine.util.ExitCode;
 
 public class PeakExtenderModule implements MZmineProcessingModule {
 
-    private static final String MODULE_NAME = "Peak extender";
-    private static final String MODULE_DESCRIPTION = "This module extends the peaks detected by the MS/MS detector module.";
+	private static final String MODULE_NAME = "Peak extender";
+	private static final String MODULE_DESCRIPTION = "This module extends the peaks detected by the MS/MS detector module.";
 
-    @Override
-    public @Nonnull String getName() {
-	return MODULE_NAME;
-    }
-
-    @Override
-    public @Nonnull String getDescription() {
-	return MODULE_DESCRIPTION;
-    }
-
-    @Override
-    @Nonnull
-    public ExitCode runModule(@Nonnull ParameterSet parameters,
-	    @Nonnull Collection<Task> tasks) {
-
-	PeakList[] peakLists = parameters.getParameter(
-		PeakExtenderParameters.peakLists).getValue();
-
-	for (final PeakList peakList : peakLists) {
-	    Task newTask = new PeakExtenderTask(peakList, parameters);
-	    tasks.add(newTask);
+	@Override
+	public @Nonnull
+	String getName() {
+		return MODULE_NAME;
 	}
 
-	return ExitCode.OK;
+	@Override
+	public @Nonnull
+	String getDescription() {
+		return MODULE_DESCRIPTION;
+	}
 
-    }
+	@Override
+	@Nonnull
+	public ExitCode runModule(@Nonnull ParameterSet parameters,
+			@Nonnull Collection<Task> tasks) {
 
-    @Override
-    public @Nonnull MZmineModuleCategory getModuleCategory() {
-	return MZmineModuleCategory.PEAKLISTPICKING;
-    }
+		PeakList[] peakLists = parameters.getParameter(
+				PeakExtenderParameters.peakLists).getValue();
 
-    @Override
-    public @Nonnull Class<? extends ParameterSet> getParameterSetClass() {
-	return PeakExtenderParameters.class;
-    }
+		for (final PeakList peakList : peakLists) {
+			Task newTask = new PeakExtenderTask(peakList, parameters);
+			tasks.add(newTask);
+		}
+
+		return ExitCode.OK;
+
+	}
+
+	@Override
+	public @Nonnull
+	MZmineModuleCategory getModuleCategory() {
+		return MZmineModuleCategory.PEAKLISTPICKING;
+	}
+
+	@Override
+	public @Nonnull
+	Class<? extends ParameterSet> getParameterSetClass() {
+		return PeakExtenderParameters.class;
+	}
 
 }

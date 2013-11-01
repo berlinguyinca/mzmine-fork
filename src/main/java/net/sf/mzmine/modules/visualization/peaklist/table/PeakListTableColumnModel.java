@@ -46,8 +46,9 @@ import net.sf.mzmine.util.components.GroupableTableHeader;
 /**
  * 
  */
-public class PeakListTableColumnModel extends DefaultTableColumnModel implements
-		MouseListener {
+public class PeakListTableColumnModel extends DefaultTableColumnModel
+		implements
+			MouseListener {
 
 	private static final Font editFont = new Font("SansSerif", Font.PLAIN, 10);
 
@@ -79,7 +80,8 @@ public class PeakListTableColumnModel extends DefaultTableColumnModel implements
 		// prepare formatters
 		NumberFormat mzFormat = MZmineCore.getConfiguration().getMZFormat();
 		NumberFormat rtFormat = MZmineCore.getConfiguration().getRTFormat();
-		NumberFormat intensityFormat = MZmineCore.getConfiguration().getIntensityFormat();
+		NumberFormat intensityFormat = MZmineCore.getConfiguration()
+				.getIntensityFormat();
 
 		// prepare cell renderers
 		mzRenderer = new FormattedCellRenderer(mzFormat);
@@ -136,24 +138,24 @@ public class PeakListTableColumnModel extends DefaultTableColumnModel implements
 			newColumn.setIdentifier(commonColumn);
 
 			switch (commonColumn) {
-			case AVERAGEMZ:
-				newColumn.setCellRenderer(mzRenderer);
-				break;
-			case AVERAGERT:
-				newColumn.setCellRenderer(rtRenderer);
-				break;
-			case IDENTITY:
-				newColumn.setCellRenderer(identityRenderer);
-				break;
-			case COMMENT:
-				newColumn.setCellRenderer(defaultRenderer);
-				newColumn.setCellEditor(defaultEditor);
-				break;
-			case PEAKSHAPE:
-				newColumn.setCellRenderer(peakShapeRenderer);
-				break;
-			default:
-				newColumn.setCellRenderer(defaultRenderer);
+				case AVERAGEMZ :
+					newColumn.setCellRenderer(mzRenderer);
+					break;
+				case AVERAGERT :
+					newColumn.setCellRenderer(rtRenderer);
+					break;
+				case IDENTITY :
+					newColumn.setCellRenderer(identityRenderer);
+					break;
+				case COMMENT :
+					newColumn.setCellRenderer(defaultRenderer);
+					newColumn.setCellEditor(defaultEditor);
+					break;
+				case PEAKSHAPE :
+					newColumn.setCellRenderer(peakShapeRenderer);
+					break;
+				default :
+					newColumn.setCellRenderer(defaultRenderer);
 			}
 
 			this.addColumn(newColumn);
@@ -185,30 +187,30 @@ public class PeakListTableColumnModel extends DefaultTableColumnModel implements
 				newColumn.setIdentifier(dataFileColumn);
 
 				switch (dataFileColumn) {
-				case MZ:
-					newColumn.setCellRenderer(mzRenderer);
-					break;
-				case PEAKSHAPE:
-					newColumn.setCellRenderer(peakShapeRenderer);
-					break;
-				case STATUS:
-					newColumn.setCellRenderer(peakStatusRenderer);
-					break;
-				case RT:
-					newColumn.setCellRenderer(rtRenderer);
-					break;
-				case DURATION:
-					newColumn.setCellRenderer(rtRenderer);
-					break;
-				case HEIGHT:
-					newColumn.setCellRenderer(intensityRenderer);
-					break;
-				case AREA:
-					newColumn.setCellRenderer(intensityRenderer);
-					break;
-				default:
-					newColumn.setCellRenderer(defaultRenderer);
-					break;
+					case MZ :
+						newColumn.setCellRenderer(mzRenderer);
+						break;
+					case PEAKSHAPE :
+						newColumn.setCellRenderer(peakShapeRenderer);
+						break;
+					case STATUS :
+						newColumn.setCellRenderer(peakStatusRenderer);
+						break;
+					case RT :
+						newColumn.setCellRenderer(rtRenderer);
+						break;
+					case DURATION :
+						newColumn.setCellRenderer(rtRenderer);
+						break;
+					case HEIGHT :
+						newColumn.setCellRenderer(intensityRenderer);
+						break;
+					case AREA :
+						newColumn.setCellRenderer(intensityRenderer);
+						break;
+					default :
+						newColumn.setCellRenderer(defaultRenderer);
+						break;
 				}
 
 				this.addColumn(newColumn);

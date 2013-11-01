@@ -30,8 +30,8 @@ import net.sf.mzmine.main.MZmineCore;
  */
 public class RTToleranceComponent extends JPanel {
 
-	private static final String toleranceTypes[] = { "absolute (min)",
-			"relative (%)" };
+	private static final String toleranceTypes[] = {"absolute (min)",
+			"relative (%)"};
 	private JTextField toleranceField;
 	private JComboBox toleranceType;
 
@@ -70,8 +70,8 @@ public class RTToleranceComponent extends JPanel {
 		double toleranceDouble;
 		try {
 			if (index == 0) {
-				toleranceDouble = MZmineCore.getConfiguration().getRTFormat().parse(valueString)
-						.doubleValue();
+				toleranceDouble = MZmineCore.getConfiguration().getRTFormat()
+						.parse(valueString).doubleValue();
 			} else {
 				Number toleranceValue = Double.parseDouble(valueString);
 				toleranceDouble = toleranceValue.doubleValue() / 100;

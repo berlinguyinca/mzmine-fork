@@ -42,7 +42,7 @@ public class IdentityItemsParameter extends MultiChoiceParameter<String> {
 
 	public IdentityItemsParameter() {
 		super("Export identity elements", "Selection of identities to export",
-				new String[] { ALL_IDENTITIES });
+				new String[]{ALL_IDENTITIES});
 	}
 
 	@Override

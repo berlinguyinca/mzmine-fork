@@ -52,8 +52,8 @@ class TwoDPlot extends ChartPanel {
 
 	// crosshair stroke
 	private static final BasicStroke crossHairStroke = new BasicStroke(1,
-			BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1.0f, new float[] {
-					5, 3 }, 0);
+			BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1.0f, new float[]{5,
+					3}, 0);
 
 	private RawDataFile rawDataFile;
 	private Range rtRange, mzRange;
@@ -186,7 +186,7 @@ class TwoDPlot extends ChartPanel {
 
 		PeakDataSet peaksDataSet = new PeakDataSet(rawDataFile, peakList,
 				rtRange, mzRange);
-		
+
 		plot.setDataset(1, peaksDataSet);
 		plot.setRenderer(1, peakDataRenderer);
 	}

@@ -26,14 +26,14 @@ import net.sf.mzmine.parameters.parametertypes.RangeParameter;
 public class RTCorrectionFilterParameters extends SimpleParameterSet {
 
 	public static final RangeParameter mzRange = new RangeParameter(
-			"m/z range", "m/z boundary of the cropped region",
-			MZmineCore.getConfiguration().getMZFormat());
+			"m/z range", "m/z boundary of the cropped region", MZmineCore
+					.getConfiguration().getMZFormat());
 
 	public static final RangeParameter retentionTimeRange = new RangeParameter(
 			"Retention time", "retention time boundary of the cropped region",
 			MZmineCore.getConfiguration().getRTFormat());
 
 	public RTCorrectionFilterParameters() {
-		super(new UserParameter[] { mzRange, retentionTimeRange });
+		super(new UserParameter[]{mzRange, retentionTimeRange});
 	}
 }

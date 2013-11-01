@@ -42,8 +42,8 @@ public class RecursiveMassDetectorParameters extends SimpleParameterSet {
 			MZmineCore.getConfiguration().getMZFormat());
 
 	public RecursiveMassDetectorParameters() {
-		super(new UserParameter[] { noiseLevel, minimumMZPeakWidth,
-				maximumMZPeakWidth });
+		super(new UserParameter[]{noiseLevel, minimumMZPeakWidth,
+				maximumMZPeakWidth});
 	}
 
 	public ExitCode showSetupDialog() {

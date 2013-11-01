@@ -29,7 +29,7 @@ public class XMLImportParameters extends SimpleParameterSet {
 			"Filename", "Name of imported peak list file name", "mpl");
 
 	public XMLImportParameters() {
-		super(new Parameter[] { filename });
+		super(new Parameter[]{filename});
 	}
 
 }

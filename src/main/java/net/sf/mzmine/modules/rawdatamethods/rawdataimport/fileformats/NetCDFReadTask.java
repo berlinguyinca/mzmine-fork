@@ -135,7 +135,7 @@ public class NetCDFReadTask extends AbstractTask {
 	}
 
 	public Object[] getCreatedObjects() {
-		return new Object[] { finalRawDataFile };
+		return new Object[]{finalRawDataFile};
 	}
 
 	public void startReading() throws IOException {

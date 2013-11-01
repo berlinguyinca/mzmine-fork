@@ -25,7 +25,7 @@ import javax.swing.table.AbstractTableModel;
 
 public class ElementsTableModel extends AbstractTableModel {
 
-	private static final String[] columnNames = { "Element", "Min", "Max" };
+	private static final String[] columnNames = {"Element", "Min", "Max"};
 
 	private Vector<ElementRule> elementRules = new Vector<ElementRule>();
 
@@ -44,12 +44,12 @@ public class ElementsTableModel extends AbstractTableModel {
 	public Object getValueAt(int row, int col) {
 		ElementRule rule = elementRules.get(row);
 		switch (col) {
-		case (0):
-			return rule.getElementSymbol();
-		case (1):
-			return rule.getMinCount();
-		case (2):
-			return rule.getMaxCount();
+			case (0) :
+				return rule.getElementSymbol();
+			case (1) :
+				return rule.getMinCount();
+			case (2) :
+				return rule.getMaxCount();
 		}
 		return null;
 	}
@@ -71,7 +71,7 @@ public class ElementsTableModel extends AbstractTableModel {
 
 		if (intval < 0)
 			return;
-		
+
 		ElementRule rule = elementRules.get(row);
 
 		if (col == 1) {

@@ -31,32 +31,33 @@ import java.awt.event.ActionEvent;
 
 /**
  * An action to handle resetting the adducts list.
- *
+ * 
  * @author $Author: cpudney $
  * @version $Revision: 3103 $
  */
 public class DefaultAdductsAction extends AbstractAction {
 
-    /**
-     * Create the action.
-     */
-    public DefaultAdductsAction() {
+	/**
+	 * Create the action.
+	 */
+	public DefaultAdductsAction() {
 
-        super("Reset");
-        putValue(SHORT_DESCRIPTION, "Reset adduct choices to default set");
-    }
+		super("Reset");
+		putValue(SHORT_DESCRIPTION, "Reset adduct choices to default set");
+	}
 
-    @Override
-    public void actionPerformed(final ActionEvent e) {
+	@Override
+	public void actionPerformed(final ActionEvent e) {
 
-        // Parent component.
-        final AdductsComponent parent =
-                (AdductsComponent) SwingUtilities.getAncestorOfClass(AdductsComponent.class, (Component) e.getSource());
+		// Parent component.
+		final AdductsComponent parent = (AdductsComponent) SwingUtilities
+				.getAncestorOfClass(AdductsComponent.class,
+						(Component) e.getSource());
 
-        if (parent != null) {
+		if (parent != null) {
 
-            // Reset default choices.
-            parent.setChoices(AdductType.getDefaultValues());
-        }
-    }
+			// Reset default choices.
+			parent.setChoices(AdductType.getDefaultValues());
+		}
+	}
 }

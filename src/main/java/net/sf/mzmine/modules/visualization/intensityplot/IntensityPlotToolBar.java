@@ -43,82 +43,86 @@ import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
  */
 class IntensityPlotToolBar extends JToolBar implements ActionListener {
 
-    static final Icon pointsIcon = new ImageIcon("icons/pointsicon.png");
-    static final Icon linesIcon = new ImageIcon("icons/linesicon.png");
-    static final Icon axesIcon = new ImageIcon("icons/axesicon.png");
+	static final Icon pointsIcon = new ImageIcon("icons/pointsicon.png");
+	static final Icon linesIcon = new ImageIcon("icons/linesicon.png");
+	static final Icon axesIcon = new ImageIcon("icons/axesicon.png");
 
-    private IntensityPlotFrame frame;
-    private JButton linesVisibleButton, setupAxesButton;
+	private IntensityPlotFrame frame;
+	private JButton linesVisibleButton, setupAxesButton;
 
-    IntensityPlotToolBar(IntensityPlotFrame frame) {
+	IntensityPlotToolBar(IntensityPlotFrame frame) {
 
-        super(JToolBar.VERTICAL);
+		super(JToolBar.VERTICAL);
 
-        setFloatable(false);
-        setMargin(new Insets(5, 5, 5, 5));
-        setBackground(Color.white);
+		setFloatable(false);
+		setMargin(new Insets(5, 5, 5, 5));
+		setBackground(Color.white);
 
-        this.frame = frame;
+		this.frame = frame;
 
-        linesVisibleButton = GUIUtils.addButton(this, null, linesIcon, this,
-                null, "Switch lines on/off");
+		linesVisibleButton = GUIUtils.addButton(this, null, linesIcon, this,
+				null, "Switch lines on/off");
 
-        if (frame.getChart().getPlot() instanceof XYPlot) {
-            addSeparator();
-            setupAxesButton = GUIUtils.addButton(this, null, axesIcon, this,
-                    "SETUP_AXES", "Setup ranges for axes");
-        }
+		if (frame.getChart().getPlot() instanceof XYPlot) {
+			addSeparator();
+			setupAxesButton = GUIUtils.addButton(this, null, axesIcon, this,
+					"SETUP_AXES", "Setup ranges for axes");
+		}
 
-    }
+	}
 
-    public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e) {
 
-        Object src = e.getSource();
+		Object src = e.getSource();
 
-        if (src == linesVisibleButton) {
+		if (src == linesVisibleButton) {
 
-            Plot plot = frame.getChart().getPlot();
+			Plot plot = frame.getChart().getPlot();
 
-            Boolean linesVisible;
+			Boolean linesVisible;
 
-            if (plot instanceof CategoryPlot) {
-                LineAndShapeRenderer renderer = (LineAndShapeRenderer) ((CategoryPlot) plot).getRenderer();
-                linesVisible = renderer.getBaseLinesVisible();
-            } else {
-                XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) ((XYPlot) plot).getRenderer();
-                linesVisible = renderer.getBaseLinesVisible();
-            }
+			if (plot instanceof CategoryPlot) {
+				LineAndShapeRenderer renderer = (LineAndShapeRenderer) ((CategoryPlot) plot)
+						.getRenderer();
+				linesVisible = renderer.getBaseLinesVisible();
+			} else {
+				XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) ((XYPlot) plot)
+						.getRenderer();
+				linesVisible = renderer.getBaseLinesVisible();
+			}
 
-            // check for null value
-            if (linesVisible == null)
-                linesVisible = false;
+			// check for null value
+			if (linesVisible == null)
+				linesVisible = false;
 
-            // update the icon
-            if (linesVisible) {
-                linesVisibleButton.setIcon(linesIcon);
-            } else {
-                linesVisibleButton.setIcon(pointsIcon);
-            }
+			// update the icon
+			if (linesVisible) {
+				linesVisibleButton.setIcon(linesIcon);
+			} else {
+				linesVisibleButton.setIcon(pointsIcon);
+			}
 
-            // switch the button
-            linesVisible = !linesVisible;
+			// switch the button
+			linesVisible = !linesVisible;
 
-            if (plot instanceof CategoryPlot) {
-                LineAndShapeRenderer renderer = (LineAndShapeRenderer) ((CategoryPlot) plot).getRenderer();
-                renderer.setBaseLinesVisible(linesVisible);
-            } else {
-                XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) ((XYPlot) plot).getRenderer();
-                renderer.setBaseLinesVisible(linesVisible);
-            }
+			if (plot instanceof CategoryPlot) {
+				LineAndShapeRenderer renderer = (LineAndShapeRenderer) ((CategoryPlot) plot)
+						.getRenderer();
+				renderer.setBaseLinesVisible(linesVisible);
+			} else {
+				XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) ((XYPlot) plot)
+						.getRenderer();
+				renderer.setBaseLinesVisible(linesVisible);
+			}
 
-        }
+		}
 
-        if (src == setupAxesButton) {
-            AxesSetupDialog dialog = new AxesSetupDialog(
-            frame.getChart().getXYPlot());
-            dialog.setVisible(true);
-        }
+		if (src == setupAxesButton) {
+			AxesSetupDialog dialog = new AxesSetupDialog(frame.getChart()
+					.getXYPlot());
+			dialog.setVisible(true);
+		}
 
-    }
+	}
 
 }

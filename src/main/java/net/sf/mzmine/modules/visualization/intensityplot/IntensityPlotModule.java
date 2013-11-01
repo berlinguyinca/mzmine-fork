@@ -38,77 +38,81 @@ import net.sf.mzmine.util.ExitCode;
  */
 public class IntensityPlotModule implements MZmineProcessingModule {
 
-    private static final String MODULE_NAME = "Peak intensity plot";
-    private static final String MODULE_DESCRIPTION = "Peak intensity plot."; // TODO
+	private static final String MODULE_NAME = "Peak intensity plot";
+	private static final String MODULE_DESCRIPTION = "Peak intensity plot."; // TODO
 
-    @Override
-    public @Nonnull String getName() {
-	return MODULE_NAME;
-    }
-
-    @Override
-    public @Nonnull String getDescription() {
-	return MODULE_DESCRIPTION;
-    }
-
-    @Override
-    @Nonnull
-    public ExitCode runModule(@Nonnull ParameterSet parameters,
-	    @Nonnull Collection<Task> tasks) {
-	IntensityPlotFrame newFrame = new IntensityPlotFrame(parameters);
-	MZmineCore.getDesktop().addInternalFrame(newFrame);
-	return ExitCode.OK;
-    }
-
-    public static void showIntensityPlot(PeakList peakList, PeakListRow rows[]) {
-
-	ParameterSet parameters = MZmineCore.getConfiguration()
-		.getModuleParameters(IntensityPlotModule.class);
-
-	parameters.getParameter(IntensityPlotParameters.peakList).setValue(
-		new PeakList[] { peakList });
-
-	parameters.getParameter(IntensityPlotParameters.dataFiles).setChoices(
-		peakList.getRawDataFiles());
-
-	parameters.getParameter(IntensityPlotParameters.dataFiles).setValue(
-		peakList.getRawDataFiles());
-
-	parameters.getParameter(IntensityPlotParameters.selectedRows)
-		.setChoices(rows);
-	parameters.getParameter(IntensityPlotParameters.selectedRows).setValue(
-		rows);
-
-	UserParameter projectParams[] = MZmineCore.getCurrentProject()
-		.getParameters();
-	Object xAxisSources[] = new Object[projectParams.length + 1];
-	xAxisSources[0] = IntensityPlotParameters.rawDataFilesOption;
-
-	for (int i = 0; i < projectParams.length; i++) {
-	    xAxisSources[i + 1] = new ParameterWrapper(projectParams[i]);
+	@Override
+	public @Nonnull
+	String getName() {
+		return MODULE_NAME;
 	}
 
-	parameters.getParameter(IntensityPlotParameters.xAxisValueSource)
-		.setChoices(xAxisSources);
-
-	ExitCode exitCode = parameters.showSetupDialog();
-
-	if (exitCode == ExitCode.OK) {
-	    IntensityPlotFrame newFrame = new IntensityPlotFrame(
-		    parameters.cloneParameter());
-	    MZmineCore.getDesktop().addInternalFrame(newFrame);
+	@Override
+	public @Nonnull
+	String getDescription() {
+		return MODULE_DESCRIPTION;
 	}
 
-    }
+	@Override
+	@Nonnull
+	public ExitCode runModule(@Nonnull ParameterSet parameters,
+			@Nonnull Collection<Task> tasks) {
+		IntensityPlotFrame newFrame = new IntensityPlotFrame(parameters);
+		MZmineCore.getDesktop().addInternalFrame(newFrame);
+		return ExitCode.OK;
+	}
 
-    @Override
-    public @Nonnull MZmineModuleCategory getModuleCategory() {
-	return MZmineModuleCategory.VISUALIZATIONPEAKLIST;
-    }
+	public static void showIntensityPlot(PeakList peakList, PeakListRow rows[]) {
 
-    @Override
-    public @Nonnull Class<? extends ParameterSet> getParameterSetClass() {
-	return IntensityPlotParameters.class;
-    }
+		ParameterSet parameters = MZmineCore.getConfiguration()
+				.getModuleParameters(IntensityPlotModule.class);
+
+		parameters.getParameter(IntensityPlotParameters.peakList).setValue(
+				new PeakList[]{peakList});
+
+		parameters.getParameter(IntensityPlotParameters.dataFiles).setChoices(
+				peakList.getRawDataFiles());
+
+		parameters.getParameter(IntensityPlotParameters.dataFiles).setValue(
+				peakList.getRawDataFiles());
+
+		parameters.getParameter(IntensityPlotParameters.selectedRows)
+				.setChoices(rows);
+		parameters.getParameter(IntensityPlotParameters.selectedRows).setValue(
+				rows);
+
+		UserParameter projectParams[] = MZmineCore.getCurrentProject()
+				.getParameters();
+		Object xAxisSources[] = new Object[projectParams.length + 1];
+		xAxisSources[0] = IntensityPlotParameters.rawDataFilesOption;
+
+		for (int i = 0; i < projectParams.length; i++) {
+			xAxisSources[i + 1] = new ParameterWrapper(projectParams[i]);
+		}
+
+		parameters.getParameter(IntensityPlotParameters.xAxisValueSource)
+				.setChoices(xAxisSources);
+
+		ExitCode exitCode = parameters.showSetupDialog();
+
+		if (exitCode == ExitCode.OK) {
+			IntensityPlotFrame newFrame = new IntensityPlotFrame(
+					parameters.cloneParameter());
+			MZmineCore.getDesktop().addInternalFrame(newFrame);
+		}
+
+	}
+
+	@Override
+	public @Nonnull
+	MZmineModuleCategory getModuleCategory() {
+		return MZmineModuleCategory.VISUALIZATIONPEAKLIST;
+	}
+
+	@Override
+	public @Nonnull
+	Class<? extends ParameterSet> getParameterSetClass() {
+		return IntensityPlotParameters.class;
+	}
 
 }

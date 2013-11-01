@@ -41,21 +41,24 @@ public class SimpleMassList implements MassList {
 	}
 
 	@Override
-	public @Nonnull String getName() {
+	public @Nonnull
+	String getName() {
 		return name;
 	}
 
 	@Override
-	public @Nonnull Scan getScan() {
+	public @Nonnull
+	Scan getScan() {
 		return scan;
 	}
-	
+
 	public void setScan(Scan scan) {
 		this.scan = scan;
 	}
 
 	@Override
-	public @Nonnull DataPoint[] getDataPoints() {
+	public @Nonnull
+	DataPoint[] getDataPoints() {
 		return mzPeaks;
 	}
 

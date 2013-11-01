@@ -204,7 +204,7 @@ class PeakFinderTask extends AbstractTask {
 		// Remove the original peaklist if requested
 		if (removeOriginal)
 			currentProject.removePeakList(peakList);
-		
+
 		logger.info("Finished gap-filling on " + peakList);
 		setStatus(TaskStatus.FINISHED);
 
@@ -348,6 +348,6 @@ class PeakFinderTask extends AbstractTask {
 	}
 
 	public Object[] getCreatedObjects() {
-		return new Object[] { processedPeakList };
+		return new Object[]{processedPeakList};
 	}
 }

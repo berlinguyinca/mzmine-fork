@@ -31,35 +31,39 @@ import net.sf.mzmine.util.ExitCode;
 
 public class PCAPlotModule implements MZmineProcessingModule {
 
-    private static final String MODULE_NAME = "Principal component analysis (PCA)";
-    private static final String MODULE_DESCRIPTION = "Principal component analysis (PCA)"; // TODO
+	private static final String MODULE_NAME = "Principal component analysis (PCA)";
+	private static final String MODULE_DESCRIPTION = "Principal component analysis (PCA)"; // TODO
 
-    @Override
-    public @Nonnull String getName() {
-	return MODULE_NAME;
-    }
+	@Override
+	public @Nonnull
+	String getName() {
+		return MODULE_NAME;
+	}
 
-    @Override
-    public @Nonnull String getDescription() {
-	return MODULE_DESCRIPTION;
-    }
+	@Override
+	public @Nonnull
+	String getDescription() {
+		return MODULE_DESCRIPTION;
+	}
 
-    @Override
-    @Nonnull
-    public ExitCode runModule(@Nonnull ParameterSet parameters,
-	    @Nonnull Collection<Task> tasks) {
-	ProjectionPlotDataset dataset = new PCADataset(parameters);
-	tasks.add(dataset);
-	return ExitCode.OK;
-    }
+	@Override
+	@Nonnull
+	public ExitCode runModule(@Nonnull ParameterSet parameters,
+			@Nonnull Collection<Task> tasks) {
+		ProjectionPlotDataset dataset = new PCADataset(parameters);
+		tasks.add(dataset);
+		return ExitCode.OK;
+	}
 
-    @Override
-    public @Nonnull MZmineModuleCategory getModuleCategory() {
-	return MZmineModuleCategory.DATAANALYSIS;
-    }
+	@Override
+	public @Nonnull
+	MZmineModuleCategory getModuleCategory() {
+		return MZmineModuleCategory.DATAANALYSIS;
+	}
 
-    @Override
-    public @Nonnull Class<? extends ParameterSet> getParameterSetClass() {
-	return ProjectionPlotParameters.class;
-    }
+	@Override
+	public @Nonnull
+	Class<? extends ParameterSet> getParameterSetClass() {
+		return ProjectionPlotParameters.class;
+	}
 }

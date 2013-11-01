@@ -54,7 +54,7 @@ public class SimplePeakList implements PeakList {
 			"yyyy/MM/dd HH:mm:ss");
 
 	public SimplePeakList(String name, RawDataFile dataFile) {
-		this(name, new RawDataFile[] { dataFile });
+		this(name, new RawDataFile[]{dataFile});
 	}
 
 	public SimplePeakList(String name, RawDataFile[] dataFiles) {
@@ -81,7 +81,7 @@ public class SimplePeakList implements PeakList {
 	public String getName() {
 		return name;
 	}
-	
+
 	@Override
 	public String toString() {
 		return name;

@@ -27,17 +27,17 @@ import net.sf.mzmine.util.ExitCode;
 
 public class MeanFilterParameters extends SimpleParameterSet {
 
-    public static final DoubleParameter oneSidedWindowLength = new DoubleParameter(
-	    "Window length", "One-sided length of the smoothing window");
+	public static final DoubleParameter oneSidedWindowLength = new DoubleParameter(
+			"Window length", "One-sided length of the smoothing window");
 
-    public MeanFilterParameters() {
-	super(new UserParameter[] { oneSidedWindowLength });
-    }
+	public MeanFilterParameters() {
+		super(new UserParameter[]{oneSidedWindowLength});
+	}
 
-    public ExitCode showSetupDialog() {
-	ScanFilterSetupDialog dialog = new ScanFilterSetupDialog(this,
-		MeanFilter.class);
-	dialog.setVisible(true);
-	return dialog.getExitCode();
-    }
+	public ExitCode showSetupDialog() {
+		ScanFilterSetupDialog dialog = new ScanFilterSetupDialog(this,
+				MeanFilter.class);
+		dialog.setVisible(true);
+		return dialog.getExitCode();
+	}
 }

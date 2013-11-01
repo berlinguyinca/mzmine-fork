@@ -85,7 +85,7 @@ public class PeptideFragmentation {
 
 		// b-ion with a loss of NH3
 		index = PeptideUtils.getFirstBionLossNH3(sequence);
-		
+
 		bSeries.addAll(PeptideUtils.calculateIonsLossNH3(singleBIons,
 				hydrogenMass, nitrogenMass, index, false,
 				FragmentIonType.B_NH3_ION));
@@ -136,128 +136,139 @@ public class PeptideFragmentation {
 
 		for (int i = 0; i < ionSeriesRules.length; i++) {
 			switch (ionSeriesRules[i]) {
-			case A_SERIES:
-				// a-ions
-				Vector<FragmentIon> aSeries = PeptideUtils.calculateAions(
-						singleBIons, carbonMass, oxygenMass, hydrogenMass);
-				FragmentIon[] singleAIons = aSeries.toArray(new FragmentIon[0]);
-				// double charged a-ions
-				Vector<FragmentIon> aDoubleSeries = PeptideUtils
-						.calculateDoubleChargedIons(singleAIons, hydrogenMass,
-								FragmentIonType.A_DOUBLE_ION);
+				case A_SERIES :
+					// a-ions
+					Vector<FragmentIon> aSeries = PeptideUtils.calculateAions(
+							singleBIons, carbonMass, oxygenMass, hydrogenMass);
+					FragmentIon[] singleAIons = aSeries
+							.toArray(new FragmentIon[0]);
+					// double charged a-ions
+					Vector<FragmentIon> aDoubleSeries = PeptideUtils
+							.calculateDoubleChargedIons(singleAIons,
+									hydrogenMass, FragmentIonType.A_DOUBLE_ION);
 
-				// a-ion with a loss of H2O
-				index = PeptideUtils.getFirstBionLossH2O(sequence);
-				aSeries.addAll(PeptideUtils.calculateIonsLossH2O(singleAIons,
-						hydrogenMass, oxygenMass, index, false,
-						FragmentIonType.A_H2O_ION));
-				// double charged a-ion with a loss of H2O
-				aDoubleSeries.addAll(PeptideUtils.calculateIonsLossH2O(
-						singleAIons, hydrogenMass, oxygenMass, index, true,
-						FragmentIonType.A_H2O_DOUBLE_ION));
+					// a-ion with a loss of H2O
+					index = PeptideUtils.getFirstBionLossH2O(sequence);
+					aSeries.addAll(PeptideUtils.calculateIonsLossH2O(
+							singleAIons, hydrogenMass, oxygenMass, index,
+							false, FragmentIonType.A_H2O_ION));
+					// double charged a-ion with a loss of H2O
+					aDoubleSeries.addAll(PeptideUtils.calculateIonsLossH2O(
+							singleAIons, hydrogenMass, oxygenMass, index, true,
+							FragmentIonType.A_H2O_DOUBLE_ION));
 
-				// a-ion with a loss of NH3
-				index = PeptideUtils.getFirstBionLossNH3(sequence);
-				aSeries.addAll(PeptideUtils.calculateIonsLossNH3(singleAIons,
-						hydrogenMass, nitrogenMass, index, false,
-						FragmentIonType.A_NH3_ION));
-				// double charged a-ion with a loss of NH3
-				aDoubleSeries.addAll(PeptideUtils.calculateIonsLossNH3(
-						singleAIons, hydrogenMass, nitrogenMass, index, true,
-						FragmentIonType.A_NH3_DOUBLE_ION));
+					// a-ion with a loss of NH3
+					index = PeptideUtils.getFirstBionLossNH3(sequence);
+					aSeries.addAll(PeptideUtils.calculateIonsLossNH3(
+							singleAIons, hydrogenMass, nitrogenMass, index,
+							false, FragmentIonType.A_NH3_ION));
+					// double charged a-ion with a loss of NH3
+					aDoubleSeries.addAll(PeptideUtils.calculateIonsLossNH3(
+							singleAIons, hydrogenMass, nitrogenMass, index,
+							true, FragmentIonType.A_NH3_DOUBLE_ION));
 
-				this.aIons = aSeries.toArray(new FragmentIon[0]);
-				this.aDoubleIons = aDoubleSeries.toArray(new FragmentIon[0]);
+					this.aIons = aSeries.toArray(new FragmentIon[0]);
+					this.aDoubleIons = aDoubleSeries
+							.toArray(new FragmentIon[0]);
 
-				break;
-			case C_SERIES:
-				// c-ions
-				Vector<FragmentIon> cSeries = PeptideUtils.calculateCions(
-						singleBIons, nitrogenMass, hydrogenMass);
-				FragmentIon[] singleCIons = cSeries.toArray(new FragmentIon[0]);
-				// double charged c-ions
-				Vector<FragmentIon> cDoubleSeries = PeptideUtils
-						.calculateDoubleChargedIons(singleCIons, hydrogenMass,
-								FragmentIonType.C_DOUBLE_ION);
+					break;
+				case C_SERIES :
+					// c-ions
+					Vector<FragmentIon> cSeries = PeptideUtils.calculateCions(
+							singleBIons, nitrogenMass, hydrogenMass);
+					FragmentIon[] singleCIons = cSeries
+							.toArray(new FragmentIon[0]);
+					// double charged c-ions
+					Vector<FragmentIon> cDoubleSeries = PeptideUtils
+							.calculateDoubleChargedIons(singleCIons,
+									hydrogenMass, FragmentIonType.C_DOUBLE_ION);
 
-				this.cIons = singleCIons;
-				this.cIons = cDoubleSeries.toArray(new FragmentIon[0]);
+					this.cIons = singleCIons;
+					this.cIons = cDoubleSeries.toArray(new FragmentIon[0]);
 
-				break;
-			case X_SERIES:
-				// x-ions
-				Vector<FragmentIon> xSeries = PeptideUtils.calculateXions(
-						singleYIons, carbonMass, oxygenMass, hydrogenMass);
-				FragmentIon[] singleXIons = xSeries.toArray(new FragmentIon[0]);
-				// double charged x-ions
-				Vector<FragmentIon> xDoubleSeries = PeptideUtils
-						.calculateDoubleChargedIons(singleXIons, hydrogenMass,
-								FragmentIonType.X_DOUBLE_ION);
+					break;
+				case X_SERIES :
+					// x-ions
+					Vector<FragmentIon> xSeries = PeptideUtils.calculateXions(
+							singleYIons, carbonMass, oxygenMass, hydrogenMass);
+					FragmentIon[] singleXIons = xSeries
+							.toArray(new FragmentIon[0]);
+					// double charged x-ions
+					Vector<FragmentIon> xDoubleSeries = PeptideUtils
+							.calculateDoubleChargedIons(singleXIons,
+									hydrogenMass, FragmentIonType.X_DOUBLE_ION);
 
-				this.xIons = singleXIons;
-				this.xDoubleIons = xDoubleSeries.toArray(new FragmentIon[0]);
+					this.xIons = singleXIons;
+					this.xDoubleIons = xDoubleSeries
+							.toArray(new FragmentIon[0]);
 
-				break;
-			case Z_SERIES:
-				// z-ions
-				Vector<FragmentIon> zSeries = PeptideUtils.calculateZions(
-						singleYIons, nitrogenMass, hydrogenMass);
-				FragmentIon[] singleZIons = zSeries.toArray(new FragmentIon[0]);
-				// double charged z-ions
-				Vector<FragmentIon> zDoubleSeries = PeptideUtils
-						.calculateDoubleChargedIons(singleZIons, hydrogenMass,
-								FragmentIonType.Z_DOUBLE_ION);
+					break;
+				case Z_SERIES :
+					// z-ions
+					Vector<FragmentIon> zSeries = PeptideUtils.calculateZions(
+							singleYIons, nitrogenMass, hydrogenMass);
+					FragmentIon[] singleZIons = zSeries
+							.toArray(new FragmentIon[0]);
+					// double charged z-ions
+					Vector<FragmentIon> zDoubleSeries = PeptideUtils
+							.calculateDoubleChargedIons(singleZIons,
+									hydrogenMass, FragmentIonType.Z_DOUBLE_ION);
 
-				this.zIons = singleZIons;
-				this.zDoubleIons = zDoubleSeries.toArray(new FragmentIon[0]);
+					this.zIons = singleZIons;
+					this.zDoubleIons = zDoubleSeries
+							.toArray(new FragmentIon[0]);
 
-				break;
-			case ZH_SERIES:
-				// z-ions
-				Vector<FragmentIon> zhSeries = PeptideUtils.calculateZions(
-						singleYIons, nitrogenMass, hydrogenMass);
-				FragmentIon[] singleZHIons = zhSeries
-						.toArray(new FragmentIon[0]);
-				// zh-ions
-				zhSeries = PeptideUtils.calculateZHions(singleZHIons,
-						hydrogenMass);
-				singleZHIons = zhSeries.toArray(new FragmentIon[0]);
-				// double charged zh-ions
-				Vector<FragmentIon> zhDoubleSeries = PeptideUtils
-						.calculateDoubleChargedIons(singleZHIons, hydrogenMass,
-								FragmentIonType.ZH_DOUBLE_ION);
+					break;
+				case ZH_SERIES :
+					// z-ions
+					Vector<FragmentIon> zhSeries = PeptideUtils.calculateZions(
+							singleYIons, nitrogenMass, hydrogenMass);
+					FragmentIon[] singleZHIons = zhSeries
+							.toArray(new FragmentIon[0]);
+					// zh-ions
+					zhSeries = PeptideUtils.calculateZHions(singleZHIons,
+							hydrogenMass);
+					singleZHIons = zhSeries.toArray(new FragmentIon[0]);
+					// double charged zh-ions
+					Vector<FragmentIon> zhDoubleSeries = PeptideUtils
+							.calculateDoubleChargedIons(singleZHIons,
+									hydrogenMass, FragmentIonType.ZH_DOUBLE_ION);
 
-				this.zhIons = singleZHIons;
-				this.zhDoubleIons = zhDoubleSeries.toArray(new FragmentIon[0]);
+					this.zhIons = singleZHIons;
+					this.zhDoubleIons = zhDoubleSeries
+							.toArray(new FragmentIon[0]);
 
-				break;
-			case ZHH_SERIES:
-				// z-ions
-				Vector<FragmentIon> zhhSeries = PeptideUtils.calculateZions(
-						singleYIons, nitrogenMass, hydrogenMass);
-				FragmentIon[] singleZHHIons = zhhSeries
-						.toArray(new FragmentIon[0]);
-				// zhh-ions
-				zhhSeries = PeptideUtils.calculateZHHions(singleZHHIons,
-						hydrogenMass);
-				singleZHHIons = zhhSeries.toArray(new FragmentIon[0]);
-				// double charged zhh-ions
-				Vector<FragmentIon> zhhDoubleSeries = PeptideUtils
-						.calculateDoubleChargedIons(singleZHHIons,
-								hydrogenMass, FragmentIonType.ZHH_DOUBLE_ION);
+					break;
+				case ZHH_SERIES :
+					// z-ions
+					Vector<FragmentIon> zhhSeries = PeptideUtils
+							.calculateZions(singleYIons, nitrogenMass,
+									hydrogenMass);
+					FragmentIon[] singleZHHIons = zhhSeries
+							.toArray(new FragmentIon[0]);
+					// zhh-ions
+					zhhSeries = PeptideUtils.calculateZHHions(singleZHHIons,
+							hydrogenMass);
+					singleZHHIons = zhhSeries.toArray(new FragmentIon[0]);
+					// double charged zhh-ions
+					Vector<FragmentIon> zhhDoubleSeries = PeptideUtils
+							.calculateDoubleChargedIons(singleZHHIons,
+									hydrogenMass,
+									FragmentIonType.ZHH_DOUBLE_ION);
 
-				this.zhhIons = singleZHHIons;
-				this.zhhIons = zhhDoubleSeries.toArray(new FragmentIon[0]);
+					this.zhhIons = singleZHHIons;
+					this.zhhIons = zhhDoubleSeries.toArray(new FragmentIon[0]);
 
-				break;
+					break;
 			}
 		}
-		
-		this.precursorIons = PeptideUtils.calculatePrecursorIons(
-				precursorMass,precursorCharge, hydrogenMass,oxygenMass,nitrogenMass);		 
 
-		this.immoniumIons = PeptideUtils.calculateImmoniumIons(sequence,defaultMasses);	
-		
+		this.precursorIons = PeptideUtils.calculatePrecursorIons(precursorMass,
+				precursorCharge, hydrogenMass, oxygenMass, nitrogenMass);
+
+		this.immoniumIons = PeptideUtils.calculateImmoniumIons(sequence,
+				defaultMasses);
+
 	}
 
 	/**
@@ -396,35 +407,17 @@ public class PeptideFragmentation {
 	}
 
 	/**
-	 * This method returns all the theoretical fragment ions according with to the 
-	 * fragmentation rules and the series ion founded (return ions with significance
-	 * equal or greater than the parameter).
-	 *
+	 * This method returns all the theoretical fragment ions according with to
+	 * the fragmentation rules and the series ion founded (return ions with
+	 * significance equal or greater than the parameter).
+	 * 
 	 * [Mascot 2.2]
 	 * 
-	 * 0 a
-	 * 1 place holder 
-	 * 2 a++
-	 * 3 b 
-	 * 4 place holder 
-	 * 5 b++
-	 * 6 y 
-	 * 7 place holder 
-	 * 8 y++
-	 * 9 c 
-	 * 10 c++ 
-	 * 11 x 
-	 * 12 x++ 
-	 * 13 z 
-	 * 14 z++ 
-	 * 15 z+H 
-	 * 16 z+H++ 
-	 * 17 z+2H 
-	 * 18 z+2H++
+	 * 0 a 1 place holder 2 a++ 3 b 4 place holder 5 b++ 6 y 7 place holder 8
+	 * y++ 9 c 10 c++ 11 x 12 x++ 13 z 14 z++ 15 z+H 16 z+H++ 17 z+2H 18 z+2H++
 	 * 
-	 * [Example]
-	 * 0 0 0 2 0 1 1 0 1 0 1  0  0  2  0  0  2  0  1 
-	 * 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18
+	 * [Example] 0 0 0 2 0 1 1 0 1 0 1 0 0 2 0 0 2 0 1 0 1 2 3 4 5 6 7 8 9 10 11
+	 * 12 13 14 15 16 17 18
 	 * 
 	 * 
 	 * @param aIonSeriesIndex
@@ -432,86 +425,96 @@ public class PeptideFragmentation {
 	 *         of the requested type. (by int aIonSeries read from the
 	 *         iIonSeries int[].
 	 */
-	public FragmentIon[] getFragmentIons(PeptideIonSerie ionSeriesFound, IonSignificance significanceFilter) {
+	public FragmentIon[] getFragmentIons(PeptideIonSerie ionSeriesFound,
+			IonSignificance significanceFilter) {
 
 		FragmentIon[] ionFragments = new FragmentIon[0];
-		HashMap<SerieIonType,IonSignificance> fragmentSeries = ionSeriesFound.getFragmentSeries();
-		Iterator it = fragmentSeries.keySet().iterator(); 
+		HashMap<SerieIonType, IonSignificance> fragmentSeries = ionSeriesFound
+				.getFragmentSeries();
+		Iterator it = fragmentSeries.keySet().iterator();
 		SerieIonType ionType;
 		IonSignificance significanceIon;
-		
-		while(it.hasNext()) { 
-			
-			ionType = (SerieIonType) it.next(); 
-			significanceIon = fragmentSeries.get(ionType); 
-			
+
+		while (it.hasNext()) {
+
+			ionType = (SerieIonType) it.next();
+			significanceIon = fragmentSeries.get(ionType);
+
 			if (significanceFilter == significanceIon) {
 				switch (ionType) {
-				case A_SERIES:
-					ionFragments = CollectionUtils.concat(ionFragments, aIons);
-					break;
-				case A_DOUBLE_SERIES:
-					ionFragments = CollectionUtils.concat(ionFragments,
-							aDoubleIons);
-					break;
-				case B_SERIES:
-					ionFragments = CollectionUtils.concat(ionFragments, bIons);
-					break;
-				case B_DOUBLE_SERIES:
-					ionFragments = CollectionUtils.concat(ionFragments,
-							bDoubleIons);
-					break;
-				case Y_SERIES:
-					ionFragments = CollectionUtils.concat(ionFragments, yIons);
-					break;
-				case Y_DOUBLE_SERIES:
-					ionFragments = CollectionUtils.concat(ionFragments,
-							yDoubleIons);
-					break;
-				case C_SERIES:
-					ionFragments = CollectionUtils.concat(ionFragments, cIons);
-					break;
-				case C_DOUBLE_SERIES:
-					ionFragments = CollectionUtils.concat(ionFragments,
-							cDoubleIons);
-					break;
-				case X_SERIES:
-					ionFragments = CollectionUtils.concat(ionFragments, xIons);
-					break;
-				case X_DOUBLE_SERIES:
-					ionFragments = CollectionUtils.concat(ionFragments,
-							xDoubleIons);
-					break;
-				case Z_SERIES:
-					ionFragments = CollectionUtils.concat(ionFragments, zIons);
-					break;
-				case Z_DOUBLE_SERIES:
-					ionFragments = CollectionUtils.concat(ionFragments,
-							zDoubleIons);
-					break;
-				case ZH_SERIES:
-					ionFragments = CollectionUtils.concat(ionFragments, zhIons);
-					break;
-				case ZH_DOUBLE_SERIES:
-					ionFragments = CollectionUtils.concat(ionFragments,
-							zhDoubleIons);
-					break;
-				case ZHH_SERIES:
-					ionFragments = CollectionUtils.concat(ionFragments, zhhIons);
-					break;
-				case ZHH_DOUBLE_SERIES:
-					ionFragments = CollectionUtils.concat(ionFragments,
-							zhhDoubleIons);
-					break;
-				default:
-					break;
+					case A_SERIES :
+						ionFragments = CollectionUtils.concat(ionFragments,
+								aIons);
+						break;
+					case A_DOUBLE_SERIES :
+						ionFragments = CollectionUtils.concat(ionFragments,
+								aDoubleIons);
+						break;
+					case B_SERIES :
+						ionFragments = CollectionUtils.concat(ionFragments,
+								bIons);
+						break;
+					case B_DOUBLE_SERIES :
+						ionFragments = CollectionUtils.concat(ionFragments,
+								bDoubleIons);
+						break;
+					case Y_SERIES :
+						ionFragments = CollectionUtils.concat(ionFragments,
+								yIons);
+						break;
+					case Y_DOUBLE_SERIES :
+						ionFragments = CollectionUtils.concat(ionFragments,
+								yDoubleIons);
+						break;
+					case C_SERIES :
+						ionFragments = CollectionUtils.concat(ionFragments,
+								cIons);
+						break;
+					case C_DOUBLE_SERIES :
+						ionFragments = CollectionUtils.concat(ionFragments,
+								cDoubleIons);
+						break;
+					case X_SERIES :
+						ionFragments = CollectionUtils.concat(ionFragments,
+								xIons);
+						break;
+					case X_DOUBLE_SERIES :
+						ionFragments = CollectionUtils.concat(ionFragments,
+								xDoubleIons);
+						break;
+					case Z_SERIES :
+						ionFragments = CollectionUtils.concat(ionFragments,
+								zIons);
+						break;
+					case Z_DOUBLE_SERIES :
+						ionFragments = CollectionUtils.concat(ionFragments,
+								zDoubleIons);
+						break;
+					case ZH_SERIES :
+						ionFragments = CollectionUtils.concat(ionFragments,
+								zhIons);
+						break;
+					case ZH_DOUBLE_SERIES :
+						ionFragments = CollectionUtils.concat(ionFragments,
+								zhDoubleIons);
+						break;
+					case ZHH_SERIES :
+						ionFragments = CollectionUtils.concat(ionFragments,
+								zhhIons);
+						break;
+					case ZHH_DOUBLE_SERIES :
+						ionFragments = CollectionUtils.concat(ionFragments,
+								zhhDoubleIons);
+						break;
+					default :
+						break;
 				}
 			}
 		}
-		
+
 		ionFragments = CollectionUtils.concat(ionFragments, precursorIons);
 		ionFragments = CollectionUtils.concat(ionFragments, immoniumIons);
-		
+
 		return ionFragments;
 	}
 
@@ -526,7 +529,7 @@ public class PeptideFragmentation {
 		if (aIons != null)
 			ionFragments = CollectionUtils.concat(ionFragments, aIons);
 		if (aDoubleIons != null)
-			ionFragments = CollectionUtils.concat(ionFragments,	aDoubleIons);
+			ionFragments = CollectionUtils.concat(ionFragments, aDoubleIons);
 		if (bIons != null)
 			ionFragments = CollectionUtils.concat(ionFragments, bIons);
 		if (bDoubleIons != null)
@@ -555,7 +558,7 @@ public class PeptideFragmentation {
 			ionFragments = CollectionUtils.concat(ionFragments, zhhIons);
 		if (zhhDoubleIons != null)
 			ionFragments = CollectionUtils.concat(ionFragments, zhhDoubleIons);
-		
+
 		ionFragments = CollectionUtils.concat(ionFragments, precursorIons);
 		ionFragments = CollectionUtils.concat(ionFragments, immoniumIons);
 
@@ -563,7 +566,8 @@ public class PeptideFragmentation {
 	}
 
 	/**
-	 * This method returns the theoretical fragment ions equal to the parameter type
+	 * This method returns the theoretical fragment ions equal to the parameter
+	 * type
 	 * 
 	 * @param SerieIonType
 	 * 
@@ -571,42 +575,41 @@ public class PeptideFragmentation {
 	 */
 	public FragmentIon[] getFragmentIons(SerieIonType ionType) {
 		switch (ionType) {
-		case A_SERIES:
-			return aIons;
-		case A_DOUBLE_SERIES:
-			return aDoubleIons;
-		case B_SERIES:
-			return bIons;
-		case B_DOUBLE_SERIES:
-			return bDoubleIons;
-		case Y_SERIES:
-			return yIons;
-		case Y_DOUBLE_SERIES:
-			return yDoubleIons;
-		case C_SERIES:
-			return cIons;
-		case C_DOUBLE_SERIES:
-			return cDoubleIons;
-		case X_SERIES:
-			return xIons;
-		case X_DOUBLE_SERIES:
-			return xDoubleIons;
-		case Z_SERIES:
-			return zIons;
-		case Z_DOUBLE_SERIES:
-			return zDoubleIons;
-		case ZH_SERIES:
-			return zhIons;
-		case ZH_DOUBLE_SERIES:
-			return zhDoubleIons;
-		case ZHH_SERIES:
-			return zhhIons;
-		case ZHH_DOUBLE_SERIES:
-			return zhhDoubleIons;
-		default:
-			return null;
+			case A_SERIES :
+				return aIons;
+			case A_DOUBLE_SERIES :
+				return aDoubleIons;
+			case B_SERIES :
+				return bIons;
+			case B_DOUBLE_SERIES :
+				return bDoubleIons;
+			case Y_SERIES :
+				return yIons;
+			case Y_DOUBLE_SERIES :
+				return yDoubleIons;
+			case C_SERIES :
+				return cIons;
+			case C_DOUBLE_SERIES :
+				return cDoubleIons;
+			case X_SERIES :
+				return xIons;
+			case X_DOUBLE_SERIES :
+				return xDoubleIons;
+			case Z_SERIES :
+				return zIons;
+			case Z_DOUBLE_SERIES :
+				return zDoubleIons;
+			case ZH_SERIES :
+				return zhIons;
+			case ZH_DOUBLE_SERIES :
+				return zhDoubleIons;
+			case ZHH_SERIES :
+				return zhhIons;
+			case ZHH_DOUBLE_SERIES :
+				return zhhDoubleIons;
+			default :
+				return null;
 		}
 	}
-
 
 }

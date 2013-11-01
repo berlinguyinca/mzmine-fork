@@ -20,24 +20,19 @@
 package net.sf.mzmine.modules.peaklistmethods.dataanalysis.clustering.hierarchical;
 
 public enum LinkType {
-	
-    SINGLE("Single"),
-    COMPLETE("Complete"),
-    AVERAGE("Average"),
-    MEAN("Mean"),
-    CENTROID("Centroid"),
-    WARD("Ward"),
-    ADJUSTEDCOMPLETE("Adjusted complete"),
-    NEIGHBOT("Neighbor Joining");  
-    
-    private final String name;
 
-    LinkType(String name) {
-        this.name = name;
-    }
+	SINGLE("Single"), COMPLETE("Complete"), AVERAGE("Average"), MEAN("Mean"), CENTROID(
+			"Centroid"), WARD("Ward"), ADJUSTEDCOMPLETE("Adjusted complete"), NEIGHBOT(
+			"Neighbor Joining");
 
-    public String getName(){
-    	return this.name;
-    }
+	private final String name;
+
+	LinkType(String name) {
+		this.name = name;
+	}
+
+	public String getName() {
+		return this.name;
+	}
 
 }

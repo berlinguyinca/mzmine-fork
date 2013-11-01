@@ -29,21 +29,23 @@ import net.sf.mzmine.parameters.impl.SimpleParameterSet;
 
 public class InfoVisualizerModule implements MZmineModule {
 
-    private static final String MODULE_NAME = "Peak list info window";
+	private static final String MODULE_NAME = "Peak list info window";
 
-    @Override
-    public @Nonnull String getName() {
-	return MODULE_NAME;
-    }
+	@Override
+	public @Nonnull
+	String getName() {
+		return MODULE_NAME;
+	}
 
-    public static void showNewPeakListInfo(PeakList peakList) {
-	InfoWindow newWindow = new InfoWindow(peakList);
-	MZmineCore.getDesktop().addInternalFrame(newWindow);
-    }
+	public static void showNewPeakListInfo(PeakList peakList) {
+		InfoWindow newWindow = new InfoWindow(peakList);
+		MZmineCore.getDesktop().addInternalFrame(newWindow);
+	}
 
-    @Override
-    public @Nonnull Class<? extends ParameterSet> getParameterSetClass() {
-	return SimpleParameterSet.class;
-    }
+	@Override
+	public @Nonnull
+	Class<? extends ParameterSet> getParameterSetClass() {
+		return SimpleParameterSet.class;
+	}
 
 }

@@ -23,5 +23,5 @@ package net.sf.mzmine.util;
  * Simple enum for for exit codes
  */
 public enum ExitCode {
-    UNKNOWN, OK, CANCEL, ERROR
+	UNKNOWN, OK, CANCEL, ERROR
 }

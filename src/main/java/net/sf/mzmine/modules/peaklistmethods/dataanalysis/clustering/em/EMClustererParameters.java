@@ -38,6 +38,6 @@ public class EMClustererParameters extends SimpleParameterSet {
 			3);
 
 	public EMClustererParameters() {
-		super(new Parameter[] { numberOfIterations, visualization });
+		super(new Parameter[]{numberOfIterations, visualization});
 	}
 }

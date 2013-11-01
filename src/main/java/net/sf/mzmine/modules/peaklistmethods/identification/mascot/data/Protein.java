@@ -75,8 +75,7 @@ public class Protein {
 			}
 			peptides.add(peptide);
 			hits++;
-		}
-		else {
+		} else {
 			alterPeptides.add(peptide);
 		}
 	}

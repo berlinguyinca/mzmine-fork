@@ -50,12 +50,14 @@ public class StorableMassList implements MassList {
 	}
 
 	@Override
-	public @Nonnull String getName() {
+	public @Nonnull
+	String getName() {
 		return name;
 	}
 
 	@Override
-	public @Nonnull Scan getScan() {
+	public @Nonnull
+	Scan getScan() {
 		return scan;
 	}
 
@@ -64,7 +66,8 @@ public class StorableMassList implements MassList {
 	}
 
 	@Override
-	public @Nonnull DataPoint[] getDataPoints() {
+	public @Nonnull
+	DataPoint[] getDataPoints() {
 		try {
 			DataPoint result[] = rawDataFile.readDataPoints(storageID);
 			return result;
@@ -84,11 +87,11 @@ public class StorableMassList implements MassList {
 		}
 		storageID = -1;
 	}
-	
+
 	public int getStorageID() {
 		return storageID;
 	}
-	
+
 	@Override
 	public String toString() {
 		return name;

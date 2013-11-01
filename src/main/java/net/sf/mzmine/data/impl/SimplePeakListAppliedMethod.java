@@ -48,7 +48,8 @@ public class SimplePeakListAppliedMethod implements PeakListAppliedMethod {
 		this.description = description;
 	}
 
-	public @Nonnull String getDescription() {
+	public @Nonnull
+	String getDescription() {
 		return description;
 	}
 
@@ -56,7 +57,8 @@ public class SimplePeakListAppliedMethod implements PeakListAppliedMethod {
 		return description;
 	}
 
-	public @Nonnull String getParameters() {
+	public @Nonnull
+	String getParameters() {
 		return parameters;
 	}
 

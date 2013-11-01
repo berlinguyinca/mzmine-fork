@@ -28,7 +28,7 @@ import net.sf.mzmine.parameters.ParameterSet;
  * 
  */
 public interface MassDetector extends MZmineModule {
-	
+
 	/**
 	 * Returns mass and intensity values detected in given scan
 	 */

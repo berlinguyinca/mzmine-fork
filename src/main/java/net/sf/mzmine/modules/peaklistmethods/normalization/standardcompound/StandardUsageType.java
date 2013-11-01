@@ -18,11 +18,11 @@
  */
 
 package net.sf.mzmine.modules.peaklistmethods.normalization.standardcompound;
-	
+
 public enum StandardUsageType {
 
-	Nearest("Nearest standard"),
-	Weighted("Weighted contribution of all standards");
+	Nearest("Nearest standard"), Weighted(
+			"Weighted contribution of all standards");
 
 	private final String name;
 

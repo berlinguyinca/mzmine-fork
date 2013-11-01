@@ -32,7 +32,7 @@ public class SpectraVisualizerParameters extends SimpleParameterSet {
 			"Scan number", "Scan number");
 
 	public SpectraVisualizerParameters() {
-		super(new Parameter[] { dataFiles, scanNumber });
+		super(new Parameter[]{dataFiles, scanNumber});
 	}
 
 }

@@ -26,33 +26,32 @@ import net.sf.mzmine.data.DataPoint;
  */
 class PeakDataPoint {
 
-    private int scanNumber;
-    private double rt;
-    private DataPoint dataPoint;
+	private int scanNumber;
+	private double rt;
+	private DataPoint dataPoint;
 
-    /**
+	/**
      */
-    PeakDataPoint(int scanNumber, double rt, DataPoint dataPoint) {
-        this.scanNumber = scanNumber;
-        this.rt = rt;
-        this.dataPoint = dataPoint;
-    }
+	PeakDataPoint(int scanNumber, double rt, DataPoint dataPoint) {
+		this.scanNumber = scanNumber;
+		this.rt = rt;
+		this.dataPoint = dataPoint;
+	}
 
-    int getScanNumber() {
-        return scanNumber;
-    }
-    
-    double getRT() {
-        return rt;
-    }
-    
-    double getMZ() {
-        return dataPoint.getMZ();
-    }
-    
-    double getIntensity() {
-        return dataPoint.getIntensity();
-    }
+	int getScanNumber() {
+		return scanNumber;
+	}
 
+	double getRT() {
+		return rt;
+	}
+
+	double getMZ() {
+		return dataPoint.getMZ();
+	}
+
+	double getIntensity() {
+		return dataPoint.getIntensity();
+	}
 
 }

@@ -41,99 +41,99 @@ import org.apache.axis.AxisFault;
 
 public class MetLinGateway implements DBGateway {
 
-    private static final String adduct[] = { "M" };
+	private static final String adduct[] = {"M"};
 
-    private static final String metLinEntryAddress = "http://metlin.scripps.edu/metabo_info.php?molid=";
-    private static final String metLinStructureAddress1 = "http://metlin.scripps.edu/structure/";
-    private static final String metLinStructureAddress2 = ".mol";
+	private static final String metLinEntryAddress = "http://metlin.scripps.edu/metabo_info.php?molid=";
+	private static final String metLinStructureAddress1 = "http://metlin.scripps.edu/structure/";
+	private static final String metLinStructureAddress2 = ".mol";
 
-    private Map<String, LineInfo> retrievedMolecules = new Hashtable<String, LineInfo>();
+	private Map<String, LineInfo> retrievedMolecules = new Hashtable<String, LineInfo>();
 
-    public synchronized String[] findCompounds(double mass,
-	    MZTolerance mzTolerance, int numOfResults, ParameterSet parameters)
-	    throws IOException {
+	public synchronized String[] findCompounds(double mass,
+			MZTolerance mzTolerance, int numOfResults, ParameterSet parameters)
+			throws IOException {
 
-	Range toleranceRange = mzTolerance.getToleranceRange(mass);
+		Range toleranceRange = mzTolerance.getToleranceRange(mass);
 
-	MetlinServiceLocator locator = new MetlinServiceLocator();
-	MetlinPortType serv;
-	try {
-	    serv = locator.getMetlinPort();
-	} catch (ServiceException e) {
-	    throw (new IOException(e));
+		MetlinServiceLocator locator = new MetlinServiceLocator();
+		MetlinPortType serv;
+		try {
+			serv = locator.getMetlinPort();
+		} catch (ServiceException e) {
+			throw (new IOException(e));
+		}
+
+		// Search mass as float[]
+		float searchMass[] = new float[]{(float) toleranceRange.getAverage()};
+		float searchTolerance = (float) (toleranceRange.getSize() / 2.0);
+
+		final String token = parameters.getParameter(
+				MetLinParameters.SECURITY_TOKEN).getValue();
+
+		MetaboliteSearchRequest searchParams = new MetaboliteSearchRequest(
+				token, searchMass, adduct, searchTolerance, "Da");
+		LineInfo resultsData[][];
+		try {
+			resultsData = serv.metaboliteSearch(searchParams);
+		} catch (AxisFault e) {
+			// For some reason, the METLIN SOAP gateway throws AxisFault caused
+			// by ArrayStoreException if no result is found. I suspect their
+			// SOAP response is malformed and Axis does not like it.
+			resultsData = new LineInfo[1][0];
+		}
+
+		if (resultsData.length == 0) {
+			throw (new IOException("Results could not be retrieved from METLIN"));
+
+		}
+		final int totalResults = Math.min(resultsData[0].length, numOfResults);
+		String metlinIDs[] = new String[totalResults];
+
+		for (int i = 0; i < totalResults; i++) {
+			LineInfo metlinEntry = resultsData[0][i];
+			String metlinID = metlinEntry.getMolid();
+			retrievedMolecules.put(metlinID, metlinEntry);
+			metlinIDs[i] = metlinID;
+		}
+
+		return metlinIDs;
+
 	}
 
-	// Search mass as float[]
-	float searchMass[] = new float[] { (float) toleranceRange.getAverage() };
-	float searchTolerance = (float) (toleranceRange.getSize() / 2.0);
+	/**
+	 * This method retrieves the details about METLIN compound
+	 * 
+	 */
+	public DBCompound getCompound(String ID, ParameterSet parameters)
+			throws IOException {
 
-	final String token = parameters.getParameter(
-		MetLinParameters.SECURITY_TOKEN).getValue();
+		URL entryURL = new URL(metLinEntryAddress + ID);
 
-	MetaboliteSearchRequest searchParams = new MetaboliteSearchRequest(
-		token, searchMass, adduct, searchTolerance, "Da");
-	LineInfo resultsData[][];
-	try {
-	    resultsData = serv.metaboliteSearch(searchParams);
-	} catch (AxisFault e) {
-	    // For some reason, the METLIN SOAP gateway throws AxisFault caused
-	    // by ArrayStoreException if no result is found. I suspect their
-	    // SOAP response is malformed and Axis does not like it.
-	    resultsData = new LineInfo[1][0];
+		LineInfo metlinEntry = retrievedMolecules.get(ID);
+
+		if (metlinEntry == null) {
+			throw new IOException("Unknown ID " + ID);
+		}
+
+		String compoundName = metlinEntry.getName();
+
+		if (compoundName == null) {
+			throw (new IOException(
+					"Could not parse compound name for compound " + ID));
+		}
+
+		String compoundFormula = metlinEntry.getFormula();
+
+		URL structure2DURL = new URL(metLinStructureAddress1 + ID
+				+ metLinStructureAddress2);
+
+		URL structure3DURL = null;
+
+		DBCompound newCompound = new DBCompound(OnlineDatabase.METLIN, ID,
+				compoundName, compoundFormula, entryURL, structure2DURL,
+				structure3DURL);
+
+		return newCompound;
+
 	}
-
-	if (resultsData.length == 0) {
-	    throw (new IOException("Results could not be retrieved from METLIN"));
-
-	}
-	final int totalResults = Math.min(resultsData[0].length, numOfResults);
-	String metlinIDs[] = new String[totalResults];
-
-	for (int i = 0; i < totalResults; i++) {
-	    LineInfo metlinEntry = resultsData[0][i];
-	    String metlinID = metlinEntry.getMolid();
-	    retrievedMolecules.put(metlinID, metlinEntry);
-	    metlinIDs[i] = metlinID;
-	}
-
-	return metlinIDs;
-
-    }
-
-    /**
-     * This method retrieves the details about METLIN compound
-     * 
-     */
-    public DBCompound getCompound(String ID, ParameterSet parameters)
-	    throws IOException {
-
-	URL entryURL = new URL(metLinEntryAddress + ID);
-
-	LineInfo metlinEntry = retrievedMolecules.get(ID);
-
-	if (metlinEntry == null) {
-	    throw new IOException("Unknown ID " + ID);
-	}
-
-	String compoundName = metlinEntry.getName();
-
-	if (compoundName == null) {
-	    throw (new IOException(
-		    "Could not parse compound name for compound " + ID));
-	}
-
-	String compoundFormula = metlinEntry.getFormula();
-
-	URL structure2DURL = new URL(metLinStructureAddress1 + ID
-		+ metLinStructureAddress2);
-
-	URL structure3DURL = null;
-
-	DBCompound newCompound = new DBCompound(OnlineDatabase.METLIN, ID,
-		compoundName, compoundFormula, entryURL, structure2DURL,
-		structure3DURL);
-
-	return newCompound;
-
-    }
 }

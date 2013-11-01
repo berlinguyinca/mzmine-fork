@@ -21,42 +21,42 @@ package net.sf.mzmine.data;
 
 public enum IonizationType {
 
-    NO_IONIZATION("No ionization", "", 0, Polarity.Neutral), //
-    POSITIVE_HYDROGEN("[M+H]+", "H", 1.00728, Polarity.Positive), //
-    NEGATIVE_HYDROGEN("[M-H]-", "H-1", -1.00728, Polarity.Negative), //
-    POTASSIUM("[M+K]+", "K", 38.96316, Polarity.Positive), //
-    SODIUM("[M+Na]+", "Na", 22.98922, Polarity.Positive), //
-    AMMONIUM("[M+NH4]+", "NH4", 18.03383, Polarity.Positive), //
-    CARBONATE("[M+CO3]-", "CO3", 59.98529, Polarity.Negative), //
-    PHOSPHATE("[M+H2PO4]-", "H2PO4", 96.96962, Polarity.Negative);
+	NO_IONIZATION("No ionization", "", 0, Polarity.Neutral), //
+	POSITIVE_HYDROGEN("[M+H]+", "H", 1.00728, Polarity.Positive), //
+	NEGATIVE_HYDROGEN("[M-H]-", "H-1", -1.00728, Polarity.Negative), //
+	POTASSIUM("[M+K]+", "K", 38.96316, Polarity.Positive), //
+	SODIUM("[M+Na]+", "Na", 22.98922, Polarity.Positive), //
+	AMMONIUM("[M+NH4]+", "NH4", 18.03383, Polarity.Positive), //
+	CARBONATE("[M+CO3]-", "CO3", 59.98529, Polarity.Negative), //
+	PHOSPHATE("[M+H2PO4]-", "H2PO4", 96.96962, Polarity.Negative);
 
-    private final String name, adductFormula;
-    private final Polarity polarity;
-    private final double addedMass;
+	private final String name, adductFormula;
+	private final Polarity polarity;
+	private final double addedMass;
 
-    IonizationType(String name, String adductFormula, double addedMass,
-            Polarity polarity) {
+	IonizationType(String name, String adductFormula, double addedMass,
+			Polarity polarity) {
 
-        this.name = name;
-        this.adductFormula = adductFormula;
-        this.addedMass = addedMass;
-        this.polarity = polarity;
-    }
+		this.name = name;
+		this.adductFormula = adductFormula;
+		this.addedMass = addedMass;
+		this.polarity = polarity;
+	}
 
-    public String getAdduct() {
-        return adductFormula;
-    }
+	public String getAdduct() {
+		return adductFormula;
+	}
 
-    public double getAddedMass() {
-        return addedMass;
-    }
+	public double getAddedMass() {
+		return addedMass;
+	}
 
-    public Polarity getPolarity() {
-        return polarity;
-    }
+	public Polarity getPolarity() {
+		return polarity;
+	}
 
-    public String toString() {
-        return name;
-    }
+	public String toString() {
+		return name;
+	}
 
 }

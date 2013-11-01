@@ -30,37 +30,39 @@ import net.sf.mzmine.util.Range;
 
 public class CropFilter implements ScanFilter {
 
-    public Scan filterScan(Scan scan, ParameterSet parameters) {
+	public Scan filterScan(Scan scan, ParameterSet parameters) {
 
-	Range mzRange = parameters.getParameter(CropFilterParameters.mzRange)
-		.getValue();
+		Range mzRange = parameters.getParameter(CropFilterParameters.mzRange)
+				.getValue();
 
-	// Check if whole m/z range is within cropping region or
-	// scan is a fragmentation scan. In such case we copy the
-	// scan unmodified.
-	if ((scan.getMSLevel() > 1)
-		|| (mzRange.containsRange(scan.getMZRange()))) {
-	    return scan;
+		// Check if whole m/z range is within cropping region or
+		// scan is a fragmentation scan. In such case we copy the
+		// scan unmodified.
+		if ((scan.getMSLevel() > 1)
+				|| (mzRange.containsRange(scan.getMZRange()))) {
+			return scan;
+		}
+
+		// Pickup datapoints inside the m/z range
+
+		DataPoint croppedDataPoints[] = scan.getDataPointsByMass(mzRange);
+
+		// Create updated scan
+		SimpleScan newScan = new SimpleScan(scan);
+		newScan.setDataPoints(croppedDataPoints);
+
+		return newScan;
+
 	}
 
-	// Pickup datapoints inside the m/z range
+	public @Nonnull
+	String getName() {
+		return "Crop filter";
+	}
 
-	DataPoint croppedDataPoints[] = scan.getDataPointsByMass(mzRange);
-
-	// Create updated scan
-	SimpleScan newScan = new SimpleScan(scan);
-	newScan.setDataPoints(croppedDataPoints);
-
-	return newScan;
-
-    }
-
-    public @Nonnull String getName() {
-	return "Crop filter";
-    }
-
-    @Override
-    public @Nonnull Class<? extends ParameterSet> getParameterSetClass() {
-	return CropFilterParameters.class;
-    }
+	@Override
+	public @Nonnull
+	Class<? extends ParameterSet> getParameterSetClass() {
+		return CropFilterParameters.class;
+	}
 }

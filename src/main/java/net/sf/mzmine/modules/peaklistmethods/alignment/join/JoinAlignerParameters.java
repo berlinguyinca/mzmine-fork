@@ -61,9 +61,9 @@ public class JoinAlignerParameters extends SimpleParameterSet {
 			new IsotopePatternScoreParameters());
 
 	public JoinAlignerParameters() {
-		super(new Parameter[] { peakLists, peakListName, MZTolerance, MZWeight,
+		super(new Parameter[]{peakLists, peakListName, MZTolerance, MZWeight,
 				RTTolerance, RTWeight, SameChargeRequired, SameIDRequired,
-				compareIsotopePattern });
+				compareIsotopePattern});
 	}
 
 }

@@ -46,8 +46,8 @@ public class PeakExtenderParameters extends SimpleParameterSet {
 			"If checked, original peaklist will be removed and only deisotoped version remains");
 
 	public PeakExtenderParameters() {
-		super(new Parameter[] { peakLists, suffix, mzTolerance, minimumHeight,
-				autoRemove });
+		super(new Parameter[]{peakLists, suffix, mzTolerance, minimumHeight,
+				autoRemove});
 	}
 
 }

@@ -35,8 +35,8 @@ import org.jfree.data.xy.XYDataset;
 public class DiagonalLineRenderer extends XYLineAndShapeRenderer {
 
 	// plot colors for diagonal lines
-	private static final Color[] plotDiagonalColors = { new Color(165, 42, 42),
-			Color.BLACK, new Color(165, 42, 42) };
+	private static final Color[] plotDiagonalColors = {new Color(165, 42, 42),
+			Color.BLACK, new Color(165, 42, 42)};
 
 	private static final Shape diagonalPointsShape = new Rectangle2D.Float(-3,
 			-3, 6, 6);

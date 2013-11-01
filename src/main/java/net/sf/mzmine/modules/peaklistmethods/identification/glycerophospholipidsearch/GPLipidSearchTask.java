@@ -154,7 +154,7 @@ public class GPLipidSearchTask extends AbstractTask {
 
 		// Repaint the window to reflect the change in the peak list
 		MZmineCore.getDesktop().getMainFrame().repaint();
-		
+
 		setStatus(TaskStatus.FINISHED);
 
 		logger.info("Finished glycerophospholipid search in " + peakList);

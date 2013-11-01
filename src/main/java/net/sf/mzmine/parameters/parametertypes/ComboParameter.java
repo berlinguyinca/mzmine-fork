@@ -32,8 +32,9 @@ import org.w3c.dom.Element;
  * Combo Parameter implementation
  * 
  */
-public class ComboParameter<ValueType> implements
-		UserParameter<ValueType, JComboBox> {
+public class ComboParameter<ValueType>
+		implements
+			UserParameter<ValueType, JComboBox> {
 
 	private String name, description;
 	private ValueType choices[], value;
@@ -139,9 +140,9 @@ public class ComboParameter<ValueType> implements
 
 	@Override
 	public String toString() {
-	    return name;
+		return name;
 	}
-	
+
 	@Override
 	public boolean checkValue(Collection<String> errorMessages) {
 		if (value == null) {

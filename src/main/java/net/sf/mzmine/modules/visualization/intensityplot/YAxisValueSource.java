@@ -21,9 +21,7 @@ package net.sf.mzmine.modules.visualization.intensityplot;
 
 public enum YAxisValueSource {
 
-	HEIGHT("Peak height"), 
-	AREA("Peak area"),
-	RT("Peak retention time");
+	HEIGHT("Peak height"), AREA("Peak area"), RT("Peak retention time");
 
 	private String type;
 
@@ -34,5 +32,5 @@ public enum YAxisValueSource {
 	public String toString() {
 		return type;
 	}
-	
+
 }

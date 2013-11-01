@@ -43,5 +43,4 @@ public class PeptideSorter implements Comparator<Peptide> {
 
 	}
 
-
 }

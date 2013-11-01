@@ -40,7 +40,7 @@ public class TICPlotRenderer extends XYLineAndShapeRenderer {
 	public TICPlotRenderer() {
 		super(true, false);
 	}
-	
+
 	private AlphaComposite makeComposite(double alpha) {
 		int type = AlphaComposite.SRC_OVER;
 		return (AlphaComposite.getInstance(type, (float) alpha));
@@ -100,7 +100,5 @@ public class TICPlotRenderer extends XYLineAndShapeRenderer {
 				domainAxis, dataArea, rangeAxis, crosshairState, entities);
 
 	}
-	
-	
 
 }

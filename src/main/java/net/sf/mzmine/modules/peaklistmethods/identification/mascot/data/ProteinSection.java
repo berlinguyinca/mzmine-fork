@@ -20,49 +20,49 @@
 package net.sf.mzmine.modules.peaklistmethods.identification.mascot.data;
 
 public class ProteinSection {
-	
+
 	private int startRegion;
 	private int stopRegion;
 	private int multiplicity;
-	
+
 	/**
-	 * This class represents the region of a protein's sequence that a peptide covers.
+	 * This class represents the region of a protein's sequence that a peptide
+	 * covers.
 	 * 
 	 * @param startRegion
 	 * @param stopRegion
 	 * @param multiplicity
 	 */
-	public ProteinSection(int startRegion, int stopRegion, int multiplicity){
+	public ProteinSection(int startRegion, int stopRegion, int multiplicity) {
 		this.startRegion = startRegion;
 		this.stopRegion = stopRegion;
 		this.multiplicity = multiplicity;
 	}
-	
+
 	/**
 	 * Returns the initial position of the peptide coverage for this protein
 	 * 
 	 * @return
 	 */
-	public int getStartRegion(){
+	public int getStartRegion() {
 		return startRegion;
 	}
-	
+
 	/**
 	 * Returns the last position of the peptide coverage for this protein
 	 * 
 	 * @return
 	 */
-	public int getStopRegion(){
+	public int getStopRegion() {
 		return stopRegion;
 	}
 
-	
-	public int getMultiplicity(){
+	public int getMultiplicity() {
 		return multiplicity;
 	}
-	
-	public String getName(){
-		return this.startRegion + " - "+ this.stopRegion;
+
+	public String getName() {
+		return this.startRegion + " - " + this.stopRegion;
 	}
-	
+
 }

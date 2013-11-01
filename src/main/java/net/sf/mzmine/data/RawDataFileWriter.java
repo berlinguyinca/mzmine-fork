@@ -28,19 +28,19 @@ import java.io.IOException;
  */
 public interface RawDataFileWriter {
 
-    /**
-     * Adds a new scan to the file.
-     * 
-     * @param newScan
-     *            Scan to add
-     */
-    public void addScan(Scan newScan) throws IOException;
+	/**
+	 * Adds a new scan to the file.
+	 * 
+	 * @param newScan
+	 *            Scan to add
+	 */
+	public void addScan(Scan newScan) throws IOException;
 
-    /**
-     * Finishes writing of the file
-     * 
-     * @return newly written file as RawDataFile
-     */
-    public RawDataFile finishWriting() throws IOException;
+	/**
+	 * Finishes writing of the file
+	 * 
+	 * @return newly written file as RawDataFile
+	 */
+	public RawDataFile finishWriting() throws IOException;
 
 }

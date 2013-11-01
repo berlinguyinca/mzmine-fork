@@ -75,7 +75,7 @@ public class StreamCopy {
 			bbuffer.clear();
 			copiedLength += len;
 		}
-		
+
 		finished = true;
 
 	}
@@ -99,7 +99,7 @@ public class StreamCopy {
 	}
 
 	/**
-	 * Checks if copying is finished 
+	 * Checks if copying is finished
 	 */
 	public boolean finished() {
 		return finished;

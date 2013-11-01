@@ -10,64 +10,60 @@ import java.util.Collection;
 import java.util.logging.Logger;
 
 /**
- * Created with IntelliJ IDEA.
- * User: wohlgemuth
- * Date: 10/30/13
- * Time: 3:56 PM
+ * Created with IntelliJ IDEA. User: wohlgemuth Date: 10/30/13 Time: 3:56 PM
  * <p/>
  * imports all the data from a specified directory into mzMine
  */
 public class RawDataDirectoryImportModule extends RawDataImportModule {
 
-    private Logger logger = Logger.getLogger(getClass().getName());
+	private Logger logger = Logger.getLogger(getClass().getName());
 
-    private static final String MODULE_DESCRIPTION = "This module imports raw data into the project and allows you to specify a whole directory at once.";
+	private static final String MODULE_DESCRIPTION = "This module imports raw data into the project and allows you to specify a whole directory at once.";
 
-    private static final String MODULE_NAME = "Raw data import - Directory mode";
+	private static final String MODULE_NAME = "Raw data import - Directory mode";
 
-    @Override
-    public
-    @Nonnull
-    String getName() {
-        return MODULE_NAME;
-    }
+	@Override
+	public @Nonnull
+	String getName() {
+		return MODULE_NAME;
+	}
 
-    @Override
-    public
-    @Nonnull
-    String getDescription() {
-        return MODULE_DESCRIPTION;
-    }
+	@Override
+	public @Nonnull
+	String getDescription() {
+		return MODULE_DESCRIPTION;
+	}
 
-    @Override
-    @Nonnull
-    public ExitCode runModule(@Nonnull ParameterSet parameters,
-                              @Nonnull Collection<Task> tasks) {
+	@Override
+	@Nonnull
+	public ExitCode runModule(@Nonnull ParameterSet parameters,
+			@Nonnull Collection<Task> tasks) {
 
-        File fileNames[] = parameters.getParameter(
-                RawdataImportDirectoryParameters.fileNames).getValue();
+		File fileNames[] = parameters.getParameter(
+				RawdataImportDirectoryParameters.fileNames).getValue();
 
-        for (File d : fileNames) {
+		for (File d : fileNames) {
 
-            if (d.isDirectory()) {
-                logger.info("working on directory: " + d);
-                File[] files = d.listFiles(RawdataImportDirectoryParameters.getFileFilter());
-                for (File f : files) {
-                    if (readFile(tasks, f)) return ExitCode.ERROR;
-                }
-            } else {
-                logger.warning("ignored " + d + " was not a directory!");
-            }
-        }
+			if (d.isDirectory()) {
+				logger.info("working on directory: " + d);
+				File[] files = d.listFiles(RawdataImportDirectoryParameters
+						.getFileFilter());
+				for (File f : files) {
+					if (readFile(tasks, f))
+						return ExitCode.ERROR;
+				}
+			} else {
+				logger.warning("ignored " + d + " was not a directory!");
+			}
+		}
 
-        return ExitCode.OK;
-    }
+		return ExitCode.OK;
+	}
 
-    @Override
-    public
-    @Nonnull
-    Class<? extends ParameterSet> getParameterSetClass() {
-        return RawdataImportDirectoryParameters.class;
-    }
+	@Override
+	public @Nonnull
+	Class<? extends ParameterSet> getParameterSetClass() {
+		return RawdataImportDirectoryParameters.class;
+	}
 
 }

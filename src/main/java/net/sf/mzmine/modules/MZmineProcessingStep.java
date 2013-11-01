@@ -30,10 +30,10 @@ import net.sf.mzmine.parameters.ParameterSet;
  */
 public interface MZmineProcessingStep<ModuleType extends MZmineModule> {
 
-    @Nonnull
-    public ModuleType getModule();
+	@Nonnull
+	public ModuleType getModule();
 
-    @Nonnull
-    public ParameterSet getParameterSet();
+	@Nonnull
+	public ParameterSet getParameterSet();
 
 }

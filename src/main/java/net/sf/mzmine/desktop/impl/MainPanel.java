@@ -83,7 +83,7 @@ public class MainPanel extends JPanel {
 
 		if (visibleFrames.length > 0) {
 
-			outer: while (true) {
+			outer : while (true) {
 				for (JInternalFrame f : visibleFrames) {
 					if ((f.getLocation().x == x) && (f.getLocation().y == y)) {
 						x += 30;
@@ -125,7 +125,7 @@ public class MainPanel extends JPanel {
 	public JInternalFrame getSelectedFrame() {
 		return desktopPane.getSelectedFrame();
 	}
-	
+
 	public JDesktopPane getDesktopPane() {
 		return desktopPane;
 	}

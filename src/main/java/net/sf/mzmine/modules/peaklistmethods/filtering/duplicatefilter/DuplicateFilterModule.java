@@ -44,43 +44,47 @@ import net.sf.mzmine.util.ExitCode;
  */
 public class DuplicateFilterModule implements MZmineProcessingModule {
 
-    private static final String MODULE_NAME = "Duplicate peak filter";
-    private static final String MODULE_DESCRIPTION = "This method removes duplicate peaks (peaks with same retention times and m/z) from the peak list.";
+	private static final String MODULE_NAME = "Duplicate peak filter";
+	private static final String MODULE_DESCRIPTION = "This method removes duplicate peaks (peaks with same retention times and m/z) from the peak list.";
 
-    @Override
-    public @Nonnull String getName() {
-	return MODULE_NAME;
-    }
-
-    @Override
-    public @Nonnull String getDescription() {
-	return MODULE_DESCRIPTION;
-    }
-
-    @Override
-    @Nonnull
-    public ExitCode runModule(@Nonnull ParameterSet parameters,
-	    @Nonnull Collection<Task> tasks) {
-
-	PeakList[] peakLists = parameters.getParameter(
-		DuplicateFilterParameters.peakLists).getValue();
-
-	for (PeakList peakList : peakLists) {
-	    Task newTask = new DuplicateFilterTask(peakList, parameters);
-	    tasks.add(newTask);
+	@Override
+	public @Nonnull
+	String getName() {
+		return MODULE_NAME;
 	}
 
-	return ExitCode.OK;
+	@Override
+	public @Nonnull
+	String getDescription() {
+		return MODULE_DESCRIPTION;
+	}
 
-    }
+	@Override
+	@Nonnull
+	public ExitCode runModule(@Nonnull ParameterSet parameters,
+			@Nonnull Collection<Task> tasks) {
 
-    @Override
-    public @Nonnull MZmineModuleCategory getModuleCategory() {
-	return MZmineModuleCategory.PEAKLISTFILTERING;
-    }
+		PeakList[] peakLists = parameters.getParameter(
+				DuplicateFilterParameters.peakLists).getValue();
 
-    @Override
-    public @Nonnull Class<? extends ParameterSet> getParameterSetClass() {
-	return DuplicateFilterParameters.class;
-    }
+		for (PeakList peakList : peakLists) {
+			Task newTask = new DuplicateFilterTask(peakList, parameters);
+			tasks.add(newTask);
+		}
+
+		return ExitCode.OK;
+
+	}
+
+	@Override
+	public @Nonnull
+	MZmineModuleCategory getModuleCategory() {
+		return MZmineModuleCategory.PEAKLISTFILTERING;
+	}
+
+	@Override
+	public @Nonnull
+	Class<? extends ParameterSet> getParameterSetClass() {
+		return DuplicateFilterParameters.class;
+	}
 }

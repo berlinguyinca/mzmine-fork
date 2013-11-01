@@ -109,8 +109,8 @@ public class BaselineCorrectionParameters extends SimpleParameterSet {
 	 * Create the parameter set.
 	 */
 	public BaselineCorrectionParameters() {
-		super(new Parameter[] { dataFiles, SUFFIX, CHROMOTAGRAM_TYPE, MS_LEVEL,
+		super(new Parameter[]{dataFiles, SUFFIX, CHROMOTAGRAM_TYPE, MS_LEVEL,
 				SMOOTHING, ASYMMETRY, USE_MZ_BINS, MZ_BIN_WIDTH,
-				REMOVE_ORIGINAL });
+				REMOVE_ORIGINAL});
 	}
 }

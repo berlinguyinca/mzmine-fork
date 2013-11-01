@@ -27,8 +27,9 @@ import org.jfree.data.xy.IntervalXYDataset;
 /**
  * Data set for MzPeaks, used in peak detection preview
  */
-public class DataPointsDataSet extends AbstractXYDataset implements
-		IntervalXYDataset {
+public class DataPointsDataSet extends AbstractXYDataset
+		implements
+			IntervalXYDataset {
 
 	private DataPoint mzPeaks[];
 	private String label;

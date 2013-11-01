@@ -19,7 +19,6 @@
 
 package net.sf.mzmine.desktop.impl.helpsystem;
 
-
 import javax.help.HelpSet;
 
 public class MZmineHelpSet extends HelpSet {
@@ -27,8 +26,8 @@ public class MZmineHelpSet extends HelpSet {
 	public MZmineHelpSet() {
 		super();
 	}
-	
-	public void addTOCView( MZmineTOCView TOCView){
+
+	public void addTOCView(MZmineTOCView TOCView) {
 		this.addView(TOCView);
 	}
 

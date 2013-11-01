@@ -26,5 +26,5 @@ import org.jfree.data.xy.XYZDataset;
 public interface RTMZDataset extends XYZDataset {
 
 	public abstract PeakListRow getPeakListRow(int item);
-	
+
 }

@@ -36,7 +36,7 @@ import net.sf.mzmine.util.ScanUtils;
 import net.sf.mzmine.util.SortingDirection;
 
 public class PeptideScan implements Scan {
-	
+
 	private PeptideIdentityDataFile dataFile;
 	private RawDataFile rawDataFile;
 	private int rawScanNumber;
@@ -56,16 +56,18 @@ public class PeptideScan implements Scan {
 	private boolean centroided;
 
 	/**
-	 * This class represents the scan (collection of DataPoints)  with MS level 2 or more,
-	 * which contains peaks with masses equal to the calculated fragment ion's masses for one or many peptides.
+	 * This class represents the scan (collection of DataPoints) with MS level 2
+	 * or more, which contains peaks with masses equal to the calculated
+	 * fragment ion's masses for one or many peptides.
 	 */
-	public PeptideScan(PeptideIdentityDataFile dataFile, String rawDataFile, int queryNumber, int rawScanNumber) {
+	public PeptideScan(PeptideIdentityDataFile dataFile, String rawDataFile,
+			int queryNumber, int rawScanNumber) {
 
 		this.dataFile = dataFile;
 		this.peptides = new Vector<Peptide>();
 		this.queryNumber = queryNumber;
 		this.rawScanNumber = rawScanNumber;
-			
+
 	}
 
 	/**
@@ -73,22 +75,23 @@ public class PeptideScan implements Scan {
 	 * 
 	 * @param rawDataFile
 	 */
-	public void setRawDataFile(RawDataFile rawDataFile){
+	public void setRawDataFile(RawDataFile rawDataFile) {
 		this.rawDataFile = rawDataFile;
 	}
-	
-	
+
 	/**
 	 * @return Returns scan datapoints
 	 */
-	public @Nonnull DataPoint[] getDataPoints() {
+	public @Nonnull
+	DataPoint[] getDataPoints() {
 		return dataPoints;
 	}
 
 	/**
 	 * @return Returns scan datapoints within a given range
 	 */
-	public @Nonnull DataPoint[] getDataPointsByMass(@Nonnull Range mzRange) {
+	public @Nonnull
+	DataPoint[] getDataPointsByMass(@Nonnull Range mzRange) {
 
 		int startIndex, endIndex;
 		for (startIndex = 0; startIndex < dataPoints.length; startIndex++) {
@@ -113,7 +116,8 @@ public class PeptideScan implements Scan {
 	/**
 	 * @return Returns scan datapoints over certain intensity
 	 */
-	public @Nonnull DataPoint[] getDataPointsOverIntensity(double intensity) {
+	public @Nonnull
+	DataPoint[] getDataPointsOverIntensity(double intensity) {
 		int index;
 		Vector<DataPoint> points = new Vector<DataPoint>();
 
@@ -139,7 +143,7 @@ public class PeptideScan implements Scan {
 		mzRange = new Range(0, 0);
 		basePeak = null;
 		totalIonCurrent = 0;
-		
+
 		// find m/z range and base peak
 		if (dataPoints.length > 0) {
 
@@ -245,7 +249,8 @@ public class PeptideScan implements Scan {
 	/**
 	 * @see net.sf.mzmine.data.Scan#getMZRangeMax()
 	 */
-	public @Nonnull Range getMZRange() {
+	public @Nonnull
+	Range getMZRange() {
 		return mzRange;
 	}
 
@@ -330,12 +335,14 @@ public class PeptideScan implements Scan {
 	/**
 	 * Returns the raw data file that this scan belongs.
 	 */
-	public @Nonnull RawDataFile getDataFile() {
+	public @Nonnull
+	RawDataFile getDataFile() {
 		return rawDataFile;
 	}
-	
+
 	/**
-	 * Returns the PeptideDataFile from where the information of the peptide was extracted.
+	 * Returns the PeptideDataFile from where the information of the peptide was
+	 * extracted.
 	 * 
 	 * @return PeptideIdentityDataFile
 	 */
@@ -351,7 +358,7 @@ public class PeptideScan implements Scan {
 	public void addPeptide(Peptide peptide) {
 		peptides.add(peptide);
 	}
-	
+
 	/**
 	 * Returns all the peptides that fix into this scan (masses)
 	 * 
@@ -360,41 +367,45 @@ public class PeptideScan implements Scan {
 	public Peptide[] getPeptides() {
 		return peptides.toArray(new Peptide[0]);
 	}
-	
+
 	/**
 	 * 
-	 * Returns the most probable peptide identity of this scan (collection of data points).
+	 * Returns the most probable peptide identity of this scan (collection of
+	 * data points).
 	 * 
 	 * @return Peptide
 	 */
-	public Peptide getHighScorePeptide(){
+	public Peptide getHighScorePeptide() {
 		// Sort m/z peaks by descending intensity
 		Peptide[] sortedPeptides = peptides.toArray(new Peptide[0]);
-		Arrays.sort(sortedPeptides, new PeptideSorter(SortingDirection.Descending));
+		Arrays.sort(sortedPeptides, new PeptideSorter(
+				SortingDirection.Descending));
 		return sortedPeptides[0];
 	}
-	
+
 	/**
-	 * Returns the number of query associated to this scan (number from identification file).
+	 * Returns the number of query associated to this scan (number from
+	 * identification file).
 	 * 
 	 * @return queryNumber
 	 */
-	public int getQueryNumber(){
+	public int getQueryNumber() {
 		return queryNumber;
 	}
 
 	public void setAlterPeptides(Peptide[] alterPeptides) {
 		this.alterPeptides = alterPeptides;
-		
+
 	}
 
 	public Peptide[] getAlterPeptides() {
 		return alterPeptides;
-		
+
 	}
 
 	@Override
-	public @Nonnull MassList[] getMassLists() {
+	public @Nonnull
+	MassList[] getMassLists() {
 		return new MassList[0];
 	}
 
@@ -407,14 +418,13 @@ public class PeptideScan implements Scan {
 	@Override
 	public void addMassList(@Nonnull MassList massList) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void removeMassList(@Nonnull MassList massList) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	
 }

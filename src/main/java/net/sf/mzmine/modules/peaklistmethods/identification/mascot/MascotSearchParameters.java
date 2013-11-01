@@ -33,7 +33,7 @@ public class MascotSearchParameters extends SimpleParameterSet {
 			"URL address where the Mascot Server is installed", "127.0.0.1");
 
 	public MascotSearchParameters() {
-		super(new Parameter[] { peakLists, urlAddress });
+		super(new Parameter[]{peakLists, urlAddress});
 	}
 
 }
