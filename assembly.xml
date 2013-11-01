@@ -1,8 +1,9 @@
 <?xml version="1.0"?>
 <assembly>
 	<formats>
-		<format>dir</format>
-	</formats>
+        <format>dir</format>
+        <format>zip</format>
+    </formats>
 	<includeBaseDirectory>false</includeBaseDirectory>
 	<dependencySets>
 		<dependencySet>

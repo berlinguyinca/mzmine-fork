@@ -23,6 +23,15 @@ public class RawDataDirectoryImportModule extends RawDataImportModule {
 
     private static final String MODULE_DESCRIPTION = "This module imports raw data into the project and allows you to specify a whole directory at once.";
 
+    private static final String MODULE_NAME = "Raw data import - Directory mode";
+
+    @Override
+    public
+    @Nonnull
+    String getName() {
+        return MODULE_NAME;
+    }
+
     @Override
     public
     @Nonnull

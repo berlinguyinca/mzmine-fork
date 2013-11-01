@@ -14,6 +14,27 @@
 	</properties>
 	<build>
 		<plugins>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.7</version>
+                <executions>
+                    <execution>
+                        <phase>install</phase>
+                        <configuration>
+                            <target>
+
+                                <exec executable="rsync">
+                                    <arg line="-avz -e 'ssh' target/MZmine-${project.version}.zip ${user.name}@vulcan.fiehnlab.ucdavis.edu:/var/www/nginx-default/packages/mzmine/MZmine-${project.version}.zip"/>
+                                </exec>
+
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -447,8 +468,6 @@
             <artifactId>reflections</artifactId>
             <version>0.9.9-RC1</version>
         </dependency>
-
-
 	</dependencies>
 
 </project>

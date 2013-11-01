@@ -44,6 +44,7 @@ public class RawDataImportParameters extends SimpleParameterSet {
 
 	public static final FileNamesParameter fileNames = new FileNamesParameter();
 
+
 	public RawDataImportParameters() {
 		super(new Parameter[] { fileNames });
 	}
