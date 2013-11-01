@@ -61,15 +61,16 @@ public class SimpleParameterSet implements ParameterSet {
 	}
 
 	public void loadValuesFromXML(Element xmlElement) {
-        logger.fine("loading parameter configuration...");
+		logger.fine("loading parameter configuration...");
 		NodeList list = xmlElement.getElementsByTagName(parameterElement);
 		for (int i = 0; i < list.getLength(); i++) {
 			Element nextElement = (Element) list.item(i);
 			String paramName = nextElement.getAttribute(nameAttribute);
-            logger.fine("paramName: " + paramName);
+			logger.fine("paramName: " + paramName);
 			for (Parameter param : parameters) {
 				if (param.getName().equals(paramName)) {
-                    logger.fine("loading data for class: " + param.getClass().getName());
+					logger.fine("loading data for class: "
+							+ param.getClass().getName());
 					try {
 						param.loadValueFromXML(nextElement);
 					} catch (Exception e) {

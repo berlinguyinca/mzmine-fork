@@ -37,7 +37,7 @@ public class ComboParameter<ValueType>
 		implements
 			UserParameter<ValueType, JComboBox> {
 
-    private Logger logger = Logger.getLogger(getClass().getName());
+	private Logger logger = Logger.getLogger(getClass().getName());
 
 	private String name, description;
 	private ValueType choices[], value;
@@ -118,16 +118,16 @@ public class ComboParameter<ValueType>
 
 	@Override
 	public void loadValueFromXML(Element xmlElement) {
-        logger.fine("loading configuration...");
+		logger.fine("loading configuration...");
 		String elementString = xmlElement.getTextContent();
-        logger.fine("element was: " + elementString);
+		logger.fine("element was: " + elementString);
 		if (elementString.length() == 0)
 			return;
 
 		for (ValueType option : choices) {
-            logger.finest("option: " + option.toString());
+			logger.finest("option: " + option.toString());
 			if (option.toString().equals(elementString)) {
-                logger.finest("accepted...");
+				logger.finest("accepted...");
 				value = option;
 				break;
 			}

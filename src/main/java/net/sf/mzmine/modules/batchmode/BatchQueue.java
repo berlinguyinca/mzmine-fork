@@ -101,13 +101,14 @@ public class BatchQueue
 					final ParameterSet methodParams = parameterSet
 							.cloneParameter();
 
-                    logger.fine("method parameters are of type: " + methodParams.getClass().getName());
+					logger.fine("method parameters are of type: "
+							+ methodParams.getClass().getName());
 					methodParams.loadValuesFromXML(stepElement);
 					queue.add(new MZmineProcessingStepImpl<MZmineProcessingModule>(
 							(MZmineProcessingModule) module, methodParams));
 					break;
 				} else {
-					//logger.finest("=> was of wrong type or name didn't match...");
+					// logger.finest("=> was of wrong type or name didn't match...");
 				}
 			}
 		}

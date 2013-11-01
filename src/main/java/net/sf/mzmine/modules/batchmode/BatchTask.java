@@ -89,7 +89,7 @@ public class BatchTask extends AbstractTask {
 		// Run next step of the batch
 		MZmineProcessingStep currentStep = queue.get(stepNumber);
 
-        logger.fine("running step: " + currentStep);
+		logger.fine("running step: " + currentStep);
 		MZmineProcessingModule method = (MZmineProcessingModule) currentStep
 				.getModule();
 		ParameterSet batchStepParameters = currentStep.getParameterSet();
@@ -127,10 +127,10 @@ public class BatchTask extends AbstractTask {
 		}
 
 		// If current step didn't produce any tasks, continue with next step
-		if (currentStepTasks.isEmpty())   {
-            logger.fine("didn't produce any tasks => going to next step");
+		if (currentStepTasks.isEmpty()) {
+			logger.fine("didn't produce any tasks => going to next step");
 			return;
-        }
+		}
 
 		boolean allTasksFinished = false;
 

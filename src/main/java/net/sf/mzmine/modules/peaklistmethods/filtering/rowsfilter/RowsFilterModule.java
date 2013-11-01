@@ -64,13 +64,13 @@ public class RowsFilterModule implements MZmineProcessingModule {
 		logger.info("registered peakLists: " + peakLists);
 
 		for (PeakList peakList : peakLists) {
-            logger.info("working on peakList: " + peakList);
+			logger.info("working on peakList: " + peakList);
 
 			Task newTask = new RowsFilterTask(peakList, parameters);
 			tasks.add(newTask);
 
 		}
-        logger.info("finished...");
+		logger.info("finished...");
 
 		return ExitCode.OK;
 	}

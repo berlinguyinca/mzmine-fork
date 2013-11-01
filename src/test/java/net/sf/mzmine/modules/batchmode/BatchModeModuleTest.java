@@ -53,7 +53,7 @@ public class BatchModeModuleTest {
 		Assert.assertTrue(batchFile.exists());
 		ExitCode code = BatchModeModule.runBatch(batchFile);
 
-        System.out.println("result code: " + code);
+		System.out.println("result code: " + code);
 		assertTrue(code == ExitCode.OK);
 
 	}
