@@ -19,15 +19,12 @@
 
 package net.sf.mzmine.modules.peaklistmethods.identification.custom;
 
-import java.io.File;
-import java.io.FileReader;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
+import com.Ostermiller.util.CSVParser;
 import net.sf.mzmine.data.PeakList;
 import net.sf.mzmine.data.PeakListRow;
 import net.sf.mzmine.data.impl.SimplePeakIdentity;
 import net.sf.mzmine.data.impl.SimplePeakListAppliedMethod;
+import net.sf.mzmine.desktop.impl.HeadLessDesktop;
 import net.sf.mzmine.main.MZmineCore;
 import net.sf.mzmine.parameters.ParameterSet;
 import net.sf.mzmine.parameters.parametertypes.MZTolerance;
@@ -36,7 +33,10 @@ import net.sf.mzmine.taskcontrol.AbstractTask;
 import net.sf.mzmine.taskcontrol.TaskStatus;
 import net.sf.mzmine.util.Range;
 
-import com.Ostermiller.util.CSVParser;
+import java.io.File;
+import java.io.FileReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 class CustomDBSearchTask extends AbstractTask {
 
@@ -130,7 +130,9 @@ class CustomDBSearchTask extends AbstractTask {
 				parameters));
 
 		// Repaint the window to reflect the changes in the peak list
-		MZmineCore.getDesktop().getMainFrame().repaint();
+
+		if (MZmineCore.getDesktop() instanceof HeadLessDesktop == false)
+			MZmineCore.getDesktop().getMainFrame().repaint();
 
 		setStatus(TaskStatus.FINISHED);
 

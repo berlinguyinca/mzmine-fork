@@ -58,4 +58,20 @@ public class BatchModeModuleTest {
 
 	}
 
+	@Test
+	public void testRunBatchLoadAllFilesFromDirectoryWithLibraryIdentification()
+			throws Exception {
+
+		MZmineCore.initializeHeadless();
+
+		File batchFile = new File(
+				"src/test/resources/readDirectoryWithLibraryIdentification.xml");
+		Assert.assertTrue(batchFile.exists());
+		ExitCode code = BatchModeModule.runBatch(batchFile);
+
+		System.out.println("result code: " + code);
+		assertTrue(code == ExitCode.OK);
+
+	}
+
 }

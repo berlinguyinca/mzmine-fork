@@ -152,4 +152,70 @@
         <parameter name="Only identified?">false</parameter>
         <parameter name="Remove source peak list after filtering">false</parameter>
     </batchstep>
+    <batchstep method="net.sf.mzmine.modules.peaklistmethods.filtering.duplicatefilter.DuplicateFilterModule">
+        <parameter name="Peak lists"/>
+        <parameter name="Name suffix">filtered</parameter>
+        <parameter name="m/z tolerance">
+            <absolutetolerance>0.008</absolutetolerance>
+            <ppmtolerance>30.0</ppmtolerance>
+        </parameter>
+        <parameter name="RT tolerance" type="absolute">0.3</parameter>
+        <parameter name="Require same identification">false</parameter>
+        <parameter name="Remove original peaklist">false</parameter>
+    </batchstep>
+    <batchstep method="net.sf.mzmine.modules.peaklistmethods.gapfilling.peakfinder.PeakFinderModule">
+        <parameter name="Peak lists"/>
+        <parameter name="Name suffix">gap-filled</parameter>
+        <parameter name="Intensity tolerance">0.4</parameter>
+        <parameter name="m/z tolerance">
+            <absolutetolerance>0.01</absolutetolerance>
+            <ppmtolerance>100.0</ppmtolerance>
+        </parameter>
+        <parameter name="Retention time tolerance" type="absolute">0.3</parameter>
+        <parameter name="RT correction">false</parameter>
+        <parameter name="Remove original peak list">false</parameter>
+    </batchstep>
+    <batchstep method="net.sf.mzmine.modules.peaklistmethods.filtering.duplicatefilter.DuplicateFilterModule">
+        <parameter name="Peak lists"/>
+        <parameter name="Name suffix">filtered</parameter>
+        <parameter name="m/z tolerance">
+            <absolutetolerance>0.008</absolutetolerance>
+            <ppmtolerance>70.0</ppmtolerance>
+        </parameter>
+        <parameter name="RT tolerance" type="absolute">0.3</parameter>
+        <parameter name="Require same identification">true</parameter>
+        <parameter name="Remove original peaklist">false</parameter>
+    </batchstep>
+    <batchstep method="net.sf.mzmine.modules.peaklistmethods.isotopes.deisotoper.IsotopeGrouperModule">
+        <parameter name="Peak lists"/>
+        <parameter name="Name suffix">deisotoped</parameter>
+        <parameter name="m/z tolerance">
+            <absolutetolerance>0.008</absolutetolerance>
+            <ppmtolerance>10.0</ppmtolerance>
+        </parameter>
+        <parameter name="Retention time tolerance" type="absolute">0.15</parameter>
+        <parameter name="Monotonic shape">true</parameter>
+        <parameter name="Maximum charge">2</parameter>
+        <parameter name="Representative isotope">Most intense</parameter>
+        <parameter name="Remove original peaklist">false</parameter>
+    </batchstep>
+    <batchstep method="net.sf.mzmine.modules.peaklistmethods.identification.custom.CustomDBSearchModule">
+        <parameter name="Peak lists"/>
+        <parameter name="Database file">src/test/resources/library.csv</parameter>
+        <parameter name="Field separator">,</parameter>
+        <parameter name="Field order">
+            <item>m/z</item>
+            <item>Retention time (min)</item>
+            <item>ID</item>
+            <item>Identity</item>
+            <item>Formula</item>
+        </parameter>
+        <parameter name="Ignore first line">false</parameter>
+        <parameter name="m/z tolerance">
+            <absolutetolerance>0.01</absolutetolerance>
+            <ppmtolerance>10.0</ppmtolerance>
+        </parameter>
+        <parameter name="Retention time tolerance" type="absolute">0.5</parameter>
+    </batchstep>
+
 </batch>

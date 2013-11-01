@@ -19,21 +19,16 @@
 
 package net.sf.mzmine.taskcontrol.impl;
 
+import net.sf.mzmine.desktop.preferences.MZminePreferences;
+import net.sf.mzmine.desktop.preferences.NumOfThreadsParameter;
+import net.sf.mzmine.main.MZmineCore;
+import net.sf.mzmine.taskcontrol.*;
+
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Vector;
 import java.util.logging.Logger;
-
-import javax.swing.SwingUtilities;
-
-import net.sf.mzmine.desktop.preferences.MZminePreferences;
-import net.sf.mzmine.desktop.preferences.NumOfThreadsParameter;
-import net.sf.mzmine.main.MZmineCore;
-import net.sf.mzmine.taskcontrol.Task;
-import net.sf.mzmine.taskcontrol.TaskControlListener;
-import net.sf.mzmine.taskcontrol.TaskController;
-import net.sf.mzmine.taskcontrol.TaskPriority;
-import net.sf.mzmine.taskcontrol.TaskStatus;
 
 /**
  * Task controller implementation
@@ -117,6 +112,7 @@ public class TaskControllerImpl implements TaskController, Runnable {
 		if (MZmineCore.getDesktop().getMainFrame() != null) {
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
+
 					if (taskWindow.getParent() == null) {
 
 						MZmineCore.getDesktop().addInternalFrame(taskWindow);

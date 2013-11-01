@@ -19,20 +19,18 @@
 
 package net.sf.mzmine.desktop.impl;
 
-import java.awt.Color;
-import java.util.logging.Logger;
-
-import javax.annotation.Nonnull;
-import javax.swing.JFrame;
-import javax.swing.JInternalFrame;
-import javax.swing.event.TreeModelListener;
-
 import net.sf.mzmine.data.PeakList;
 import net.sf.mzmine.data.RawDataFile;
 import net.sf.mzmine.desktop.Desktop;
 import net.sf.mzmine.parameters.ParameterSet;
 import net.sf.mzmine.parameters.impl.SimpleParameterSet;
 import net.sf.mzmine.util.ExitCode;
+
+import javax.annotation.Nonnull;
+import javax.swing.*;
+import javax.swing.event.TreeModelListener;
+import java.awt.*;
+import java.util.logging.Logger;
 
 public class HeadLessDesktop implements Desktop {
 
