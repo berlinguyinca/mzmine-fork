@@ -42,23 +42,35 @@ public class RawDataDirectoryImportModule extends RawDataImportModule {
 		File fileNames[] = parameters.getParameter(
 				RawdataImportDirectoryParameters.fileNames).getValue();
 
+		if (recrusiveFileFinder(tasks, fileNames))
+			return ExitCode.ERROR;
+
+		return ExitCode.OK;
+	}
+
+	/**
+	 * recrusivly browses directories for data files
+	 * 
+	 * @param tasks
+	 * @param fileNames
+	 * @return
+	 */
+	private boolean recrusiveFileFinder(Collection<Task> tasks, File[] fileNames) {
 		for (File d : fileNames) {
 
 			if (d.isDirectory()) {
 				logger.info("working on directory: " + d);
 				File[] files = d.listFiles(RawdataImportDirectoryParameters
 						.getFileFilter());
-				for (File f : files) {
-					if (readFile(tasks, f))
-						return ExitCode.ERROR;
-				}
+				recrusiveFileFinder(tasks, files);
 			} else {
-				if (readFile(tasks, d))
-					return ExitCode.ERROR;
+				if (d.isFile()) {
+					if (readFile(tasks, d))
+						return true;
+				}
 			}
 		}
-
-		return ExitCode.OK;
+		return false;
 	}
 
 	@Override

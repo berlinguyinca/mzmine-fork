@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<mzXML 
+    		xmlns="http://sashimi.sourceforge.net/schema_revision/mzXML_3.2"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://sashimi.sourceforge.net/schema_revision/mzXML_3.2 http://sashimi.sourceforge.net/schema_revision/mzXML_3.2/mzXML_idx_3.2.xsd"
+        >
+<msRun>
+<parentFile fileName="file:file://THINKMATE/C/Users/FiehnLab/Desktop/carlos/100812_citrate_plasma_glass_pos_MS_23_1.d" fileType="processedData" fileSha1="this function is not supported currently"/>
+<dataProcessing centroided="1" >
+SSS<software type="processing" name="alchemy" version="alpha"/>
+<processingOperation name="alchemy processing"/>
+</dataProcessing>
+<scan num="1" msLevel="1" peaksCount="16" polarity="+" basePeakMz="496.341" basePeakIntensity="2583630.0" retentionTime="PT87.43499755859375S" ><peaks precision="32" byteOrder="network" contentType="m/z-int" compressionType="none" compressedLen="0" >RAHUpkb00FZEfehiR1nC0kR9aa1HLsI+RAGUhUfQRgxD+CulSh2xQkR36uNIaHR1Q/ksKUgqIqFC6EnLSBqlgkP4w6tHh3SaRAKWc0c6dDFEeCsWSAMSykP4Qp9IgEQURAiWn0ciCDlD+KvfSVzTeUMCKMdHHMDBRHhrOkcrK4Q=</peaks></scan><scan num="2" msLevel="1" peaksCount="16" polarity="+" basePeakMz="496.343" basePeakIntensity="2760750.0" retentionTime="PT87.68399810791016S" ><peaks precision="32" byteOrder="network" contentType="m/z-int" compressionType="none" compressedLen="0" >RHfrQEiNhtlD+ELvSIVRwER4K1tIKpT3QwIo00cPcLdEApahR1Q+9EP4K+pKKICtRAiWy0by/Y9D+Sx2SDv6iEP4rB1JcKsQQ/jD8keTXsREfWn4R1hanULoSddIEIR8RAGUsEfQNtFEfejvR2Qr7kR9qiBG/N0QRHhrf0dVMf8=</peaks></scan><scan num="3" msLevel="1" peaksCount="15" polarity="+" basePeakMz="496.341" basePeakIntensity="2893890.0" retentionTime="PT87.93199920654297S" ><peaks precision="32" byteOrder="network" contentType="m/z-int" compressionType="none" compressedLen="0" >RH1pr0dqE7REd+sKSKTxjER+KK5G6ouQQ/jDskebo8hEeCsqSEgmRER96LBHYKDxQ/grq0owoQdD+KvhSX2JfkP5LCRIRj4zRAGUeEfMcMtDAiiiRwx/RULoSWNIA/VTRAKWgUd6l35EeGs+R3pcw0R9qfBHA0od</peaks></scan><scan num="4" msLevel="1" peaksCount="16" polarity="+" basePeakMz="496.34" basePeakIntensity="2974120.0" retentionTime="PT88.18099975585938S" ><peaks precision="32" byteOrder="network" contentType="m/z-int" compressionType="none" compressedLen="0" >RH2pg0cMnmhEeGsTR5Hqm0P5K/hIUk1DRHfqtki0FpdEAZRuR8huf0R96FxHYnPjRH1pXUd0qFxEfihaRvAFV0P4w3hHoFiCRAKWdEeWBXZDAii3RwTkp0P4K3tKNYafQ/hCbEiUku5D+Ku0SYQJn0R4KthIVr+rQuhJs0gJ2O8=</peaks></scan><scan num="5" msLevel="1" peaksCount="16" polarity="+" basePeakMz="496.343" basePeakIntensity="2990970.0" retentionTime="PT88.43000030517578S" ><peaks precision="32" byteOrder="network" contentType="m/z-int" compressionType="none" compressedLen="0" >Q/isD0mEWZ9EApalR67ffUR36yxIt0A7Q/hCrEiWvAREAZSeR8cEkUR4K0xIXTYCRHhrXEeO5gJEfan4RxExHkP4w9NHojwlQ/ksaEhQ+R1EfWnbR3sXIkP4K9xKNo3vRH3o4Edgft5EfijmRuzoUELoSbdIApLOQwIo2kcMwxk=</peaks></scan><scan num="6" msLevel="1" peaksCount="15" polarity="+" basePeakMz="496.341" basePeakIntensity="2974400.0" retentionTime="PT88.6780014038086S" ><peaks precision="32" byteOrder="network" contentType="m/z-int" compressionType="none" compressedLen="0" >RHhrNUeSkplEfeisR11m/EP4w7FHnqHAQ/grrUo1iwtEApaWR70AckP5LB1IS5YiRHgrH0haHHpEd+rxSLlH+0R9qdxHDw9SRAGUiEfGiYBD+KvcSYRLsEMCKLpHCo0lRH1pn0d6dlhC6EmHSAo9TkP4QpZIlN2P</peaks></scan><scan num="7" msLevel="1" peaksCount="14" polarity="+" basePeakMz="496.344" basePeakIntensity="2881270.0" retentionTime="PT88.927001953125S" ><peaks precision="32" byteOrder="network" contentType="m/z-int" compressionType="none" compressedLen="0" >RH2qZkcEUL9Ed+t9SKwYmER4a79Hgq+1QuhJUkgGjIZDAiiTRw/9rkR4K6hIS9N/RAGUu0fFOOtEfWpER20cFUP4rEVJfmQvQ/ksl0hG11hD+MQXR5qMvER96ShHYG01Q/gsCkov295EApbTR8a8jw==</peaks></scan><scan num="8" msLevel="1" peaksCount="16" polarity="+" basePeakMz="496.34" basePeakIntensity="2834680.0" retentionTime="PT89.17500305175781S" ><peaks precision="32" byteOrder="network" contentType="m/z-int" compressionType="none" compressedLen="0" >RALWxEcE9FpEeCrnSDc/nkR9aYxHXAC5Q/jDokeUFDhEfeh4R2lZKkP5LDVIQA2sRHfqzkiasHNEfamTRwNC60QClpJH1+ulQ/hCmUiLBDxDAijjRw+/8kR4aytHcMKKQuhJ20gPmIlEAZR/R83QwEP4q85JdmjBQ/grlUotA9Q=</peaks></scan></msRun>
+<index name="scan">
+<offset id="5">0</offset>
+<offset id="1">0</offset>
+<offset id="6">0</offset>
+<offset id="2">0</offset>
+<offset id="7">0</offset>
+<offset id="3">0</offset>
+<offset id="8">0</offset>
+<offset id="4">0</offset>
+</index><indexOffset>0</indexOffset>
+</mzXML>
