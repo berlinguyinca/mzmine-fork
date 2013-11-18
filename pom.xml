@@ -96,6 +96,11 @@
 			<name>MZmine local libraries</name>
 			<url>file://${project.basedir}/src/main/lib</url>
 		</repository>
+        <repository>
+            <!-- JSON parsing -->
+            <id>codehaus</id>
+            <url>http://repository.codehaus.org/org/codehaus</url>
+        </repository>
 	</repositories>
 	<dependencies>
 		<dependency>
@@ -440,7 +445,12 @@
 			<scope>provided</scope>
 		</dependency>
 
-
+        <dependency>
+            <!-- JSON parsing -->
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.8.5</version>
+        </dependency>
 	</dependencies>
 
 </project>

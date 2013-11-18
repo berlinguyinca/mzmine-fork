@@ -68,6 +68,7 @@ import net.sf.mzmine.modules.rawdatamethods.peakpicking.manual.ManualPeakPickerM
 import net.sf.mzmine.modules.rawdatamethods.peakpicking.massdetection.MassDetectionModule;
 import net.sf.mzmine.modules.rawdatamethods.peakpicking.msms.MsMsPeakPickerModule;
 import net.sf.mzmine.modules.rawdatamethods.rawdataimport.RawDataImportModule;
+import net.sf.mzmine.modules.rawdatamethods.miniximport.MiniXImportModule;
 import net.sf.mzmine.modules.rawdatamethods.targetedpeakdetection.TargetedPeakDetectionModule;
 import net.sf.mzmine.modules.tools.mzrangecalculator.MzRangeCalculatorModule;
 import net.sf.mzmine.modules.visualization.histogram.HistogramVisualizerModule;
@@ -98,6 +99,7 @@ public class MZmineModulesList {
                 BatchModeModule.class,
                 // Raw data methods
                 RawDataImportModule.class,
+                MiniXImportModule.class,
                 MassDetectionModule.class,
                 ShoulderPeaksFilterModule.class,
                 ChromatogramBuilderModule.class,
