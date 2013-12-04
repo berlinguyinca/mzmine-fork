@@ -19,13 +19,14 @@
 
 package net.sf.mzmine.main.impl;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.NumberFormat;
-import java.util.Hashtable;
-import java.util.Map;
-import java.util.logging.Logger;
+import net.sf.mzmine.desktop.preferences.MZminePreferences;
+import net.sf.mzmine.main.MZmineConfiguration;
+import net.sf.mzmine.main.MZmineCore;
+import net.sf.mzmine.modules.MZmineModule;
+import net.sf.mzmine.parameters.ParameterSet;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -38,16 +39,13 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
-
-import net.sf.mzmine.desktop.preferences.MZminePreferences;
-import net.sf.mzmine.main.MZmineConfiguration;
-import net.sf.mzmine.main.MZmineCore;
-import net.sf.mzmine.modules.MZmineModule;
-import net.sf.mzmine.parameters.ParameterSet;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.NumberFormat;
+import java.util.Hashtable;
+import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * MZmine configuration class
@@ -203,6 +201,10 @@ public class MZmineConfigurationImpl implements MZmineConfiguration {
 			transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 			transformer.setOutputProperty(
 					"{http://xml.apache.org/xslt}indent-amount", "4");
+
+			if (file.getParentFile().exists() == false) {
+				file.getParentFile().mkdirs();
+			}
 
 			StreamResult result = new StreamResult(new FileOutputStream(file));
 			DOMSource source = new DOMSource(configuration);

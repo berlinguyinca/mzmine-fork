@@ -19,20 +19,19 @@
 
 package net.sf.mzmine.modules.peaklistmethods.io.csvexport;
 
-import java.io.File;
-import java.io.FileWriter;
-
-import net.sf.mzmine.data.ChromatographicPeak;
-import net.sf.mzmine.data.PeakIdentity;
-import net.sf.mzmine.data.PeakList;
-import net.sf.mzmine.data.PeakListRow;
-import net.sf.mzmine.data.PeakStatus;
-import net.sf.mzmine.data.RawDataFile;
+import net.sf.mzmine.data.*;
+import net.sf.mzmine.main.MZmineCore;
 import net.sf.mzmine.parameters.ParameterSet;
 import net.sf.mzmine.taskcontrol.AbstractTask;
 import net.sf.mzmine.taskcontrol.TaskStatus;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.util.logging.Logger;
+
 class CSVExportTask extends AbstractTask {
+
+	private Logger logger = Logger.getLogger(getClass().getName());
 
 	private PeakList peakList;
 	private int processedRows = 0, totalRows = 0;
@@ -127,12 +126,27 @@ class CSVExportTask extends AbstractTask {
 
 		// Peak identity elements
 		length = identityElements.length;
+
+		boolean selectAll = false;
 		for (int i = 0; i < length; i++) {
+			if (identityElements[i]
+					.equals(IdentityItemsParameter.ALL_IDENTITIES)) {
+				selectAll = true;
+				logger.info("select all identify mode is enabled");
+				break;
+			}
+		}
+
+		if (selectAll) {
+			computeIdentityFields(peakList);
+		}
+
+		for (int i = 0; i < identityElements.length; i++) {
 			name = identityElements[i];
 			line.append(name + fieldSeparator);
 		}
 
-		// Data file elements
+		// [ Data file elements
 		length = dataFileElements.length;
 		for (int df = 0; df < peakList.getNumberOfRawDataFiles(); df++) {
 			for (int i = 0; i < length; i++) {
@@ -143,6 +157,7 @@ class CSVExportTask extends AbstractTask {
 		}
 
 		line.append("\n");
+		logger.info(line.toString());
 
 		try {
 			writer.write(line.toString());
@@ -209,6 +224,7 @@ class CSVExportTask extends AbstractTask {
 				for (int i = 0; i < length; i++) {
 					String propertyValue = peakIdentity
 							.getPropertyValue(identityElements[i]);
+
 					if (propertyValue == null) {
 						propertyValue = "";
 					}
@@ -277,6 +293,16 @@ class CSVExportTask extends AbstractTask {
 
 			processedRows++;
 		}
+	}
+
+	/**
+	 * computes the identity fields.
+	 * 
+	 * @param peakList
+	 */
+	private void computeIdentityFields(PeakList peakList) {
+		identityElements = IdentityItemsParameter.generateIdentityElements(
+				MZmineCore.getCurrentProject().getPeakLists(), true);
 	}
 
 	public Object[] getCreatedObjects() {

@@ -2,13 +2,13 @@
 
 # The HEAP_SIZE variable defines the Java heap size in MB. 
 # That is the total amount of memory available to MZmine 2.
-# By default we set this to the half of the physical memory 
+# By default we set this to the 3/4 of the physical memory
 # size, but feel free to adjust according to your needs. 
-HEAP_SIZE=`free -m | awk '/Mem:/ {print int($2 / 2)}'`
+HEAP_SIZE=`free -m | awk '/Mem:/ {print int($2 * 0.75)}'`
 
 # The TMP_FILE_DIRECTORY parameter defines the location where temporary 
 # files (parsed raw data) will be placed. Default is /tmp.
-TMP_FILE_DIRECTORY=/tmp
+TMP_FILE_DIRECTORY=$TMP
 
 # Set R environment variables.
 export R_HOME=/usr/lib64/R
