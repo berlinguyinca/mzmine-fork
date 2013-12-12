@@ -75,27 +75,53 @@ public class BatchModeModuleTest {
 
 	}
 
-	@Test
-	public void testRunBatchExportLibraryIdentification() throws Exception {
+    @Test
+    public void testRunBatchExportLibraryIdentification() throws Exception {
 
-		MZmineCore.initializeHeadless();
+        MZmineCore.initializeHeadless();
 
-		File batchFile = new File("src/test/resources/exportData.xml");
-		Assert.assertTrue(batchFile.exists());
-		ExitCode code = BatchModeModule.runBatch(batchFile);
+        File batchFile = new File("src/test/resources/exportData.xml");
+        Assert.assertTrue(batchFile.exists());
+        ExitCode code = BatchModeModule.runBatch(batchFile);
 
-		System.out.println("result code: " + code);
-		assertTrue(code == ExitCode.OK);
+        System.out.println("result code: " + code);
+        assertTrue(code == ExitCode.OK);
 
-		Scanner scanner = new Scanner(new File("target/export-result.csv"));
+        Scanner scanner = new Scanner(new File("target/export-result.csv"));
 
-		assertTrue(scanner.hasNextLine());
+        assertTrue(scanner.hasNextLine());
 
-		while (scanner.hasNextLine()) {
-			String[] columns = scanner.nextLine().split(",");
+        while (scanner.hasNextLine()) {
+            String[] columns = scanner.nextLine().split(",");
 
-			assertTrue(columns.length == 17);
-		}
-	}
+            assertTrue(columns.length == 17);
+        }
+    }
+
+
+    @Test
+    public void testRunBatchExportPosLibraryIdentification() throws Exception {
+
+        MZmineCore.initializeHeadless();
+
+        File batchFile = new File("src/test/resources/exportPosData.xml");
+        Assert.assertTrue(batchFile.exists());
+        ExitCode code = BatchModeModule.runBatch(batchFile);
+
+        System.out.println("result code: " + code);
+        assertTrue(code == ExitCode.OK);
+
+        Scanner scanner = new Scanner(new File("target/export-result-pos.csv"));
+
+        assertTrue(scanner.hasNextLine());
+
+        while (scanner.hasNextLine()) {
+            String[] columns = scanner.nextLine().split(",");
+
+            assertTrue(columns.length == 20);
+        }
+    }
+
+
 
 }
