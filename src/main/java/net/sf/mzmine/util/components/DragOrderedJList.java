@@ -29,7 +29,7 @@ import java.util.Vector;
  * A modified JList that can reorder items in the DefaultListModel by dragging
  * with the mouse.
  */
-public class DragOrderedJList extends JList {
+public class DragOrderedJList<E> extends JList<E> {
 
 	private int dragFrom;
 
@@ -88,7 +88,7 @@ public class DragOrderedJList extends JList {
 	}
 
 	@Override
-	public void setListData(final Vector<?> listData) {
+	public void setListData(final Vector<? extends E> listData) {
 		final DefaultListModel model = new DefaultListModel();
 		for (final Object element : listData) {
 			model.addElement(element);
