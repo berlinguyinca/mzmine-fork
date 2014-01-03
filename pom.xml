@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.sf.mzmine</groupId>
     <artifactId>MZmine</artifactId>
-    <version>2.10-FiehnlabFork</version>
+    <version>2.10-FiehnlabFork-0.1</version>
     <name>MZmine</name>
     <description>MZmine 2 is an open-source project delivering a software for mass-spectrometry data processing, with
         the main focus on LC-MS data.
@@ -505,6 +505,13 @@
             <artifactId>reflections</artifactId>
             <version>0.9.9-RC1</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.9.13</version>
+        </dependency>
+
     </dependencies>
 
 </project>

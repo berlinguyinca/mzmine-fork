@@ -19,17 +19,17 @@
 
 package net.sf.mzmine.modules.peaklistmethods.io.csvexport;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-
 import net.sf.mzmine.data.PeakIdentity;
 import net.sf.mzmine.data.PeakList;
 import net.sf.mzmine.data.PeakListRow;
 import net.sf.mzmine.main.MZmineCore;
 import net.sf.mzmine.parameters.parametertypes.MultiChoiceComponent;
 import net.sf.mzmine.parameters.parametertypes.MultiChoiceParameter;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Simple Parameter implementation
@@ -48,11 +48,23 @@ public class IdentityItemsParameter extends MultiChoiceParameter<String> {
 	@Override
 	public MultiChoiceComponent createEditingComponent() {
 
+		String[] identityElements = generateIdentityElements(MZmineCore
+				.getCurrentProject().getPeakLists(), false);
+
+		setChoices(identityElements);
+
+		return super.createEditingComponent();
+	}
+
+	public static String[] generateIdentityElements(PeakList[] peakLists,
+			boolean skipAllIdenties) {
 		HashSet<String> elements = new HashSet<String>();
 
-		elements.add(ALL_IDENTITIES);
+		if (skipAllIdenties == false) {
+			elements.add(ALL_IDENTITIES);
+		}
 
-		for (PeakList peakList : MZmineCore.getCurrentProject().getPeakLists()) {
+		for (PeakList peakList : peakLists) {
 			for (PeakListRow peakListRow : peakList.getRows()) {
 
 				PeakIdentity peakIdentity = peakListRow
@@ -78,10 +90,7 @@ public class IdentityItemsParameter extends MultiChoiceParameter<String> {
 
 		String identityElements[] = elements.toArray(new String[0]);
 		Arrays.sort(identityElements);
-
-		setChoices(identityElements);
-
-		return super.createEditingComponent();
+		return identityElements;
 	}
 
 	@Override

@@ -19,21 +19,20 @@
 
 package net.sf.mzmine.parameters.impl;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import net.sf.mzmine.main.MZmineCore;
 import net.sf.mzmine.parameters.Parameter;
 import net.sf.mzmine.parameters.ParameterSet;
 import net.sf.mzmine.parameters.UserParameter;
 import net.sf.mzmine.parameters.dialogs.ParameterSetupDialog;
 import net.sf.mzmine.util.ExitCode;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Simple storage for the parameters. A typical MZmine module will inherit this
@@ -78,6 +77,9 @@ public class SimpleParameterSet implements ParameterSet {
 								"Error while loading parameter values for "
 										+ param.getName(), e);
 					}
+				} else {
+					logger.warning("parameter: " + paramName
+							+ " not defined for " + this.getClass().getName());
 				}
 
 			}
