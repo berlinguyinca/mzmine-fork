@@ -40,7 +40,7 @@ public class RawDataDirectoryImportModule extends RawDataImportModule {
 			@Nonnull Collection<Task> tasks) {
 
 		File fileNames[] = parameters.getParameter(
-				RawdataImportDirectoryParameters.fileNames).getValue();
+				RawDataDirectoryImportParameters.fileNames).getValue();
 
 		if (recrusiveFileFinder(tasks, fileNames))
 			return ExitCode.ERROR;
@@ -60,7 +60,7 @@ public class RawDataDirectoryImportModule extends RawDataImportModule {
 
 			if (d.isDirectory()) {
 				logger.info("working on directory: " + d);
-				File[] files = d.listFiles(RawdataImportDirectoryParameters
+				File[] files = d.listFiles(RawDataDirectoryImportParameters
 						.getFileFilter());
 				recrusiveFileFinder(tasks, files);
 			} else {
@@ -76,7 +76,7 @@ public class RawDataDirectoryImportModule extends RawDataImportModule {
 	@Override
 	public @Nonnull
 	Class<? extends ParameterSet> getParameterSetClass() {
-		return RawdataImportDirectoryParameters.class;
+		return RawDataDirectoryImportParameters.class;
 	}
 
 }

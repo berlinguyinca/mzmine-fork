@@ -29,17 +29,20 @@ public class MiniXImportParameters extends SimpleParameterSet {
 
 	private Logger logger = Logger.getLogger(this.getClass().getName());
 
-    public static final StringParameter MINIX_ID_PARAMETER = new StringParameter("Study Id","this is your MiniX study id");
+	public static final StringParameter MINIX_ID_PARAMETER = new StringParameter(
+			"Study Id", "this is your MiniX study id");
 
-    public static final StringParameter MINIX_URL_PARAMETER = new StringParameter("MiniX url","this is your MiniX url","http://minix.fiehnlab.ucdavis.edu");
+	public static final StringParameter MINIX_URL_PARAMETER = new StringParameter(
+			"MiniX url", "this is your MiniX url",
+			"http://minix.fiehnlab.ucdavis.edu");
 
-    public static final StringParameter MINIX_RAWDATA_URL = new StringParameter("Raw Data Provider", "this is your rawdata provider url","http://data.fiehnlab.ucdavis.edu");
+	public static final StringParameter MINIX_RAWDATA_URL = new StringParameter(
+			"Raw Data Provider", "this is your rawdata provider url",
+			"http://data.fiehnlab.ucdavis.edu");
 
-
-
-    public MiniXImportParameters() {
-        super(new Parameter[]{MINIX_ID_PARAMETER,MINIX_URL_PARAMETER,MINIX_RAWDATA_URL});
-    }
-
+	public MiniXImportParameters() {
+		super(new Parameter[]{MINIX_ID_PARAMETER, MINIX_URL_PARAMETER,
+				MINIX_RAWDATA_URL});
+	}
 
 }

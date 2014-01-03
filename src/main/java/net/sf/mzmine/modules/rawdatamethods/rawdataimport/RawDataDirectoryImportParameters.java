@@ -10,7 +10,7 @@ import java.io.FileFilter;
 /**
  * Created with IntelliJ IDEA. User: wohlgemuth Date: 10/30/13 Time: 6:07 PM
  */
-public class RawdataImportDirectoryParameters extends RawDataImportParameters {
+public class RawDataDirectoryImportParameters extends RawDataImportParameters {
 
 	/**
 	 * shows a dialog, which only accept's directories and verifies that all the

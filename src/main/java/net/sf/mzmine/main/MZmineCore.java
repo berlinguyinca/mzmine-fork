@@ -214,9 +214,7 @@ public final class MZmineCore {
 								(MZmineProcessingModule) module);
 
 					}
-				}
-
-				;
+				};
 
 			};
 
