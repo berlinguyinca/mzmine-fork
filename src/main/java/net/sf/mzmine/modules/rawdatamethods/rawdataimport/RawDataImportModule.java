@@ -33,6 +33,8 @@ import net.sf.mzmine.taskcontrol.TaskStatus;
 import net.sf.mzmine.util.ExitCode;
 
 import javax.annotation.Nonnull;
+
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -137,7 +139,7 @@ public class RawDataImportModule
 		}
 
 		if (extension.endsWith("csv")) {
-			newTask = new AgilentCsvReadTask(fileName, newMZmineFile);
+			newTask = chooseCsvReadTask(fileName, newMZmineFile);
 		}
 
 		if (newTask == null) {
@@ -150,6 +152,21 @@ public class RawDataImportModule
 		return false;
 	}
 
+	private Task chooseCsvReadTask(File fileName,
+			RawDataFileWriter newMZmineFile) {
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader(fileName));
+			String header = reader.readLine();
+			reader.close();
+
+			if (header.startsWith("\"Name\",\"R.T. (s)\""))
+				return new DeconvolutedCsvReadTask(fileName, newMZmineFile);
+			else
+				return new AgilentCsvReadTask(fileName, newMZmineFile);
+		} catch (IOException e) {
+			return null;
+		}
+	}
 	@Override
 	@Nonnull
 	public ExitCode runModule(@Nonnull ParameterSet parameters,

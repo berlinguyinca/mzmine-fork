@@ -4,3 +4,6 @@ target
 .DS_Store
 .classpath
 .project
+conf/*
+LICENSE.txt*
+alias
