@@ -70,7 +70,7 @@ public class DeconvolutedCsvReadTask extends AbstractTask {
 				ionName = ionName.replace("\"", "");
 
 				double retentionTime = Double.parseDouble(scanner.next()
-						.replace("\"", ""));
+						.replace("\"", "")) / 60;
 				scanner.next(); // Type
 				int uniqueMass = Integer.parseInt(scanner.next().replace("\"",
 						""));
