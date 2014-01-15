@@ -521,7 +521,7 @@
         <dependency>
             <groupId>edu.ucdavis.genomics.metabolomics.binbase.binbase-core.bus</groupId>
             <artifactId>bus</artifactId>
-            <version>4.0.0</version>
+            <version>5.0.1</version>
         </dependency>
         <!--
         <dependency>
