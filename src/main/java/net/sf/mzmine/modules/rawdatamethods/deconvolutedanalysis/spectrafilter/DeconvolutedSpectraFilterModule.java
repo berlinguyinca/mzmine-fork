@@ -1,10 +1,8 @@
-package net.sf.mzmine.modules.rawdatamethods.filtering.deconvolutedspectrafilter;
+package net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.spectrafilter;
 
 import net.sf.mzmine.data.RawDataFile;
 import net.sf.mzmine.modules.MZmineModuleCategory;
 import net.sf.mzmine.modules.MZmineProcessingModule;
-import net.sf.mzmine.modules.masslistmethods.spectramatcher.SpectraMatcherParameters;
-import net.sf.mzmine.modules.rawdatamethods.rawdataimport.fileformats.DeconvolutedCsvReadTask;
 import net.sf.mzmine.parameters.ParameterSet;
 import net.sf.mzmine.taskcontrol.Task;
 import net.sf.mzmine.util.ExitCode;
@@ -12,9 +10,6 @@ import net.sf.mzmine.util.ExitCode;
 import javax.annotation.Nonnull;
 import java.util.Collection;
 
-/**
- * Created by sajjan on 1/27/14.
- */
 public class DeconvolutedSpectraFilterModule implements MZmineProcessingModule {
 	private static final String MODULE_NAME = "Deconvoluted Spectra Filter";
 	private static final String MODULE_DESCRIPTION = "This module filters deconvoluted spectra through C13 isotope, noise threshold and base peak percentage cuts.";
@@ -37,7 +32,7 @@ public class DeconvolutedSpectraFilterModule implements MZmineProcessingModule {
 			@Nonnull Collection<Task> tasks) {
 
 		RawDataFile[] dataFiles = parameters.getParameter(
-				DeconvolutedSpectraFilterParameters.dataFiles).getValue();
+				DeconvolutedSpectraFilterParameters.DATA_FILES).getValue();
 
 		for (final RawDataFile dataFile : dataFiles) {
 			Task newTask = new DeconvolutedSpectraFilterTask(dataFile,
@@ -51,7 +46,7 @@ public class DeconvolutedSpectraFilterModule implements MZmineProcessingModule {
 	@Override
 	public @Nonnull
 	MZmineModuleCategory getModuleCategory() {
-		return MZmineModuleCategory.RAWDATAFILTERING;
+		return MZmineModuleCategory.DECONVOLUTEDANALYSIS;
 	}
 
 	@Override

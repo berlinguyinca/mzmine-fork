@@ -32,8 +32,10 @@ public class DeconvolutedCsvReadTask extends AbstractTask {
 	/**
 	 * Creates a new DeconvolutedCsvReadTask
 	 * 
-	 * @param file
+	 * @param fileToOpen
 	 *            A File instance containing the file to be read
+	 * @param newMZmineFile
+	 *            Mzmine data container to which the parsed data is added
 	 */
 	public DeconvolutedCsvReadTask(File fileToOpen,
 			RawDataFileWriter newMZmineFile) {

@@ -57,7 +57,7 @@ public class MainMenu extends JMenuBar implements ActionListener {
 	private Logger logger = Logger.getLogger(this.getClass().getName());
 
 	private JMenu projectMenu, rawDataMenu, peakListMenu, visualizationMenu,
-			helpMenu, rawDataFilteringMenu, peakDetectionMenu, gapFillingMenu,
+			helpMenu, rawDataFilteringMenu, peakDetectionMenu, deconvolutedAnalysisMenu, gapFillingMenu,
 			isotopesMenu, peakListPeakPickingMenu, peakListFilteringMenu,
 			alignmentMenu, normalizationMenu, identificationMenu,
 			dataAnalysisMenu, peakListExportMenu;
@@ -126,6 +126,10 @@ public class MainMenu extends JMenuBar implements ActionListener {
 		peakDetectionMenu = new JMenu("Peak detection");
 		peakDetectionMenu.setMnemonic(KeyEvent.VK_D);
 		rawDataMenu.add(peakDetectionMenu);
+
+        deconvolutedAnalysisMenu = new JMenu("Deconvoluted Data Analysis");
+        rawDataMenu.add(deconvolutedAnalysisMenu);
+
 
 		/*
 		 * Peak list methods menu
@@ -219,12 +223,15 @@ public class MainMenu extends JMenuBar implements ActionListener {
 				rawDataMenu.add(newItem, rawDataMenuIndex);
 				rawDataMenuIndex++;
 				break;
-			case RAWDATAFILTERING :
+            case RAWDATAFILTERING :
 				rawDataFilteringMenu.add(newItem);
 				break;
 			case PEAKPICKING :
 				peakDetectionMenu.add(newItem);
 				break;
+            case DECONVOLUTEDANALYSIS:
+                deconvolutedAnalysisMenu.add(newItem);
+                break;
 			case PEAKLISTPICKING :
 				peakListPeakPickingMenu.add(newItem);
 				break;

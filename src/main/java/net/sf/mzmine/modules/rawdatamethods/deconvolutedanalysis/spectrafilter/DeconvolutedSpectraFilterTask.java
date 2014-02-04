@@ -1,9 +1,8 @@
-package net.sf.mzmine.modules.rawdatamethods.filtering.deconvolutedspectrafilter;
+package net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.spectrafilter;
 
 import net.sf.mzmine.data.DataPoint;
 import net.sf.mzmine.data.RawDataFile;
 import net.sf.mzmine.data.RawDataFileWriter;
-import net.sf.mzmine.data.Scan;
 import net.sf.mzmine.data.impl.SimpleScan;
 import net.sf.mzmine.main.MZmineCore;
 import net.sf.mzmine.parameters.ParameterSet;
@@ -12,14 +11,12 @@ import net.sf.mzmine.taskcontrol.AbstractTask;
 import net.sf.mzmine.taskcontrol.TaskStatus;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DeconvolutedSpectraFilterTask extends AbstractTask {
-	// Logger.
+	// Logger
 	private static final Logger LOG = Logger
 			.getLogger(DeconvolutedSpectraFilterTask.class.getName());
 
@@ -30,9 +27,9 @@ public class DeconvolutedSpectraFilterTask extends AbstractTask {
 	private final RawDataFile origDataFile;
 	private RawDataFile correctedDataFile;
 
-	// Progress counters.
-	private int progress;
-	private int progressMax;
+	// Progress counters
+	private int processedScans = 0;
+	private int totalScans;
 
 	// Filename suffix
 	private String suffix;
@@ -51,8 +48,6 @@ public class DeconvolutedSpectraFilterTask extends AbstractTask {
 		// Initialize.
 		origDataFile = dataFile;
 		correctedDataFile = null;
-		progressMax = 0;
-		progress = 0;
 
 		// Get parameters.
 		suffix = parameters.getParameter(
@@ -75,8 +70,8 @@ public class DeconvolutedSpectraFilterTask extends AbstractTask {
 
 	@Override
 	public double getFinishedPercentage() {
-		return progressMax == 0 ? 0.0 : (double) progress
-				/ (double) progressMax;
+		return totalScans == 0 ? 0.0 : (double) processedScans
+				/ (double) totalScans;
 	}
 
 	@Override
@@ -90,7 +85,7 @@ public class DeconvolutedSpectraFilterTask extends AbstractTask {
 		LOG.info("Started deconvoluted spectra filter on " + origDataFile);
 
 		// Set total number of scans to process
-		progressMax = origDataFile.getNumOfScans();
+		totalScans = origDataFile.getNumOfScans();
 
 		try {
 			// Create a new file
@@ -141,7 +136,7 @@ public class DeconvolutedSpectraFilterTask extends AbstractTask {
 				// Add scan to new data file
 				rawDataFileWriter.addScan(scan);
 
-				progress++;
+				processedScans++;
 			}
 
 			// If this task was canceled, stop processing

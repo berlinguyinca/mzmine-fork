@@ -1,4 +1,4 @@
-package net.sf.mzmine.modules.rawdatamethods.filtering.deconvolutedspectrafilter;
+package net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.spectrafilter;
 
 import net.sf.mzmine.parameters.Parameter;
 import net.sf.mzmine.parameters.impl.SimpleParameterSet;
@@ -7,7 +7,7 @@ import net.sf.mzmine.parameters.parametertypes.*;
 import java.text.NumberFormat;
 
 public class DeconvolutedSpectraFilterParameters extends SimpleParameterSet {
-	public static final RawDataFilesParameter dataFiles = new RawDataFilesParameter();
+	public static final RawDataFilesParameter DATA_FILES = new RawDataFilesParameter();
 
 	public static final DoubleParameter C13_ISOTOPE_CUT = new DoubleParameter(
 			"C13 Isotope Cut",
@@ -32,7 +32,7 @@ public class DeconvolutedSpectraFilterParameters extends SimpleParameterSet {
 			true);
 
 	public DeconvolutedSpectraFilterParameters() {
-		super(new Parameter[]{dataFiles, C13_ISOTOPE_CUT, NOISE_THRESHOLD,
+		super(new Parameter[]{DATA_FILES, C13_ISOTOPE_CUT, NOISE_THRESHOLD,
 				BASE_PEAK_CUT, SUFFIX, REMOVE_ORIGINAL});
 	}
 }
