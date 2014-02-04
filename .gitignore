@@ -1,3 +1,5 @@
+conf
+.DS_Store
 .idea
 *.iml
 target
