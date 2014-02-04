@@ -14,63 +14,64 @@ import java.util.*;
 
 public class SpectraMatcherModule implements MZmineProcessingModule {
 
-	private static final String MODULE_NAME = "Multi-ionization mass detector";
-	private static final String MODULE_DESCRIPTION = "This module compares spectra from multiple ionization sources and detects candidate masses.";
+    private static final String MODULE_NAME = "Multi-ionization mass detector";
+    private static final String MODULE_DESCRIPTION = "This module compares spectra from multiple ionization sources and detects candidate masses.";
 
-	@Override
-	public @Nonnull
-	String getName() {
-		return MODULE_NAME;
-	}
+    @Override
+    public @Nonnull
+    String getName() {
+        return MODULE_NAME;
+    }
 
-	@Override
-	public @Nonnull
-	String getDescription() {
-		return MODULE_DESCRIPTION;
-	}
+    @Override
+    public @Nonnull
+    String getDescription() {
+        return MODULE_DESCRIPTION;
+    }
 
-	@Override
-	@Nonnull
-	public ExitCode runModule(@Nonnull ParameterSet parameters,
-			@Nonnull Collection<Task> tasks) {
+    @Override
+    @Nonnull
+    public ExitCode runModule(@Nonnull ParameterSet parameters,
+                              @Nonnull Collection<Task> tasks) {
 
         // Keep a track of local processing tasks so we can determine when they all finish
-		List<SpectraMatcherProcessingTask> processingTasks = new ArrayList<SpectraMatcherProcessingTask>();
+        List<SpectraMatcherProcessingTask> processingTasks = new ArrayList<SpectraMatcherProcessingTask>();
 
-        // Store mass candidates by ionization method
-        Map<SpectrumType, List<MassCandidate>> massCandidatesByType = new EnumMap<SpectrumType, List<MassCandidate>>(SpectrumType.class);
+        // Store mass candidates by filename
+        Map<RawDataFile, List<MassCandidate>> massCandidatesByFile = new HashMap<RawDataFile, List<MassCandidate>>();
 
-		for (SpectrumType i : SpectrumType.values()) {
-			RawDataFile[] dataFiles = SpectraMatcherParameters.SPECTRA_DATA[i.ordinal()].getValue();
-            List<MassCandidate> spectralMasses = new ArrayList<MassCandidate>();
+        for (SpectrumType i : SpectrumType.values()) {
+            RawDataFile[] dataFiles = SpectraMatcherParameters.SPECTRA_DATA[i.ordinal()].getValue();
 
-			for (RawDataFile dataFile : dataFiles) {
-				SpectraMatcherProcessingTask newTask = new SpectraMatcherProcessingTask(dataFile, i, spectralMasses);
-				tasks.add(newTask);
-				processingTasks.add(newTask);
-			}
+            for (RawDataFile dataFile : dataFiles) {
+                List<MassCandidate> spectralMasses = new ArrayList<MassCandidate>();
 
-            massCandidatesByType.put(i, spectralMasses);
-		}
+                SpectraMatcherProcessingTask newTask = new SpectraMatcherProcessingTask(dataFile, i, spectralMasses);
+                tasks.add(newTask);
+                processingTasks.add(newTask);
+
+                massCandidatesByFile.put(dataFile, spectralMasses);
+            }
+        }
 
         // Start the comparison task to filter and sort the candidate masses
-        Map<Integer, List<MassCandidate>> matchedCandidates = new TreeMap<Integer, List<MassCandidate>>();
-        SpectraMatcherComparisonTask comparisonTask = new SpectraMatcherComparisonTask(processingTasks, massCandidatesByType, matchedCandidates);
+        Map<Double, List<MassCandidate>> matchedCandidates = new TreeMap<Double, List<MassCandidate>>();
+        SpectraMatcherComparisonTask comparisonTask = new SpectraMatcherComparisonTask(processingTasks, massCandidatesByFile, matchedCandidates);
         tasks.add(comparisonTask);
 
-		return ExitCode.OK;
-	}
+        return ExitCode.OK;
+    }
 
-	@Override
-	public @Nonnull
-	MZmineModuleCategory getModuleCategory() {
-		return MZmineModuleCategory.DECONVOLUTEDANALYSIS;
-	}
+    @Override
+    public @Nonnull
+    MZmineModuleCategory getModuleCategory() {
+        return MZmineModuleCategory.DECONVOLUTEDANALYSIS;
+    }
 
-	@Override
-	public @Nonnull
-	Class<? extends ParameterSet> getParameterSetClass() {
-		return SpectraMatcherParameters.class;
-	}
+    @Override
+    public @Nonnull
+    Class<? extends ParameterSet> getParameterSetClass() {
+        return SpectraMatcherParameters.class;
+    }
 
 }

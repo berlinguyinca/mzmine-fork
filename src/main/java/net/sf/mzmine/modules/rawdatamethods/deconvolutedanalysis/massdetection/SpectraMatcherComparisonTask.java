@@ -17,22 +17,36 @@ public class SpectraMatcherComparisonTask extends AbstractTask {
 	private List<SpectraMatcherProcessingTask> processingTasks;
 
     // Collection of mass candidates sorted by data file
-    private Map<SpectrumType, List<MassCandidate>> massCandidates;
+    private Map<RawDataFile, List<MassCandidate>> massCandidates;
 
     // Collection of matched mass candidates
-    private Map<Integer, List<MassCandidate>> matchedCandidates;
+    private Map<Double, List<MassCandidate>> matchedCandidates;
 
 	// Progress counters
 	private int processedScans = 0;
 	private int totalScans;
 
+    // Time window in which to search for mass candidates
+    private int timeWindow;
+
+    // Requried number of matches for each ionization type
+    int[] requiredMatches;
+
 
 	public SpectraMatcherComparisonTask(List<SpectraMatcherProcessingTask> processingTasks,
-                                        Map<SpectrumType, List<MassCandidate>> massCandidates,
-                                        Map<Integer, List<MassCandidate>> matchedCandidates) {
+                                        Map<RawDataFile, List<MassCandidate>> massCandidates,
+                                        Map<Double, List<MassCandidate>> matchedCandidates) {
 		this.processingTasks = processingTasks;
         this.massCandidates = massCandidates;
         this.matchedCandidates = matchedCandidates;
+
+        // Get the match time window parameter
+        timeWindow = SpectraMatcherParameters.MATCH_TIME_WINDOW.getValue();
+
+        // Get the required matches parameters
+        requiredMatches = new int[SpectrumType.values().length];
+        for(int i = 0; i < requiredMatches.length; i++)
+            requiredMatches[i] = SpectraMatcherParameters.FILE_MATCHES[i].getValue();
 	}
 
 	@Override
@@ -61,77 +75,140 @@ public class SpectraMatcherComparisonTask extends AbstractTask {
 		setStatus(TaskStatus.PROCESSING);
 		LOG.info("Started detected mass comparison.");
 
-        // Intersection of all detected mass lists
-        Set<Integer> sharedMasses = new TreeSet<Integer>();
-
-        for(Map.Entry<SpectrumType, List<MassCandidate>> e : massCandidates.entrySet()) {
-            // Produce a collection of ion masses
-            List<Integer> masses = new ArrayList<Integer>();
-            for(MassCandidate mass : e.getValue()) {
-                System.out.println((mass == null));
-                masses.add(mass.getIonMass());
-            }
-
-            if(sharedMasses.size() == 0)
-                sharedMasses.addAll(masses);
-            else
-                sharedMasses.retainAll(masses);
-        }
-
-        System.out.println(Arrays.toString(sharedMasses.toArray()));
+        // Set initial number of "scans"
+        totalScans = massCandidates.size();
 
 
-        for(int mass : sharedMasses)
-            matchedCandidates.put(mass, new ArrayList<MassCandidate>());
+        // Find all existing mass ranges
+        Map<Integer, Map<Range, List<MassCandidate>>> massRanges = new HashMap<Integer, Map<Range, List<MassCandidate>>>();
 
-        for(Map.Entry<SpectrumType, List<MassCandidate>> e : massCandidates.entrySet()) {
-            for(MassCandidate mass : e.getValue()) {
-                if(sharedMasses.contains(mass.getIonMass()))
-                    matchedCandidates.get(mass.getIonMass()).add(mass);
-            }
-        }
+        for(List<MassCandidate> masses : massCandidates.values()) {
+            for(MassCandidate m : masses) {
+                int mass = m.getIonMass();
+                Range range = getTimeWindow(m.getRetentionTime());
 
+                // Create a new HashMap entry with a simple Range Comparator if this is a new mass
+                if(!massRanges.containsKey(mass)) {
+                    massRanges.put(mass, new TreeMap<Range, List<MassCandidate>>(
+                            new Comparator<Range>() {
+                                public int compare(Range a, Range b) {
+                                    if(a.getMin() < b.getMin())
+                                        return -1;
+                                    else if(a.getMin() > b.getMin())
+                                        return 1;
+                                    else
+                                        return 0;
+                                }
+                            }
+                    ));
 
-        /*
-        // Output to CSV
-        try {
-            FileWriter fout = new FileWriter("pci-matches-20140131.csv");
-            fout.append("Candidate Match,Filename,Retention Time,Matched Adducts\n");
+                    totalScans += 2;
+                }
 
-            for(Integer mass : matchedCandidates.keySet()) {
-                for(MassCandidate m : matchedCandidates.get(mass)) {
-                    StringBuilder sb = new StringBuilder();
-                    sb.append(m.getIonMass());
-                    sb.append(',');
-                    sb.append(m.getDataFile().getName());
-                    sb.append(',');
-                    sb.append(m.getScanNumber());
-                    sb.append(',');
-                    sb.append(new DecimalFormat("####.000").format(m.getRetentionTime()));
-                    sb.append(',');
-                    for(AdductType a : m.getAdductMatches())
-                        sb.append(a.getName() +" ");
-                    sb.deleteCharAt(sb.length() - 1);
-                    sb.append('\n');
+                // Otherwise, search through all ranges
+                else {
+                    Map<Range, List<MassCandidate>> map = massRanges.get(mass);
+                    Iterator<Map.Entry<Range, List<MassCandidate>>> iter = map.entrySet().iterator();
 
-                    fout.append(sb.toString());
+                    boolean matched = false;
+
+                    while(iter.hasNext()) {
+                        Map.Entry<Range, List<MassCandidate>> e = iter.next();
+
+                        // If the range overlaps, remove the old key, extend it, and re-add the list with the new key
+                        if(rangeOverlaps(e.getKey(), range)) {
+                            List<MassCandidate> tmpList = e.getValue();
+                            tmpList.add(m);
+
+                            Range matchedRange = e.getKey();
+                            map.remove(e.getKey());
+
+                            matchedRange.extendRange(range);
+                            map.put(matchedRange, tmpList);
+
+                            matched = true;
+                            break;
+                        }
+                    }
+
+                    // If no match is found, add another range entry
+                    if(!matched) {
+                        List<MassCandidate> tmpList = new ArrayList<MassCandidate>();
+                        tmpList.add(m);
+
+                        massRanges.get(mass).put(range, tmpList);
+                    }
                 }
             }
 
-
-            fout.flush();
-            fout.close();
-        } catch(Throwable t) {}
-        */
-
-
-        // If this task was canceled, stop processing
-        if (!isCanceled()) {
-            // Set task status to FINISHED
-            setStatus(TaskStatus.FINISHED);
-
-            LOG.info("Finished comparing detected masses.");
+            processedScans++;
         }
+
+        // Combine any possible overlapping ranges
+        for(Map<Range, List<MassCandidate>> map : massRanges.values()) {
+            Range[] keys = map.keySet().toArray(new Range[0]);
+
+            for(int i = 0; i < keys.length - 1;) {
+                if(rangeOverlaps(keys[i], keys[i + 1])) {
+                    List<MassCandidate> tmpList = map.get(keys[i]);
+                    tmpList.addAll(map.get(keys[i + 1]));
+
+                    Range tmpRange = new Range(keys[i]);
+                    tmpRange.extendRange(keys[i + 1]);
+
+                    map.remove(keys[i]);
+                    map.remove(keys[i + 1]);
+                    map.put(tmpRange, tmpList);
+
+                    keys = map.keySet().toArray(new Range[0]);
+                } else
+                    i++;
+            }
+
+            processedScans++;
+        }
+
+        // Filter masses with insufficient matches
+        for(Map<Range, List<MassCandidate>> map : massRanges.values()) {
+            for(Map.Entry<Range, List<MassCandidate>> e : map.entrySet()) {
+                int[] count = new int[SpectrumType.values().length];
+                double averageRT = 0;
+
+                for(MassCandidate m : e.getValue()) {
+                    count[m.getIonizationType().ordinal()]++;
+                    averageRT += m.getRetentionTime();
+                }
+
+                averageRT /= e.getValue().size();
+
+                // Check that each ionization type has sufficient matches
+                boolean omit = false;
+
+                for(int i = 0; i < count.length; i++) {
+                    if(count[i] < requiredMatches[i]) {
+                        omit = true;
+                        break;
+                    }
+                }
+
+                if(omit)
+                    continue;
+
+                // If it passes this filter, add to the final results
+                matchedCandidates.put(averageRT, e.getValue());
+            }
+
+            processedScans++;
+        }
+
+
+		// If this task was canceled, stop processing
+		if (!isCanceled()) {
+			// Set task status to FINISHED
+			setStatus(TaskStatus.FINISHED);
+
+			LOG.info("Finished detected mass comparison.");
+		}
 	}
 
     private boolean isBusy() {
@@ -147,5 +224,13 @@ public class SpectraMatcherComparisonTask extends AbstractTask {
 
         // If all tasks are finished, we are not busy
         return false;
+    }
+
+    private Range getTimeWindow(double rt) {
+        return new Range(rt - timeWindow, rt + timeWindow);
+    }
+
+    private boolean rangeOverlaps(Range a, Range b) {
+        return (a.getMin() <= b.getMax()) && (a.getMin() >= b.getMin());
     }
 }
