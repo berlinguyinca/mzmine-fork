@@ -11,26 +11,28 @@ public class RawDataFilesMultiChoiceParameter
 		extends
 			MultiChoiceParameter<RawDataFile> {
 
-    private SpectrumType spectrumType;
+	private SpectrumType spectrumType;
 
-	public RawDataFilesMultiChoiceParameter(String name, String description, SpectrumType spectrumType) {
+	public RawDataFilesMultiChoiceParameter(String name, String description,
+			SpectrumType spectrumType) {
 		super(name, description, null);
-        this.spectrumType = spectrumType;
+		this.spectrumType = spectrumType;
 	}
 
 	@Override
 	public MultiChoiceComponent createEditingComponent() {
-        // Set all selected raw data files as the potential choices
+		// Set all selected raw data files as the potential choices
 		setChoices(SpectraMatcherParameters.DATA_FILES.getValue());
 
-        // Use this selector's spectrum type to choose potentially correct files
-        List<RawDataFile> values = new ArrayList<RawDataFile>();
+		// Use this selector's spectrum type to choose potentially correct files
+		List<RawDataFile> values = new ArrayList<RawDataFile>();
 
-        for(RawDataFile f : getChoices())
-            if(f.getName().toLowerCase().contains(spectrumType.name().toLowerCase()))
-                values.add(f);
+		for (RawDataFile f : getChoices())
+			if (f.getName().toLowerCase()
+					.contains(spectrumType.name().toLowerCase()))
+				values.add(f);
 
-        setValue(values.toArray(new RawDataFile[values.size()]));
+		setValue(values.toArray(new RawDataFile[values.size()]));
 
 		return new MultiChoiceComponent(getChoices());
 	}

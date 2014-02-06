@@ -15,11 +15,11 @@ public class DeconvolutedSpectraFilterParameters extends SimpleParameterSet {
 			NumberFormat.getNumberInstance(), 0.5, 0.0, 1.0);
 
 	public static final IntegerParameter NOISE_THRESHOLD = new IntegerParameter(
-			"Noise Threshold",
+			"Intensity Threshold",
 			"Remove all ions less than the given noise threshold level.", 100);
 
 	public static final DoubleParameter BASE_PEAK_CUT = new DoubleParameter(
-			"Base Peak Percentage Cut",
+			"Base Peak Threshold (Percentage)",
 			"Remove all ions less than the given percentage of the current spectra's base peak (default 1%).",
 			NumberFormat.getNumberInstance(), 0.01, 0.0, 1.0);
 

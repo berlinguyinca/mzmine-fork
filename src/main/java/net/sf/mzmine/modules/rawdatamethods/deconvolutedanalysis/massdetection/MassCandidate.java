@@ -6,41 +6,46 @@ import net.sf.mzmine.modules.peaklistmethods.identification.adductsearch.AdductT
 import java.util.List;
 
 public class MassCandidate {
-    private RawDataFile dataFile;
-    private int scanNumber;
-    private double retentionTime;
-    private int ionMass;
-    private SpectrumType ionizationType;
-    private AdductType[] adductMatches;
+	private RawDataFile dataFile;
+	private int spectrumNumber;
+	private double retentionTime;
+	private int ionMass;
+	private SpectrumType ionizationType;
+	private AdductType[] adductMatches;
 
-    public MassCandidate(RawDataFile dataFile, int scanNumber, double retentionTime, int ionMass, SpectrumType ionizationType, List<AdductType> adductMatches) {
-        this.dataFile = dataFile;
-        this.scanNumber = scanNumber;
-        this.retentionTime = retentionTime;
-        this.ionMass = ionMass;
-        this.ionizationType = ionizationType;
-        this.adductMatches = adductMatches.toArray(new AdductType[adductMatches.size()]);
-    }
+	public MassCandidate(RawDataFile dataFile, int spectrumNumber,
+			double retentionTime, int ionMass, SpectrumType ionizationType,
+			List<AdductType> adductMatches) {
+		this.dataFile = dataFile;
+		this.spectrumNumber = spectrumNumber;
+		this.retentionTime = retentionTime;
+		this.ionMass = ionMass;
+		this.ionizationType = ionizationType;
+		this.adductMatches = adductMatches.toArray(new AdductType[adductMatches
+				.size()]);
+	}
 
-    public RawDataFile getDataFile() {
-        return dataFile;
-    }
+	public RawDataFile getDataFile() {
+		return dataFile;
+	}
 
-    public int getScanNumber() {
-        return scanNumber;
-    }
+	public int getSpectrumNumber() {
+		return spectrumNumber;
+	}
 
-    public double getRetentionTime() {
-        return retentionTime;
-    }
+	public double getRetentionTime() {
+		return retentionTime;
+	}
 
-    public AdductType[] getAdductMatches() {
-        return adductMatches;
-    }
+	public AdductType[] getAdductMatches() {
+		return adductMatches;
+	}
 
-    public int getIonMass() {
-        return ionMass;
-    }
+	public int getIonMass() {
+		return ionMass;
+	}
 
-    public SpectrumType getIonizationType() { return ionizationType; }
+	public SpectrumType getIonizationType() {
+		return ionizationType;
+	}
 }
