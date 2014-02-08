@@ -1,7 +1,7 @@
 package net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.massdetection.table;
 
 import net.sf.mzmine.data.*;
-import net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.massdetection.MassCandidatePeak;
+import net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.massdetection.MassCandidate;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -70,7 +70,7 @@ public class MassListTableModel extends AbstractTableModel {
 					return new Double(peak.getRT());
 				case ADDUCTS :
 					return new String(
-							((MassCandidatePeak) peak).getAdductsString());
+							((MassCandidate) peak).getAdductsString());
 			}
 		}
 

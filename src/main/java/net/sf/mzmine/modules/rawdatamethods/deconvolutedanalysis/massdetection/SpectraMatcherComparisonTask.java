@@ -4,9 +4,6 @@ import net.sf.mzmine.data.PeakList;
 import net.sf.mzmine.data.PeakListRow;
 import net.sf.mzmine.data.RawDataFile;
 import net.sf.mzmine.data.impl.SimplePeakListRow;
-import net.sf.mzmine.main.MZmineCore;
-import net.sf.mzmine.parameters.parametertypes.IntegerParameter;
-import net.sf.mzmine.project.MZmineProject;
 import net.sf.mzmine.taskcontrol.AbstractTask;
 import net.sf.mzmine.taskcontrol.TaskStatus;
 import net.sf.mzmine.util.Range;
@@ -222,7 +219,7 @@ public class SpectraMatcherComparisonTask extends AbstractTask {
 			PeakListRow row = new SimplePeakListRow(id++);
 
 			for (MassCandidate m : masses)
-				row.addPeak(m.getDataFile(), new MassCandidatePeak(m));
+				row.addPeak(m.getDataFile(), m);
 
 			peakList.addRow(row);
 		}

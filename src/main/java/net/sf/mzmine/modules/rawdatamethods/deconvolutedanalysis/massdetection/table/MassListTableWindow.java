@@ -1,13 +1,10 @@
 package net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.massdetection.table;
 
 import net.sf.mzmine.data.PeakList;
-import net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.massdetection.MassCandidate;
-import net.sf.mzmine.parameters.ParameterSet;
 import net.sf.mzmine.util.components.CloseableJInternalFrame;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
 
 public class MassListTableWindow extends CloseableJInternalFrame {
 	public MassListTableWindow(PeakList massList) {
