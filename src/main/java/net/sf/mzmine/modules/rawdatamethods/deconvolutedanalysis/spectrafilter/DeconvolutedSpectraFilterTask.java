@@ -1,5 +1,6 @@
 package net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.spectrafilter;
 
+import com.google.common.collect.Lists;
 import net.sf.mzmine.data.DataPoint;
 import net.sf.mzmine.data.RawDataFile;
 import net.sf.mzmine.data.RawDataFileWriter;
@@ -10,8 +11,7 @@ import net.sf.mzmine.project.MZmineProject;
 import net.sf.mzmine.taskcontrol.AbstractTask;
 import net.sf.mzmine.taskcontrol.TaskStatus;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -102,31 +102,41 @@ public class DeconvolutedSpectraFilterTask extends AbstractTask {
 				// list of filtered data points
 				SimpleScan scan = new SimpleScan(
 						origDataFile.getScan(scanNumber));
-				DataPoint[] dataPoints = scan.getDataPoints();
+
+				List<DataPoint> dataPoints = Lists.newArrayList(scan
+						.getDataPoints());
+				Collections.sort(dataPoints, new Comparator<DataPoint>() {
+					@Override
+					public int compare(DataPoint a, DataPoint b) {
+						return a.getMZ() < b.getMZ() ? -1 : a.getMZ() > b
+								.getMZ() ? 1 : 0;
+					}
+				});
+
 				List<DataPoint> filteredDataPoints = new ArrayList<DataPoint>();
 
 				// Filter the data points given pre-defined conditions
-				for (int i = dataPoints.length - 1; i >= 0; i--) {
+				for (int i = dataPoints.size() - 1; i >= 0; i--) {
 					// Step #1: Remove C13 Isotopes
 					if (i > 0
-							&& dataPoints[i].getMZ()
-									- dataPoints[i - 1].getMZ() < EPSILON
-							&& dataPoints[i - 1].getIntensity() >= (1 + c13IsotopeCut)
-									* dataPoints[i].getIntensity())
+							&& dataPoints.get(i).getMZ()
+									- dataPoints.get(i - 1).getMZ() < 1 + EPSILON
+							&& dataPoints.get(i - 1).getIntensity() >= (1 + c13IsotopeCut)
+									* dataPoints.get(i).getIntensity())
 						continue;
 
 					// Step #2: Remove all peaks < 100 counts
-					else if (dataPoints[i].getIntensity() < noiseThreshold)
+					else if (dataPoints.get(i).getIntensity() < noiseThreshold)
 						continue;
 
 					// Step #3: Remove all peaks < 1% of base peak
-					else if (dataPoints[i].getIntensity() < basePeakCut
+					else if (dataPoints.get(i).getIntensity() < basePeakCut
 							* scan.getBasePeak().getIntensity())
 						continue;
 
 					// If the data point passes all filters, keep it.
 					else
-						filteredDataPoints.add(0, dataPoints[i]);
+						filteredDataPoints.add(0, dataPoints.get(i));
 				}
 
 				// Update the scan with the filtered data points

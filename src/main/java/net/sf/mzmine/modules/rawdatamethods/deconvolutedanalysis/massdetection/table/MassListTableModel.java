@@ -46,11 +46,11 @@ public class MassListTableModel extends AbstractTableModel {
 		if (isCommonColumn(col)) {
 			switch (getCommonColumn(col)) {
 				case ROWID :
-					return new Integer(peakListRow.getID());
+					return peakListRow.getID();
 				case MZ :
-					return new Double(peakListRow.getAverageMZ());
+					return peakListRow.getAverageMZ();
 				case AVERAGERT :
-					return new Double(peakListRow.getAverageRT());
+					return peakListRow.getAverageRT();
 				case IDENTITY :
 					return peakListRow.getPreferredPeakIdentity();
 				case COMMENT :
@@ -65,12 +65,11 @@ public class MassListTableModel extends AbstractTableModel {
 
 			switch (getDataFileColumn(col)) {
 				case SPECNUMBER :
-					return new Integer(peak.getScanNumbers()[0]);
+					return peak.getScanNumbers()[0];
 				case RT :
-					return new Double(peak.getRT());
+					return peak.getRT();
 				case ADDUCTS :
-					return new String(
-							((MassCandidate) peak).getAdductsString());
+					return ((MassCandidate) peak).getAdductsString();
 			}
 		}
 

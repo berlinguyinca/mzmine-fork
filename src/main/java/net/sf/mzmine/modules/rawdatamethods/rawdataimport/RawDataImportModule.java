@@ -160,7 +160,7 @@ public class RawDataImportModule
 			reader.close();
 
 			if (header.startsWith("\"Name\",\"R.T. (s)\""))
-				return new DeconvolutedCsvReadTask(fileName, newMZmineFile);
+				return new LecoCsvReadTask(fileName, newMZmineFile);
 			else
 				return new AgilentCsvReadTask(fileName, newMZmineFile);
 		} catch (IOException e) {

@@ -27,8 +27,8 @@ public class MassCandidate implements ChromatographicPeak {
 	private String adductsString;
 
 	public MassCandidate(RawDataFile dataFile, int spectrumNumber,
-	                         double retentionTime, int ionMass, SpectrumType ionizationType,
-	                         List<AdductType> adductMatches) {
+			double retentionTime, int ionMass, SpectrumType ionizationType,
+			List<AdductType> adductMatches) {
 
 		this.dataFile = dataFile;
 		this.spectrumNumber = spectrumNumber;
@@ -42,7 +42,7 @@ public class MassCandidate implements ChromatographicPeak {
 		StringBuilder sb = new StringBuilder();
 
 		for (AdductType a : adductMatches)
-			sb.append(a.getName() + " ");
+			sb.append(a.getName()).append(" ");
 
 		if (adductMatches.size() > 0)
 			sb.deleteCharAt(sb.length() - 1);
@@ -52,7 +52,7 @@ public class MassCandidate implements ChromatographicPeak {
 	@Nonnull
 	@Override
 	public PeakStatus getPeakStatus() {
-		return null;
+		return PeakStatus.UNKNOWN;
 	}
 
 	@Override
@@ -133,7 +133,9 @@ public class MassCandidate implements ChromatographicPeak {
 	}
 
 	@Override
-	public int getMostIntenseFragmentScanNumber() { return spectrumNumber; }
+	public int getMostIntenseFragmentScanNumber() {
+		return spectrumNumber;
+	}
 
 	@Nullable
 	@Override
@@ -148,7 +150,7 @@ public class MassCandidate implements ChromatographicPeak {
 
 	@Override
 	public int getCharge() {
-		return 0;
+		return charge;
 	}
 
 	@Override

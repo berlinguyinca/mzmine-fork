@@ -5,8 +5,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Scanner;
 
 import net.sf.mzmine.data.DataPoint;
@@ -20,7 +18,7 @@ import net.sf.mzmine.taskcontrol.TaskStatus;
 import net.sf.mzmine.util.Range;
 import net.sf.mzmine.util.ScanUtils;
 
-public class DeconvolutedCsvReadTask extends AbstractTask {
+public class LecoCsvReadTask extends AbstractTask {
 
 	protected String dataSource;
 	private File file;
@@ -30,15 +28,14 @@ public class DeconvolutedCsvReadTask extends AbstractTask {
 	private int totalScans, parsedScans;
 
 	/**
-	 * Creates a new DeconvolutedCsvReadTask
+	 * Creates a new LecoCsvReadTask
 	 * 
 	 * @param fileToOpen
 	 *            A File instance containing the file to be read
 	 * @param newMZmineFile
 	 *            Mzmine data container to which the parsed data is added
 	 */
-	public DeconvolutedCsvReadTask(File fileToOpen,
-			RawDataFileWriter newMZmineFile) {
+	public LecoCsvReadTask(File fileToOpen, RawDataFileWriter newMZmineFile) {
 		this.file = fileToOpen;
 		this.newMZmineFile = (RawDataFileImpl) newMZmineFile;
 	}
@@ -58,7 +55,6 @@ public class DeconvolutedCsvReadTask extends AbstractTask {
 
 			dataSource = this.file.getName();
 			totalScans = this.getLineCount();
-			System.out.println(totalScans);
 
 			for (parsedScans = 1; parsedScans < totalScans; parsedScans++) {
 
@@ -84,11 +80,12 @@ public class DeconvolutedCsvReadTask extends AbstractTask {
 				for (String s : scanner.next().replace("\"", "").split("\\+"))
 					quantMasses.add(Integer.parseInt(s));
 
-				double quantSignalToNoise = Double.parseDouble(scanner.next()
-						.replace("\"", ""));
-				double area = Double.parseDouble(scanner.next().replace("\"",
-						""));
-				scanner.next(); // BaselineModified
+				Double.parseDouble(scanner.next().replace("\"", "")); // Quantitative
+																		// signal
+																		// to
+																		// noise
+				Double.parseDouble(scanner.next().replace("\"", "")); // Area
+				scanner.next(); // Baseline Modified
 				scanner.next(); // Quantification
 
 				ArrayList<DataPoint> mass_spectrum = new ArrayList<DataPoint>();
@@ -121,9 +118,7 @@ public class DeconvolutedCsvReadTask extends AbstractTask {
 				scanner.nextLine();
 			}
 
-			System.out.println("Completed");
 			finalRawDataFile = newMZmineFile.finishWriting();
-			System.out.println("Finished");
 
 		} catch (Exception e) {
 			errorMessage = e.getMessage();
