@@ -29,15 +29,32 @@ public class CloseableJInternalFrame extends JInternalFrame {
 	public static boolean APPLE = (System.getProperty("mrj.version") != null);
 
 	public CloseableJInternalFrame() {
-		super();
-		init();
-		System.out.println("CloseableJInternalFrame opened");
+		this("", false, false, false, false);
+	}
+
+	public CloseableJInternalFrame(String title) {
+		this(title, false, false, false, false);
+	}
+
+	public CloseableJInternalFrame(String title, boolean resizable) {
+		this(title, resizable, false, false, false);
+	}
+
+	public CloseableJInternalFrame(String title, boolean resizable,
+			boolean closeable) {
+		this(title, resizable, closeable, false, false);
+	}
+
+	public CloseableJInternalFrame(String title, boolean resizable,
+			boolean closeable, boolean maximizable) {
+		this(title, resizable, closeable, maximizable, false);
 	}
 
 	public CloseableJInternalFrame(String title, boolean resizable,
 			boolean closeable, boolean maximizable, boolean iconifiable) {
 		super(title, resizable, closeable, maximizable, iconifiable);
 		init();
+		System.out.println("CloseableJInternalFrame opened");
 	}
 
 	static String CLOSEWINDOW_MAP_KEY = "CLOSE_WINDOW";

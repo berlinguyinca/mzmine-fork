@@ -1,16 +1,11 @@
 package net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.massdetection;
 
 import net.sf.mzmine.data.PeakList;
-import net.sf.mzmine.data.PeakListRow;
 import net.sf.mzmine.data.RawDataFile;
 import net.sf.mzmine.data.impl.SimplePeakList;
-import net.sf.mzmine.data.impl.SimplePeakListRow;
-import net.sf.mzmine.main.MZmineCore;
 import net.sf.mzmine.modules.MZmineModuleCategory;
 import net.sf.mzmine.modules.MZmineProcessingModule;
-import net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.massdetection.table.MassListTableWindow;
 import net.sf.mzmine.parameters.ParameterSet;
-import net.sf.mzmine.project.MZmineProject;
 import net.sf.mzmine.taskcontrol.Task;
 import net.sf.mzmine.util.ExitCode;
 
@@ -19,7 +14,7 @@ import java.util.*;
 
 public class SpectraMatcherModule implements MZmineProcessingModule {
 
-	private static final String MODULE_NAME = "Multi-ionization mass detector";
+	private static final String MODULE_NAME = "Automated Mass Detection";
 	private static final String MODULE_DESCRIPTION = "This module compares spectra from multiple ionization sources and detects candidate masses.";
 
 	@Override

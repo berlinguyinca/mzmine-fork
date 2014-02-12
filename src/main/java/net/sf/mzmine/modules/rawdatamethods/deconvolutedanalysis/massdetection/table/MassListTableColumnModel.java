@@ -3,9 +3,7 @@ package net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.massdetection.
 import net.sf.mzmine.data.PeakList;
 import net.sf.mzmine.data.RawDataFile;
 import net.sf.mzmine.main.MZmineCore;
-import net.sf.mzmine.modules.visualization.peaklist.ColumnSettingParameter;
 import net.sf.mzmine.modules.visualization.peaklist.table.CompoundIdentityCellRenderer;
-import net.sf.mzmine.parameters.ParameterSet;
 import net.sf.mzmine.util.components.ColumnGroup;
 import net.sf.mzmine.util.components.GroupableTableHeader;
 
@@ -27,7 +25,7 @@ public class MassListTableColumnModel extends DefaultTableColumnModel
 
 	private static final Font editFont = new Font("SansSerif", Font.PLAIN, 10);
 
-	private FormattedCellRenderer mzRenderer, rtRenderer, intensityRenderer;
+	private FormattedCellRenderer mzRenderer, rtRenderer;
 	private TableCellRenderer identityRenderer;
 	private DefaultTableCellRenderer defaultRenderer;
 
@@ -50,15 +48,49 @@ public class MassListTableColumnModel extends DefaultTableColumnModel
 		// prepare formatters
 		NumberFormat mzFormat = MZmineCore.getConfiguration().getMZFormat();
 		NumberFormat rtFormat = MZmineCore.getConfiguration().getRTFormat();
-		NumberFormat intensityFormat = MZmineCore.getConfiguration()
-				.getIntensityFormat();
 
 		// prepare cell renderers
 		mzRenderer = new FormattedCellRenderer(mzFormat);
 		rtRenderer = new FormattedCellRenderer(rtFormat);
-		intensityRenderer = new FormattedCellRenderer(intensityFormat);
-		identityRenderer = new CompoundIdentityCellRenderer();
-		defaultRenderer = new DefaultTableCellRenderer();
+		identityRenderer = new CompoundIdentityCellRenderer() {
+			@Override
+			public Component getTableCellRendererComponent(JTable table,
+					Object value, boolean isSelected, boolean hasFocus,
+					int row, int column) {
+				JLabel c = (JLabel) super.getTableCellRendererComponent(table,
+						value, isSelected, hasFocus, row, column);
+
+				c.setBackground(isSelected
+						? table.getSelectionBackground()
+						: (row % 2 == 0) ? table.getBackground() : new Color(
+								196, 196, 196));
+
+				c.setBorder(BorderFactory.createCompoundBorder(c.getBorder(),
+						FormattedCellRenderer.padding));
+				c.setForeground(Color.BLACK);
+				return c;
+			}
+		};
+
+		defaultRenderer = new DefaultTableCellRenderer() {
+			@Override
+			public Component getTableCellRendererComponent(JTable table,
+					Object value, boolean isSelected, boolean hasFocus,
+					int row, int column) {
+				Component c = super.getTableCellRendererComponent(table, value,
+						isSelected, hasFocus, row, column);
+
+				c.setBackground(isSelected
+						? table.getSelectionBackground()
+						: (row % 2 == 0) ? table.getBackground() : new Color(
+								196, 196, 196));
+
+				setBorder(BorderFactory.createCompoundBorder(getBorder(),
+						FormattedCellRenderer.padding));
+				c.setForeground(Color.BLACK);
+				return c;
+			}
+		};
 		defaultRenderer.setHorizontalAlignment(SwingConstants.LEFT);
 
 		// Define column widths

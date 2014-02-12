@@ -29,6 +29,8 @@ import java.text.NumberFormat;
  * Simple table cell renderer that renders Numbers using given NumberFormat
  */
 class FormattedCellRenderer implements TableCellRenderer {
+	public static final Border padding = BorderFactory.createEmptyBorder(0, 5,
+			0, 10);
 	private Font font;
 	private NumberFormat format;
 
@@ -50,14 +52,11 @@ class FormattedCellRenderer implements TableCellRenderer {
 
 		JPanel newPanel = new JPanel();
 		newPanel.setLayout(new OverlayLayout(newPanel));
-		Color bgColor;
 
-		if (isSelected)
-			bgColor = table.getSelectionBackground();
-		else
-			bgColor = table.getBackground();
-
-		newPanel.setBackground(bgColor);
+		newPanel.setBackground(isSelected
+				? table.getSelectionBackground()
+				: (row % 2 == 0) ? table.getBackground() : new Color(196, 196,
+						196));
 
 		if (hasFocus) {
 			Border border = null;
@@ -76,11 +75,14 @@ class FormattedCellRenderer implements TableCellRenderer {
 				newPanel.setBorder(border);
 		}
 
+		newPanel.setBorder(BorderFactory.createCompoundBorder(
+				newPanel.getBorder(), padding));
+
 		if (value != null) {
 			String text;
 
 			if (value instanceof Number)
-				text = format.format((Number) value);
+				text = format.format(value);
 			else
 				text = value.toString();
 

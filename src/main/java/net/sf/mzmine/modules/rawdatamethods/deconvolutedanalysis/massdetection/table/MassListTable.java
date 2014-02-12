@@ -1,15 +1,18 @@
 package net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.massdetection.table;
 
+import net.sf.mzmine.data.PeakIdentity;
 import net.sf.mzmine.data.PeakList;
-import net.sf.mzmine.modules.visualization.peaklist.table.PeakListTableModel;
-import net.sf.mzmine.parameters.ParameterSet;
-import net.sf.mzmine.util.components.ComponentToolTipManager;
+import net.sf.mzmine.data.PeakListRow;
 import net.sf.mzmine.util.components.GroupableTableHeader;
+import net.sf.mzmine.util.dialogs.PeakIdentitySetupDialog;
 
 import javax.swing.*;
 import javax.swing.event.RowSorterEvent;
+import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class MassListTable extends JTable {
 	static final String EDIT_IDENTITY = "Edit";
@@ -20,6 +23,7 @@ public class MassListTable extends JTable {
 
 	private MassListTableModel pkTableModel;
 	private PeakList peakList;
+	private PeakListRow peakListRow;
 	private TableRowSorter<MassListTableModel> sorter;
 	private MassListTableColumnModel cm;
 	private DefaultCellEditor currentEditor = null;
@@ -51,6 +55,84 @@ public class MassListTable extends JTable {
 
 	public PeakList getPeakList() {
 		return peakList;
+	}
+
+	public TableCellEditor getCellEditor(int row, int column) {
+
+		CommonColumnType commonColumn = pkTableModel.getCommonColumn(column);
+		if (commonColumn == CommonColumnType.IDENTITY) {
+
+			row = this.convertRowIndexToModel(row);
+			peakListRow = peakList.getRow(row);
+
+			PeakIdentity identities[] = peakListRow.getPeakIdentities();
+			PeakIdentity preferredIdentity = peakListRow
+					.getPreferredPeakIdentity();
+			JComboBox combo;
+
+			if ((identities != null) && (identities.length > 0)) {
+				combo = new JComboBox(identities);
+				combo.addItem("-------------------------");
+				combo.addItem(REMOVE_IDENTITY);
+				combo.addItem(EDIT_IDENTITY);
+			} else {
+				combo = new JComboBox();
+			}
+
+			combo.setFont(comboFont);
+			combo.addItem(NEW_IDENTITY);
+			if (preferredIdentity != null) {
+				combo.setSelectedItem(preferredIdentity);
+			}
+
+			combo.addActionListener(new ActionListener() {
+
+				public void actionPerformed(ActionEvent e) {
+					JComboBox combo = (JComboBox) e.getSource();
+					Object item = combo.getSelectedItem();
+					if (item != null) {
+						if (item.toString() == NEW_IDENTITY) {
+							PeakIdentitySetupDialog dialog = new PeakIdentitySetupDialog(
+									peakListRow);
+							dialog.setVisible(true);
+							return;
+						}
+						if (item.toString() == EDIT_IDENTITY) {
+							PeakIdentitySetupDialog dialog = new PeakIdentitySetupDialog(
+									peakListRow, peakListRow
+											.getPreferredPeakIdentity());
+							dialog.setVisible(true);
+							return;
+						}
+						if (item.toString() == REMOVE_IDENTITY) {
+							PeakIdentity identity = peakListRow
+									.getPreferredPeakIdentity();
+							if (identity != null) {
+								peakListRow.removePeakIdentity(identity);
+								DefaultComboBoxModel comboModel = (DefaultComboBoxModel) combo
+										.getModel();
+								comboModel.removeElement(identity);
+							}
+							return;
+						}
+						if (item instanceof PeakIdentity) {
+							peakListRow
+									.setPreferredPeakIdentity((PeakIdentity) item);
+							return;
+						}
+					}
+
+				}
+			});
+
+			// Keep the reference to the editor
+			currentEditor = new DefaultCellEditor(combo);
+
+			return currentEditor;
+		}
+
+		return super.getCellEditor(row, column);
+
 	}
 
 	/**
