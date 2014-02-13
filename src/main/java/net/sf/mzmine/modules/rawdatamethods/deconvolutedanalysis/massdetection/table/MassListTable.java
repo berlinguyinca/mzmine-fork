@@ -3,6 +3,9 @@ package net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.massdetection.
 import net.sf.mzmine.data.PeakIdentity;
 import net.sf.mzmine.data.PeakList;
 import net.sf.mzmine.data.PeakListRow;
+import net.sf.mzmine.data.RawDataFile;
+import net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.massdetection.MassCandidate;
+import net.sf.mzmine.modules.visualization.spectra.SpectraVisualizerModule;
 import net.sf.mzmine.util.components.GroupableTableHeader;
 import net.sf.mzmine.util.dialogs.PeakIdentitySetupDialog;
 
@@ -13,6 +16,8 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class MassListTable extends JTable {
 	static final String EDIT_IDENTITY = "Edit";
@@ -28,7 +33,7 @@ public class MassListTable extends JTable {
 	private MassListTableColumnModel cm;
 	private DefaultCellEditor currentEditor = null;
 
-	public MassListTable(MassListTableWindow window, PeakList peakList) {
+	public MassListTable(MassListTableWindow window, final PeakList peakList) {
 		this.peakList = peakList;
 		this.pkTableModel = new MassListTableModel(peakList);
 
@@ -51,6 +56,28 @@ public class MassListTable extends JTable {
 		setRowSorter(sorter);
 
 		setRowHeight(25);
+
+		addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					JTable table = (JTable) e.getSource();
+					viewMassSpectrum(table.getSelectedRow(),
+							table.getSelectedColumn());
+				}
+			}
+		});
+	}
+
+	private void viewMassSpectrum(int row, int col) {
+		row = convertRowIndexToModel(row);
+
+		RawDataFile dataFile = pkTableModel.getColumnDataFile(col);
+		peakListRow = peakList.getRow(row);
+		MassCandidate massCandidate = (MassCandidate) peakListRow
+				.getPeak(dataFile);
+
+		SpectraVisualizerModule.showNewSpectrumWindow(dataFile,
+				massCandidate.getSpectrumNumber(), massCandidate);
 	}
 
 	public PeakList getPeakList() {
@@ -71,7 +98,7 @@ public class MassListTable extends JTable {
 			JComboBox combo;
 
 			if ((identities != null) && (identities.length > 0)) {
-				combo = new JComboBox(identities);
+				combo = new JComboBox<PeakIdentity>(identities);
 				combo.addItem("-------------------------");
 				combo.addItem(REMOVE_IDENTITY);
 				combo.addItem(EDIT_IDENTITY);
@@ -95,16 +122,12 @@ public class MassListTable extends JTable {
 							PeakIdentitySetupDialog dialog = new PeakIdentitySetupDialog(
 									peakListRow);
 							dialog.setVisible(true);
-							return;
-						}
-						if (item.toString() == EDIT_IDENTITY) {
+						} else if (item.toString() == EDIT_IDENTITY) {
 							PeakIdentitySetupDialog dialog = new PeakIdentitySetupDialog(
 									peakListRow, peakListRow
 											.getPreferredPeakIdentity());
 							dialog.setVisible(true);
-							return;
-						}
-						if (item.toString() == REMOVE_IDENTITY) {
+						} else if (item.toString() == REMOVE_IDENTITY) {
 							PeakIdentity identity = peakListRow
 									.getPreferredPeakIdentity();
 							if (identity != null) {
@@ -113,12 +136,9 @@ public class MassListTable extends JTable {
 										.getModel();
 								comboModel.removeElement(identity);
 							}
-							return;
-						}
-						if (item instanceof PeakIdentity) {
+						} else if (item instanceof PeakIdentity) {
 							peakListRow
 									.setPreferredPeakIdentity((PeakIdentity) item);
-							return;
 						}
 					}
 

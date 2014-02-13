@@ -1,12 +1,11 @@
 package net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.massdetection.table;
 
 import net.sf.mzmine.data.PeakList;
-import net.sf.mzmine.util.components.CloseableJInternalFrame;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class MassListTableWindow extends CloseableJInternalFrame {
+public class MassListTableWindow extends JInternalFrame {
 	public MassListTableWindow(PeakList massList) {
 		super("Multi-ionization Spectra Match Candidates", true, true, true,
 				true);
