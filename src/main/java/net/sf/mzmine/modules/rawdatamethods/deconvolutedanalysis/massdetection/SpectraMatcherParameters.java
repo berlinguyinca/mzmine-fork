@@ -4,6 +4,7 @@ import net.sf.mzmine.data.RawDataFile;
 import net.sf.mzmine.modules.peaklistmethods.identification.adductsearch.AdductType;
 import net.sf.mzmine.parameters.Parameter;
 import net.sf.mzmine.parameters.impl.SimpleParameterSet;
+import net.sf.mzmine.parameters.parametertypes.BooleanParameter;
 import net.sf.mzmine.parameters.parametertypes.IntegerParameter;
 import net.sf.mzmine.parameters.parametertypes.RawDataFilesParameter;
 
@@ -60,10 +61,15 @@ public class SpectraMatcherParameters extends SimpleParameterSet {
 			"Time window, in seconds, in which masses should be considered as the same molecule.",
 			5);
 
+	public static final BooleanParameter ION_REQUIREMENT = new BooleanParameter(
+			"Require that no ion exists at [M]",
+			"Mass Detection searches by adduct patterns only, ignoring the existence of an ion at [M] - selecting this will require that no ion exists at [M].",
+			false);
+
 	public SpectraMatcherParameters() {
 		super(new Parameter[]{DATA_FILES, SPECTRA_DATA[0], ADDUCT_MATCHES[0],
 				SPECTRA_DATA[1], ADDUCT_MATCHES[1], FILE_MATCHES[0],
-				FILE_MATCHES[1], MATCH_TIME_WINDOW});
+				FILE_MATCHES[1], MATCH_TIME_WINDOW, ION_REQUIREMENT});
 	}
 
 	@Override

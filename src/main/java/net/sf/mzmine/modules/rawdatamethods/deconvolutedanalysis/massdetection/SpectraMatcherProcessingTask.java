@@ -12,23 +12,26 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class SpectraMatcherProcessingTask extends AbstractTask {
-	// Logger
+	/** Logger */
 	private Logger LOG = Logger.getLogger(this.getClass().getName());
 
-	// Data file to be processed
+	/** Data file to be processed */
 	private final RawDataFile dataFile;
 
-	// Ionization method used for this data file
+	/** Ionization method used for this data file */
 	SpectrumType ionizationType;
 
-	// Adducts to search for
+	/** Adducts to search for */
 	private final AdductType[] adducts;
 
-	// Number of adducts to match for a mass to be considered a candidate
+	/** Number of adducts to match for a mass to be considered a candidate */
 	private final int matchesThreshold;
 
-	// Collection of mass candidates for a specific ionization method
+	/** Collection of mass candidates for a specific ionization method */
 	private List<MassCandidate> massCandidates;
+
+	/** Whether to require that no ion exists at [M] */
+	private boolean ionRequirement;
 
 	// Progress counters
 	private int processedScans = 0;
@@ -43,6 +46,8 @@ public class SpectraMatcherProcessingTask extends AbstractTask {
 		this.matchesThreshold = SpectraMatcherParameters.ADDUCT_MATCHES[ionizationType
 				.ordinal()].getValue();
 		this.massCandidates = massCandidates;
+		this.ionRequirement = SpectraMatcherParameters.ION_REQUIREMENT
+				.getValue();
 	}
 
 	@Override
@@ -96,6 +101,9 @@ public class SpectraMatcherProcessingTask extends AbstractTask {
 				}
 
 				if (adductMatches.size() >= matchesThreshold) {
+					if (ionRequirement && spectraMasses.contains(i))
+						continue;
+
 					massCandidates.add(new MassCandidate(dataFile, scanNumber,
 							spectrum.getRetentionTime(), i, ionizationType,
 							adductMatches));
