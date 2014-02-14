@@ -98,7 +98,7 @@ public class MassListTable extends JTable {
 			JComboBox combo;
 
 			if ((identities != null) && (identities.length > 0)) {
-				combo = new JComboBox<PeakIdentity>(identities);
+				combo = new JComboBox(identities);
 				combo.addItem("-------------------------");
 				combo.addItem(REMOVE_IDENTITY);
 				combo.addItem(EDIT_IDENTITY);
