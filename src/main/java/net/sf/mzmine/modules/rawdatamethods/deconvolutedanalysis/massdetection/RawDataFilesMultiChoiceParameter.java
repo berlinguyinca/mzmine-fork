@@ -15,7 +15,11 @@ public class RawDataFilesMultiChoiceParameter
 
 	public RawDataFilesMultiChoiceParameter(String name, String description,
 			SpectrumType spectrumType) {
-		super(name, description, null);
+		this(name, description, spectrumType, 1);
+	}
+
+	public RawDataFilesMultiChoiceParameter(String name, String description, SpectrumType spectrumType, int minNumber) {
+		super(name, description, null, null, minNumber);
 		this.spectrumType = spectrumType;
 	}
 

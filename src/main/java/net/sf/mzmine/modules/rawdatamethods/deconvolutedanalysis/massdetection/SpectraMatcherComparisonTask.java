@@ -253,6 +253,6 @@ public class SpectraMatcherComparisonTask extends AbstractTask {
 	}
 
 	private boolean rangeOverlaps(Range a, Range b) {
-		return (a.getMin() <= b.getMax()) && (a.getMin() >= b.getMin());
+		return (a.getMin() <= b.getMax()) && (a.getMax() >= b.getMin());
 	}
 }

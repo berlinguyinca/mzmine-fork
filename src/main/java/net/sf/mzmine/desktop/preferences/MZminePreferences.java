@@ -38,11 +38,11 @@ public class MZminePreferences extends SimpleParameterSet {
 
 	public static final NumberFormatParameter rtFormat = new NumberFormatParameter(
 			"Retention time value format", "Format of retention time values",
-			false, new DecimalFormat("0.0000"));
+			false, new DecimalFormat("0.000"));
 
 	public static final NumberFormatParameter intensityFormat = new NumberFormatParameter(
 			"Intensity format", "Format of intensity values", true,
-			new DecimalFormat("0.0000E0"));
+			new DecimalFormat("0.000E0"));
 
 	public static final NumOfThreadsParameter numOfThreads = new NumOfThreadsParameter();
 
