@@ -3,6 +3,7 @@ package net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.massdetection;
 import net.sf.mzmine.data.*;
 import net.sf.mzmine.data.impl.SimpleDataPoint;
 import net.sf.mzmine.modules.peaklistmethods.identification.adductsearch.AdductType;
+import net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.SpectrumType;
 import net.sf.mzmine.util.Range;
 
 import javax.annotation.Nonnull;

@@ -5,6 +5,7 @@ import net.sf.mzmine.data.RawDataFile;
 import net.sf.mzmine.data.impl.SimplePeakList;
 import net.sf.mzmine.modules.MZmineModuleCategory;
 import net.sf.mzmine.modules.MZmineProcessingModule;
+import net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.SpectrumType;
 import net.sf.mzmine.parameters.ParameterSet;
 import net.sf.mzmine.taskcontrol.Task;
 import net.sf.mzmine.util.ExitCode;
@@ -71,11 +72,11 @@ public class SpectraMatcherModule implements MZmineProcessingModule {
 			dataFiles.addAll(Arrays.asList(files));
 		}
 
+		// Produce new PeakList
 		PeakList peakList = new SimplePeakList("Mass Candidates",
 				dataFiles.toArray(new RawDataFile[0]));
 
 		// Start the comparison task to filter and sort the candidate masses
-
 		SpectraMatcherComparisonTask comparisonTask = new SpectraMatcherComparisonTask(
 				processingTasks, massCandidatesByFile, peakList);
 		tasks.add(comparisonTask);

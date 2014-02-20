@@ -4,6 +4,7 @@ import net.sf.mzmine.data.DataPoint;
 import net.sf.mzmine.data.RawDataFile;
 import net.sf.mzmine.data.Scan;
 import net.sf.mzmine.modules.peaklistmethods.identification.adductsearch.AdductType;
+import net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.SpectrumType;
 import net.sf.mzmine.taskcontrol.AbstractTask;
 import net.sf.mzmine.taskcontrol.TaskStatus;
 
@@ -30,9 +31,6 @@ public class SpectraMatcherProcessingTask extends AbstractTask {
 	/** Collection of mass candidates for a specific ionization method */
 	private List<MassCandidate> massCandidates;
 
-	/** Whether to require that no ion exists at [M] */
-	private boolean ionRequirement;
-
 	// Progress counters
 	private int processedScans = 0;
 	private int totalScans;
@@ -46,8 +44,6 @@ public class SpectraMatcherProcessingTask extends AbstractTask {
 		this.matchesThreshold = SpectraMatcherParameters.ADDUCT_MATCHES[ionizationType
 				.ordinal()].getValue();
 		this.massCandidates = massCandidates;
-		this.ionRequirement = SpectraMatcherParameters.ION_REQUIREMENT
-				.getValue();
 	}
 
 	@Override
@@ -101,9 +97,6 @@ public class SpectraMatcherProcessingTask extends AbstractTask {
 				}
 
 				if (adductMatches.size() >= matchesThreshold) {
-					if (ionRequirement && spectraMasses.contains(i))
-						continue;
-
 					massCandidates.add(new MassCandidate(dataFile, scanNumber,
 							spectrum.getRetentionTime(), i, ionizationType,
 							adductMatches));
