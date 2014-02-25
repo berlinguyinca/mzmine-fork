@@ -1,14 +1,16 @@
-package net.sf.mzmine.parameters.parametertypes;
+package net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis;
 
 import net.sf.mzmine.data.RawDataFile;
-import net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.SpectrumType;
+import net.sf.mzmine.parameters.parametertypes.MultiChoiceComponent;
+import net.sf.mzmine.parameters.parametertypes.MultiChoiceParameter;
+import net.sf.mzmine.parameters.parametertypes.RawDataFilesParameter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RawDataFilesMultiChoiceParameter
 		extends
-			MultiChoiceParameter<RawDataFile> {
+		MultiChoiceParameter<RawDataFile> {
 
 	private RawDataFilesParameter dataFiles;
 	private SpectrumType spectrumType;

@@ -128,9 +128,6 @@ public class MainMenu extends JMenuBar implements ActionListener {
 		peakDetectionMenu.setMnemonic(KeyEvent.VK_D);
 		rawDataMenu.add(peakDetectionMenu);
 
-		deconvolutedAnalysisMenu = new JMenu("Deconvoluted Data Analysis");
-		rawDataMenu.add(deconvolutedAnalysisMenu);
-
 		/*
 		 * Peak list methods menu
 		 */
@@ -174,6 +171,12 @@ public class MainMenu extends JMenuBar implements ActionListener {
 		peakListExportMenu = new JMenu("Export/Import");
 		peakListExportMenu.setMnemonic(KeyEvent.VK_E);
 		peakListMenu.add(peakListExportMenu);
+
+		/*
+		 * Deconvoluted Data Analysis menu
+		 */
+		deconvolutedAnalysisMenu = new JMenu("Deconvoluted data analysis");
+		add(deconvolutedAnalysisMenu);
 
 		/*
 		 * Visualization menu

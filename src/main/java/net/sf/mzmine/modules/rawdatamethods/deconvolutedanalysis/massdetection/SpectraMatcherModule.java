@@ -15,7 +15,7 @@ import java.util.*;
 
 public class SpectraMatcherModule implements MZmineProcessingModule {
 
-	private static final String MODULE_NAME = "Automated Mass Detection";
+	private static final String MODULE_NAME = "Automated mass detection";
 	private static final String MODULE_DESCRIPTION = "This module compares spectra from multiple ionization sources and detects candidate masses.";
 
 	@Override
@@ -74,7 +74,7 @@ public class SpectraMatcherModule implements MZmineProcessingModule {
 
 		// Produce new PeakList
 		PeakList peakList = new SimplePeakList("Mass Candidates",
-				dataFiles.toArray(new RawDataFile[0]));
+				dataFiles.toArray(new RawDataFile[dataFiles.size()]));
 
 		// Start the comparison task to filter and sort the candidate masses
 		SpectraMatcherComparisonTask comparisonTask = new SpectraMatcherComparisonTask(

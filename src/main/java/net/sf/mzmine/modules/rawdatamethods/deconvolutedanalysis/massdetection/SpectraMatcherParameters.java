@@ -4,7 +4,7 @@ import net.sf.mzmine.data.RawDataFile;
 import net.sf.mzmine.modules.peaklistmethods.identification.adductsearch.AdductType;
 import net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.SpectrumType;
 import net.sf.mzmine.parameters.parametertypes.AdductsParameter;
-import net.sf.mzmine.parameters.parametertypes.RawDataFilesMultiChoiceParameter;
+import net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.RawDataFilesMultiChoiceParameter;
 import net.sf.mzmine.parameters.Parameter;
 import net.sf.mzmine.parameters.impl.SimpleParameterSet;
 import net.sf.mzmine.parameters.parametertypes.IntegerParameter;

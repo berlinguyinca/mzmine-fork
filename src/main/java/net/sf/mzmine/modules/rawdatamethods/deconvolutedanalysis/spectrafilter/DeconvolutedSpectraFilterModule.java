@@ -11,7 +11,7 @@ import javax.annotation.Nonnull;
 import java.util.Collection;
 
 public class DeconvolutedSpectraFilterModule implements MZmineProcessingModule {
-	private static final String MODULE_NAME = "Deconvoluted Spectra Filter";
+	private static final String MODULE_NAME = "Deconvoluted spectra filter";
 	private static final String MODULE_DESCRIPTION = "This module filters deconvoluted spectra through C13 isotope, noise threshold and base peak percentage cuts.";
 
 	@Override
