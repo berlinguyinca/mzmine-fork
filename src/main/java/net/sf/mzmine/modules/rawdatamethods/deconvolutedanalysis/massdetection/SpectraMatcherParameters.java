@@ -3,6 +3,7 @@ package net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.massdetection;
 import net.sf.mzmine.data.RawDataFile;
 import net.sf.mzmine.modules.peaklistmethods.identification.adductsearch.AdductType;
 import net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.SpectrumType;
+import net.sf.mzmine.parameters.parametertypes.AdductsParameter;
 import net.sf.mzmine.parameters.parametertypes.RawDataFilesMultiChoiceParameter;
 import net.sf.mzmine.parameters.Parameter;
 import net.sf.mzmine.parameters.impl.SimpleParameterSet;
@@ -16,7 +17,7 @@ public class SpectraMatcherParameters extends SimpleParameterSet {
 	public static final AdductType[] EI_ADDUCTS = new AdductType[]{
 			new AdductType("[M]+", 0), new AdductType("[M-CH3]+", -15),
 			new AdductType("[M-H20]+", -18), new AdductType("[M-OTMS]+", -89),
-			new AdductType("[M-OTMS_2]+", -89),};
+			new AdductType("[M-OTMS_2]+", -178)};
 
 	public static final AdductType[] PCI_METHANE_ADDUCTS = new AdductType[]{
 			new AdductType("[M+H]+", 1), new AdductType("[M+C2H5]+", 29),
@@ -32,8 +33,12 @@ public class SpectraMatcherParameters extends SimpleParameterSet {
 			new AdductType("[M-CH4+H]+", -15),
 			new AdductType("[M-TMSOH+H]+", -89)};
 
-	public static final AdductType[][] ADDUCT_PARAMS = new AdductType[][]{
-			EI_ADDUCTS, PCI_METHANE_ADDUCTS, PCI_ISOBUTANE_ADDUCTS};
+	public static final AdductsParameter[] ADDUCT_PARAMS = new AdductsParameter[]{
+			new AdductsParameter("EI", "EI Adducts/Losses", EI_ADDUCTS),
+			new AdductsParameter("PCI-Methane", "PCI-Methane Adducts/Losses",
+					PCI_METHANE_ADDUCTS),
+			new AdductsParameter("PCI-Isobutane",
+					"PCI-Isobutane Adducts/Losses", PCI_ISOBUTANE_ADDUCTS)};
 
 	public static final RawDataFilesParameter DATA_FILES = new RawDataFilesParameter();
 
@@ -82,10 +87,11 @@ public class SpectraMatcherParameters extends SimpleParameterSet {
 			5);
 
 	public SpectraMatcherParameters() {
-		super(new Parameter[]{DATA_FILES, SPECTRA_DATA[0], ADDUCT_MATCHES[0],
-				FILE_MATCHES[0], SPECTRA_DATA[1], ADDUCT_MATCHES[1],
-				FILE_MATCHES[1], SPECTRA_DATA[2], ADDUCT_MATCHES[2],
-				FILE_MATCHES[2], MATCH_TIME_WINDOW});
+		super(new Parameter[]{DATA_FILES, SPECTRA_DATA[0], FILE_MATCHES[0],
+				ADDUCT_PARAMS[0], ADDUCT_MATCHES[0], SPECTRA_DATA[1],
+				FILE_MATCHES[1], ADDUCT_PARAMS[1], ADDUCT_MATCHES[1],
+				SPECTRA_DATA[2], FILE_MATCHES[2], ADDUCT_PARAMS[2],
+				ADDUCT_MATCHES[2], MATCH_TIME_WINDOW});
 	}
 
 	/**

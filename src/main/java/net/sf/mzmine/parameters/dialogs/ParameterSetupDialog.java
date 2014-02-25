@@ -19,23 +19,14 @@
 
 package net.sf.mzmine.parameters.dialogs;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Map;
 
-import javax.swing.Box;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.JTextComponent;
@@ -74,6 +65,9 @@ public class ParameterSetupDialog extends JDialog
 	// Buttons
 	private JButton btnOK, btnCancel, btnHelp;
 
+	//
+	private boolean updateDialogSize = true;
+
 	/**
 	 * This single panel contains a grid of all the components of this dialog
 	 * (see GridBagPanel). First three columns of the grid are title (JLabel),
@@ -100,11 +94,12 @@ public class ParameterSetupDialog extends JDialog
 
 		addDialogComponents();
 
-		updateMinimumSize();
-		pack();
+		if (updateDialogSize) {
+			updateMinimumSize();
+			pack();
+		}
 
 		setLocationRelativeTo(MZmineCore.getDesktop().getMainFrame());
-
 	}
 
 	/**
@@ -194,24 +189,65 @@ public class ParameterSetupDialog extends JDialog
 			pnlButtons.add(btnHelp);
 		}
 
-		/*
-		 * Last row in the table will be occupied by the buttons. We set the row
-		 * number to 100 and width to 3, spanning the 3 component columns
-		 * defined above.
-		 */
-		if (vertWeightSum == 0) {
-			mainPanel.add(Box.createGlue(), 0, 99, 3, 1, 1, 1);
+		// Create a JScrollPane to house the GridBagPanel if the dialog box is
+		// too large (> 3/4 of screen height)
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		Dimension panelSize = mainPanel.getPreferredSize();
+
+		if (panelSize.getHeight() > 3 * screenSize.getHeight() / 4) {
+			// Add some space around the widgets
+			GUIUtils.addMargin(mainPanel, 10);
+
+			// Create a scroll pane and reside it to 2/3 of the screen height
+			final JScrollPane scrollPane = new JScrollPane(mainPanel);
+			scrollPane.setPreferredSize(new Dimension((int) panelSize
+					.getWidth() + 50, (int) (2 * screenSize.getHeight() / 3)));
+			scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+
+			// Create an encapsulating JPanel to keep buttons always visible on
+			// the bottom of the dialog
+			JPanel panel = new JPanel(new BorderLayout());
+			panel.add(scrollPane, BorderLayout.CENTER);
+			panel.add(pnlButtons, BorderLayout.PAGE_END);
+
+			// Add this new panel as the only component of this dialog
+			add(panel);
+
+			// Prevent rescaling of dialog box
+			updateDialogSize = false;
 		}
-		mainPanel.addCenter(pnlButtons, 0, 100, 3, 1);
 
-		// Add some space around the widgets
-		GUIUtils.addMargin(mainPanel, 10);
+		// Otherwise, perform default actions
+		else {
+			/*
+			 * Last row in the table will be occupied by the buttons. We set the
+			 * row number to 100 and width to 3, spanning the 3 component
+			 * columns defined above.
+			 */
+			if (vertWeightSum == 0)
+				mainPanel.add(Box.createGlue(), 0, 99, 3, 1, 1, 1);
 
-		// Add the main panel as the only component of this dialog
-		add(mainPanel);
+			mainPanel.addCenter(pnlButtons, 0, 100, 3, 1);
+
+			// Add some space around the widgets
+			GUIUtils.addMargin(mainPanel, 10);
+
+			// Add the main panel as the only component of this dialog
+			add(mainPanel);
+		}
 
 		pack();
+	}
 
+	@Override
+	public Dimension getPreferredSize() {
+		Dimension dim = super.getPreferredSize();
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+		if (dim.getHeight() > screenSize.getHeight())
+			dim.height = (int) (screenSize.getHeight() / 2);
+
+		return dim;
 	}
 
 	/**
