@@ -96,18 +96,7 @@ public class SpectraMatcherComparisonTask extends AbstractTask {
 				// this is a new mass
 				if (!massRanges.containsKey(mass)) {
 					massRanges.put(mass,
-							new TreeMap<Range, List<MassCandidate>>(
-									new Comparator<Range>() {
-										@Override
-										public int compare(Range a, Range b) {
-											if (a.getMin() < b.getMin())
-												return -1;
-											else if (a.getMin() > b.getMin())
-												return 1;
-											else
-												return 0;
-										}
-									}));
+							new TreeMap<Range, List<MassCandidate>>(new RangeComparator()));
 
 					totalScans += 2;
 				}
@@ -153,6 +142,12 @@ public class SpectraMatcherComparisonTask extends AbstractTask {
 			processedScans++;
 		}
 
+		for(Range r : massRanges.get(321).keySet())
+			System.out.println(r.getMin()
+					+" - "+ r.getMax()
+					+" - "+ massRanges.get(321).get(r).size());
+		System.out.println("\n\n\n\n\n");
+
 		// Combine any possible overlapping ranges
 		for (Map<Range, List<MassCandidate>> map : massRanges.values()) {
 			Range[] keys = map.keySet().toArray(new Range[0]);
@@ -176,6 +171,10 @@ public class SpectraMatcherComparisonTask extends AbstractTask {
 
 			processedScans++;
 		}
+
+		for(Range r : massRanges.get(321).keySet())
+			System.out.println(r.getMin() +" - "+ r.getMax() +" - "+ massRanges.get(321).get(r).size());
+		System.out.println("\n\n\n\n\n");
 
 		// Filter masses with insufficient matches
 		Map<Double, List<MassCandidate>> matchedCandidates = new TreeMap<Double, List<MassCandidate>>();
@@ -255,5 +254,23 @@ public class SpectraMatcherComparisonTask extends AbstractTask {
 
 	private boolean rangeOverlaps(Range a, Range b) {
 		return (a.getMin() <= b.getMax()) && (a.getMax() >= b.getMin());
+	}
+
+	private class RangeComparator implements Comparator<Range> {
+		@Override
+		public int compare(Range a, Range b) {
+			if (a.getMin() < b.getMin())
+				return -1;
+			else if (a.getMin() > b.getMin())
+				return 1;
+			else {
+				if(a.getMax() < b.getMax())
+					return -1;
+				else if(a.getMax() > b.getMax())
+					return 1;
+				else
+					return 0;
+			}
+		}
 	}
 }

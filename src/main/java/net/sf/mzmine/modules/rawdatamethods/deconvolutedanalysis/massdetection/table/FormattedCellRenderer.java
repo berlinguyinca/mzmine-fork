@@ -33,14 +33,17 @@ class FormattedCellRenderer implements TableCellRenderer {
 			0, 10);
 	private Font font;
 	private NumberFormat format;
+	private Color alternateBackground;
 
-	FormattedCellRenderer(NumberFormat format) {
+	FormattedCellRenderer(NumberFormat format, Color alternateBackground) {
 		this.format = format;
+		this.alternateBackground = alternateBackground;
 	}
 
-	FormattedCellRenderer(NumberFormat format, Font font) {
+	FormattedCellRenderer(NumberFormat format, Font font, Color alternateBackground) {
 		this.format = format;
 		this.font = font;
+		this.alternateBackground = alternateBackground;
 	}
 
 	/**
@@ -55,8 +58,7 @@ class FormattedCellRenderer implements TableCellRenderer {
 
 		newPanel.setBackground(isSelected
 				? table.getSelectionBackground()
-				: (row % 2 == 0) ? table.getBackground() : new Color(196, 196,
-						196));
+				: (row % 2 == 0) ? table.getBackground() : alternateBackground);
 
 		if (hasFocus) {
 			Border border = null;

@@ -32,6 +32,7 @@ import java.util.TreeSet;
 public class MultiChoiceComponent extends JPanel implements ActionListener {
 
 	private Object[] choices;
+	private Object[] defaultChoices;
 	private JCheckBox[] checkBoxes;
 	private final JScrollPane choicesPanel;
 
@@ -51,6 +52,7 @@ public class MultiChoiceComponent extends JPanel implements ActionListener {
 
 		// Create choices panel.
 		choices = theChoices.clone();
+		defaultChoices = theChoices.clone();
 		choicesPanel = new JScrollPane(new CheckBoxPanel(choices),
 				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -136,8 +138,16 @@ public class MultiChoiceComponent extends JPanel implements ActionListener {
 	 * @return the choices.
 	 */
 	public Object[] getChoices() {
-
 		return choices.clone();
+	}
+
+	/**
+	 * Get the list of default choices.
+	 *
+	 * @return the choices.
+	 */
+	public Object[] getDefaultChoices() {
+		return defaultChoices.clone();
 	}
 
 	/**

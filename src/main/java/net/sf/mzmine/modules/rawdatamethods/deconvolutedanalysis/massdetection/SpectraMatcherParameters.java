@@ -7,9 +7,11 @@ import net.sf.mzmine.parameters.parametertypes.AdductsParameter;
 import net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.RawDataFilesMultiChoiceParameter;
 import net.sf.mzmine.parameters.Parameter;
 import net.sf.mzmine.parameters.impl.SimpleParameterSet;
+import net.sf.mzmine.parameters.parametertypes.DoubleParameter;
 import net.sf.mzmine.parameters.parametertypes.IntegerParameter;
 import net.sf.mzmine.parameters.parametertypes.RawDataFilesParameter;
 
+import java.text.NumberFormat;
 import java.util.Collection;
 
 public class SpectraMatcherParameters extends SimpleParameterSet {
@@ -81,10 +83,10 @@ public class SpectraMatcherParameters extends SimpleParameterSet {
 					"Number of PCI-Isobutane files in which a mass must exist to be considered a mass candidate",
 					1)};
 
-	public static final IntegerParameter MATCH_TIME_WINDOW = new IntegerParameter(
+	public static final DoubleParameter MATCH_TIME_WINDOW = new DoubleParameter(
 			"Retention Time Search Window (s)",
 			"Time window, in seconds, in which masses should be considered as the same molecule.",
-			5);
+			NumberFormat.getNumberInstance(), 2.5, 0.01, 60.0);
 
 	public SpectraMatcherParameters() {
 		super(new Parameter[]{DATA_FILES, SPECTRA_DATA[0], FILE_MATCHES[0],

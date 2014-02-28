@@ -24,6 +24,7 @@ public class MassListTableColumnModel extends DefaultTableColumnModel
 			MouseListener {
 
 	private static final Font editFont = new Font("SansSerif", Font.PLAIN, 10);
+	private final Color alternateBackground = new Color(237, 247, 255);
 
 	private FormattedCellRenderer mzRenderer, rtRenderer;
 	private TableCellRenderer identityRenderer;
@@ -50,8 +51,8 @@ public class MassListTableColumnModel extends DefaultTableColumnModel
 		NumberFormat rtFormat = MZmineCore.getConfiguration().getRTFormat();
 
 		// prepare cell renderers
-		mzRenderer = new FormattedCellRenderer(mzFormat);
-		rtRenderer = new FormattedCellRenderer(rtFormat);
+		mzRenderer = new FormattedCellRenderer(mzFormat, alternateBackground);
+		rtRenderer = new FormattedCellRenderer(rtFormat, alternateBackground);
 		identityRenderer = new CompoundIdentityCellRenderer() {
 			@Override
 			public Component getTableCellRendererComponent(JTable table,
@@ -62,8 +63,7 @@ public class MassListTableColumnModel extends DefaultTableColumnModel
 
 				c.setBackground(isSelected
 						? table.getSelectionBackground()
-						: (row % 2 == 0) ? table.getBackground() : new Color(
-								196, 196, 196));
+						: (row % 2 == 0) ? table.getBackground() : alternateBackground);
 
 				c.setBorder(BorderFactory.createCompoundBorder(c.getBorder(),
 						FormattedCellRenderer.padding));
@@ -82,8 +82,7 @@ public class MassListTableColumnModel extends DefaultTableColumnModel
 
 				c.setBackground(isSelected
 						? table.getSelectionBackground()
-						: (row % 2 == 0) ? table.getBackground() : new Color(
-								196, 196, 196));
+						: (row % 2 == 0) ? table.getBackground() : alternateBackground);
 
 				setBorder(BorderFactory.createCompoundBorder(getBorder(),
 						FormattedCellRenderer.padding));
