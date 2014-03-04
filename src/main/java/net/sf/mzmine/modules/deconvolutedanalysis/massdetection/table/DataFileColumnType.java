@@ -1,4 +1,4 @@
-package net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.massdetection.table;
+package net.sf.mzmine.modules.deconvolutedanalysis.massdetection.table;
 
 public enum DataFileColumnType {
 	SPECNUMBER("Spectrum Number", Integer.class), RT("Retention time",

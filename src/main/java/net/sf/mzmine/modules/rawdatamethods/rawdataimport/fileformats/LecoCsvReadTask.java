@@ -11,7 +11,7 @@ import net.sf.mzmine.data.DataPoint;
 import net.sf.mzmine.data.RawDataFile;
 import net.sf.mzmine.data.RawDataFileWriter;
 import net.sf.mzmine.data.impl.SimpleDataPoint;
-import net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.DeconvolutedSpectrum;
+import net.sf.mzmine.modules.deconvolutedanalysis.DeconvolutedSpectrum;
 import net.sf.mzmine.project.impl.RawDataFileImpl;
 import net.sf.mzmine.taskcontrol.AbstractTask;
 import net.sf.mzmine.taskcontrol.TaskStatus;
@@ -111,7 +111,8 @@ public class LecoCsvReadTask extends AbstractTask {
 						retentionTime));
 
 				int storageID = newMZmineFile.storeDataPoints(dataPoints);
-				newMZmineFile.addScan(new DeconvolutedSpectrum(newMZmineFile, storageID, parsedScans, retentionTime, dataPoints));
+				newMZmineFile.addScan(new DeconvolutedSpectrum(newMZmineFile,
+						storageID, parsedScans, retentionTime, dataPoints));
 				scanner.nextLine();
 			}
 

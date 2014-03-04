@@ -1,11 +1,11 @@
-package net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.massdetection;
+package net.sf.mzmine.modules.deconvolutedanalysis.massdetection;
 
 import net.sf.mzmine.data.PeakList;
 import net.sf.mzmine.data.RawDataFile;
 import net.sf.mzmine.data.impl.SimplePeakList;
 import net.sf.mzmine.modules.MZmineModuleCategory;
 import net.sf.mzmine.modules.MZmineProcessingModule;
-import net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.SpectrumType;
+import net.sf.mzmine.modules.deconvolutedanalysis.SpectrumType;
 import net.sf.mzmine.parameters.ParameterSet;
 import net.sf.mzmine.taskcontrol.Task;
 import net.sf.mzmine.util.ExitCode;

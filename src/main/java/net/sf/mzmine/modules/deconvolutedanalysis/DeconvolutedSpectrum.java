@@ -1,4 +1,4 @@
-package net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis;
+package net.sf.mzmine.modules.deconvolutedanalysis;
 
 import net.sf.mzmine.data.DataPoint;
 import net.sf.mzmine.data.Scan;
@@ -17,25 +17,37 @@ public class DeconvolutedSpectrum extends StorableScan {
 				: -1;
 	}
 
-	public DeconvolutedSpectrum(RawDataFileImpl dataFile, int storageID, int spectrumNumber, double retentionTime, DataPoint[] dataPoints) {
-		super(dataFile, storageID, dataPoints.length, spectrumNumber, 1, retentionTime, -1, 0.0, 1, null, ScanUtils.isCentroided(dataPoints));
+	public DeconvolutedSpectrum(RawDataFileImpl dataFile, int storageID,
+			int spectrumNumber, double retentionTime, DataPoint[] dataPoints) {
+		super(dataFile, storageID, dataPoints.length, spectrumNumber, 1,
+				retentionTime, -1, 0.0, 1, null, ScanUtils
+						.isCentroided(dataPoints));
 		this.retentionIndex = -1;
 	}
 
-	public DeconvolutedSpectrum(RawDataFileImpl dataFile, int storageID, int spectrumNumber, double retentionTime, int retentionIndex, DataPoint[] dataPoints) {
-		super(dataFile, storageID, dataPoints.length, spectrumNumber, 1, retentionTime, -1, 0.0, 1, null, ScanUtils.isCentroided(dataPoints));
+	public DeconvolutedSpectrum(RawDataFileImpl dataFile, int storageID,
+			int spectrumNumber, double retentionTime, int retentionIndex,
+			DataPoint[] dataPoints) {
+		super(dataFile, storageID, dataPoints.length, spectrumNumber, 1,
+				retentionTime, -1, 0.0, 1, null, ScanUtils
+						.isCentroided(dataPoints));
 		this.retentionIndex = retentionIndex;
 	}
 
 	/**
 	 * Get the retention index of this spectrum.
+	 * 
 	 * @return retention index
 	 */
-	public int getRetentionIndex() { return retentionIndex; }
+	public int getRetentionIndex() {
+		return retentionIndex;
+	}
 
 	/**
 	 * Sets the retention index of this spectrum.
-	 * @param retentionIndex retention index
+	 * 
+	 * @param retentionIndex
+	 *            retention index
 	 */
 	public void setRetentionIndex(int retentionIndex) {
 		this.retentionIndex = retentionIndex;
@@ -43,7 +55,10 @@ public class DeconvolutedSpectrum extends StorableScan {
 
 	/**
 	 * Identifies whether this spectrum has had a retention index applied.
+	 * 
 	 * @return whether a retention index exists
 	 */
-	public boolean isRetentionCorrected() { return retentionIndex >= 0; }
+	public boolean isRetentionCorrected() {
+		return retentionIndex >= 0;
+	}
 }

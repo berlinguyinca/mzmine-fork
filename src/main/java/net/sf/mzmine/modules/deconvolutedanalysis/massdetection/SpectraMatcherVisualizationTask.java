@@ -1,18 +1,11 @@
-package net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.massdetection;
+package net.sf.mzmine.modules.deconvolutedanalysis.massdetection;
 
-import net.sf.mzmine.data.DataPoint;
 import net.sf.mzmine.data.PeakList;
-import net.sf.mzmine.data.RawDataFile;
-import net.sf.mzmine.data.Scan;
 import net.sf.mzmine.main.MZmineCore;
-import net.sf.mzmine.modules.peaklistmethods.identification.adductsearch.AdductType;
-import net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.massdetection.table.MassListTableWindow;
+import net.sf.mzmine.modules.deconvolutedanalysis.massdetection.table.MassListTableWindow;
 import net.sf.mzmine.taskcontrol.AbstractTask;
-import net.sf.mzmine.taskcontrol.Task;
 import net.sf.mzmine.taskcontrol.TaskStatus;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Logger;
 
 public class SpectraMatcherVisualizationTask extends AbstractTask {

@@ -1,7 +1,7 @@
-package net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.massdetection.table;
+package net.sf.mzmine.modules.deconvolutedanalysis.massdetection.table;
 
 import net.sf.mzmine.data.*;
-import net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.massdetection.MassCandidate;
+import net.sf.mzmine.modules.deconvolutedanalysis.massdetection.MassCandidate;
 
 import javax.swing.table.AbstractTableModel;
 

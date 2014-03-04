@@ -1,9 +1,9 @@
-package net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.massdetection;
+package net.sf.mzmine.modules.deconvolutedanalysis.massdetection;
 
 import net.sf.mzmine.data.*;
 import net.sf.mzmine.data.impl.SimpleDataPoint;
 import net.sf.mzmine.modules.peaklistmethods.identification.adductsearch.AdductType;
-import net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.SpectrumType;
+import net.sf.mzmine.modules.deconvolutedanalysis.SpectrumType;
 import net.sf.mzmine.util.Range;
 
 import javax.annotation.Nonnull;
@@ -36,7 +36,8 @@ public class MassCandidate implements ChromatographicPeak {
 		this.retentionTime = retentionTime;
 		this.ionMass = ionMass;
 		this.ionizationType = ionizationType;
-		this.adductMatches = adductMatches.toArray(new AdductType[0]);
+		this.adductMatches = adductMatches.toArray(new AdductType[adductMatches
+				.size()]);
 		this.dataPoint = new SimpleDataPoint(ionMass, retentionTime);
 
 		// Generate string representation of adduct matches

@@ -1,10 +1,10 @@
-package net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.massdetection.table;
+package net.sf.mzmine.modules.deconvolutedanalysis.massdetection.table;
 
 import net.sf.mzmine.data.PeakIdentity;
 import net.sf.mzmine.data.PeakList;
 import net.sf.mzmine.data.PeakListRow;
 import net.sf.mzmine.data.RawDataFile;
-import net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.massdetection.MassCandidate;
+import net.sf.mzmine.modules.deconvolutedanalysis.massdetection.MassCandidate;
 import net.sf.mzmine.modules.visualization.spectra.SpectraVisualizerModule;
 import net.sf.mzmine.util.components.GroupableTableHeader;
 import net.sf.mzmine.util.dialogs.PeakIdentitySetupDialog;

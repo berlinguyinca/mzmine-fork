@@ -1,4 +1,4 @@
-package net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis;
+package net.sf.mzmine.modules.deconvolutedanalysis;
 
 import net.sf.mzmine.data.RawDataFile;
 import net.sf.mzmine.parameters.parametertypes.MultiChoiceComponent;

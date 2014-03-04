@@ -1,4 +1,4 @@
-package net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.spectrafilter;
+package net.sf.mzmine.modules.deconvolutedanalysis.spectrafilter;
 
 import net.sf.mzmine.data.RawDataFile;
 import net.sf.mzmine.modules.MZmineModuleCategory;

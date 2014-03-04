@@ -1,10 +1,10 @@
-package net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.spectrafilter;
+package net.sf.mzmine.modules.deconvolutedanalysis.spectrafilter;
 
 import com.google.common.collect.Lists;
 import net.sf.mzmine.data.DataPoint;
 import net.sf.mzmine.data.RawDataFile;
 import net.sf.mzmine.main.MZmineCore;
-import net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.DeconvolutedSpectrum;
+import net.sf.mzmine.modules.deconvolutedanalysis.DeconvolutedSpectrum;
 import net.sf.mzmine.parameters.ParameterSet;
 import net.sf.mzmine.project.MZmineProject;
 import net.sf.mzmine.project.impl.RawDataFileImpl;
@@ -89,7 +89,8 @@ public class DeconvolutedSpectraFilterTask extends AbstractTask {
 
 		try {
 			// Create a new file
-			final RawDataFileImpl rawDataFileWriter = (RawDataFileImpl)MZmineCore.createNewFile(origDataFile.getName() + ' ' + suffix);
+			final RawDataFileImpl rawDataFileWriter = (RawDataFileImpl) MZmineCore
+					.createNewFile(origDataFile.getName() + ' ' + suffix);
 
 			// Process each deconvoluted spectrum
 			for (int scanNumber : origDataFile.getScanNumbers(1)) {
@@ -99,7 +100,8 @@ public class DeconvolutedSpectraFilterTask extends AbstractTask {
 
 				// Duplicate current spectrum, obtain data points and create
 				// list of filtered data points
-				DeconvolutedSpectrum spectrum = (DeconvolutedSpectrum)origDataFile.getScan(scanNumber);
+				DeconvolutedSpectrum spectrum = (DeconvolutedSpectrum) origDataFile
+						.getScan(scanNumber);
 
 				List<DataPoint> dataPoints = Lists.newArrayList(spectrum
 						.getDataPoints());
@@ -138,11 +140,15 @@ public class DeconvolutedSpectraFilterTask extends AbstractTask {
 				}
 
 				// Add scan to new data file
-				int storageID = rawDataFileWriter.storeDataPoints(filteredDataPoints
-						.toArray(new DataPoint[filteredDataPoints.size()]));
-				DeconvolutedSpectrum newSpectrum = new DeconvolutedSpectrum(rawDataFileWriter, storageID, spectrum.getScanNumber(), spectrum.getRetentionTime(), spectrum.getDataPoints());
+				int storageID = rawDataFileWriter
+						.storeDataPoints(filteredDataPoints
+								.toArray(new DataPoint[filteredDataPoints
+										.size()]));
+				DeconvolutedSpectrum newSpectrum = new DeconvolutedSpectrum(
+						rawDataFileWriter, storageID, spectrum.getScanNumber(),
+						spectrum.getRetentionTime(), spectrum.getDataPoints());
 
-				if(spectrum.isRetentionCorrected())
+				if (spectrum.isRetentionCorrected())
 					newSpectrum.setRetentionIndex(spectrum.getRetentionIndex());
 
 				rawDataFileWriter.addScan(newSpectrum);
