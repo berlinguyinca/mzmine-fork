@@ -40,7 +40,8 @@ class FormattedCellRenderer implements TableCellRenderer {
 		this.alternateBackground = alternateBackground;
 	}
 
-	FormattedCellRenderer(NumberFormat format, Font font, Color alternateBackground) {
+	FormattedCellRenderer(NumberFormat format, Font font,
+			Color alternateBackground) {
 		this.format = format;
 		this.font = font;
 		this.alternateBackground = alternateBackground;

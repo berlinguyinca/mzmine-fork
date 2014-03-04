@@ -76,8 +76,9 @@ public class MassListTable extends JTable {
 		MassCandidate massCandidate = (MassCandidate) peakListRow
 				.getPeak(dataFile);
 
-		if(dataFile != null && massCandidate != null)
-			SpectraVisualizerModule.showNewSpectrumWindow(dataFile, massCandidate.getSpectrumNumber(), massCandidate);
+		if (dataFile != null && massCandidate != null)
+			SpectraVisualizerModule.showNewSpectrumWindow(dataFile,
+					massCandidate.getSpectrumNumber(), massCandidate);
 	}
 
 	public PeakList getPeakList() {

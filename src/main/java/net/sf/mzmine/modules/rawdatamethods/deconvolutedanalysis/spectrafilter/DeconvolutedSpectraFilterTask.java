@@ -3,11 +3,11 @@ package net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.spectrafilter;
 import com.google.common.collect.Lists;
 import net.sf.mzmine.data.DataPoint;
 import net.sf.mzmine.data.RawDataFile;
-import net.sf.mzmine.data.RawDataFileWriter;
-import net.sf.mzmine.data.impl.SimpleScan;
 import net.sf.mzmine.main.MZmineCore;
+import net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.DeconvolutedSpectrum;
 import net.sf.mzmine.parameters.ParameterSet;
 import net.sf.mzmine.project.MZmineProject;
+import net.sf.mzmine.project.impl.RawDataFileImpl;
 import net.sf.mzmine.taskcontrol.AbstractTask;
 import net.sf.mzmine.taskcontrol.TaskStatus;
 
@@ -89,8 +89,7 @@ public class DeconvolutedSpectraFilterTask extends AbstractTask {
 
 		try {
 			// Create a new file
-			final RawDataFileWriter rawDataFileWriter = MZmineCore
-					.createNewFile(origDataFile.getName() + ' ' + suffix);
+			final RawDataFileImpl rawDataFileWriter = (RawDataFileImpl)MZmineCore.createNewFile(origDataFile.getName() + ' ' + suffix);
 
 			// Process each deconvoluted spectrum
 			for (int scanNumber : origDataFile.getScanNumbers(1)) {
@@ -100,10 +99,9 @@ public class DeconvolutedSpectraFilterTask extends AbstractTask {
 
 				// Duplicate current spectrum, obtain data points and create
 				// list of filtered data points
-				SimpleScan scan = new SimpleScan(
-						origDataFile.getScan(scanNumber));
+				DeconvolutedSpectrum spectrum = (DeconvolutedSpectrum)origDataFile.getScan(scanNumber);
 
-				List<DataPoint> dataPoints = Lists.newArrayList(scan
+				List<DataPoint> dataPoints = Lists.newArrayList(spectrum
 						.getDataPoints());
 				Collections.sort(dataPoints, new Comparator<DataPoint>() {
 					@Override
@@ -131,7 +129,7 @@ public class DeconvolutedSpectraFilterTask extends AbstractTask {
 
 					// Step #3: Remove all peaks < 1% of base peak
 					else if (dataPoints.get(i).getIntensity() < basePeakCut
-							* scan.getBasePeak().getIntensity())
+							* spectrum.getBasePeak().getIntensity())
 						continue;
 
 					// If the data point passes all filters, keep it.
@@ -139,13 +137,15 @@ public class DeconvolutedSpectraFilterTask extends AbstractTask {
 						filteredDataPoints.add(0, dataPoints.get(i));
 				}
 
-				// Update the scan with the filtered data points
-				scan.setDataPoints(filteredDataPoints
-						.toArray(new DataPoint[filteredDataPoints.size()]));
-
 				// Add scan to new data file
-				rawDataFileWriter.addScan(scan);
+				int storageID = rawDataFileWriter.storeDataPoints(filteredDataPoints
+						.toArray(new DataPoint[filteredDataPoints.size()]));
+				DeconvolutedSpectrum newSpectrum = new DeconvolutedSpectrum(rawDataFileWriter, storageID, spectrum.getScanNumber(), spectrum.getRetentionTime(), spectrum.getDataPoints());
 
+				if(spectrum.isRetentionCorrected())
+					newSpectrum.setRetentionIndex(spectrum.getRetentionIndex());
+
+				rawDataFileWriter.addScan(newSpectrum);
 				processedScans++;
 			}
 

@@ -10,7 +10,7 @@ import java.util.List;
 
 public class RawDataFilesMultiChoiceParameter
 		extends
-		MultiChoiceParameter<RawDataFile> {
+			MultiChoiceParameter<RawDataFile> {
 
 	private RawDataFilesParameter dataFiles;
 	private SpectrumType spectrumType;

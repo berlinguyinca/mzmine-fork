@@ -11,12 +11,11 @@ import net.sf.mzmine.data.DataPoint;
 import net.sf.mzmine.data.RawDataFile;
 import net.sf.mzmine.data.RawDataFileWriter;
 import net.sf.mzmine.data.impl.SimpleDataPoint;
-import net.sf.mzmine.data.impl.SimpleScan;
+import net.sf.mzmine.modules.rawdatamethods.deconvolutedanalysis.DeconvolutedSpectrum;
 import net.sf.mzmine.project.impl.RawDataFileImpl;
 import net.sf.mzmine.taskcontrol.AbstractTask;
 import net.sf.mzmine.taskcontrol.TaskStatus;
 import net.sf.mzmine.util.Range;
-import net.sf.mzmine.util.ScanUtils;
 
 public class LecoCsvReadTask extends AbstractTask {
 
@@ -80,10 +79,8 @@ public class LecoCsvReadTask extends AbstractTask {
 				for (String s : scanner.next().replace("\"", "").split("\\+"))
 					quantMasses.add(Integer.parseInt(s));
 
-				Double.parseDouble(scanner.next().replace("\"", "")); // Quantitative
-																		// signal
-																		// to
-																		// noise
+				// Quantitative signal to noise
+				Double.parseDouble(scanner.next().replace("\"", ""));
 				Double.parseDouble(scanner.next().replace("\"", "")); // Area
 				scanner.next(); // Baseline Modified
 				scanner.next(); // Quantification
@@ -112,9 +109,9 @@ public class LecoCsvReadTask extends AbstractTask {
 				newMZmineFile.setMZRange(1, mzRange);
 				newMZmineFile.setRTRange(1, new Range(retentionTime,
 						retentionTime));
-				newMZmineFile.addScan(new SimpleScan(null, parsedScans,
-						msLevel, retentionTime, -1, 0.0, charge, null,
-						dataPoints, ScanUtils.isCentroided(dataPoints)));
+
+				int storageID = newMZmineFile.storeDataPoints(dataPoints);
+				newMZmineFile.addScan(new DeconvolutedSpectrum(newMZmineFile, storageID, parsedScans, retentionTime, dataPoints));
 				scanner.nextLine();
 			}
 

@@ -63,7 +63,9 @@ public class MassListTableColumnModel extends DefaultTableColumnModel
 
 				c.setBackground(isSelected
 						? table.getSelectionBackground()
-						: (row % 2 == 0) ? table.getBackground() : alternateBackground);
+						: (row % 2 == 0)
+								? table.getBackground()
+								: alternateBackground);
 
 				c.setBorder(BorderFactory.createCompoundBorder(c.getBorder(),
 						FormattedCellRenderer.padding));
@@ -82,7 +84,9 @@ public class MassListTableColumnModel extends DefaultTableColumnModel
 
 				c.setBackground(isSelected
 						? table.getSelectionBackground()
-						: (row % 2 == 0) ? table.getBackground() : alternateBackground);
+						: (row % 2 == 0)
+								? table.getBackground()
+								: alternateBackground);
 
 				setBorder(BorderFactory.createCompoundBorder(getBorder(),
 						FormattedCellRenderer.padding));
