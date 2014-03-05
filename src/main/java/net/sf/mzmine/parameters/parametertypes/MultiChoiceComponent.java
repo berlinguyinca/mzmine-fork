@@ -143,7 +143,7 @@ public class MultiChoiceComponent extends JPanel implements ActionListener {
 
 	/**
 	 * Get the list of default choices.
-	 *
+	 * 
 	 * @return the choices.
 	 */
 	public Object[] getDefaultChoices() {

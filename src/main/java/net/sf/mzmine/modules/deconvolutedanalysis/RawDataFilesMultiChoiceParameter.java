@@ -23,7 +23,7 @@ public class RawDataFilesMultiChoiceParameter
 	public RawDataFilesMultiChoiceParameter(String name, String description,
 			RawDataFilesParameter dataFiles, SpectrumType spectrumType,
 			int minNumber) {
-		super(name, description, null, null, minNumber);
+		super(name, description, new RawDataFile[0], null, minNumber);
 		this.dataFiles = dataFiles;
 		this.spectrumType = spectrumType;
 	}
