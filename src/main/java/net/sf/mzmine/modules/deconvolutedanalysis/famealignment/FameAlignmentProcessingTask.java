@@ -182,7 +182,7 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 			}
 		}
 
-		System.out.println(dataFile + " " + fameTimes);
+		LOG.info(dataFile + " " + fameTimes);
 
 		// Apply linear/polynomial fit
 		CombinedRegression fit = new CombinedRegression(5);
@@ -266,7 +266,7 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 			fameTimes.add(retentionTime);
 			fameIndices.add((double) FameData.FAME_RETENTION_INDICES[i]);
 		}
-		System.out.println(dataFile + " " + fameTimes);
+		LOG.info(dataFile + " " + fameTimes);
 
 		// Apply linear/polynomial fit
 		CombinedRegression fit = new CombinedRegression(5);
@@ -278,5 +278,10 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 					.getScan(scanNumber);
 			s.setRetentionIndex((int) fit.getY(s.getRetentionTime()));
 		}
+	}
+
+	private void reduceCandidates(List<Double> fameTimes,
+			List<Double> fameIndices) {
+
 	}
 }

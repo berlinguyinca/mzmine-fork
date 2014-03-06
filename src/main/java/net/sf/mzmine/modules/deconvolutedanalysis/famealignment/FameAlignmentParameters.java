@@ -10,6 +10,7 @@ import net.sf.mzmine.parameters.parametertypes.RawDataFilesParameter;
 
 import java.text.NumberFormat;
 import java.util.Collection;
+import java.util.logging.Logger;
 
 public class FameAlignmentParameters extends SimpleParameterSet {
 	public static final RawDataFilesParameter DATA_FILES = new RawDataFilesParameter();
@@ -32,7 +33,14 @@ public class FameAlignmentParameters extends SimpleParameterSet {
 
 	public FameAlignmentParameters() {
 		super(new Parameter[]{DATA_FILES, SPECTRA_DATA[0], SPECTRA_DATA[1],
-				SPECTRA_DATA[2]});
+				SPECTRA_DATA[2], MATCH_TIME_WINDOW});
+
+		Logger logger = Logger.getLogger(SimpleParameterSet.class.getName());
+
+
+		for(Parameter p : getParameters())
+			logger.info(p.getName() + p.getClass());
+
 	}
 
 	@Override

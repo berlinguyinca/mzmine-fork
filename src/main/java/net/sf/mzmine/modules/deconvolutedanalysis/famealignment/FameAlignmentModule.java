@@ -10,6 +10,7 @@ import net.sf.mzmine.util.ExitCode;
 
 import javax.annotation.Nonnull;
 import java.util.*;
+import java.util.logging.Logger;
 
 public class FameAlignmentModule implements MZmineProcessingModule {
 
@@ -36,6 +37,11 @@ public class FameAlignmentModule implements MZmineProcessingModule {
 		// Keep a track of local processing tasks so we can determine when they
 		// all finish
 		List<FameAlignmentProcessingTask> processingTasks = new ArrayList<FameAlignmentProcessingTask>();
+
+		Logger logger = Logger.getLogger(this.getClass().getName());
+		logger.info(String.valueOf(FameAlignmentParameters.SPECTRA_DATA[0].getValue().length));
+		logger.info(String.valueOf(FameAlignmentParameters.SPECTRA_DATA[1].getValue().length));
+		logger.info(String.valueOf(FameAlignmentParameters.SPECTRA_DATA[2].getValue().length));
 
 		// Search for FAME markers in each spectra file
 		for (SpectrumType i : SpectrumType.values()) {

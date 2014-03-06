@@ -88,7 +88,8 @@ public class FameData {
 			vocBinBaseData = new TreeMap<String, FameMassSpectrum>();
 			readFameData(VOC_BINBASE_DATA_FILE, vocBinBaseData);
 		} catch (IOException e) {
-			MZmineCore.getDesktop().displayErrorMessage("Load Error", "Unable to load FAME data:\n"+ e.getMessage());
+			MZmineCore.getDesktop().displayErrorMessage("Load Error",
+					"Unable to load FAME data:\n" + e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -128,7 +129,8 @@ public class FameData {
 	 * Converts a mass spectrum in string format into an array of DataPoint
 	 * objects.
 	 * 
-	 * @param spectrum mass spectrum in string format
+	 * @param spectrum
+	 *            mass spectrum in string format
 	 * @return array of DataPoints for each ion in the mass spectrum
 	 */
 	private static DataPoint[] parseSpectrumData(String spectrum) {
@@ -147,7 +149,8 @@ public class FameData {
 	 * Returns FAME marker spectrum from Volatile BinBase if it exists,
 	 * otherwise from Prime BinBase.
 	 * 
-	 * @param name name of FAME marker
+	 * @param name
+	 *            name of FAME marker
 	 * @return FAME marker spectrum
 	 */
 	public static FameMassSpectrum getFameSpectrum(String name) {
@@ -164,8 +167,10 @@ public class FameData {
 	 * deconvoluted spectrum using the cosine correlation (dot product) method.
 	 * Uses BinBase's similarity calculation routine.
 	 * 
-	 * @param name name of FAME marker
-	 * @param s deconvoluted spectrum object
+	 * @param name
+	 *            name of FAME marker
+	 * @param s
+	 *            deconvoluted spectrum object
 	 * @return similarity between referenced spectra
 	 */
 	public static double computeSimilarity(String name, DeconvolutedSpectrum s) {

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<batch>
+    <batchstep method="net.sf.mzmine.modules.rawdatamethods.rawdataimport.RawDataImportModule">
+        <parameter name="Raw data file names">
+            <file>src/test/resources/deconvolutedanalysis/spectrafiltertest_pci-methane-r2.csv</file>
+        </parameter>
+    </batchstep>
+
+    <batchstep method="net.sf.mzmine.modules.deconvolutedanalysis.spectrafilter.DeconvolutedSpectraFilterModule">
+        <parameters>
+            <parameter name="Raw data files"/>
+            <parameter name="C13 Isotope Cut">0.5</parameter>
+            <parameter name="Intensity Threshold">100</parameter>
+            <parameter name="Base Peak Threshold (Percentage)">0.01</parameter>
+            <parameter name="Suffix">filtered</parameter>
+            <parameter name="Remove source file after filtering">true</parameter>
+        </parameters>
+    </batchstep>
+</batch>

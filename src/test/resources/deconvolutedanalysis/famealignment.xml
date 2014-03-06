@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<batch>
+    <batchstep method="net.sf.mzmine.modules.rawdatamethods.rawdataimport.RawDataImportModule">
+        <parameter name="Raw data file names">
+            <file>src/test/resources/deconvolutedanalysis/famealignment_DiabeticPlasma_Replicate1_EI_1to1.csv</file>
+        </parameter>
+    </batchstep>
+
+    <batchstep method="net.sf.mzmine.modules.deconvolutedanalysis.spectrafilter.DeconvolutedSpectraFilterModule">
+        <parameters>
+            <parameter name="Raw data files"/>
+            <parameter name="C13 Isotope Cut">0.5</parameter>
+            <parameter name="Intensity Threshold">100</parameter>
+            <parameter name="Base Peak Threshold (Percentage)">0.01</parameter>
+            <parameter name="Suffix">filtered</parameter>
+            <parameter name="Remove source file after filtering">true</parameter>
+        </parameters>
+    </batchstep>
+
+        <batchstep method="net.sf.mzmine.modules.deconvolutedanalysis.famealignment.FameAlignmentModule">
+            <parameters>
+                <parameter name="Raw data files"/>
+                <parameter name="EI Files">
+                    <item>famealignment_DiabeticPlasma_Replicate1_EI_1to1.csv filtered</item>
+                </parameter>
+                <parameter name="Methane Files"/>
+                <parameter name="Isobutane Files"/>
+                <parameter name="Retention Time Search Window (s)">3.0</parameter>
+            </parameters>
+        </batchstep>
+    <!--
+        <batchstep method="net.sf.mzmine.modules.deconvolutedanalysis.famealignment.FameAlignmentModule">
+            <parameters>
+                <parameter name="Raw data files"/>
+                <parameter name="EI Files">
+                    <item>DiabeticPlasma_Replicate2_EI_1to1.csv</item>
+                </parameter>
+                <parameter name="Methane Files"/>
+                <parameter name="Isobutane Files"/>
+                <parameter name="Retention Time Search Window (s)">4.0</parameter>
+            </parameters>
+        </batchstep>
+        -->
+</batch>

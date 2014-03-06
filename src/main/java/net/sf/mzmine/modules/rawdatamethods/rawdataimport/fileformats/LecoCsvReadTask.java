@@ -15,6 +15,7 @@ import net.sf.mzmine.modules.deconvolutedanalysis.DeconvolutedSpectrum;
 import net.sf.mzmine.project.impl.RawDataFileImpl;
 import net.sf.mzmine.taskcontrol.AbstractTask;
 import net.sf.mzmine.taskcontrol.TaskStatus;
+import net.sf.mzmine.util.ExceptionUtils;
 import net.sf.mzmine.util.Range;
 
 public class LecoCsvReadTask extends AbstractTask {
@@ -119,7 +120,8 @@ public class LecoCsvReadTask extends AbstractTask {
 			finalRawDataFile = newMZmineFile.finishWriting();
 
 		} catch (Exception e) {
-			errorMessage = e.getMessage();
+			//errorMessage = e.getMessage();
+			errorMessage = ExceptionUtils.exceptionToString(e);
 			this.setStatus(TaskStatus.ERROR);
 			e.printStackTrace();
 			return;
@@ -156,7 +158,7 @@ public class LecoCsvReadTask extends AbstractTask {
 	}
 
 	public String getTaskDescription() {
-		return "Opening file" + file;
+		return "Opening file " + file;
 	}
 
 	public Object[] getCreatedObjects() {

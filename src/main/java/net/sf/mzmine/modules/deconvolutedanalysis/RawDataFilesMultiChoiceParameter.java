@@ -4,9 +4,11 @@ import net.sf.mzmine.data.RawDataFile;
 import net.sf.mzmine.parameters.parametertypes.MultiChoiceComponent;
 import net.sf.mzmine.parameters.parametertypes.MultiChoiceParameter;
 import net.sf.mzmine.parameters.parametertypes.RawDataFilesParameter;
+import org.w3c.dom.Element;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class RawDataFilesMultiChoiceParameter
 		extends
@@ -23,7 +25,7 @@ public class RawDataFilesMultiChoiceParameter
 	public RawDataFilesMultiChoiceParameter(String name, String description,
 			RawDataFilesParameter dataFiles, SpectrumType spectrumType,
 			int minNumber) {
-		super(name, description, new RawDataFile[0], null, minNumber);
+		super(name, description, new RawDataFile[0], new RawDataFile[0], minNumber);
 		this.dataFiles = dataFiles;
 		this.spectrumType = spectrumType;
 	}
@@ -31,7 +33,7 @@ public class RawDataFilesMultiChoiceParameter
 	@Override
 	public MultiChoiceComponent createEditingComponent() {
 		// Set all selected raw data files as the potential choices
-		setChoices(dataFiles.getValue());
+		updateChoices();
 
 		// Use this selector's spectrum type to choose potentially correct files
 		List<RawDataFile> values = new ArrayList<RawDataFile>();
@@ -44,5 +46,24 @@ public class RawDataFilesMultiChoiceParameter
 		setValue(values.toArray(new RawDataFile[values.size()]));
 
 		return new MultiChoiceComponent(getChoices());
+	}
+
+	@Override
+	public void setValue(RawDataFile[] values) {
+		updateChoices();
+		super.setValue(values);
+	}
+
+	@Override
+	public void loadValueFromXML(Element xmlElement) {
+		Logger logger = Logger.getLogger(getClass().getName());
+		logger.info("loadValueFromXML updateChoices");
+		logger.info(dataFiles.getValue().toString());
+		updateChoices();
+		super.loadValueFromXML(xmlElement);
+	}
+
+	public void updateChoices() {
+		setChoices(dataFiles.getValue());
 	}
 }
