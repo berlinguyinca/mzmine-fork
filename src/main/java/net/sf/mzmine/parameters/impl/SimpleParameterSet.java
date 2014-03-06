@@ -40,7 +40,8 @@ import java.util.logging.Logger;
  */
 public class SimpleParameterSet implements ParameterSet {
 
-	private static Logger logger = Logger.getLogger(SimpleParameterSet.class.getName());
+	private static Logger logger = Logger.getLogger(SimpleParameterSet.class
+			.getName());
 
 	private static final String parameterElement = "parameter";
 	private static final String nameAttribute = "name";
@@ -84,9 +85,9 @@ public class SimpleParameterSet implements ParameterSet {
 				}
 			}
 
-			if(!matched) {
-				logger.warning("parameter: " + paramName
-						+ " not defined for " + this.getClass().getName());
+			if (!matched) {
+				logger.warning("parameter: " + paramName + " not defined for "
+						+ this.getClass().getName());
 			}
 
 		}

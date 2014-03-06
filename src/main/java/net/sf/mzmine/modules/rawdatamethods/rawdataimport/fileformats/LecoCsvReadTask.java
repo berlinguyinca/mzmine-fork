@@ -120,7 +120,7 @@ public class LecoCsvReadTask extends AbstractTask {
 			finalRawDataFile = newMZmineFile.finishWriting();
 
 		} catch (Exception e) {
-			//errorMessage = e.getMessage();
+			// errorMessage = e.getMessage();
 			errorMessage = ExceptionUtils.exceptionToString(e);
 			this.setStatus(TaskStatus.ERROR);
 			e.printStackTrace();

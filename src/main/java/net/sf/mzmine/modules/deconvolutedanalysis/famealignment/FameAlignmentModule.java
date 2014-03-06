@@ -39,9 +39,12 @@ public class FameAlignmentModule implements MZmineProcessingModule {
 		List<FameAlignmentProcessingTask> processingTasks = new ArrayList<FameAlignmentProcessingTask>();
 
 		Logger logger = Logger.getLogger(this.getClass().getName());
-		logger.info(String.valueOf(FameAlignmentParameters.SPECTRA_DATA[0].getValue().length));
-		logger.info(String.valueOf(FameAlignmentParameters.SPECTRA_DATA[1].getValue().length));
-		logger.info(String.valueOf(FameAlignmentParameters.SPECTRA_DATA[2].getValue().length));
+		logger.info(String.valueOf(FameAlignmentParameters.SPECTRA_DATA[0]
+				.getValue().length));
+		logger.info(String.valueOf(FameAlignmentParameters.SPECTRA_DATA[1]
+				.getValue().length));
+		logger.info(String.valueOf(FameAlignmentParameters.SPECTRA_DATA[2]
+				.getValue().length));
 
 		// Search for FAME markers in each spectra file
 		for (SpectrumType i : SpectrumType.values()) {

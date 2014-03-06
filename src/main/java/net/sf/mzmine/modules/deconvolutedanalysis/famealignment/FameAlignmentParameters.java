@@ -37,8 +37,7 @@ public class FameAlignmentParameters extends SimpleParameterSet {
 
 		Logger logger = Logger.getLogger(SimpleParameterSet.class.getName());
 
-
-		for(Parameter p : getParameters())
+		for (Parameter p : getParameters())
 			logger.info(p.getName() + p.getClass());
 
 	}
