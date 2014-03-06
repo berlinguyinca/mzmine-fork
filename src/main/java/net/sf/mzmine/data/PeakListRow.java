@@ -96,10 +96,10 @@ public interface PeakListRow {
 	 * 
 	 * @param identity
 	 *            New peak identity
-	 * @param preffered
+	 * @param preferred
 	 *            boolean value to define this identity as preferred identity
 	 */
-	public void addPeakIdentity(PeakIdentity identity, boolean preffered);
+	public void addPeakIdentity(PeakIdentity identity, boolean preferred);
 
 	/**
 	 * Remove identity candidate

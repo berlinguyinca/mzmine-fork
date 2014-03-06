@@ -1,5 +1,10 @@
 conf
 .DS_Store
+.classpath
 .idea
+.project
 *.iml
 target
+conf/*
+LICENSE.txt*
+alias

@@ -212,12 +212,8 @@ public final class MZmineCore {
 							continue;
 						mainWindow.getMainMenu().addMenuItemForModule(
 								(MZmineProcessingModule) module);
-
 					}
-				}
-
-				;
-
+				};
 			};
 
 			try {

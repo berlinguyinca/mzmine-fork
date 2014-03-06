@@ -40,7 +40,8 @@ import java.util.logging.Logger;
  */
 public class SimpleParameterSet implements ParameterSet {
 
-	private static Logger logger = Logger.getLogger(MZmineCore.class.getName());
+	private static Logger logger = Logger.getLogger(SimpleParameterSet.class
+			.getName());
 
 	private static final String parameterElement = "parameter";
 	private static final String nameAttribute = "name";
@@ -66,23 +67,29 @@ public class SimpleParameterSet implements ParameterSet {
 			Element nextElement = (Element) list.item(i);
 			String paramName = nextElement.getAttribute(nameAttribute);
 			logger.fine("paramName: " + paramName);
+
+			boolean matched = false;
+
 			for (Parameter param : parameters) {
 				if (param.getName().equals(paramName)) {
 					logger.fine("loading data for class: "
 							+ param.getClass().getName());
 					try {
 						param.loadValueFromXML(nextElement);
+						matched = true;
 					} catch (Exception e) {
 						logger.log(Level.WARNING,
 								"Error while loading parameter values for "
 										+ param.getName(), e);
 					}
-				} else {
-					logger.warning("parameter: " + paramName
-							+ " not defined for " + this.getClass().getName());
 				}
-
 			}
+
+			if (!matched) {
+				logger.warning("parameter: " + paramName + " not defined for "
+						+ this.getClass().getName());
+			}
+
 		}
 	}
 

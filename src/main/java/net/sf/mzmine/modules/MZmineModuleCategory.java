@@ -26,6 +26,7 @@ public enum MZmineModuleCategory {
 	RAWDATA("Raw data methods"), //
 	RAWDATAFILTERING("Raw data filtering"), //
 	PEAKPICKING("Peak picking"), //
+	DECONVOLUTEDANALYSIS("Deconvoluted data analysis"), //
 	GAPFILLING("Gap filling"), //
 	ISOTOPES("Isotopes"), //
 	PEAKLISTPICKING("Peak list processing"), //

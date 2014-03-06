@@ -21,6 +21,7 @@ package net.sf.mzmine.parameters.parametertypes;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.logging.Logger;
 
 import net.sf.mzmine.parameters.UserParameter;
 import net.sf.mzmine.util.CollectionUtils;
@@ -135,6 +136,10 @@ public class MultiChoiceParameter<ValueType>
 	@Override
 	public void loadValueFromXML(Element xmlElement) {
 		NodeList items = xmlElement.getElementsByTagName("item");
+
+		Logger logger = Logger.getLogger(getClass().getName());
+		logger.info(String.valueOf(items.getLength()));
+
 		ArrayList<ValueType> newValues = new ArrayList<ValueType>();
 		for (int i = 0; i < items.getLength(); i++) {
 			String itemString = items.item(i).getTextContent();
@@ -144,6 +149,7 @@ public class MultiChoiceParameter<ValueType>
 				}
 			}
 		}
+		logger.info(String.valueOf(newValues.toString()));
 		Class<ValueType> arrayType = (Class<ValueType>) this.choices.getClass()
 				.getComponentType();
 		Object newArray[] = newValues.toArray();

@@ -74,6 +74,8 @@
                         <index>true</index>
                         <manifest>
                             <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>net.sf.mzmine.main.MZmineCore</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -92,6 +94,25 @@
                 </executions>
             </plugin>
 
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>false</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
         <resources>
             <resource>
@@ -132,6 +153,11 @@
             <id>lib</id>
             <name>MZmine local libraries</name>
             <url>file://${project.basedir}/src/main/lib</url>
+        </repository>
+        <repository>
+            <id>binbase-maven</id>
+            <name>Binbase libraries</name>
+            <url>https://binbase-maven.googlecode.com/svn/trunk/repo</url>
         </repository>
     </repositories>
     <dependencies>
@@ -491,6 +517,12 @@
             <version>1.9.13</version>
         </dependency>
 
+        <!-- BinBase BUS dependencies -->
+        <dependency>
+            <groupId>edu.ucdavis.genomics.metabolomics.binbase.binbase-core.bus</groupId>
+            <artifactId>bus</artifactId>
+            <version>5.0.1</version>
+        </dependency>
     </dependencies>
 
 </project>

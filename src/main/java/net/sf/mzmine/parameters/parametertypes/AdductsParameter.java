@@ -38,7 +38,6 @@ import java.util.logging.Logger;
  * @version $Revision: 3103 $
  */
 public class AdductsParameter extends MultiChoiceParameter<AdductType> {
-
 	// Logger.
 	private static final Logger LOG = Logger.getLogger(AdductsParameter.class
 			.getName());
@@ -58,26 +57,35 @@ public class AdductsParameter extends MultiChoiceParameter<AdductType> {
 	 *            description of the parameter.
 	 */
 	public AdductsParameter(final String name, final String description) {
-
 		super(name, description, AdductType.getDefaultValues());
+	}
+
+	/**
+	 * Create the parameter with custom adducts.
+	 * 
+	 * @param name
+	 *            name of the parameter.
+	 * @param description
+	 *            description of the parameter.
+	 */
+	public AdductsParameter(final String name, final String description,
+			final AdductType[] adductTypes) {
+		super(name, description, adductTypes);
 	}
 
 	@Override
 	public MultiChoiceComponent createEditingComponent() {
-
 		return new AdductsComponent(getChoices());
 	}
 
 	@Override
 	public void setValueFromComponent(final MultiChoiceComponent component) {
-
 		super.setValueFromComponent(component);
 		setChoices((AdductType[]) component.getChoices());
 	}
 
 	@Override
 	public void loadValueFromXML(final Element xmlElement) {
-
 		// Get the XML tag.
 		final NodeList items = xmlElement.getElementsByTagName(ADDUCTS_TAG);
 		final int length = items.getLength();
@@ -90,7 +98,6 @@ public class AdductsParameter extends MultiChoiceParameter<AdductType> {
 
 		// Process each adduct.
 		for (int i = 0; i < length; i++) {
-
 			final Node item = items.item(i);
 
 			// Get attributes.
@@ -139,7 +146,6 @@ public class AdductsParameter extends MultiChoiceParameter<AdductType> {
 
 	@Override
 	public void saveValueToXML(final Element xmlElement) {
-
 		// Get choices and selections.
 		final AdductType[] choices = getChoices();
 		final AdductType[] value = getValue();
@@ -165,7 +171,6 @@ public class AdductsParameter extends MultiChoiceParameter<AdductType> {
 
 	@Override
 	public AdductsParameter cloneParameter() {
-
 		final AdductsParameter copy = new AdductsParameter(getName(),
 				getDescription());
 		copy.setChoices(getChoices());

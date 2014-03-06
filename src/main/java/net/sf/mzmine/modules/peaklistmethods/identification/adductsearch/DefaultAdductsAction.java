@@ -57,7 +57,7 @@ public class DefaultAdductsAction extends AbstractAction {
 		if (parent != null) {
 
 			// Reset default choices.
-			parent.setChoices(AdductType.getDefaultValues());
+			parent.setChoices(parent.getDefaultChoices());
 		}
 	}
 }
