@@ -1,10 +1,12 @@
 package net.sf.mzmine.modules.deconvolutedanalysis.famealignment;
 
+import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
 import edu.ucdavis.genomics.metabolomics.util.math.Similarity;
 import net.sf.mzmine.data.DataPoint;
 import net.sf.mzmine.data.impl.SimpleDataPoint;
 import net.sf.mzmine.main.MZmineCore;
-import net.sf.mzmine.modules.deconvolutedanalysis.DeconvolutedSpectrum;
+import net.sf.mzmine.modules.deconvolutedanalysis.CorrectedSpectrum;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -41,6 +43,9 @@ public class FameData {
 	public static final int[] FAME_MASSES = new int[]{158, 172, 186, 214, 242,
 			270, 298, 326, 354, 382, 410, 438, 466};
 
+	/** Possible base peak ions required for FAME marker */
+	public static final int[] FAME_BASE_PEAKS = new int[] {43, 74, 87, 117, 147, 174, 130};
+
 	/** Stored spectrum information for each FAME marker */
 	private static Map<String, FameMassSpectrum> primeBinBaseData,
 			vocBinBaseData;
@@ -58,6 +63,19 @@ public class FameData {
 			this.retentionTime = retentionTime;
 			this.retentionIndex = retentionIndex;
 			this.spectrum = parseSpectrumData(spectrum);
+
+			// Removes ions with m/z < 50
+			if(false) {
+				List<String> ions = Lists.newArrayList(spectrum.split(" "));
+				for (Iterator<String> it = ions.iterator(); it.hasNext();) {
+					double mass = Double.parseDouble(it.next().split(":")[0]);
+
+					if(mass <= 50)
+						it.remove();
+				}
+
+				spectrum = Joiner.on(" ").join(ions);
+			}
 
 			similarity = new Similarity();
 			similarity.setLibrarySpectra(spectrum);
@@ -173,7 +191,7 @@ public class FameData {
 	 *            deconvoluted spectrum object
 	 * @return similarity between referenced spectra
 	 */
-	public static double computeSimilarity(String name, DeconvolutedSpectrum s) {
+	public static double computeSimilarity(String name, CorrectedSpectrum s) {
 		// Get data points and base peak intensity
 		DataPoint[] p = s.getDataPoints();
 		double maxAbundance = s.getBasePeak().getIntensity();
@@ -193,5 +211,24 @@ public class FameData {
 		Similarity similarity = getFameSpectrum(name).getSimilarity();
 		similarity.setUnknownSpectra(bigSpectrum);
 		return similarity.calculateSimimlarity();
+
+		/*
+		double[][] x = similarity.getLibrarySpectra(), y = similarity.getUnknownSpectra();
+
+		double xsum = 0, ysum = 0, xysum = 0;
+
+		for(int i = 0; i < x.length; i++) {
+			xsum += x[i][Similarity.FRAGMENT_ABS_POSITION] * x[i][Similarity.FRAGMENT_ABS_POSITION];
+			ysum += y[i][Similarity.FRAGMENT_ABS_POSITION] * y[i][Similarity.FRAGMENT_ABS_POSITION];
+			xysum += x[i][Similarity.FRAGMENT_ABS_POSITION] * y[i][Similarity.FRAGMENT_ABS_POSITION];
+		}
+
+		for(int i = 0; i < x.length; i++) {
+			xsum += x[i][Similarity.FRAGMENT_ION_POSITION] * x[i][Similarity.FRAGMENT_REL_POSITION];
+			ysum += y[i][Similarity.FRAGMENT_ION_POSITION] * y[i][Similarity.FRAGMENT_REL_POSITION];
+			xysum += Math.sqrt(x[i][Similarity.FRAGMENT_REL_POSITION] * y[i][Similarity.FRAGMENT_REL_POSITION]) * x[i][Similarity.FRAGMENT_ION_POSITION];
+		}
+		return xysum / Math.sqrt(xsum * ysum);
+		*/
 	}
 }

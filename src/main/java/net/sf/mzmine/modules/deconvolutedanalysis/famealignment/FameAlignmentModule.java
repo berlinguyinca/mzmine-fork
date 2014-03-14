@@ -13,7 +13,6 @@ import java.util.*;
 import java.util.logging.Logger;
 
 public class FameAlignmentModule implements MZmineProcessingModule {
-
 	private static final String MODULE_NAME = "Automated FAME alignment";
 	private static final String MODULE_DESCRIPTION = "This module aligns spectra from multiple ionization sources by the detection and matching of FAME markers.";
 
@@ -38,22 +37,12 @@ public class FameAlignmentModule implements MZmineProcessingModule {
 		// all finish
 		List<FameAlignmentProcessingTask> processingTasks = new ArrayList<FameAlignmentProcessingTask>();
 
-		Logger logger = Logger.getLogger(this.getClass().getName());
-		logger.info(String.valueOf(FameAlignmentParameters.SPECTRA_DATA[0]
-				.getValue().length));
-		logger.info(String.valueOf(FameAlignmentParameters.SPECTRA_DATA[1]
-				.getValue().length));
-		logger.info(String.valueOf(FameAlignmentParameters.SPECTRA_DATA[2]
-				.getValue().length));
-
 		// Search for FAME markers in each spectra file
 		for (SpectrumType i : SpectrumType.values()) {
-			RawDataFile[] dataFiles = FameAlignmentParameters.SPECTRA_DATA[i
-					.ordinal()].getValue();
+			RawDataFile[] dataFiles = parameters.getParameter(FameAlignmentParameters.SPECTRA_DATA[i.ordinal()]).getValue();
 
 			for (RawDataFile dataFile : dataFiles) {
-				FameAlignmentProcessingTask task = new FameAlignmentProcessingTask(
-						dataFile, i);
+				FameAlignmentProcessingTask task = new FameAlignmentProcessingTask(dataFile, parameters, i);
 				processingTasks.add(task);
 				tasks.add(task);
 			}

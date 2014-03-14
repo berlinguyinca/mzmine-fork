@@ -29,6 +29,7 @@ import net.sf.mzmine.data.RawDataFile;
 import net.sf.mzmine.main.MZmineCore;
 import net.sf.mzmine.modules.MZmineProcessingModule;
 import net.sf.mzmine.modules.MZmineProcessingStep;
+import net.sf.mzmine.modules.deconvolutedanalysis.RawDataFilesMultiChoiceParameter;
 import net.sf.mzmine.parameters.Parameter;
 import net.sf.mzmine.parameters.ParameterSet;
 import net.sf.mzmine.parameters.parametertypes.PeakListsParameter;
@@ -96,14 +97,12 @@ public class BatchTask extends AbstractTask {
 
 		// Update dataFiles and peakLists in the batchStepParameters
 		for (Parameter p : batchStepParameters.getParameters()) {
-			if (p instanceof RawDataFilesParameter) {
-				RawDataFilesParameter rdp = (RawDataFilesParameter) p;
-				rdp.setValue(dataFiles);
-			}
-			if (p instanceof PeakListsParameter) {
-				PeakListsParameter plp = (PeakListsParameter) p;
-				plp.setValue(peakLists);
-			}
+			if (p instanceof RawDataFilesParameter)
+				((RawDataFilesParameter)p).setValue(dataFiles);
+			if (p instanceof PeakListsParameter)
+				((PeakListsParameter)p).setValue(peakLists);
+			if (p instanceof RawDataFilesMultiChoiceParameter)
+				((RawDataFilesMultiChoiceParameter)p).setChoices(dataFiles);
 		}
 
 		// Check if the parameter settings are valid
@@ -228,5 +227,4 @@ public class BatchTask extends AbstractTask {
 	public Object[] getCreatedObjects() {
 		return null;
 	}
-
 }

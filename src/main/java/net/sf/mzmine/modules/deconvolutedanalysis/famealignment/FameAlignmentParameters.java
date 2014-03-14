@@ -5,12 +5,12 @@ import net.sf.mzmine.modules.deconvolutedanalysis.RawDataFilesMultiChoiceParamet
 import net.sf.mzmine.modules.deconvolutedanalysis.SpectrumType;
 import net.sf.mzmine.parameters.Parameter;
 import net.sf.mzmine.parameters.impl.SimpleParameterSet;
+import net.sf.mzmine.parameters.parametertypes.BooleanParameter;
 import net.sf.mzmine.parameters.parametertypes.DoubleParameter;
 import net.sf.mzmine.parameters.parametertypes.RawDataFilesParameter;
 
 import java.text.NumberFormat;
 import java.util.Collection;
-import java.util.logging.Logger;
 
 public class FameAlignmentParameters extends SimpleParameterSet {
 	public static final RawDataFilesParameter DATA_FILES = new RawDataFilesParameter();
@@ -19,27 +19,24 @@ public class FameAlignmentParameters extends SimpleParameterSet {
 			new RawDataFilesMultiChoiceParameter("EI Files",
 					"Select the EI files for analysis.", DATA_FILES,
 					SpectrumType.EI, 0),
-			new RawDataFilesMultiChoiceParameter("Methane Files",
+			new RawDataFilesMultiChoiceParameter("PCI-Methane Files",
 					"Select the PCI-Methane files for alignment.", DATA_FILES,
 					SpectrumType.METHANE, 0),
-			new RawDataFilesMultiChoiceParameter("Isobutane Files",
+			new RawDataFilesMultiChoiceParameter("PCI-Isobutane Files",
 					"Select the PCI-Isobutane files for alignment.",
 					DATA_FILES, SpectrumType.ISOBUTANE, 0)};
 
 	public static final DoubleParameter MATCH_TIME_WINDOW = new DoubleParameter(
 			"Retention Time Search Window (s)",
 			"Time window, in seconds, in which a peak can be matched.",
-			NumberFormat.getNumberInstance(), 2.5, 0.01, 60.0);
+			NumberFormat.getNumberInstance(), 10.0, 0.01, 60.0);
+
+	public static final BooleanParameter SHOW_RESULTS = new BooleanParameter("Show Results", "Shows a table with the results of FAME detection.", false);
+
 
 	public FameAlignmentParameters() {
 		super(new Parameter[]{DATA_FILES, SPECTRA_DATA[0], SPECTRA_DATA[1],
-				SPECTRA_DATA[2], MATCH_TIME_WINDOW});
-
-		Logger logger = Logger.getLogger(SimpleParameterSet.class.getName());
-
-		for (Parameter p : getParameters())
-			logger.info(p.getName() + p.getClass());
-
+				SPECTRA_DATA[2], MATCH_TIME_WINDOW, SHOW_RESULTS});
 	}
 
 	@Override
@@ -50,23 +47,28 @@ public class FameAlignmentParameters extends SimpleParameterSet {
 	}
 
 	private boolean checkMultiChoiceParameters(Collection<String> errorMessages) {
+		// Get spectra data
+		RawDataFilesMultiChoiceParameter[] spectraData = new RawDataFilesMultiChoiceParameter[SPECTRA_DATA.length];
+		for(int i = 0; i < SPECTRA_DATA.length; i++)
+			spectraData[i] = getParameter(SPECTRA_DATA[i]);
+
 		// Number of matched files
 		int count = 0;
 
 		// Compare each unique pair of RawDataFile objects
-		for (int i = 0; i < SPECTRA_DATA.length - 1; i++) {
-			for (int j = i + 1; j < SPECTRA_DATA.length; j++) {
+		for (int i = 0; i < spectraData.length - 1; i++) {
+			for (int j = i + 1; j < spectraData.length; j++) {
 
 				// Compare each selected file for multiple-selected files
-				for (RawDataFile a : SPECTRA_DATA[i].getValue()) {
-					for (RawDataFile b : SPECTRA_DATA[j].getValue()) {
+				for (RawDataFile a : spectraData[i].getValue()) {
+					for (RawDataFile b : spectraData[j].getValue()) {
 
 						// If two RawDataFile objects have the same reference,
 						// add an error message
 						if (a == b) {
 							errorMessages.add(a.getName() + " is in both '"
-									+ SPECTRA_DATA[i].getName() + "' and '"
-									+ SPECTRA_DATA[j].getName() + "' lists.");
+									+ spectraData[i].getName() + "' and '"
+									+ spectraData[j].getName() + "' lists.");
 							count++;
 						}
 					}

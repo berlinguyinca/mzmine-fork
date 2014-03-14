@@ -4,10 +4,11 @@ import com.google.common.collect.Lists;
 import net.sf.mzmine.data.DataPoint;
 import net.sf.mzmine.data.RawDataFile;
 import net.sf.mzmine.main.MZmineCore;
-import net.sf.mzmine.modules.deconvolutedanalysis.DeconvolutedSpectrum;
+import net.sf.mzmine.modules.deconvolutedanalysis.CorrectedSpectrum;
 import net.sf.mzmine.parameters.ParameterSet;
 import net.sf.mzmine.project.MZmineProject;
 import net.sf.mzmine.project.impl.RawDataFileImpl;
+import net.sf.mzmine.project.impl.StorableScan;
 import net.sf.mzmine.taskcontrol.AbstractTask;
 import net.sf.mzmine.taskcontrol.TaskStatus;
 
@@ -16,16 +17,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DeconvolutedSpectraFilterTask extends AbstractTask {
-	// Logger
+	/** Logger */
 	private static final Logger LOG = Logger
 			.getLogger(DeconvolutedSpectraFilterTask.class.getName());
 
-	// Double value tolerance
+	/** Double value tolerance */
 	public static final double EPSILON = 1.0e-14;
 
-	// Original data file and newly created baseline corrected file.
+	/** Original data file to be processed */
 	private final RawDataFile origDataFile;
-	private RawDataFile correctedDataFile;
+
+	/** Filtered data file */
+	private RawDataFile filteredDataFile;
 
 	// Progress counters
 	private int processedScans = 0;
@@ -47,7 +50,7 @@ public class DeconvolutedSpectraFilterTask extends AbstractTask {
 
 		// Initialize.
 		origDataFile = dataFile;
-		correctedDataFile = null;
+		filteredDataFile = null;
 
 		// Get parameters.
 		suffix = parameters.getParameter(
@@ -76,7 +79,7 @@ public class DeconvolutedSpectraFilterTask extends AbstractTask {
 
 	@Override
 	public Object[] getCreatedObjects() {
-		return new Object[]{correctedDataFile};
+		return new Object[]{filteredDataFile};
 	}
 
 	public void run() {
@@ -100,8 +103,13 @@ public class DeconvolutedSpectraFilterTask extends AbstractTask {
 
 				// Duplicate current spectrum, obtain data points and create
 				// list of filtered data points
-				DeconvolutedSpectrum spectrum = (DeconvolutedSpectrum) origDataFile
-						.getScan(scanNumber);
+				StorableScan s = (StorableScan)origDataFile.getScan(scanNumber);
+				CorrectedSpectrum spectrum;
+				if(origDataFile.getScan(scanNumber) instanceof CorrectedSpectrum)
+					spectrum = (CorrectedSpectrum)s;
+				else
+					spectrum = new CorrectedSpectrum(s, origDataFile, s.getStorageID());
+
 
 				List<DataPoint> dataPoints = Lists.newArrayList(spectrum
 						.getDataPoints());
@@ -144,7 +152,7 @@ public class DeconvolutedSpectraFilterTask extends AbstractTask {
 						.storeDataPoints(filteredDataPoints
 								.toArray(new DataPoint[filteredDataPoints
 										.size()]));
-				DeconvolutedSpectrum newSpectrum = new DeconvolutedSpectrum(
+				CorrectedSpectrum newSpectrum = new CorrectedSpectrum(
 						rawDataFileWriter, storageID, spectrum.getScanNumber(),
 						spectrum.getRetentionTime(), spectrum.getDataPoints());
 
@@ -158,11 +166,11 @@ public class DeconvolutedSpectraFilterTask extends AbstractTask {
 			// If this task was canceled, stop processing
 			if (!isCanceled()) {
 				// Finalize writing
-				correctedDataFile = rawDataFileWriter.finishWriting();
+				filteredDataFile = rawDataFileWriter.finishWriting();
 
 				// Add the newly created file to the project
 				final MZmineProject project = MZmineCore.getCurrentProject();
-				project.addFile(correctedDataFile);
+				project.addFile(filteredDataFile);
 
 				// Remove the original data file if requested
 				if (removeOriginal)
@@ -171,8 +179,7 @@ public class DeconvolutedSpectraFilterTask extends AbstractTask {
 				// Set task status to FINISHED
 				setStatus(TaskStatus.FINISHED);
 
-				LOG.info("Finished deconvoluted spectra filter "
-						+ origDataFile.getName());
+				LOG.info("Finished deconvoluted spectra filter "+ origDataFile.getName());
 			}
 		} catch (Throwable t) {
 			LOG.log(Level.SEVERE, "Deconvoluted spectra filtering error", t);

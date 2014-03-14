@@ -1,10 +1,12 @@
 package net.sf.mzmine.modules.deconvolutedanalysis.massdetection;
 
+import com.google.common.primitives.Ints;
 import net.sf.mzmine.data.PeakList;
 import net.sf.mzmine.data.PeakListRow;
 import net.sf.mzmine.data.RawDataFile;
 import net.sf.mzmine.data.impl.SimplePeakListRow;
 import net.sf.mzmine.modules.deconvolutedanalysis.SpectrumType;
+import net.sf.mzmine.parameters.ParameterSet;
 import net.sf.mzmine.taskcontrol.AbstractTask;
 import net.sf.mzmine.taskcontrol.TaskStatus;
 import net.sf.mzmine.util.Range;
@@ -36,7 +38,7 @@ public class SpectraMatcherComparisonTask extends AbstractTask {
 	int[] requiredMatches;
 
 	public SpectraMatcherComparisonTask(
-			List<SpectraMatcherProcessingTask> processingTasks,
+			List<SpectraMatcherProcessingTask> processingTasks, final ParameterSet parameters,
 			Map<RawDataFile, List<MassCandidate>> massCandidates,
 			PeakList peakList) {
 		this.processingTasks = processingTasks;
@@ -45,13 +47,12 @@ public class SpectraMatcherComparisonTask extends AbstractTask {
 
 		// Get the match time window parameter
 		// Converted to minutes
-		timeWindow = SpectraMatcherParameters.MATCH_TIME_WINDOW.getValue() / 60.0;
+		timeWindow = parameters.getParameter(SpectraMatcherParameters.MATCH_TIME_WINDOW).getValue() / 60.0;
 
 		// Get the required matches parameters
 		requiredMatches = new int[SpectrumType.values().length];
 		for (int i = 0; i < requiredMatches.length; i++)
-			requiredMatches[i] = SpectraMatcherParameters.FILE_MATCHES[i]
-					.getValue();
+			requiredMatches[i] = parameters.getParameter(SpectraMatcherParameters.FILE_MATCHES[i]).getValue();
 	}
 
 	@Override
@@ -143,9 +144,9 @@ public class SpectraMatcherComparisonTask extends AbstractTask {
 			processedScans++;
 		}
 
-		for (Range r : massRanges.get(321).keySet())
+		for (Range r : massRanges.get(384).keySet())
 			System.out.println(r.getMin() + " - " + r.getMax() + " - "
-					+ massRanges.get(321).get(r).size());
+					+ massRanges.get(384).get(r).size());
 		System.out.println("\n\n\n\n\n");
 
 		// Combine any possible overlapping ranges
@@ -172,15 +173,17 @@ public class SpectraMatcherComparisonTask extends AbstractTask {
 			processedScans++;
 		}
 
-		for (Range r : massRanges.get(321).keySet())
+		for (Range r : massRanges.get(384).keySet())
 			System.out.println(r.getMin() + " - " + r.getMax() + " - "
-					+ massRanges.get(321).get(r).size());
+					+ massRanges.get(384).get(r).size());
 		System.out.println("\n\n\n\n\n");
 
 		// Filter masses with insufficient matches
 		Map<Double, List<MassCandidate>> matchedCandidates = new TreeMap<Double, List<MassCandidate>>();
 
-		for (Map<Range, List<MassCandidate>> map : massRanges.values()) {
+		for (Integer mass : massRanges.keySet()) {
+			Map<Range, List<MassCandidate>> map = massRanges.get(mass);
+
 			for (Map.Entry<Range, List<MassCandidate>> e : map.entrySet()) {
 				int[] count = new int[SpectrumType.values().length];
 				double averageRT = 0;
@@ -201,6 +204,9 @@ public class SpectraMatcherComparisonTask extends AbstractTask {
 						break;
 					}
 				}
+
+				if(mass == 384)
+					System.out.println(Ints.asList(count));
 
 				if (omit)
 					continue;

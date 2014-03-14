@@ -5,6 +5,7 @@ import net.sf.mzmine.data.RawDataFile;
 import net.sf.mzmine.data.Scan;
 import net.sf.mzmine.modules.peaklistmethods.identification.adductsearch.AdductType;
 import net.sf.mzmine.modules.deconvolutedanalysis.SpectrumType;
+import net.sf.mzmine.parameters.ParameterSet;
 import net.sf.mzmine.taskcontrol.AbstractTask;
 import net.sf.mzmine.taskcontrol.TaskStatus;
 
@@ -35,14 +36,12 @@ public class SpectraMatcherProcessingTask extends AbstractTask {
 	private int processedScans = 0;
 	private int totalScans;
 
-	public SpectraMatcherProcessingTask(RawDataFile dataFile,
+	public SpectraMatcherProcessingTask(RawDataFile dataFile, final ParameterSet parameters,
 			SpectrumType ionizationType, List<MassCandidate> massCandidates) {
 		this.dataFile = dataFile;
 		this.ionizationType = ionizationType;
-		this.adducts = SpectraMatcherParameters.ADDUCT_PARAMS[ionizationType
-				.ordinal()].getValue();
-		this.matchesThreshold = SpectraMatcherParameters.ADDUCT_MATCHES[ionizationType
-				.ordinal()].getValue();
+		this.adducts = parameters.getParameter(SpectraMatcherParameters.ADDUCT_PARAMS[ionizationType.ordinal()]).getValue();
+		this.matchesThreshold = parameters.getParameter(SpectraMatcherParameters.ADDUCT_MATCHES[ionizationType.ordinal()]).getValue();
 		this.massCandidates = massCandidates;
 	}
 

@@ -11,11 +11,10 @@ import net.sf.mzmine.data.DataPoint;
 import net.sf.mzmine.data.RawDataFile;
 import net.sf.mzmine.data.RawDataFileWriter;
 import net.sf.mzmine.data.impl.SimpleDataPoint;
-import net.sf.mzmine.modules.deconvolutedanalysis.DeconvolutedSpectrum;
+import net.sf.mzmine.modules.deconvolutedanalysis.CorrectedSpectrum;
 import net.sf.mzmine.project.impl.RawDataFileImpl;
 import net.sf.mzmine.taskcontrol.AbstractTask;
 import net.sf.mzmine.taskcontrol.TaskStatus;
-import net.sf.mzmine.util.ExceptionUtils;
 import net.sf.mzmine.util.Range;
 
 public class LecoCsvReadTask extends AbstractTask {
@@ -112,7 +111,7 @@ public class LecoCsvReadTask extends AbstractTask {
 						retentionTime));
 
 				int storageID = newMZmineFile.storeDataPoints(dataPoints);
-				newMZmineFile.addScan(new DeconvolutedSpectrum(newMZmineFile,
+				newMZmineFile.addScan(new CorrectedSpectrum(newMZmineFile,
 						storageID, parsedScans, retentionTime, dataPoints));
 				scanner.nextLine();
 			}
@@ -120,8 +119,7 @@ public class LecoCsvReadTask extends AbstractTask {
 			finalRawDataFile = newMZmineFile.finishWriting();
 
 		} catch (Exception e) {
-			// errorMessage = e.getMessage();
-			errorMessage = ExceptionUtils.exceptionToString(e);
+			errorMessage = e.getMessage();
 			this.setStatus(TaskStatus.ERROR);
 			e.printStackTrace();
 			return;
