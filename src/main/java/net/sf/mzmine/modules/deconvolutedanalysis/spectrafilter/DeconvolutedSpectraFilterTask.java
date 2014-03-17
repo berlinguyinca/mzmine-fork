@@ -18,8 +18,7 @@ import java.util.logging.Logger;
 
 public class DeconvolutedSpectraFilterTask extends AbstractTask {
 	/** Logger */
-	private static final Logger LOG = Logger
-			.getLogger(DeconvolutedSpectraFilterTask.class.getName());
+	private final Logger logger = Logger.getLogger(getClass().getName());
 
 	/** Double value tolerance */
 	public static final double EPSILON = 1.0e-14;
@@ -28,31 +27,35 @@ public class DeconvolutedSpectraFilterTask extends AbstractTask {
 	private final RawDataFile origDataFile;
 
 	/** Filtered data file */
-	private RawDataFile filteredDataFile;
+	private RawDataFile filteredDataFile = null;
 
-	// Progress counters
+	/** Number of processed scans */
 	private int processedScans = 0;
+
+	/** Number of scans to process */
 	private int totalScans;
 
-	// Filename suffix
+	/** Filename suffix */
 	private String suffix;
 
-	// Remove original data file.
+	/** Remove original data file */
 	private final boolean removeOriginal;
 
-	// User parameters
+	/** User parameter for the C13 Isotope Cut */
 	private double c13IsotopeCut;
-	private int noiseThreshold;
+
+	/** User parameter for the intensity threshold cut */
+	private int intensityThreshold;
+
+	/** User parameter for base peak intensity cut */
 	private double basePeakCut;
 
 	public DeconvolutedSpectraFilterTask(final RawDataFile dataFile,
 			final ParameterSet parameters) {
 
-		// Initialize.
 		origDataFile = dataFile;
-		filteredDataFile = null;
 
-		// Get parameters.
+		// Get user parameters
 		suffix = parameters.getParameter(
 				DeconvolutedSpectraFilterParameters.SUFFIX).getValue();
 		removeOriginal = parameters.getParameter(
@@ -60,8 +63,9 @@ public class DeconvolutedSpectraFilterTask extends AbstractTask {
 
 		c13IsotopeCut = parameters.getParameter(
 				DeconvolutedSpectraFilterParameters.C13_ISOTOPE_CUT).getValue();
-		noiseThreshold = parameters.getParameter(
-				DeconvolutedSpectraFilterParameters.NOISE_THRESHOLD).getValue();
+		intensityThreshold = parameters.getParameter(
+				DeconvolutedSpectraFilterParameters.INTENSITY_THRESHOLD)
+				.getValue();
 		basePeakCut = parameters.getParameter(
 				DeconvolutedSpectraFilterParameters.BASE_PEAK_CUT).getValue();
 	}
@@ -85,7 +89,7 @@ public class DeconvolutedSpectraFilterTask extends AbstractTask {
 	public void run() {
 		// Update the status of this task
 		setStatus(TaskStatus.PROCESSING);
-		LOG.info("Started deconvoluted spectra filter on " + origDataFile);
+		logger.info("Started deconvoluted spectra filter on " + origDataFile);
 
 		// Set total number of scans to process
 		totalScans = origDataFile.getNumOfScans();
@@ -103,13 +107,14 @@ public class DeconvolutedSpectraFilterTask extends AbstractTask {
 
 				// Duplicate current spectrum, obtain data points and create
 				// list of filtered data points
-				StorableScan s = (StorableScan)origDataFile.getScan(scanNumber);
+				StorableScan s = (StorableScan) origDataFile
+						.getScan(scanNumber);
 				CorrectedSpectrum spectrum;
-				if(origDataFile.getScan(scanNumber) instanceof CorrectedSpectrum)
-					spectrum = (CorrectedSpectrum)s;
+				if (origDataFile.getScan(scanNumber) instanceof CorrectedSpectrum)
+					spectrum = (CorrectedSpectrum) s;
 				else
-					spectrum = new CorrectedSpectrum(s, origDataFile, s.getStorageID());
-
+					spectrum = new CorrectedSpectrum(s, origDataFile,
+							s.getStorageID());
 
 				List<DataPoint> dataPoints = Lists.newArrayList(spectrum
 						.getDataPoints());
@@ -134,7 +139,7 @@ public class DeconvolutedSpectraFilterTask extends AbstractTask {
 						continue;
 
 					// Step #2: Remove all peaks < 100 counts
-					else if (dataPoints.get(i).getIntensity() < noiseThreshold)
+					else if (dataPoints.get(i).getIntensity() < intensityThreshold)
 						continue;
 
 					// Step #3: Remove all peaks < 1% of base peak
@@ -176,13 +181,12 @@ public class DeconvolutedSpectraFilterTask extends AbstractTask {
 				if (removeOriginal)
 					project.removeFile(origDataFile);
 
-				// Set task status to FINISHED
 				setStatus(TaskStatus.FINISHED);
-
-				LOG.info("Finished deconvoluted spectra filter "+ origDataFile.getName());
+				logger.info("Finished deconvoluted spectra filter "
+						+ origDataFile.getName());
 			}
 		} catch (Throwable t) {
-			LOG.log(Level.SEVERE, "Deconvoluted spectra filtering error", t);
+			logger.log(Level.SEVERE, "Deconvoluted spectra filtering error", t);
 			setStatus(TaskStatus.ERROR);
 			errorMessage = t.getMessage();
 		}

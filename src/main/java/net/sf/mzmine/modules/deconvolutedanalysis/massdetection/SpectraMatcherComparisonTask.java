@@ -38,7 +38,8 @@ public class SpectraMatcherComparisonTask extends AbstractTask {
 	int[] requiredMatches;
 
 	public SpectraMatcherComparisonTask(
-			List<SpectraMatcherProcessingTask> processingTasks, final ParameterSet parameters,
+			List<SpectraMatcherProcessingTask> processingTasks,
+			final ParameterSet parameters,
 			Map<RawDataFile, List<MassCandidate>> massCandidates,
 			PeakList peakList) {
 		this.processingTasks = processingTasks;
@@ -47,12 +48,14 @@ public class SpectraMatcherComparisonTask extends AbstractTask {
 
 		// Get the match time window parameter
 		// Converted to minutes
-		timeWindow = parameters.getParameter(SpectraMatcherParameters.MATCH_TIME_WINDOW).getValue() / 60.0;
+		timeWindow = parameters.getParameter(
+				SpectraMatcherParameters.MATCH_TIME_WINDOW).getValue() / 60.0;
 
 		// Get the required matches parameters
 		requiredMatches = new int[SpectrumType.values().length];
 		for (int i = 0; i < requiredMatches.length; i++)
-			requiredMatches[i] = parameters.getParameter(SpectraMatcherParameters.FILE_MATCHES[i]).getValue();
+			requiredMatches[i] = parameters.getParameter(
+					SpectraMatcherParameters.FILE_MATCHES[i]).getValue();
 	}
 
 	@Override
@@ -205,7 +208,7 @@ public class SpectraMatcherComparisonTask extends AbstractTask {
 					}
 				}
 
-				if(mass == 384)
+				if (mass == 384)
 					System.out.println(Ints.asList(count));
 
 				if (omit)

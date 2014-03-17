@@ -1,7 +1,8 @@
 package net.sf.mzmine.modules.deconvolutedanalysis;
 
 /**
- * Enumeration of spectrum ionization types supported by the deconvoluted analysis modules
+ * Enumeration of spectrum ionization types supported by the deconvoluted
+ * analysis modules.
  */
 public enum SpectrumType {
 	/**
@@ -19,14 +20,14 @@ public enum SpectrumType {
 	 */
 	ISOBUTANE("PCI-Isobutane");
 
-
 	/** Name of the ionization type */
 	private final String name;
 
-
 	/**
 	 * Sets the name of this spectrum ionization type
-	 * @param name name of this spectrum ionization type
+	 * 
+	 * @param name
+	 *            name of this spectrum ionization type
 	 */
 	SpectrumType(String name) {
 		this.name = name;
@@ -34,6 +35,7 @@ public enum SpectrumType {
 
 	/**
 	 * Returns the name of this spectrum ionization type
+	 * 
 	 * @return name of the spectrum ionization type
 	 */
 	public String getName() {
@@ -41,7 +43,9 @@ public enum SpectrumType {
 	}
 
 	/**
-	 * Returns the index of this spectrum ionization type by its enumeration ordinal
+	 * Returns the index of this spectrum ionization type by its enumeration
+	 * ordinal
+	 * 
 	 * @return enumeration index
 	 */
 	public int getIndex() {

@@ -31,9 +31,11 @@ public class DeconvolutedSpectraFilterModule implements MZmineProcessingModule {
 	public ExitCode runModule(@Nonnull ParameterSet parameters,
 			@Nonnull Collection<Task> tasks) {
 
+		// Get all selected files
 		RawDataFile[] dataFiles = parameters.getParameter(
 				DeconvolutedSpectraFilterParameters.DATA_FILES).getValue();
 
+		// Create a new task for each file to be filtered
 		for (final RawDataFile dataFile : dataFiles) {
 			Task newTask = new DeconvolutedSpectraFilterTask(dataFile,
 					parameters);

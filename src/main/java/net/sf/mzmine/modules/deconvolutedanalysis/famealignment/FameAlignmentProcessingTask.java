@@ -34,10 +34,12 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 	private int processedScans = 0;
 	private int totalScans;
 
-	public FameAlignmentProcessingTask(final RawDataFile dataFile, final ParameterSet parameters, SpectrumType ionizationType) {
+	public FameAlignmentProcessingTask(final RawDataFile dataFile,
+			final ParameterSet parameters, SpectrumType ionizationType) {
 		this.dataFile = dataFile;
 		this.ionizationType = ionizationType;
-		this.timeWindow = parameters.getParameter(FameAlignmentParameters.MATCH_TIME_WINDOW).getValue() / 60;
+		this.timeWindow = parameters.getParameter(
+				FameAlignmentParameters.MATCH_TIME_WINDOW).getValue() / 60;
 	}
 
 	@Override
@@ -83,7 +85,8 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 		List<Scan> allCandidates = new ArrayList<Scan>();
 		double maxBasePeakIntensity = 0;
 
-		// Filter data to spectra that have a base peak in a list of known EI ions
+		// Filter data to spectra that have a base peak in a list of known EI
+		// ions
 		for (int scanNumber : dataFile.getScanNumbers(1)) {
 			// Canceled?
 			if (isCanceled())
@@ -92,17 +95,17 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 			// Get the current spectrum
 			Scan spectrum = dataFile.getScan(scanNumber);
 
-			if(spectrum.getBasePeak() == null)
+			if (spectrum.getBasePeak() == null)
 				continue;
 
 			// Check base peak and then secondary base peak
 			double intensity = testEISpectrum(spectrum);
 
-			if(intensity > 0)
+			if (intensity > 0)
 				allCandidates.add(spectrum);
 
 			// Compute maximum base peak intensity out of our list of candidates
-			if(intensity > maxBasePeakIntensity)
+			if (intensity > maxBasePeakIntensity)
 				maxBasePeakIntensity = intensity;
 
 			processedScans++;
@@ -134,23 +137,26 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 					matchesCount++;
 				}
 
-				if(bestSimilarity > maxSimilarity) {
+				if (bestSimilarity > maxSimilarity) {
 					maxSimilarity = bestSimilarity;
 					highestMatch = s;
 					libraryMatch = i;
-					logger.info("Best Match: "+ name +" "+ similarity +" "+ s.getScanNumber() + " "+ s.getRetentionTime() + " "+ matchesCount);
+					logger.info("Best Match: " + name + " " + similarity + " "
+							+ s.getScanNumber() + " " + s.getRetentionTime()
+							+ " " + matchesCount);
 				}
 			}
 		}
 
 		// Return an error if no initial match is found
-		if(highestMatch == null) {
-			MZmineCore.getDesktop().displayErrorMessage("Unable to find initial standard match in "+ dataFile.getName());
+		if (highestMatch == null) {
+			MZmineCore.getDesktop().displayErrorMessage(
+					"Unable to find initial standard match in "
+							+ dataFile.getName());
 			setStatus(TaskStatus.ERROR);
 			cancel();
 			return;
 		}
-
 
 		// Product a list of candidates for each individual FAME peak
 		List<List<Scan>> candidates = new ArrayList<List<Scan>>();
@@ -158,30 +164,33 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 		for (int i = 0; i < FameData.N_FAMES; i++) {
 			List<Scan> matches = new ArrayList<Scan>();
 
-			if(i == libraryMatch) {
+			if (i == libraryMatch) {
 				for (Scan s : allCandidates) {
 					double intensity = testEISpectrum(s);
 
-					if(intensity > 0 && Math.abs(s.getRetentionTime() - highestMatch.getRetentionTime()) < timeWindow)
+					if (intensity > 0
+							&& Math.abs(s.getRetentionTime()
+									- highestMatch.getRetentionTime()) < timeWindow)
 						matches.add(s);
 				}
 			}
 
 			else {
-				double shift = FameData.FAME_RETENTION_TIMES[libraryMatch] - FameData.FAME_RETENTION_TIMES[i];
+				double shift = FameData.FAME_RETENTION_TIMES[libraryMatch]
+						- FameData.FAME_RETENTION_TIMES[i];
 				double expectedRt = highestMatch.getRetentionTime() - shift;
 
 				for (Scan s : allCandidates) {
 					double intensity = testEISpectrum(s);
 
-					if(intensity > 0 && Math.abs(s.getRetentionTime() - expectedRt) < timeWindow)
+					if (intensity > 0
+							&& Math.abs(s.getRetentionTime() - expectedRt) < timeWindow)
 						matches.add(s);
 				}
 			}
 
 			candidates.add(matches);
 		}
-
 
 		// Apply spectral similarity to choose the best match for each FAME peak
 		List<Double> fameTimes = new ArrayList<Double>();
@@ -196,15 +205,19 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 			maxBasePeakIntensity = 0;
 			maxSimilarity = 0;
 
-			for(Scan s : matches) {
-				if(bestMatch == null) {
+			for (Scan s : matches) {
+				if (bestMatch == null) {
 					bestMatch = s;
 					maxBasePeakIntensity = s.getBasePeak().getIntensity();
 				} else {
-					double similarity = FameData.computeSimilarity(libraryName, (CorrectedSpectrum) s);
+					double similarity = FameData.computeSimilarity(libraryName,
+							(CorrectedSpectrum) s);
 
-					// || (similarity < maxSimilarity && s.getBasePeak().getIntensity() / maxBasePeakIntensity > similarity / maxSimilarity)
-					if((similarity > maxSimilarity && s.getBasePeak().getIntensity() > maxBasePeakIntensity)) {
+					// || (similarity < maxSimilarity &&
+					// s.getBasePeak().getIntensity() / maxBasePeakIntensity >
+					// similarity / maxSimilarity)
+					if ((similarity > maxSimilarity && s.getBasePeak()
+							.getIntensity() > maxBasePeakIntensity)) {
 						bestMatch = s;
 						maxBasePeakIntensity = s.getBasePeak().getIntensity();
 						maxSimilarity = similarity;
@@ -212,7 +225,7 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 				}
 			}
 
-			if(bestMatch != null) {
+			if (bestMatch != null) {
 				fameTimes.add(bestMatch.getRetentionTime());
 				fameIndices.add((double) FameData.FAME_RETENTION_INDICES[i]);
 				fameNames.add(FameData.FAME_NAMES[i]);
@@ -220,7 +233,7 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 		}
 
 		logger.info(dataFile + " " + fameTimes);
-		logger.info(fameNames +"");
+		logger.info(fameNames + "");
 
 		// Apply linear/polynomial fit
 		CombinedRegression fit = new CombinedRegression(5);
@@ -228,7 +241,7 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 
 		// Add calculated retention index to each mass spectrum
 		for (int scanNumber : dataFile.getScanNumbers(1)) {
-			if(dataFile.getScan(scanNumber) instanceof CorrectedSpectrum) {
+			if (dataFile.getScan(scanNumber) instanceof CorrectedSpectrum) {
 				CorrectedSpectrum s = (CorrectedSpectrum) dataFile
 						.getScan(scanNumber);
 				s.setRetentionIndex((int) fit.getY(s.getRetentionTime()));
@@ -238,13 +251,15 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 	}
 
 	private double testEISpectrum(Scan s) {
-		if (Ints.asList(FameData.FAME_BASE_PEAKS).contains((int)s.getBasePeak().getMZ()))
+		if (Ints.asList(FameData.FAME_BASE_PEAKS).contains(
+				(int) s.getBasePeak().getMZ()))
 			return s.getBasePeak().getIntensity();
-		else if(s instanceof CorrectedSpectrum) {
-			CorrectedSpectrum spectrum = (CorrectedSpectrum)s;
+		else if (s instanceof CorrectedSpectrum) {
+			CorrectedSpectrum spectrum = (CorrectedSpectrum) s;
 			DataPoint secondaryBasePeak = spectrum.getSecondaryBasePeak();
 
-			if (secondaryBasePeak.getMZ() == 74 || secondaryBasePeak.getMZ() == 87)
+			if (secondaryBasePeak.getMZ() == 74
+					|| secondaryBasePeak.getMZ() == 87)
 				return secondaryBasePeak.getIntensity();
 		}
 
@@ -275,14 +290,14 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 				Scan spectrum = dataFile.getScan(scanNumber);
 				DataPoint basePeak = spectrum.getBasePeak();
 
-				if(basePeak == null)
+				if (basePeak == null)
 					continue;
 
-				if((int)basePeak.getMZ() == mass) {
+				if ((int) basePeak.getMZ() == mass) {
 					matches.add(spectrum);
 
 					// Compute maximum base peak intensity of these FAME markers
-					if(basePeak.getIntensity() > maxBasePeakIntensity)
+					if (basePeak.getIntensity() > maxBasePeakIntensity)
 						maxBasePeakIntensity = basePeak.getIntensity();
 				}
 			}
@@ -300,22 +315,24 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 			Scan highestMatch = null;
 			int count = 0;
 
-			for(Scan s : matches) {
-				if(s.getBasePeak().getIntensity() > 0.5 * maxBasePeakIntensity) {
-					if(highestMatch == null)
+			for (Scan s : matches) {
+				if (s.getBasePeak().getIntensity() > 0.5 * maxBasePeakIntensity) {
+					if (highestMatch == null)
 						highestMatch = s;
 					count++;
 				}
 			}
 
-			if(count == 1) {
+			if (count == 1) {
 				matches = new ArrayList<Scan>();
 				matches.add(highestMatch);
 
-				if(bestMatch == null && i > 1 && i < FameData.N_FAMES - 2) {
+				if (bestMatch == null && i > 1 && i < FameData.N_FAMES - 2) {
 					bestMatch = highestMatch;
 					libraryMatch = i;
-					logger.info("Best Match: "+ name +" "+ bestMatch.getScanNumber() + " "+ bestMatch.getRetentionTime());
+					logger.info("Best Match: " + name + " "
+							+ bestMatch.getScanNumber() + " "
+							+ bestMatch.getRetentionTime());
 				}
 
 				secondaryBestMatch = highestMatch;
@@ -324,17 +341,18 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 			candidates.add(matches);
 		}
 
-		if(bestMatch == null)
+		if (bestMatch == null)
 			bestMatch = secondaryBestMatch;
 
 		// Return an error if no initial match is found
-		if(bestMatch == null) {
-			MZmineCore.getDesktop().displayErrorMessage("Unable to find initial standard match in "+ dataFile.getName());
+		if (bestMatch == null) {
+			MZmineCore.getDesktop().displayErrorMessage(
+					"Unable to find initial standard match in "
+							+ dataFile.getName());
 			setStatus(TaskStatus.ERROR);
 			cancel();
 			return;
 		}
-
 
 		List<Double> fameTimes = new ArrayList<Double>();
 		List<Double> fameIndices = new ArrayList<Double>();
@@ -344,32 +362,33 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 		for (int i = 0; i < FameData.N_FAMES; i++) {
 			List<Scan> matches = candidates.get(i);
 
-			if(matches.size() > 0) {
-				double shift = FameData.FAME_RETENTION_TIMES[libraryMatch] - FameData.FAME_RETENTION_TIMES[i];
+			if (matches.size() > 0) {
+				double shift = FameData.FAME_RETENTION_TIMES[libraryMatch]
+						- FameData.FAME_RETENTION_TIMES[i];
 				double expectedRt = bestMatch.getRetentionTime() - shift;
 
 				for (Iterator<Scan> it = matches.iterator(); it.hasNext();) {
 					Scan s = it.next();
 
 					// Filter those peaks outside of expected range
-					if(Math.abs(s.getRetentionTime() - expectedRt) > timeWindow)
+					if (Math.abs(s.getRetentionTime() - expectedRt) > timeWindow)
 						it.remove();
 				}
-
 
 				double maxBasePeakIntensity = 0;
 				Scan highestMatch = null;
 
-				for(Scan s : matches) {
-					if(s.getBasePeak().getIntensity() > maxBasePeakIntensity) {
+				for (Scan s : matches) {
+					if (s.getBasePeak().getIntensity() > maxBasePeakIntensity) {
 						highestMatch = s;
 						maxBasePeakIntensity = s.getBasePeak().getIntensity();
 					}
 				}
 
-				if(highestMatch != null) {
+				if (highestMatch != null) {
 					fameTimes.add(highestMatch.getRetentionTime());
-					fameIndices.add((double) FameData.FAME_RETENTION_INDICES[i]);
+					fameIndices
+							.add((double) FameData.FAME_RETENTION_INDICES[i]);
 					fameNames.add(FameData.FAME_NAMES[i]);
 				}
 			}
@@ -377,7 +396,6 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 
 		logger.info(dataFile + " " + fameTimes);
 		logger.info(fameNames.toString());
-
 
 		// Apply linear/polynomial fit
 		CombinedRegression fit = new CombinedRegression(5);

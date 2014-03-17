@@ -39,10 +39,13 @@ public class FameAlignmentModule implements MZmineProcessingModule {
 
 		// Search for FAME markers in each spectra file
 		for (SpectrumType i : SpectrumType.values()) {
-			RawDataFile[] dataFiles = parameters.getParameter(FameAlignmentParameters.SPECTRA_DATA[i.ordinal()]).getValue();
+			RawDataFile[] dataFiles = parameters.getParameter(
+					FameAlignmentParameters.SPECTRA_DATA[i.ordinal()])
+					.getValue();
 
 			for (RawDataFile dataFile : dataFiles) {
-				FameAlignmentProcessingTask task = new FameAlignmentProcessingTask(dataFile, parameters, i);
+				FameAlignmentProcessingTask task = new FameAlignmentProcessingTask(
+						dataFile, parameters, i);
 				processingTasks.add(task);
 				tasks.add(task);
 			}

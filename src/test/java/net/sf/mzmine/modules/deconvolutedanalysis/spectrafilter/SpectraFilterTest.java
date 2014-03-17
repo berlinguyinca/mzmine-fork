@@ -22,7 +22,8 @@ public class SpectraFilterTest {
 		ExitCode exitCode = BatchModeModule.runBatch(batchFile);
 		assert (exitCode == ExitCode.OK);
 
-		RawDataFile dataFile = MZmineCore.getCurrentProject().getDataFiles()[0];
+		int filesCount = MZmineCore.getCurrentProject().getDataFiles().length;
+		RawDataFile dataFile = MZmineCore.getCurrentProject().getDataFiles()[filesCount - 1];
 		Scan spectrum = dataFile.getScan(1);
 
 		assert (dataFile.getName().contains("filtered"));

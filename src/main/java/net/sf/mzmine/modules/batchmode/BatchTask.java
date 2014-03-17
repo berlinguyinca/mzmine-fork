@@ -98,11 +98,11 @@ public class BatchTask extends AbstractTask {
 		// Update dataFiles and peakLists in the batchStepParameters
 		for (Parameter p : batchStepParameters.getParameters()) {
 			if (p instanceof RawDataFilesParameter)
-				((RawDataFilesParameter)p).setValue(dataFiles);
+				((RawDataFilesParameter) p).setValue(dataFiles);
 			if (p instanceof PeakListsParameter)
-				((PeakListsParameter)p).setValue(peakLists);
+				((PeakListsParameter) p).setValue(peakLists);
 			if (p instanceof RawDataFilesMultiChoiceParameter)
-				((RawDataFilesMultiChoiceParameter)p).setChoices(dataFiles);
+				((RawDataFilesMultiChoiceParameter) p).setChoices(dataFiles);
 		}
 
 		// Check if the parameter settings are valid

@@ -44,7 +44,8 @@ public class FameData {
 			270, 298, 326, 354, 382, 410, 438, 466};
 
 	/** Possible base peak ions required for FAME marker */
-	public static final int[] FAME_BASE_PEAKS = new int[] {43, 74, 87, 117, 147, 174, 130};
+	public static final int[] FAME_BASE_PEAKS = new int[]{43, 74, 87, 117, 147,
+			174, 130};
 
 	/** Stored spectrum information for each FAME marker */
 	private static Map<String, FameMassSpectrum> primeBinBaseData,
@@ -65,12 +66,12 @@ public class FameData {
 			this.spectrum = parseSpectrumData(spectrum);
 
 			// Removes ions with m/z < 50
-			if(false) {
+			if (false) {
 				List<String> ions = Lists.newArrayList(spectrum.split(" "));
 				for (Iterator<String> it = ions.iterator(); it.hasNext();) {
 					double mass = Double.parseDouble(it.next().split(":")[0]);
 
-					if(mass <= 50)
+					if (mass <= 50)
 						it.remove();
 				}
 
@@ -213,22 +214,28 @@ public class FameData {
 		return similarity.calculateSimimlarity();
 
 		/*
-		double[][] x = similarity.getLibrarySpectra(), y = similarity.getUnknownSpectra();
-
-		double xsum = 0, ysum = 0, xysum = 0;
-
-		for(int i = 0; i < x.length; i++) {
-			xsum += x[i][Similarity.FRAGMENT_ABS_POSITION] * x[i][Similarity.FRAGMENT_ABS_POSITION];
-			ysum += y[i][Similarity.FRAGMENT_ABS_POSITION] * y[i][Similarity.FRAGMENT_ABS_POSITION];
-			xysum += x[i][Similarity.FRAGMENT_ABS_POSITION] * y[i][Similarity.FRAGMENT_ABS_POSITION];
-		}
-
-		for(int i = 0; i < x.length; i++) {
-			xsum += x[i][Similarity.FRAGMENT_ION_POSITION] * x[i][Similarity.FRAGMENT_REL_POSITION];
-			ysum += y[i][Similarity.FRAGMENT_ION_POSITION] * y[i][Similarity.FRAGMENT_REL_POSITION];
-			xysum += Math.sqrt(x[i][Similarity.FRAGMENT_REL_POSITION] * y[i][Similarity.FRAGMENT_REL_POSITION]) * x[i][Similarity.FRAGMENT_ION_POSITION];
-		}
-		return xysum / Math.sqrt(xsum * ysum);
-		*/
+		 * double[][] x = similarity.getLibrarySpectra(), y =
+		 * similarity.getUnknownSpectra();
+		 * 
+		 * double xsum = 0, ysum = 0, xysum = 0;
+		 * 
+		 * for(int i = 0; i < x.length; i++) { xsum +=
+		 * x[i][Similarity.FRAGMENT_ABS_POSITION] *
+		 * x[i][Similarity.FRAGMENT_ABS_POSITION]; ysum +=
+		 * y[i][Similarity.FRAGMENT_ABS_POSITION] *
+		 * y[i][Similarity.FRAGMENT_ABS_POSITION]; xysum +=
+		 * x[i][Similarity.FRAGMENT_ABS_POSITION] *
+		 * y[i][Similarity.FRAGMENT_ABS_POSITION]; }
+		 * 
+		 * for(int i = 0; i < x.length; i++) { xsum +=
+		 * x[i][Similarity.FRAGMENT_ION_POSITION] *
+		 * x[i][Similarity.FRAGMENT_REL_POSITION]; ysum +=
+		 * y[i][Similarity.FRAGMENT_ION_POSITION] *
+		 * y[i][Similarity.FRAGMENT_REL_POSITION]; xysum +=
+		 * Math.sqrt(x[i][Similarity.FRAGMENT_REL_POSITION] *
+		 * y[i][Similarity.FRAGMENT_REL_POSITION]) *
+		 * x[i][Similarity.FRAGMENT_ION_POSITION]; } return xysum /
+		 * Math.sqrt(xsum * ysum);
+		 */
 	}
 }

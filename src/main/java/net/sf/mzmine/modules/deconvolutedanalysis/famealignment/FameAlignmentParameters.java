@@ -31,8 +31,9 @@ public class FameAlignmentParameters extends SimpleParameterSet {
 			"Time window, in seconds, in which a peak can be matched.",
 			NumberFormat.getNumberInstance(), 10.0, 0.01, 60.0);
 
-	public static final BooleanParameter SHOW_RESULTS = new BooleanParameter("Show Results", "Shows a table with the results of FAME detection.", false);
-
+	public static final BooleanParameter SHOW_RESULTS = new BooleanParameter(
+			"Show Results",
+			"Shows a table with the results of FAME detection.", false);
 
 	public FameAlignmentParameters() {
 		super(new Parameter[]{DATA_FILES, SPECTRA_DATA[0], SPECTRA_DATA[1],
@@ -49,7 +50,7 @@ public class FameAlignmentParameters extends SimpleParameterSet {
 	private boolean checkMultiChoiceParameters(Collection<String> errorMessages) {
 		// Get spectra data
 		RawDataFilesMultiChoiceParameter[] spectraData = new RawDataFilesMultiChoiceParameter[SPECTRA_DATA.length];
-		for(int i = 0; i < SPECTRA_DATA.length; i++)
+		for (int i = 0; i < SPECTRA_DATA.length; i++)
 			spectraData[i] = getParameter(SPECTRA_DATA[i]);
 
 		// Number of matched files

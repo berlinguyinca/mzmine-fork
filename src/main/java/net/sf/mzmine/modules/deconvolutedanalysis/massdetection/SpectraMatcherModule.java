@@ -43,8 +43,9 @@ public class SpectraMatcherModule implements MZmineProcessingModule {
 		Map<RawDataFile, List<MassCandidate>> massCandidatesByFile = new HashMap<RawDataFile, List<MassCandidate>>();
 
 		for (SpectrumType i : SpectrumType.values()) {
-			RawDataFile[] dataFiles = parameters.getParameter(SpectraMatcherParameters.SPECTRA_DATA[i
-					.ordinal()]).getValue();
+			RawDataFile[] dataFiles = parameters.getParameter(
+					SpectraMatcherParameters.SPECTRA_DATA[i.ordinal()])
+					.getValue();
 
 			for (RawDataFile dataFile : dataFiles) {
 				List<MassCandidate> spectralMasses = new ArrayList<MassCandidate>();
@@ -61,7 +62,9 @@ public class SpectraMatcherModule implements MZmineProcessingModule {
 		// Create PeakList with ordered files
 		List<RawDataFile> dataFiles = new ArrayList<RawDataFile>();
 		for (SpectrumType i : SpectrumType.values()) {
-			RawDataFile[] files = parameters.getParameter(SpectraMatcherParameters.SPECTRA_DATA[i.ordinal()]).getValue();
+			RawDataFile[] files = parameters.getParameter(
+					SpectraMatcherParameters.SPECTRA_DATA[i.ordinal()])
+					.getValue();
 			Arrays.sort(files, new Comparator<RawDataFile>() {
 				@Override
 				public int compare(RawDataFile a, RawDataFile b) {
