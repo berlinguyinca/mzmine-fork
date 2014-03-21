@@ -3,14 +3,12 @@ package net.sf.mzmine.modules.deconvolutedanalysis.famealignment.table;
 import net.sf.mzmine.data.PeakList;
 import net.sf.mzmine.data.RawDataFile;
 import net.sf.mzmine.main.MZmineCore;
-import net.sf.mzmine.modules.visualization.peaklist.table.CompoundIdentityCellRenderer;
 import net.sf.mzmine.util.components.ColumnGroup;
 import net.sf.mzmine.util.components.GroupableTableHeader;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableColumnModel;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -19,26 +17,25 @@ import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.Enumeration;
 
-public class MassListTableColumnModel extends DefaultTableColumnModel
+public class ResultsListTableColumnModel extends DefaultTableColumnModel
 		implements
 			MouseListener {
 
 	private static final Font editFont = new Font("SansSerif", Font.PLAIN, 10);
 	private final Color alternateBackground = new Color(237, 247, 255);
 
-	private FormattedCellRenderer mzRenderer, rtRenderer;
-	private TableCellRenderer identityRenderer;
+	private FormattedCellRenderer rtRenderer;
 	private DefaultTableCellRenderer defaultRenderer;
 
 	private PeakList peakList;
-	MassListTableModel tableModel;
+	ResultsListTableModel tableModel;
 	private GroupableTableHeader header;
 
 	private TableColumn columnBeingResized;
 	private int[] columnWidths;
 
-	MassListTableColumnModel(GroupableTableHeader header,
-			MassListTableModel tableModel, PeakList peakList) {
+	ResultsListTableColumnModel(GroupableTableHeader header,
+			ResultsListTableModel tableModel, PeakList peakList) {
 
 		this.peakList = peakList;
 		this.tableModel = tableModel;
@@ -47,32 +44,10 @@ public class MassListTableColumnModel extends DefaultTableColumnModel
 		header.addMouseListener(this);
 
 		// prepare formatters
-		NumberFormat mzFormat = MZmineCore.getConfiguration().getMZFormat();
 		NumberFormat rtFormat = MZmineCore.getConfiguration().getRTFormat();
 
 		// prepare cell renderers
-		mzRenderer = new FormattedCellRenderer(mzFormat, alternateBackground);
 		rtRenderer = new FormattedCellRenderer(rtFormat, alternateBackground);
-		identityRenderer = new CompoundIdentityCellRenderer() {
-			@Override
-			public Component getTableCellRendererComponent(JTable table,
-					Object value, boolean isSelected, boolean hasFocus,
-					int row, int column) {
-				JLabel c = (JLabel) super.getTableCellRendererComponent(table,
-						value, isSelected, hasFocus, row, column);
-
-				c.setBackground(isSelected
-						? table.getSelectionBackground()
-						: (row % 2 == 0)
-								? table.getBackground()
-								: alternateBackground);
-
-				c.setBorder(BorderFactory.createCompoundBorder(c.getBorder(),
-						FormattedCellRenderer.padding));
-				c.setForeground(Color.BLACK);
-				return c;
-			}
-		};
 
 		defaultRenderer = new DefaultTableCellRenderer() {
 			@Override
@@ -98,7 +73,9 @@ public class MassListTableColumnModel extends DefaultTableColumnModel
 
 		// Define column widths
 		columnWidths = new int[tableModel.getColumnCount()];
-		Arrays.fill(columnWidths, 100);
+		Arrays.fill(columnWidths, 110);
+		columnWidths[0] = 50;
+		columnWidths[1] = 80;
 	}
 
 	public void createColumns() {
@@ -119,7 +96,6 @@ public class MassListTableColumnModel extends DefaultTableColumnModel
 
 		JTextField editorField = new JTextField();
 		editorField.setFont(editFont);
-		DefaultCellEditor defaultEditor = new DefaultCellEditor(editorField);
 
 		for (int i = 0; i < CommonColumnType.values().length; i++) {
 			CommonColumnType commonColumn = CommonColumnType.values()[i];
@@ -129,18 +105,11 @@ public class MassListTableColumnModel extends DefaultTableColumnModel
 			newColumn.setIdentifier(commonColumn);
 
 			switch (commonColumn) {
-				case MZ :
-					newColumn.setCellRenderer(mzRenderer);
-					break;
-				case AVERAGERT :
-					newColumn.setCellRenderer(rtRenderer);
-					break;
-				case IDENTITY :
-					newColumn.setCellRenderer(identityRenderer);
-					break;
 				case COMMENT :
 					newColumn.setCellRenderer(defaultRenderer);
-					newColumn.setCellEditor(defaultEditor);
+					break;
+				case RI :
+					newColumn.setCellRenderer(defaultRenderer);
 					break;
 				default :
 					newColumn.setCellRenderer(defaultRenderer);
@@ -149,10 +118,6 @@ public class MassListTableColumnModel extends DefaultTableColumnModel
 
 			this.addColumn(newColumn);
 			newColumn.setPreferredWidth(columnWidths[i]);
-			if ((commonColumn == CommonColumnType.MZ)
-					|| (commonColumn == CommonColumnType.AVERAGERT))
-				averageGroup.add(newColumn);
-
 		}
 
 		for (int i = 0; i < peakList.getNumberOfRawDataFiles(); i++) {
@@ -249,5 +214,4 @@ public class MassListTableColumnModel extends DefaultTableColumnModel
 		}
 		return null;
 	}
-
 }

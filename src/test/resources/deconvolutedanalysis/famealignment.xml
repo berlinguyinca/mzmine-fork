@@ -36,7 +36,8 @@
             <!--<file>../data/QC/140305amsqc01-01_1.cdf</file>-->
             <!--<file>../data/ChromaTOF-Deconvoluted/EI_Algae_SorbCon_R1.csv</file>-->
             <!--<file>../data/DiabeticPlasma/DiabeticPlasma_Replicate2_EI_1to10.csv</file>-->
-            <file>../data/HumanPlasma/050913_HumanPlasma_EI.csv</file>
+            <!--<file>../data/HumanPlasma/050913_HumanPlasma_EI.csv</file>-->
+            <file>../data/ChromaTOF-Deconvoluted/EI_Algae_SorbCon_R1.csv</file>
         </parameter>
     </batchstep>
 
@@ -57,7 +58,8 @@
             <parameter name="EI Files">
                 <!--<item>famealignment_DiabeticPlasma_Replicate2_EI_1to1.csv filtered</item>-->
                 <!--<item>140305amsqc01-01_1.cdf filtered</item>-->
-                <item>050913_HumanPlasma_EI.csv filtered</item>
+                <!--<item>050913_HumanPlasma_EI.csv filtered</item>-->
+                <item>EI_Algae_SorbCon_R1.csv filtered</item>
             </parameter>
             <parameter name="PCI-Methane Files">
             </parameter>

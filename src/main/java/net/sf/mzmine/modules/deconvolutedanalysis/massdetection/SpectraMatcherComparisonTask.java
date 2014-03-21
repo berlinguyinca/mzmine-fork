@@ -1,6 +1,5 @@
 package net.sf.mzmine.modules.deconvolutedanalysis.massdetection;
 
-import com.google.common.primitives.Ints;
 import net.sf.mzmine.data.PeakList;
 import net.sf.mzmine.data.PeakListRow;
 import net.sf.mzmine.data.RawDataFile;
@@ -35,7 +34,7 @@ public class SpectraMatcherComparisonTask extends AbstractTask {
 	private double timeWindow;
 
 	// Requried number of matches for each ionization type
-	int[] requiredMatches;
+	Map<SpectrumType, Integer> requiredMatches;
 
 	public SpectraMatcherComparisonTask(
 			List<SpectraMatcherProcessingTask> processingTasks,
@@ -52,10 +51,14 @@ public class SpectraMatcherComparisonTask extends AbstractTask {
 				SpectraMatcherParameters.MATCH_TIME_WINDOW).getValue() / 60.0;
 
 		// Get the required matches parameters
-		requiredMatches = new int[SpectrumType.values().length];
-		for (int i = 0; i < requiredMatches.length; i++)
-			requiredMatches[i] = parameters.getParameter(
-					SpectraMatcherParameters.FILE_MATCHES[i]).getValue();
+		requiredMatches = new EnumMap<SpectrumType, Integer>(SpectrumType.class);
+
+		for (SpectrumType type : SpectraMatcherParameters.SPECTRA_DATA.keySet())
+			requiredMatches.put(
+					type,
+					parameters.getParameter(
+							SpectraMatcherParameters.FILE_MATCHES.get(type))
+							.getValue());
 	}
 
 	@Override
@@ -147,11 +150,6 @@ public class SpectraMatcherComparisonTask extends AbstractTask {
 			processedScans++;
 		}
 
-		for (Range r : massRanges.get(384).keySet())
-			System.out.println(r.getMin() + " - " + r.getMax() + " - "
-					+ massRanges.get(384).get(r).size());
-		System.out.println("\n\n\n\n\n");
-
 		// Combine any possible overlapping ranges
 		for (Map<Range, List<MassCandidate>> map : massRanges.values()) {
 			Range[] keys = map.keySet().toArray(new Range[map.size()]);
@@ -176,11 +174,6 @@ public class SpectraMatcherComparisonTask extends AbstractTask {
 			processedScans++;
 		}
 
-		for (Range r : massRanges.get(384).keySet())
-			System.out.println(r.getMin() + " - " + r.getMax() + " - "
-					+ massRanges.get(384).get(r).size());
-		System.out.println("\n\n\n\n\n");
-
 		// Filter masses with insufficient matches
 		Map<Double, List<MassCandidate>> matchedCandidates = new TreeMap<Double, List<MassCandidate>>();
 
@@ -188,34 +181,37 @@ public class SpectraMatcherComparisonTask extends AbstractTask {
 			Map<Range, List<MassCandidate>> map = massRanges.get(mass);
 
 			for (Map.Entry<Range, List<MassCandidate>> e : map.entrySet()) {
-				int[] count = new int[SpectrumType.values().length];
+				Map<SpectrumType, List<String>> files = new EnumMap<SpectrumType, List<String>>(
+						SpectrumType.class);
 				double averageRT = 0;
 
 				for (MassCandidate m : e.getValue()) {
-					count[m.getIonizationType().ordinal()]++;
+					String fileName = m.getDataFile().getName();
+					SpectrumType type = m.getIonizationType();
+
+					if (!files.keySet().contains(type))
+						files.put(type, new ArrayList<String>());
+
+					if (!files.get(type).contains(fileName))
+						files.get(type).add(fileName);
+
 					averageRT += m.getRetentionTime();
 				}
 
 				averageRT /= e.getValue().size();
 
 				// Check that each ionization type has sufficient matches
-				boolean omit = false;
+				boolean isValid = true;
 
-				for (int i = 0; i < count.length; i++) {
-					if (count[i] < requiredMatches[i]) {
-						omit = true;
-						break;
-					}
+				for (SpectrumType type : SpectraMatcherParameters.SPECTRA_DATA
+						.keySet()) {
+					if (files.get(type).size() < requiredMatches.get(type))
+						isValid = false;
 				}
 
-				if (mass == 384)
-					System.out.println(Ints.asList(count));
-
-				if (omit)
-					continue;
-
 				// If it passes this filter, add to the final results
-				matchedCandidates.put(averageRT, e.getValue());
+				if (isValid)
+					matchedCandidates.put(averageRT, e.getValue());
 			}
 
 			processedScans++;
@@ -243,6 +239,10 @@ public class SpectraMatcherComparisonTask extends AbstractTask {
 		}
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	private boolean isBusy() {
 		// If the current task is cancelled, we are not busy
 		if (isCanceled())
@@ -258,14 +258,28 @@ public class SpectraMatcherComparisonTask extends AbstractTask {
 		return false;
 	}
 
+	/**
+	 * 
+	 * @param rt
+	 * @return
+	 */
 	private Range getTimeWindow(double rt) {
 		return new Range(rt - timeWindow, rt + timeWindow);
 	}
 
+	/**
+	 * 
+	 * @param a
+	 * @param b
+	 * @return
+	 */
 	private boolean rangeOverlaps(Range a, Range b) {
 		return (a.getMin() <= b.getMax()) && (a.getMax() >= b.getMin());
 	}
 
+	/**
+	 *
+	 */
 	private class RangeComparator implements Comparator<Range> {
 		@Override
 		public int compare(Range a, Range b) {

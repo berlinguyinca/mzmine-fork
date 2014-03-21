@@ -11,14 +11,19 @@ public enum SpectrumType {
 	EI("EI"),
 
 	/**
+	 * General Positive Chemical Ionization
+	 */
+	PCI("PCI"),
+
+	/**
 	 * Positive Chemical Ionization using Methane
 	 */
-	METHANE("PCI-Methane"),
+	PCI_METHANE("PCI-Methane"),
 
 	/**
 	 * Positive Chemical Ionization using Isobutane
 	 */
-	ISOBUTANE("PCI-Isobutane");
+	PCI_ISOBUTANE("PCI-Isobutane");
 
 	/** Name of the ionization type */
 	private final String name;

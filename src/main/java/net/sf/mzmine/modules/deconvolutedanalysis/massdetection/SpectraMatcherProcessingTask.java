@@ -41,13 +41,12 @@ public class SpectraMatcherProcessingTask extends AbstractTask {
 			List<MassCandidate> massCandidates) {
 		this.dataFile = dataFile;
 		this.ionizationType = ionizationType;
-		this.adducts = parameters
-				.getParameter(
-						SpectraMatcherParameters.ADDUCT_PARAMS[ionizationType
-								.ordinal()]).getValue();
+		this.adducts = parameters.getParameter(
+				SpectraMatcherParameters.ADDUCT_PARAMS.get(ionizationType))
+				.getValue();
 		this.matchesThreshold = parameters.getParameter(
-				SpectraMatcherParameters.ADDUCT_MATCHES[ionizationType
-						.ordinal()]).getValue();
+				SpectraMatcherParameters.ADDUCT_MATCHES.get(ionizationType))
+				.getValue();
 		this.massCandidates = massCandidates;
 	}
 

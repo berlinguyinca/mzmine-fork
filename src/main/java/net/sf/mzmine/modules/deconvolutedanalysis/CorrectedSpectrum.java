@@ -4,12 +4,9 @@ import edu.ucdavis.genomics.metabolomics.util.math.CombinedRegression;
 import net.sf.mzmine.data.DataPoint;
 import net.sf.mzmine.data.RawDataFile;
 import net.sf.mzmine.data.Scan;
-import net.sf.mzmine.main.MZmineCore;
 import net.sf.mzmine.project.impl.RawDataFileImpl;
 import net.sf.mzmine.project.impl.StorableScan;
 import net.sf.mzmine.util.ScanUtils;
-
-import java.text.Format;
 
 /**
  * StorableScan that allows for retention index corrections.
@@ -33,9 +30,11 @@ public class CorrectedSpectrum extends StorableScan {
 	public CorrectedSpectrum(Scan sc, RawDataFile dataFile, int storageID) {
 		super(sc, (RawDataFileImpl) dataFile, sc.getNumberOfDataPoints(),
 				storageID);
-		this.retentionIndex = (sc instanceof CorrectedSpectrum)
-				? ((CorrectedSpectrum) sc).getRetentionIndex()
-				: -1;
+
+		if (sc instanceof CorrectedSpectrum)
+			this.retentionIndex = ((CorrectedSpectrum) sc).getRetentionIndex();
+		else
+			this.retentionIndex = -1;
 	}
 
 	public CorrectedSpectrum(RawDataFile dataFile, int storageID,
@@ -49,6 +48,7 @@ public class CorrectedSpectrum extends StorableScan {
 		super((RawDataFileImpl) dataFile, storageID, dataPoints.length,
 				spectrumNumber, 1, retentionTime, -1, 0.0, 1, null, ScanUtils
 						.isCentroided(dataPoints));
+
 		this.retentionIndex = retentionIndex;
 	}
 

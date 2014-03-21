@@ -210,32 +210,13 @@ public class FameData {
 		}
 
 		Similarity similarity = getFameSpectrum(name).getSimilarity();
-		similarity.setUnknownSpectra(bigSpectrum);
-		return similarity.calculateSimimlarity();
+		double sim;
 
-		/*
-		 * double[][] x = similarity.getLibrarySpectra(), y =
-		 * similarity.getUnknownSpectra();
-		 * 
-		 * double xsum = 0, ysum = 0, xysum = 0;
-		 * 
-		 * for(int i = 0; i < x.length; i++) { xsum +=
-		 * x[i][Similarity.FRAGMENT_ABS_POSITION] *
-		 * x[i][Similarity.FRAGMENT_ABS_POSITION]; ysum +=
-		 * y[i][Similarity.FRAGMENT_ABS_POSITION] *
-		 * y[i][Similarity.FRAGMENT_ABS_POSITION]; xysum +=
-		 * x[i][Similarity.FRAGMENT_ABS_POSITION] *
-		 * y[i][Similarity.FRAGMENT_ABS_POSITION]; }
-		 * 
-		 * for(int i = 0; i < x.length; i++) { xsum +=
-		 * x[i][Similarity.FRAGMENT_ION_POSITION] *
-		 * x[i][Similarity.FRAGMENT_REL_POSITION]; ysum +=
-		 * y[i][Similarity.FRAGMENT_ION_POSITION] *
-		 * y[i][Similarity.FRAGMENT_REL_POSITION]; xysum +=
-		 * Math.sqrt(x[i][Similarity.FRAGMENT_REL_POSITION] *
-		 * y[i][Similarity.FRAGMENT_REL_POSITION]) *
-		 * x[i][Similarity.FRAGMENT_ION_POSITION]; } return xysum /
-		 * Math.sqrt(xsum * ysum);
-		 */
+		synchronized (similarity) {
+			similarity.setUnknownSpectra(bigSpectrum);
+			sim = similarity.calculateSimimlarity();
+		}
+
+		return sim;
 	}
 }

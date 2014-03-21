@@ -1,11 +1,8 @@
 package net.sf.mzmine.modules.deconvolutedanalysis.famealignment.table;
 
-import net.sf.mzmine.data.PeakIdentity;
-
 public enum CommonColumnType {
-	ROWID("ID", Integer.class), MZ("Mass", Double.class), AVERAGERT(
-			"Avg. Retention Time", Double.class), IDENTITY("Identity",
-			PeakIdentity.class), COMMENT("Comment", String.class);
+	ROWID("ID", Integer.class), COMMENT("FAME ID", String.class), RI(
+			"Retention Index", Integer.class);
 
 	private final String columnName;
 	private final Class columnClass;
@@ -21,7 +18,5 @@ public enum CommonColumnType {
 	public Class getColumnClass() {
 		return columnClass;
 	}
-	public String toString() {
-		return columnName;
-	}
+	public String toString() { return columnName; }
 }

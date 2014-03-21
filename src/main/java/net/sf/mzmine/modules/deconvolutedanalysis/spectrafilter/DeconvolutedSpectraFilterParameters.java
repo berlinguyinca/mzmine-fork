@@ -50,7 +50,7 @@ public class DeconvolutedSpectraFilterParameters extends SimpleParameterSet {
 	 */
 	public static final BooleanParameter REMOVE_ORIGINAL = new BooleanParameter(
 			"Remove source file after filtering",
-			"If checked, original file will be replaced by the corrected version",
+			"If checked, original file will be replaced by the filtered version",
 			true);
 
 	public DeconvolutedSpectraFilterParameters() {

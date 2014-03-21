@@ -1,8 +1,7 @@
 package net.sf.mzmine.modules.deconvolutedanalysis.famealignment.table;
 
 public enum DataFileColumnType {
-	SPECNUMBER("Spectrum Number", Integer.class), RT("Retention time",
-			Double.class), ADDUCTS("Matched Adducts/Losses", String.class);
+	RT("Retention Time", Double.class);
 
 	private final String columnName;
 	private final Class columnClass;

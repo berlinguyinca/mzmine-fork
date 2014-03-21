@@ -3,15 +3,16 @@ package net.sf.mzmine.modules.deconvolutedanalysis.spectrafilter;
 import com.google.common.collect.Lists;
 import net.sf.mzmine.data.DataPoint;
 import net.sf.mzmine.data.RawDataFile;
+import net.sf.mzmine.data.Scan;
 import net.sf.mzmine.main.MZmineCore;
 import net.sf.mzmine.modules.deconvolutedanalysis.CorrectedSpectrum;
 import net.sf.mzmine.parameters.ParameterSet;
 import net.sf.mzmine.project.MZmineProject;
 import net.sf.mzmine.project.impl.RawDataFileImpl;
-import net.sf.mzmine.project.impl.StorableScan;
 import net.sf.mzmine.taskcontrol.AbstractTask;
 import net.sf.mzmine.taskcontrol.TaskStatus;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -107,14 +108,7 @@ public class DeconvolutedSpectraFilterTask extends AbstractTask {
 
 				// Duplicate current spectrum, obtain data points and create
 				// list of filtered data points
-				StorableScan s = (StorableScan) origDataFile
-						.getScan(scanNumber);
-				CorrectedSpectrum spectrum;
-				if (origDataFile.getScan(scanNumber) instanceof CorrectedSpectrum)
-					spectrum = (CorrectedSpectrum) s;
-				else
-					spectrum = new CorrectedSpectrum(s, origDataFile,
-							s.getStorageID());
+				Scan spectrum = origDataFile.getScan(scanNumber);
 
 				List<DataPoint> dataPoints = Lists.newArrayList(spectrum
 						.getDataPoints());
@@ -155,16 +149,11 @@ public class DeconvolutedSpectraFilterTask extends AbstractTask {
 				// Add scan to new data file
 				int storageID = rawDataFileWriter
 						.storeDataPoints(filteredDataPoints
-								.toArray(new DataPoint[filteredDataPoints
-										.size()]));
-				CorrectedSpectrum newSpectrum = new CorrectedSpectrum(
-						rawDataFileWriter, storageID, spectrum.getScanNumber(),
-						spectrum.getRetentionTime(), spectrum.getDataPoints());
-
-				if (spectrum.isRetentionCorrected())
-					newSpectrum.setRetentionIndex(spectrum.getRetentionIndex());
-
+								.toArray(new DataPoint[0]));
+				CorrectedSpectrum newSpectrum = new CorrectedSpectrum(spectrum,
+						rawDataFileWriter, storageID);
 				rawDataFileWriter.addScan(newSpectrum);
+
 				processedScans++;
 			}
 
@@ -185,10 +174,10 @@ public class DeconvolutedSpectraFilterTask extends AbstractTask {
 				logger.info("Finished deconvoluted spectra filter "
 						+ origDataFile.getName());
 			}
-		} catch (Throwable t) {
-			logger.log(Level.SEVERE, "Deconvoluted spectra filtering error", t);
+		} catch (IOException e) {
+			logger.log(Level.SEVERE, "Deconvoluted spectra filtering error", e);
 			setStatus(TaskStatus.ERROR);
-			errorMessage = t.getMessage();
+			errorMessage = e.getMessage();
 		}
 	}
 }

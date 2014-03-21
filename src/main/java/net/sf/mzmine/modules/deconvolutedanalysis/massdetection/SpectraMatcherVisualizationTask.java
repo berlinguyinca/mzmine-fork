@@ -41,11 +41,16 @@ public class SpectraMatcherVisualizationTask extends AbstractTask {
 
 		// Wait until the comparison task is finished, then open the mass table
 
-		while (!comparisonTask.isFinished())
+		while (!comparisonTask.isFinished()) {
 			try {
 				Thread.sleep(250);
 			} catch (Exception e) {
 			}
+		}
+
+		// Canceled?
+		if (isCanceled())
+			return;
 
 		// Add table to the GUI
 		MassListTableWindow window = new MassListTableWindow(peakList);

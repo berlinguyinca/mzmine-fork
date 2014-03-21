@@ -1,14 +1,16 @@
 package net.sf.mzmine.modules.deconvolutedanalysis.famealignment.table;
 
 import net.sf.mzmine.data.*;
-import net.sf.mzmine.modules.deconvolutedanalysis.massdetection.MassCandidate;
+import net.sf.mzmine.modules.deconvolutedanalysis.famealignment.Correction;
+import net.sf.mzmine.modules.deconvolutedanalysis.famealignment.FameData;
 
 import javax.swing.table.AbstractTableModel;
+import java.util.Arrays;
 
-public class MassListTableModel extends AbstractTableModel {
+public class ResultsListTableModel extends AbstractTableModel {
 	private PeakList peakList;
 
-	public MassListTableModel(PeakList peakList) {
+	public ResultsListTableModel(PeakList peakList) {
 		this.peakList = peakList;
 	}
 
@@ -47,29 +49,23 @@ public class MassListTableModel extends AbstractTableModel {
 			switch (getCommonColumn(col)) {
 				case ROWID :
 					return peakListRow.getID();
-				case MZ :
-					return peakListRow.getAverageMZ();
-				case AVERAGERT :
-					return peakListRow.getAverageRT();
-				case IDENTITY :
-					return peakListRow.getPreferredPeakIdentity();
 				case COMMENT :
 					return peakListRow.getComment();
+				case RI :
+					String name = peakListRow.getComment();
+					int idx = Arrays.asList(FameData.FAME_NAMES).indexOf(name);
+					return FameData.FAME_RETENTION_INDICES[idx];
 			}
 		} else {
 			RawDataFile file = getColumnDataFile(col);
-			ChromatographicPeak peak = peakListRow.getPeak(file);
+			Correction correction = (Correction) peakListRow.getPeak(file);
 
-			if (peak == null)
+			if (correction == null)
 				return null;
 
 			switch (getDataFileColumn(col)) {
-				case SPECNUMBER :
-					return peak.getScanNumbers()[0];
 				case RT :
-					return peak.getRT();
-				case ADDUCTS :
-					return ((MassCandidate) peak).getAdductsString();
+					return correction.getRetentionTime();
 			}
 		}
 
@@ -77,22 +73,10 @@ public class MassListTableModel extends AbstractTableModel {
 	}
 
 	public boolean isCellEditable(int row, int col) {
-		CommonColumnType columnType = getCommonColumn(col);
-		return ((columnType == CommonColumnType.COMMENT) || (columnType == CommonColumnType.IDENTITY));
+		return false;
 	}
 
 	public void setValueAt(Object value, int row, int col) {
-		CommonColumnType columnType = getCommonColumn(col);
-		PeakListRow peakListRow = peakList.getRow(row);
-
-		if (columnType == CommonColumnType.COMMENT) {
-			peakListRow.setComment((String) value);
-		}
-
-		if (columnType == CommonColumnType.IDENTITY) {
-			if (value instanceof PeakIdentity)
-				peakListRow.setPreferredPeakIdentity((PeakIdentity) value);
-		}
 	}
 
 	boolean isCommonColumn(int col) {
