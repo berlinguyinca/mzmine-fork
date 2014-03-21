@@ -65,19 +65,6 @@ public class FameData {
 			this.retentionIndex = retentionIndex;
 			this.spectrum = parseSpectrumData(spectrum);
 
-			// Removes ions with m/z < 50
-			if (false) {
-				List<String> ions = Lists.newArrayList(spectrum.split(" "));
-				for (Iterator<String> it = ions.iterator(); it.hasNext();) {
-					double mass = Double.parseDouble(it.next().split(":")[0]);
-
-					if (mass <= 50)
-						it.remove();
-				}
-
-				spectrum = Joiner.on(" ").join(ions);
-			}
-
 			similarity = new Similarity();
 			similarity.setLibrarySpectra(spectrum);
 		}
