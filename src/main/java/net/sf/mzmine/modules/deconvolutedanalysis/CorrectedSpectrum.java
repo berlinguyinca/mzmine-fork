@@ -27,9 +27,8 @@ public class CorrectedSpectrum extends StorableScan {
 	 */
 	private DataPoint secondaryBasePeak = null;
 
-	public CorrectedSpectrum(Scan sc, RawDataFile dataFile, int storageID) {
-		super(sc, (RawDataFileImpl) dataFile, sc.getNumberOfDataPoints(),
-				storageID);
+	public CorrectedSpectrum(Scan sc, RawDataFile dataFile, int numberOfDataPoints, int storageID) {
+		super(sc, (RawDataFileImpl) dataFile, numberOfDataPoints, storageID);
 
 		if (sc instanceof CorrectedSpectrum)
 			this.retentionIndex = ((CorrectedSpectrum) sc).getRetentionIndex();
@@ -108,6 +107,8 @@ public class CorrectedSpectrum extends StorableScan {
 	 */
 	public DataPoint getSecondaryBasePeak() {
 		if (secondaryBasePeak == null && getNumberOfDataPoints() > 1) {
+			System.out.println(getNumberOfDataPoints());
+			System.out.println(getDataPoints().length);
 			secondaryBasePeak = getDataPoints()[0];
 
 			for (DataPoint p : getDataPoints())

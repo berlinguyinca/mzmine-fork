@@ -151,7 +151,7 @@ public class DeconvolutedSpectraFilterTask extends AbstractTask {
 						.storeDataPoints(filteredDataPoints
 								.toArray(new DataPoint[0]));
 				CorrectedSpectrum newSpectrum = new CorrectedSpectrum(spectrum,
-						rawDataFileWriter, storageID);
+						rawDataFileWriter, filteredDataPoints.size(), storageID);
 				rawDataFileWriter.addScan(newSpectrum);
 
 				processedScans++;
