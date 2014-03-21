@@ -89,7 +89,7 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 		logger.info("Started FAME marker search on " + origDataFile);
 
 		// Set total number of scans to process
-		totalScans = origDataFile.getNumOfScans();
+		totalScans = 2 * origDataFile.getNumOfScans();
 
 		// Declare the file writer for the retention corrected file
 		final RawDataFileImpl rawDataFileWriter;
@@ -185,8 +185,10 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 			// Check base peak and then secondary base peak
 			double intensity = testEISpectrum(spectrum);
 
-			if (intensity > 0)
+			if (intensity > 0) {
 				allCandidates.add(spectrum);
+				totalScans += 2 * FameData.N_FAMES;
+			}
 
 			// Compute maximum base peak intensity out of our list of candidates
 			if (intensity > maxBasePeakIntensity)
@@ -229,6 +231,8 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 							+ s.getScanNumber() + " " + s.getRetentionTime()
 							+ " " + matchesCount);
 				}
+
+				processedScans++;
 			}
 		}
 
@@ -256,6 +260,8 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 							&& Math.abs(s.getRetentionTime()
 									- highestMatch.getRetentionTime()) < timeWindow)
 						matches.add(s);
+
+					processedScans++;
 				}
 			}
 
@@ -270,6 +276,8 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 					if (intensity > 0
 							&& Math.abs(s.getRetentionTime() - expectedRt) < timeWindow)
 						matches.add(s);
+
+					processedScans++;
 				}
 			}
 

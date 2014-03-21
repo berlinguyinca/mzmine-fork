@@ -1,5 +1,6 @@
 package net.sf.mzmine.modules.deconvolutedanalysis.massdetection;
 
+import edu.ucdavis.genomics.metabolomics.util.math.CombinedRegression;
 import net.sf.mzmine.data.PeakList;
 import net.sf.mzmine.data.PeakListRow;
 import net.sf.mzmine.data.RawDataFile;
@@ -97,7 +98,7 @@ public class SpectraMatcherComparisonTask extends AbstractTask {
 		for (List<MassCandidate> masses : massCandidates.values()) {
 			for (MassCandidate m : masses) {
 				int mass = m.getIonMass();
-				Range range = getTimeWindow(m.getRetentionTime());
+				Range range = getRIWindow(m);
 
 				// Create a new HashMap entry with a simple Range Comparator if
 				// this is a new mass
@@ -185,12 +186,12 @@ public class SpectraMatcherComparisonTask extends AbstractTask {
 						SpectrumType.class);
 				double averageRT = 0;
 
+				for (SpectrumType type : SpectraMatcherParameters.SPECTRA_DATA.keySet())
+					files.put(type, new ArrayList<String>());
+
 				for (MassCandidate m : e.getValue()) {
 					String fileName = m.getDataFile().getName();
 					SpectrumType type = m.getIonizationType();
-
-					if (!files.keySet().contains(type))
-						files.put(type, new ArrayList<String>());
 
 					if (!files.get(type).contains(fileName))
 						files.get(type).add(fileName);
@@ -265,6 +266,18 @@ public class SpectraMatcherComparisonTask extends AbstractTask {
 	 */
 	private Range getTimeWindow(double rt) {
 		return new Range(rt - timeWindow, rt + timeWindow);
+	}
+
+	/**
+	 *
+	 * @param m
+	 * @return
+	 */
+	private Range getRIWindow(MassCandidate m) {
+		CombinedRegression fit = m.getFit();
+		double rt = m.getRetentionTime();
+
+		return new Range(fit.getY(rt - timeWindow), fit.getY(rt + timeWindow));
 	}
 
 	/**

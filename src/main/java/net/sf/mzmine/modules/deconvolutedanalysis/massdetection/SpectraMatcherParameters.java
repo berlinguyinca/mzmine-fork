@@ -1,6 +1,8 @@
 package net.sf.mzmine.modules.deconvolutedanalysis.massdetection;
 
 import net.sf.mzmine.data.RawDataFile;
+import net.sf.mzmine.data.Scan;
+import net.sf.mzmine.modules.deconvolutedanalysis.CorrectedSpectrum;
 import net.sf.mzmine.modules.peaklistmethods.identification.adductsearch.AdductType;
 import net.sf.mzmine.modules.deconvolutedanalysis.SpectrumType;
 import net.sf.mzmine.parameters.parametertypes.AdductsParameter;
@@ -109,7 +111,7 @@ public class SpectraMatcherParameters extends SimpleParameterSet {
 						"Select the PCI-Isobutane files for analysis.",
 						DATA_FILES, SpectrumType.PCI_ISOBUTANE));
 
-		//
+		// Define the required adducts/losses parameters
 		ADDUCT_MATCHES = new EnumMap<SpectrumType, IntegerParameter>(
 				SpectrumType.class);
 		ADDUCT_MATCHES
@@ -131,7 +133,7 @@ public class SpectraMatcherParameters extends SimpleParameterSet {
 								"Number of PCI-Isobutane Adducts/Losses required for a value to be considered a mass candidate",
 								1));
 
-		//
+		// Define the parameters for the number of required of data files
 		FILE_MATCHES = new EnumMap<SpectrumType, IntegerParameter>(
 				SpectrumType.class);
 		FILE_MATCHES
@@ -220,8 +222,7 @@ public class SpectraMatcherParameters extends SimpleParameterSet {
 			}
 		}
 
-		// If files have each only been selected once, check that the
-		// "file matches" parameters do not exceed the number of selected files
+		// Check that the "file matches" parameters do not exceed the number of selected files
 		if (count == 0) {
 			for (SpectrumType type : SPECTRA_DATA.keySet()) {
 				if (getParameter(FILE_MATCHES.get(type)).getValue() > getParameter(
@@ -229,6 +230,32 @@ public class SpectraMatcherParameters extends SimpleParameterSet {
 					errorMessages.add("'" + FILE_MATCHES.get(type).getName()
 							+ "' exceeds number of selected files.");
 					count++;
+				}
+			}
+		}
+
+		// Check that the required number of adducts/losses does not exceed the number of selections
+		if (count == 0) {
+			for (SpectrumType type : SPECTRA_DATA.keySet()) {
+				if (getParameter(ADDUCT_MATCHES.get(type)).getValue() > getParameter(
+						ADDUCT_PARAMS.get(type)).getValue().length) {
+					errorMessages.add("'" + ADDUCT_MATCHES.get(type).getName()
+							+ "' exceeds number of selected adducts/losses.");
+					count++;
+				}
+			}
+		}
+
+		// Check that each spectrum is a processed CorrectedSpectrum
+		if (count == 0) {
+			for (SpectrumType type : SPECTRA_DATA.keySet()) {
+				for(RawDataFile f : getParameter(SPECTRA_DATA.get(type)).getValue()) {
+					Scan s = f.getScan(f.getScanNumbers()[0]);
+
+					if(!(s instanceof CorrectedSpectrum) || !((CorrectedSpectrum)s).isRetentionCorrected()) {
+						errorMessages.add("''"+ f.getName() +"' is not a RI corrected file.");
+						count++;
+					}
 				}
 			}
 		}

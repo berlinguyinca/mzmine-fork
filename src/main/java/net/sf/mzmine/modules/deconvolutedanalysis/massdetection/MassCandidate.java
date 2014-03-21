@@ -1,7 +1,9 @@
 package net.sf.mzmine.modules.deconvolutedanalysis.massdetection;
 
+import edu.ucdavis.genomics.metabolomics.util.math.CombinedRegression;
 import net.sf.mzmine.data.*;
 import net.sf.mzmine.data.impl.SimpleDataPoint;
+import net.sf.mzmine.modules.deconvolutedanalysis.CorrectedSpectrum;
 import net.sf.mzmine.modules.peaklistmethods.identification.adductsearch.AdductType;
 import net.sf.mzmine.modules.deconvolutedanalysis.SpectrumType;
 import net.sf.mzmine.util.Range;
@@ -17,6 +19,7 @@ public class MassCandidate implements ChromatographicPeak {
 	private int ionMass;
 	private DataPoint dataPoint;
 	private SpectrumType ionizationType;
+	private CombinedRegression fit;
 
 	// Isotope pattern. Null by default but can be set later by deisotoping
 	// method.
@@ -39,6 +42,8 @@ public class MassCandidate implements ChromatographicPeak {
 		this.adductMatches = adductMatches.toArray(new AdductType[adductMatches
 				.size()]);
 		this.dataPoint = new SimpleDataPoint(ionMass, retentionTime);
+
+		fit = ((CorrectedSpectrum)dataFile.getScan(dataFile.getScanNumbers()[0])).getRetentionCorrection();
 
 		// Generate string representation of adduct matches
 		StringBuilder sb = new StringBuilder();
@@ -83,15 +88,13 @@ public class MassCandidate implements ChromatographicPeak {
 		return ionizationType;
 	}
 
-	@Override
-	public double getHeight() {
-		return 0;
-	}
+	public CombinedRegression getFit() { return fit; }
 
 	@Override
-	public double getArea() {
-		return 0;
-	}
+	public double getHeight() { return 0; }
+
+	@Override
+	public double getArea() { return 0; }
 
 	@Nonnull
 	@Override
