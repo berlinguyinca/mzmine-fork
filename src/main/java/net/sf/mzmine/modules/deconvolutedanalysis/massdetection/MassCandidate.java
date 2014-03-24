@@ -43,7 +43,9 @@ public class MassCandidate implements ChromatographicPeak {
 				.size()]);
 		this.dataPoint = new SimpleDataPoint(ionMass, retentionTime);
 
-		fit = ((CorrectedSpectrum)dataFile.getScan(dataFile.getScanNumbers()[0])).getRetentionCorrection();
+		fit = ((CorrectedSpectrum) dataFile
+				.getScan(dataFile.getScanNumbers()[0]))
+				.getRetentionCorrection();
 
 		// Generate string representation of adduct matches
 		StringBuilder sb = new StringBuilder();
@@ -88,13 +90,19 @@ public class MassCandidate implements ChromatographicPeak {
 		return ionizationType;
 	}
 
-	public CombinedRegression getFit() { return fit; }
+	public CombinedRegression getFit() {
+		return fit;
+	}
 
 	@Override
-	public double getHeight() { return 0; }
+	public double getHeight() {
+		return 0;
+	}
 
 	@Override
-	public double getArea() { return 0; }
+	public double getArea() {
+		return 0;
+	}
 
 	@Nonnull
 	@Override

@@ -114,7 +114,8 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 				int storageID = rawDataFileWriter.storeDataPoints(spectrum
 						.getDataPoints());
 				CorrectedSpectrum newSpectrum = new CorrectedSpectrum(spectrum,
-						rawDataFileWriter, spectrum.getNumberOfDataPoints(), storageID);
+						rawDataFileWriter, spectrum.getNumberOfDataPoints(),
+						storageID);
 
 				spectra.add(newSpectrum);
 				rawDataFileWriter.addScan(newSpectrum);

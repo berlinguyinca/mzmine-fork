@@ -87,6 +87,7 @@ public class LecoCsvReadTask extends AbstractTask {
 
 				ArrayList<DataPoint> mass_spectrum = new ArrayList<DataPoint>();
 				Range mzRange = null;
+
 				SimpleDataPoint p;
 				for (String s : scanner.next().split(" ")) {
 					String[] ion = s.split(":");
@@ -99,6 +100,7 @@ public class LecoCsvReadTask extends AbstractTask {
 					else
 						mzRange.extendRange(p.getMZ());
 				}
+
 				int spectrumSize = mass_spectrum.size();
 				DataPoint[] dataPoints = mass_spectrum
 						.toArray(new DataPoint[spectrumSize]);
@@ -112,7 +114,7 @@ public class LecoCsvReadTask extends AbstractTask {
 
 				int storageID = newMZmineFile.storeDataPoints(dataPoints);
 				newMZmineFile.addScan(new CorrectedSpectrum(newMZmineFile,
-						storageID, parsedScans, retentionTime, dataPoints));
+						storageID, parsedScans, retentionTime, uniqueMass, dataPoints));
 				scanner.nextLine();
 			}
 

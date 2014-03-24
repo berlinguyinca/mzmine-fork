@@ -23,6 +23,14 @@ public class DeconvolutedSpectraFilterParameters extends SimpleParameterSet {
 			NumberFormat.getNumberInstance(), 0.5, 0.0, 1.0);
 
 	/**
+	 *
+	 */
+	public static final IntegerParameter BASE_PEAK_THRESHOLD = new IntegerParameter(
+			"Base Peak Threshold",
+			"Remove all spectra with base peak intensity less than the given threshold level",
+			5000);
+
+	/**
 	 * Intensity threshold below which all ions are cut.
 	 */
 	public static final IntegerParameter INTENSITY_THRESHOLD = new IntegerParameter(
@@ -33,8 +41,8 @@ public class DeconvolutedSpectraFilterParameters extends SimpleParameterSet {
 	 * In each individual mass spectrum, remove all ions with intensity less
 	 * than the given percentage of its base peak intensity.
 	 */
-	public static final DoubleParameter BASE_PEAK_CUT = new DoubleParameter(
-			"Base Peak Threshold (Percentage)",
+	public static final DoubleParameter INTENSITY_PERCENTAGE_THRESHOLD = new DoubleParameter(
+			"Intensity Percentage Threshold",
 			"Remove all ions less than the given percentage of the current spectra's base peak (default 1%).",
 			NumberFormat.getNumberInstance(), 0.01, 0.0, 1.0);
 
@@ -54,7 +62,8 @@ public class DeconvolutedSpectraFilterParameters extends SimpleParameterSet {
 			true);
 
 	public DeconvolutedSpectraFilterParameters() {
-		super(new Parameter[]{DATA_FILES, C13_ISOTOPE_CUT, INTENSITY_THRESHOLD,
-				BASE_PEAK_CUT, SUFFIX, REMOVE_ORIGINAL});
+		super(new Parameter[]{DATA_FILES, C13_ISOTOPE_CUT, BASE_PEAK_THRESHOLD,
+				INTENSITY_THRESHOLD, INTENSITY_PERCENTAGE_THRESHOLD, SUFFIX,
+				REMOVE_ORIGINAL});
 	}
 }

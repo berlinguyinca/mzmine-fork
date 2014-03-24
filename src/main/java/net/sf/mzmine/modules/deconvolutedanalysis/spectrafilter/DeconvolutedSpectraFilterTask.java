@@ -45,11 +45,14 @@ public class DeconvolutedSpectraFilterTask extends AbstractTask {
 	/** User parameter for the C13 Isotope Cut */
 	private double c13IsotopeCut;
 
+	/** User parameter for the base peak intensity threshold */
+	private int basePeakThreshold;
+
 	/** User parameter for the intensity threshold cut */
 	private int intensityThreshold;
 
-	/** User parameter for base peak intensity cut */
-	private double basePeakCut;
+	/** User parameter for intensity percentage threshold */
+	private double intensityPercentageThreshold;
 
 	public DeconvolutedSpectraFilterTask(final RawDataFile dataFile,
 			final ParameterSet parameters) {
@@ -64,11 +67,16 @@ public class DeconvolutedSpectraFilterTask extends AbstractTask {
 
 		c13IsotopeCut = parameters.getParameter(
 				DeconvolutedSpectraFilterParameters.C13_ISOTOPE_CUT).getValue();
+		basePeakThreshold = parameters.getParameter(
+				DeconvolutedSpectraFilterParameters.BASE_PEAK_THRESHOLD)
+				.getValue();
 		intensityThreshold = parameters.getParameter(
 				DeconvolutedSpectraFilterParameters.INTENSITY_THRESHOLD)
 				.getValue();
-		basePeakCut = parameters.getParameter(
-				DeconvolutedSpectraFilterParameters.BASE_PEAK_CUT).getValue();
+		intensityPercentageThreshold = parameters
+				.getParameter(
+						DeconvolutedSpectraFilterParameters.INTENSITY_PERCENTAGE_THRESHOLD)
+				.getValue();
 	}
 
 	@Override
@@ -106,10 +114,14 @@ public class DeconvolutedSpectraFilterTask extends AbstractTask {
 				if (isCanceled())
 					return;
 
-				// Duplicate current spectrum, obtain data points and create
-				// list of filtered data points
+				// Duplicate current spectrum
 				Scan spectrum = origDataFile.getScan(scanNumber);
 
+				// Exclude the entire spectrum if its base peak intensity is less te given threshold
+				if(spectrum.getBasePeak().getIntensity() < basePeakThreshold)
+					continue;
+
+				// Get the data points from the spectrum and sort by m/z
 				List<DataPoint> dataPoints = Lists.newArrayList(spectrum
 						.getDataPoints());
 				Collections.sort(dataPoints, new Comparator<DataPoint>() {
@@ -120,11 +132,12 @@ public class DeconvolutedSpectraFilterTask extends AbstractTask {
 					}
 				});
 
+				// Create a list for the filtered points
 				List<DataPoint> filteredDataPoints = new ArrayList<DataPoint>();
 
 				// Filter the data points given pre-defined conditions
 				for (int i = dataPoints.size() - 1; i >= 0; i--) {
-					// Step #1: Remove C13 Isotopes
+					// Step #1: Remove C13 Isotope ions
 					if (i > 0
 							&& dataPoints.get(i).getMZ()
 									- dataPoints.get(i - 1).getMZ() < 1 + EPSILON
@@ -132,12 +145,12 @@ public class DeconvolutedSpectraFilterTask extends AbstractTask {
 									* dataPoints.get(i).getIntensity())
 						continue;
 
-					// Step #2: Remove all peaks < 100 counts
+					// Step #2: Remove all ions < 100 counts
 					else if (dataPoints.get(i).getIntensity() < intensityThreshold)
 						continue;
 
-					// Step #3: Remove all peaks < 1% of base peak
-					else if (dataPoints.get(i).getIntensity() < basePeakCut
+					// Step #3: Remove all ions < 1% of base peak
+					else if (dataPoints.get(i).getIntensity() < intensityPercentageThreshold
 							* spectrum.getBasePeak().getIntensity())
 						continue;
 

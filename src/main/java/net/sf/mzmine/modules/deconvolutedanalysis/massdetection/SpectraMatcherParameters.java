@@ -62,7 +62,7 @@ public class SpectraMatcherParameters extends SimpleParameterSet {
 		ADDUCTS = new EnumMap<SpectrumType, AdductType[]>(SpectrumType.class);
 		ADDUCTS.put(SpectrumType.EI, new AdductType[]{
 				new AdductType("[M]+", 0), new AdductType("[M-CH3]+", -15),
-				new AdductType("[M-H20]+", -18),
+				new AdductType("[M-H2O]+", -18),
 				new AdductType("[M-OTMS]+", -89),
 				new AdductType("[M-OTMS_2]+", -178)});
 		ADDUCTS.put(SpectrumType.PCI_METHANE, new AdductType[]{
@@ -222,7 +222,8 @@ public class SpectraMatcherParameters extends SimpleParameterSet {
 			}
 		}
 
-		// Check that the "file matches" parameters do not exceed the number of selected files
+		// Check that the "file matches" parameters do not exceed the number of
+		// selected files
 		if (count == 0) {
 			for (SpectrumType type : SPECTRA_DATA.keySet()) {
 				if (getParameter(FILE_MATCHES.get(type)).getValue() > getParameter(
@@ -234,7 +235,8 @@ public class SpectraMatcherParameters extends SimpleParameterSet {
 			}
 		}
 
-		// Check that the required number of adducts/losses does not exceed the number of selections
+		// Check that the required number of adducts/losses does not exceed the
+		// number of selections
 		if (count == 0) {
 			for (SpectrumType type : SPECTRA_DATA.keySet()) {
 				if (getParameter(ADDUCT_MATCHES.get(type)).getValue() > getParameter(
@@ -249,11 +251,14 @@ public class SpectraMatcherParameters extends SimpleParameterSet {
 		// Check that each spectrum is a processed CorrectedSpectrum
 		if (count == 0) {
 			for (SpectrumType type : SPECTRA_DATA.keySet()) {
-				for(RawDataFile f : getParameter(SPECTRA_DATA.get(type)).getValue()) {
+				for (RawDataFile f : getParameter(SPECTRA_DATA.get(type))
+						.getValue()) {
 					Scan s = f.getScan(f.getScanNumbers()[0]);
 
-					if(!(s instanceof CorrectedSpectrum) || !((CorrectedSpectrum)s).isRetentionCorrected()) {
-						errorMessages.add("''"+ f.getName() +"' is not a RI corrected file.");
+					if (!(s instanceof CorrectedSpectrum)
+							|| !((CorrectedSpectrum) s).isRetentionCorrected()) {
+						errorMessages.add("''" + f.getName()
+								+ "' is not a RI corrected file.");
 						count++;
 					}
 				}

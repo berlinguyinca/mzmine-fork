@@ -186,7 +186,8 @@ public class SpectraMatcherComparisonTask extends AbstractTask {
 						SpectrumType.class);
 				double averageRT = 0;
 
-				for (SpectrumType type : SpectraMatcherParameters.SPECTRA_DATA.keySet())
+				for (SpectrumType type : SpectraMatcherParameters.SPECTRA_DATA
+						.keySet())
 					files.put(type, new ArrayList<String>());
 
 				for (MassCandidate m : e.getValue()) {
@@ -269,7 +270,7 @@ public class SpectraMatcherComparisonTask extends AbstractTask {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param m
 	 * @return
 	 */

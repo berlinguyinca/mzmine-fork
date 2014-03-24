@@ -18,6 +18,11 @@ public class CorrectedSpectrum extends StorableScan {
 	private int retentionIndex;
 
 	/**
+	 * The unique mass as determined by ChromaTOF
+	 */
+	private int uniqueMass;
+
+	/**
 	 * Regression algorithm for retention index correction
 	 */
 	private CombinedRegression fit = null;
@@ -27,7 +32,8 @@ public class CorrectedSpectrum extends StorableScan {
 	 */
 	private DataPoint secondaryBasePeak = null;
 
-	public CorrectedSpectrum(Scan sc, RawDataFile dataFile, int numberOfDataPoints, int storageID) {
+	public CorrectedSpectrum(Scan sc, RawDataFile dataFile,
+			int numberOfDataPoints, int storageID) {
 		super(sc, (RawDataFileImpl) dataFile, numberOfDataPoints, storageID);
 
 		if (sc instanceof CorrectedSpectrum)
@@ -36,18 +42,20 @@ public class CorrectedSpectrum extends StorableScan {
 			this.retentionIndex = -1;
 	}
 
-	public CorrectedSpectrum(RawDataFile dataFile, int storageID,
-			int spectrumNumber, double retentionTime, DataPoint[] dataPoints) {
-		this(dataFile, storageID, spectrumNumber, retentionTime, -1, dataPoints);
+	public CorrectedSpectrum(RawDataFile dataFile, int storageID, int spectrumNumber, double retentionTime, DataPoint[] dataPoints) {
+		this(dataFile, storageID, spectrumNumber, retentionTime, -1, -1, dataPoints);
 	}
 
-	public CorrectedSpectrum(RawDataFile dataFile, int storageID,
-			int spectrumNumber, double retentionTime, int retentionIndex,
-			DataPoint[] dataPoints) {
+	public CorrectedSpectrum(RawDataFile dataFile, int storageID, int spectrumNumber, double retentionTime, int uniqueMass, DataPoint[] dataPoints) {
+		this(dataFile, storageID, spectrumNumber, retentionTime, -1, uniqueMass, dataPoints);
+	}
+
+	public CorrectedSpectrum(RawDataFile dataFile, int storageID, int spectrumNumber, double retentionTime, int retentionIndex, int uniqueMass, DataPoint[] dataPoints) {
 		super((RawDataFileImpl) dataFile, storageID, dataPoints.length,
 				spectrumNumber, 1, retentionTime, -1, 0.0, 1, null, ScanUtils
 						.isCentroided(dataPoints));
 
+		this.uniqueMass = uniqueMass;
 		this.retentionIndex = retentionIndex;
 	}
 
@@ -68,6 +76,24 @@ public class CorrectedSpectrum extends StorableScan {
 	 */
 	public void setRetentionIndex(int retentionIndex) {
 		this.retentionIndex = retentionIndex;
+	}
+
+	/**
+	 * Gets the unique mass of this spectrum.
+	 *
+	 * @return unique mass
+	 */
+	public int getUniqueMass() {
+		return uniqueMass;
+	}
+
+	/**
+	 * Set the unique mass of this spectrum.
+	 *
+	 * @param uniqueMass unique mass
+	 */
+	public void setUniqueMass(int uniqueMass) {
+		this.uniqueMass = uniqueMass;
 	}
 
 	/**
@@ -99,6 +125,8 @@ public class CorrectedSpectrum extends StorableScan {
 	public void setRetentionCorrection(CombinedRegression fit) {
 		this.fit = fit;
 	}
+
+
 
 	/**
 	 * Return the data point of the ion with the second highest abundance
