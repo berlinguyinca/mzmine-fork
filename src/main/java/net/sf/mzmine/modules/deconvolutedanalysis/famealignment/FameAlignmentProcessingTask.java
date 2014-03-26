@@ -267,15 +267,14 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 			}
 
 			else {
-				double shift = FameData.FAME_RETENTION_TIMES[libraryMatch]
-						- FameData.FAME_RETENTION_TIMES[i];
-				double expectedRt = highestMatch.getRetentionTime() - shift;
+				double expectedRT = highestMatch.getRetentionTime()
+						- (FameData.FAME_RETENTION_TIMES[libraryMatch] - FameData.FAME_RETENTION_TIMES[i]);
 
 				for (CorrectedSpectrum s : allCandidates) {
 					double intensity = testEISpectrum(s);
 
 					if (intensity > 0
-							&& Math.abs(s.getRetentionTime() - expectedRt) < timeWindow)
+							&& Math.abs(s.getRetentionTime() - expectedRT) < timeWindow)
 						matches.add(s);
 
 					processedScans++;

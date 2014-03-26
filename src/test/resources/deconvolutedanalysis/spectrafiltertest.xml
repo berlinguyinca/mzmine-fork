@@ -6,7 +6,7 @@
         </parameter>
     </batchstep>
 
-    <batchstep method="net.sf.mzmine.modules.deconvolutedanalysis.spectrafilter.DeconvolutedSpectraFilterModule">
+    <batchstep method="net.sf.mzmine.modules.deconvolutedanalysis.spectrafilter.SpectraFilterModule">
         <parameters>
             <parameter name="Raw data files"/>
             <parameter name="C13 Isotope Cut">0.5</parameter>

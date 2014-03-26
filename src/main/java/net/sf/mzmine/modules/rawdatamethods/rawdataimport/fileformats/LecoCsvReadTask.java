@@ -88,11 +88,10 @@ public class LecoCsvReadTask extends AbstractTask {
 				ArrayList<DataPoint> mass_spectrum = new ArrayList<DataPoint>();
 				Range mzRange = null;
 
-				SimpleDataPoint p;
 				for (String s : scanner.next().split(" ")) {
 					String[] ion = s.split(":");
-					p = new SimpleDataPoint(Integer.parseInt(ion[0]),
-							Integer.parseInt(ion[1]));
+					SimpleDataPoint p = new SimpleDataPoint(
+							Integer.parseInt(ion[0]), Integer.parseInt(ion[1]));
 					mass_spectrum.add(p);
 
 					if (mzRange == null)
@@ -114,7 +113,8 @@ public class LecoCsvReadTask extends AbstractTask {
 
 				int storageID = newMZmineFile.storeDataPoints(dataPoints);
 				newMZmineFile.addScan(new CorrectedSpectrum(newMZmineFile,
-						storageID, parsedScans, retentionTime, uniqueMass, dataPoints));
+						storageID, parsedScans, retentionTime, uniqueMass,
+						dataPoints));
 				scanner.nextLine();
 			}
 

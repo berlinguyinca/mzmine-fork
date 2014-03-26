@@ -6,7 +6,7 @@ import net.sf.mzmine.parameters.parametertypes.*;
 
 import java.text.NumberFormat;
 
-public class DeconvolutedSpectraFilterParameters extends SimpleParameterSet {
+public class SpectraFilterParameters extends SimpleParameterSet {
 	/**
 	 * Open files that are selected within MZmine
 	 */
@@ -23,12 +23,21 @@ public class DeconvolutedSpectraFilterParameters extends SimpleParameterSet {
 			NumberFormat.getNumberInstance(), 0.5, 0.0, 1.0);
 
 	/**
-	 *
+	 * Parameter for removing full spectra that have a low base peak intensity.
 	 */
 	public static final IntegerParameter BASE_PEAK_THRESHOLD = new IntegerParameter(
 			"Base Peak Threshold",
 			"Remove all spectra with base peak intensity less than the given threshold level",
 			5000);
+
+	/**
+	 * Parameter for removing full spectra that have a low unique mass
+	 * intensity.
+	 */
+	public static final IntegerParameter UNIQUE_MASS_THRESHOLD = new IntegerParameter(
+			"Unique Mass Threshold",
+			"Remove all spectra with unique mass intensity less than the given threshold level.",
+			1000);
 
 	/**
 	 * Intensity threshold below which all ions are cut.
@@ -61,9 +70,9 @@ public class DeconvolutedSpectraFilterParameters extends SimpleParameterSet {
 			"If checked, original file will be replaced by the filtered version",
 			true);
 
-	public DeconvolutedSpectraFilterParameters() {
+	public SpectraFilterParameters() {
 		super(new Parameter[]{DATA_FILES, C13_ISOTOPE_CUT, BASE_PEAK_THRESHOLD,
-				INTENSITY_THRESHOLD, INTENSITY_PERCENTAGE_THRESHOLD, SUFFIX,
-				REMOVE_ORIGINAL});
+				UNIQUE_MASS_THRESHOLD, INTENSITY_THRESHOLD,
+				INTENSITY_PERCENTAGE_THRESHOLD, SUFFIX, REMOVE_ORIGINAL});
 	}
 }

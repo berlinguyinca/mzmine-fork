@@ -10,9 +10,9 @@ import net.sf.mzmine.util.ExitCode;
 import javax.annotation.Nonnull;
 import java.util.Collection;
 
-public class DeconvolutedSpectraFilterModule implements MZmineProcessingModule {
-	private static final String MODULE_NAME = "Deconvoluted spectra filter";
-	private static final String MODULE_DESCRIPTION = "This module filters deconvoluted spectra through C13 isotope, noise threshold and base peak percentage cuts.";
+public class SpectraFilterModule implements MZmineProcessingModule {
+	private static final String MODULE_NAME = "Spectra filter";
+	private static final String MODULE_DESCRIPTION = "This module applies a C13 isotope filter, and base peak/unique mass threshold, noise threshold and base peak percentage cuts.";
 
 	@Override
 	public @Nonnull
@@ -33,12 +33,11 @@ public class DeconvolutedSpectraFilterModule implements MZmineProcessingModule {
 
 		// Get all selected files
 		RawDataFile[] dataFiles = parameters.getParameter(
-				DeconvolutedSpectraFilterParameters.DATA_FILES).getValue();
+				SpectraFilterParameters.DATA_FILES).getValue();
 
 		// Create a new task for each file to be filtered
 		for (final RawDataFile dataFile : dataFiles) {
-			Task newTask = new DeconvolutedSpectraFilterTask(dataFile,
-					parameters);
+			Task newTask = new SpectraFilterTask(dataFile, parameters);
 			tasks.add(newTask);
 		}
 
@@ -54,6 +53,6 @@ public class DeconvolutedSpectraFilterModule implements MZmineProcessingModule {
 	@Override
 	public @Nonnull
 	Class<? extends ParameterSet> getParameterSetClass() {
-		return DeconvolutedSpectraFilterParameters.class;
+		return SpectraFilterParameters.class;
 	}
 }

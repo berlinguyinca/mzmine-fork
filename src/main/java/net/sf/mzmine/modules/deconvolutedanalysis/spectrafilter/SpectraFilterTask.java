@@ -17,7 +17,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DeconvolutedSpectraFilterTask extends AbstractTask {
+public class SpectraFilterTask extends AbstractTask {
 	/** Logger */
 	private final Logger logger = Logger.getLogger(getClass().getName());
 
@@ -48,34 +48,36 @@ public class DeconvolutedSpectraFilterTask extends AbstractTask {
 	/** User parameter for the base peak intensity threshold */
 	private int basePeakThreshold;
 
+	/** User parameter for the unique mass intensity threshold */
+	private int uniqueMassThreshold;
+
 	/** User parameter for the intensity threshold cut */
 	private int intensityThreshold;
 
 	/** User parameter for intensity percentage threshold */
 	private double intensityPercentageThreshold;
 
-	public DeconvolutedSpectraFilterTask(final RawDataFile dataFile,
+	public SpectraFilterTask(final RawDataFile dataFile,
 			final ParameterSet parameters) {
 
 		origDataFile = dataFile;
 
 		// Get user parameters
-		suffix = parameters.getParameter(
-				DeconvolutedSpectraFilterParameters.SUFFIX).getValue();
+		suffix = parameters.getParameter(SpectraFilterParameters.SUFFIX)
+				.getValue();
 		removeOriginal = parameters.getParameter(
-				DeconvolutedSpectraFilterParameters.REMOVE_ORIGINAL).getValue();
+				SpectraFilterParameters.REMOVE_ORIGINAL).getValue();
 
 		c13IsotopeCut = parameters.getParameter(
-				DeconvolutedSpectraFilterParameters.C13_ISOTOPE_CUT).getValue();
+				SpectraFilterParameters.C13_ISOTOPE_CUT).getValue();
 		basePeakThreshold = parameters.getParameter(
-				DeconvolutedSpectraFilterParameters.BASE_PEAK_THRESHOLD)
-				.getValue();
+				SpectraFilterParameters.BASE_PEAK_THRESHOLD).getValue();
+		uniqueMassThreshold = parameters.getParameter(
+				SpectraFilterParameters.UNIQUE_MASS_THRESHOLD).getValue();
 		intensityThreshold = parameters.getParameter(
-				DeconvolutedSpectraFilterParameters.INTENSITY_THRESHOLD)
-				.getValue();
-		intensityPercentageThreshold = parameters
-				.getParameter(
-						DeconvolutedSpectraFilterParameters.INTENSITY_PERCENTAGE_THRESHOLD)
+				SpectraFilterParameters.INTENSITY_THRESHOLD).getValue();
+		intensityPercentageThreshold = parameters.getParameter(
+				SpectraFilterParameters.INTENSITY_PERCENTAGE_THRESHOLD)
 				.getValue();
 	}
 
@@ -117,9 +119,20 @@ public class DeconvolutedSpectraFilterTask extends AbstractTask {
 				// Duplicate current spectrum
 				Scan spectrum = origDataFile.getScan(scanNumber);
 
-				// Exclude the entire spectrum if its base peak intensity is less te given threshold
-				if(spectrum.getBasePeak().getIntensity() < basePeakThreshold)
+				// Exclude the entire spectrum if its base peak intensity is
+				// less than the given threshold
+				if (spectrum.getBasePeak().getIntensity() < basePeakThreshold)
 					continue;
+
+				// Exclude the entire spectrum if its unique mass intensity is
+				// less than the given threshold
+				if (spectrum instanceof CorrectedSpectrum) {
+					CorrectedSpectrum s = ((CorrectedSpectrum) spectrum);
+
+					if (s.getUniqueMass() != null
+							&& s.getUniqueMass().getIntensity() < uniqueMassThreshold)
+						continue;
+				}
 
 				// Get the data points from the spectrum and sort by m/z
 				List<DataPoint> dataPoints = Lists.newArrayList(spectrum

@@ -69,16 +69,18 @@ public class MassListTable extends JTable {
 	}
 
 	private void viewMassSpectrum(int row, int col) {
-		row = convertRowIndexToModel(row);
+		if (!pkTableModel.isCommonColumn(col)) {
+			row = convertRowIndexToModel(row);
 
-		RawDataFile dataFile = pkTableModel.getColumnDataFile(col);
-		peakListRow = peakList.getRow(row);
-		MassCandidate massCandidate = (MassCandidate) peakListRow
-				.getPeak(dataFile);
+			RawDataFile dataFile = pkTableModel.getColumnDataFile(col);
+			peakListRow = peakList.getRow(row);
+			MassCandidate massCandidate = (MassCandidate) peakListRow
+					.getPeak(dataFile);
 
-		if (dataFile != null && massCandidate != null)
-			SpectraVisualizerModule.showNewSpectrumWindow(dataFile,
-					massCandidate.getSpectrumNumber(), massCandidate);
+			if (dataFile != null && massCandidate != null)
+				SpectraVisualizerModule.showNewSpectrumWindow(dataFile,
+						massCandidate.getSpectrumNumber(), massCandidate);
+		}
 	}
 
 	public PeakList getPeakList() {
@@ -119,16 +121,16 @@ public class MassListTable extends JTable {
 					JComboBox combo = (JComboBox) e.getSource();
 					Object item = combo.getSelectedItem();
 					if (item != null) {
-						if (item.toString() == NEW_IDENTITY) {
+						if (item.toString().equals(NEW_IDENTITY)) {
 							PeakIdentitySetupDialog dialog = new PeakIdentitySetupDialog(
 									peakListRow);
 							dialog.setVisible(true);
-						} else if (item.toString() == EDIT_IDENTITY) {
+						} else if (item.toString().equals(EDIT_IDENTITY)) {
 							PeakIdentitySetupDialog dialog = new PeakIdentitySetupDialog(
 									peakListRow, peakListRow
 											.getPreferredPeakIdentity());
 							dialog.setVisible(true);
-						} else if (item.toString() == REMOVE_IDENTITY) {
+						} else if (item.toString().equals(REMOVE_IDENTITY)) {
 							PeakIdentity identity = peakListRow
 									.getPreferredPeakIdentity();
 							if (identity != null) {
