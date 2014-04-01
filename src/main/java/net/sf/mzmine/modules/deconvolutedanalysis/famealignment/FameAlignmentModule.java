@@ -5,7 +5,6 @@ import net.sf.mzmine.modules.MZmineModuleCategory;
 import net.sf.mzmine.modules.MZmineProcessingModule;
 import net.sf.mzmine.modules.deconvolutedanalysis.SpectrumType;
 import net.sf.mzmine.parameters.ParameterSet;
-import net.sf.mzmine.taskcontrol.AbstractTask;
 import net.sf.mzmine.taskcontrol.Task;
 import net.sf.mzmine.util.ExitCode;
 
@@ -35,10 +34,7 @@ public class FameAlignmentModule implements MZmineProcessingModule {
 
 		// Keep a track of local processing tasks so we can determine when they
 		// all finish
-		List<AbstractTask> processingTasks = new ArrayList<AbstractTask>();
-
-		// Keep a track of correction results
-		List<Map<String, Correction>> correctionTable = new ArrayList<Map<String, Correction>>();
+		List<FameAlignmentProcessingTask> processingTasks = new ArrayList<FameAlignmentProcessingTask>();
 
 		// Search for FAME markers in each spectra file
 		for (SpectrumType type : FameAlignmentParameters.SPECTRA_DATA.keySet()) {
@@ -46,36 +42,16 @@ public class FameAlignmentModule implements MZmineProcessingModule {
 					FameAlignmentParameters.SPECTRA_DATA.get(type)).getValue();
 
 			for (RawDataFile dataFile : dataFiles) {
-				FameAlignmentProcessingTask task = new FameAlignmentProcessingTask(
-						dataFile, parameters, type, correctionTable);
+				FameAlignmentProcessingTask task = new FameAlignmentProcessingTask(dataFile, parameters, type);
 				processingTasks.add(task);
 				tasks.add(task);
 			}
 		}
 
 		// Display results if requested
-		if (parameters.getParameter(FameAlignmentParameters.SHOW_RESULTS)
-				.getValue()) {
-			// Create PeakList with ordered files
-			List<RawDataFile> dataFiles = new ArrayList<RawDataFile>();
-			for (SpectrumType type : FameAlignmentParameters.SPECTRA_DATA
-					.keySet()) {
-				RawDataFile[] files = parameters.getParameter(
-						FameAlignmentParameters.SPECTRA_DATA.get(type))
-						.getValue();
-
-				Arrays.sort(files, new Comparator<RawDataFile>() {
-					@Override
-					public int compare(RawDataFile a, RawDataFile b) {
-						return a.getName().compareTo(b.getName());
-					}
-				});
-				dataFiles.addAll(Arrays.asList(files));
-			}
-
+		if (parameters.getParameter(FameAlignmentParameters.SHOW_RESULTS).getValue()) {
 			// Start visualization task
-			FameAlignmentVisualizationTask visualizationTask = new FameAlignmentVisualizationTask(
-					dataFiles, correctionTable, processingTasks);
+			FameAlignmentVisualizationTask visualizationTask = new FameAlignmentVisualizationTask(processingTasks);
 			tasks.add(visualizationTask);
 		}
 

@@ -11,11 +11,10 @@ import java.io.File;
 
 public class FameAlignmentTest {
 	@Test
-	public void testAlignData() throws Exception {
+	public void testAlignEIData() throws Exception {
 		MZmineCore.initializeHeadless();
 
-		File batchFile = new File(
-				"src/test/resources/deconvolutedanalysis/famealignment.xml");
+		File batchFile = new File("src/test/resources/deconvolutedanalysis/famealignment_EI.xml");
 		Assert.assertTrue(batchFile.exists());
 		ExitCode exitCode = BatchModeModule.runBatch(batchFile);
 		assert (exitCode == ExitCode.OK);

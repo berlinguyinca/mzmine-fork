@@ -14,6 +14,7 @@ import net.sf.mzmine.project.MZmineProject;
 import net.sf.mzmine.project.impl.RawDataFileImpl;
 import net.sf.mzmine.taskcontrol.AbstractTask;
 import net.sf.mzmine.taskcontrol.TaskStatus;
+import net.sf.mzmine.util.Range;
 
 import java.io.IOException;
 import java.util.*;
@@ -25,7 +26,7 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 	private final Logger logger = Logger.getLogger(this.getClass().getName());
 
 	/** Data file to be processed */
-	private final RawDataFile origDataFile;
+	private final RawDataFile dataFile;
 
 	/** Corrected data file */
 	private RawDataFile correctedDataFile = null;
@@ -52,14 +53,13 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 	List<CorrectedSpectrum> spectra;
 
 	/** */
-	List<Map<String, Correction>> correctionTable;
+	Map<String, Correction> results = null;
+
 
 	public FameAlignmentProcessingTask(final RawDataFile dataFile,
-			final ParameterSet parameters, SpectrumType ionizationType,
-			List<Map<String, Correction>> correctionTable) {
-		origDataFile = dataFile;
+			final ParameterSet parameters, SpectrumType ionizationType) {
+		this.dataFile = dataFile;
 		this.ionizationType = ionizationType;
-		this.correctionTable = correctionTable;
 
 		// Get user parameters
 		suffix = parameters.getParameter(FameAlignmentParameters.SUFFIX)
@@ -74,7 +74,7 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 
 	@Override
 	public String getTaskDescription() {
-		return "Performing retention index correction on " + origDataFile;
+		return "Performing retention index correction on " + dataFile;
 	}
 
 	@Override
@@ -83,13 +83,30 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 				/ (double) totalScans;
 	}
 
+	@Override
+	public Object[] getCreatedObjects() {
+		return new Object[]{correctedDataFile};
+	}
+
+	public RawDataFile getDataFile() {
+		return dataFile;
+	}
+
+	public RawDataFile getCorrectedDataFile() {
+		return correctedDataFile;
+	}
+
+	public Map<String, Correction> getResults() {
+		return results;
+	}
+
 	public void run() {
 		// Update the status of this task
 		setStatus(TaskStatus.PROCESSING);
-		logger.info("Started FAME marker search on " + origDataFile);
+		logger.info("Started FAME marker search on " + dataFile);
 
 		// Set total number of scans to process
-		totalScans = 2 * origDataFile.getNumOfScans();
+		totalScans = 2 * dataFile.getNumOfScans();
 
 		// Declare the file writer for the retention corrected file
 		final RawDataFileImpl rawDataFileWriter;
@@ -98,17 +115,17 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 		try {
 			// Create a new file
 			rawDataFileWriter = (RawDataFileImpl) MZmineCore
-					.createNewFile(origDataFile.getName() + ' ' + suffix);
+					.createNewFile(dataFile.getName() + ' ' + suffix);
 
 			// Process each deconvoluted spectrum
-			for (int scanNumber : origDataFile.getScanNumbers(1)) {
+			for (int scanNumber : dataFile.getScanNumbers(1)) {
 				// Canceled?
 				if (isCanceled())
 					return;
 
 				// Duplicate current spectrum, obtain data points and create
 				// list of filtered data points
-				Scan spectrum = origDataFile.getScan(scanNumber);
+				Scan spectrum = dataFile.getScan(scanNumber);
 
 				// Add scan to new data file
 				int storageID = rawDataFileWriter.storeDataPoints(spectrum
@@ -122,6 +139,17 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 
 				processedScans++;
 			}
+
+			// Finalize writing
+			correctedDataFile = rawDataFileWriter.finishWriting();
+
+			// Add the newly created file to the project
+			final MZmineProject project = MZmineCore.getCurrentProject();
+			project.addFile(correctedDataFile);
+
+			// Remove the original data file if requested
+			if (removeOriginal)
+				project.removeFile(dataFile);
 		} catch (IOException e) {
 			logger.log(Level.SEVERE,
 					"Retention correction initialization error", e);
@@ -142,29 +170,10 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 
 		// If this task was canceled, stop processing
 		if (!isCanceled()) {
-			try {
-				// Finalize writing
-				correctedDataFile = rawDataFileWriter.finishWriting();
-
-				// Add the newly created file to the project
-				final MZmineProject project = MZmineCore.getCurrentProject();
-				project.addFile(correctedDataFile);
-
-				// Remove the original data file if requested
-				if (removeOriginal)
-					project.removeFile(origDataFile);
-			} catch (IOException e) {
-				logger.log(Level.SEVERE,
-						"Retention correction finalization error", e);
-				setStatus(TaskStatus.ERROR);
-				errorMessage = e.getMessage();
-				return;
-			}
-
 			// Set task status to FINISHED
 			setStatus(TaskStatus.FINISHED);
 			logger.info("Finished performing retention index correction on "
-					+ origDataFile);
+					+ dataFile);
 		}
 	}
 
@@ -174,7 +183,6 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 	private void processEI() {
 		// List of all FAME peak candidates
 		List<CorrectedSpectrum> allCandidates = new ArrayList<CorrectedSpectrum>();
-		double maxBasePeakIntensity = 0;
 
 		// Filter out spectra that do not a base peak in a list of known EI
 		// ions
@@ -191,18 +199,7 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 				totalScans += 2 * FameData.N_FAMES;
 			}
 
-			// Compute maximum base peak intensity out of our list of candidates
-			if (intensity > maxBasePeakIntensity)
-				maxBasePeakIntensity = intensity;
-
 			processedScans++;
-		}
-
-		// Filter those peaks with low base peak intensities
-		for (Iterator<CorrectedSpectrum> it = allCandidates.iterator(); it
-				.hasNext();) {
-			if (it.next().getBasePeak().getIntensity() < maxBasePeakIntensity / 1000)
-				it.remove();
 		}
 
 		// Find spectrum with the highest similarity to a library spectrum
@@ -211,12 +208,27 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 		int libraryMatch = -1;
 
 		for (CorrectedSpectrum s : allCandidates) {
+			DataPoint basePeak = s.getBasePeak();
+
 			double bestSimilarity = 0;
 			int matchesCount = 0;
 
 			for (int i = 0; i < FameData.N_FAMES; i++) {
 				String name = FameData.FAME_NAMES[i];
 
+				// Check for ion qualifier
+				int qualifier = FameData.QUALIFIER_IONS[i];
+				double minRatio = FameData.MIN_QUAL_RATIO[i];
+				double maxRatio = FameData.MAX_QUAL_RATIO[i];
+
+				DataPoint[] p = s.getDataPointsByMass(new Range(qualifier, qualifier));
+
+				// Confirm that the qualifier ion exists
+				if(p.length != 1)
+					continue;
+
+				// Check for similarity
+				int minSimilarity = FameData.MIN_SIMILARITY[i];
 				double similarity = FameData.computeSimilarity(name, s);
 
 				if (similarity > bestSimilarity) {
@@ -225,12 +237,13 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 				}
 
 				if (bestSimilarity > maxSimilarity) {
+					logger.info("Best Match: " + dataFile +" "+ name + " " + similarity + " "
+							+ s.getScanNumber() + " " + s.getRetentionTime()
+							+ " " + matchesCount);
+
 					maxSimilarity = bestSimilarity;
 					highestMatch = s;
 					libraryMatch = i;
-					logger.info("Best Match: " + name + " " + similarity + " "
-							+ s.getScanNumber() + " " + s.getRetentionTime()
-							+ " " + matchesCount);
 				}
 
 				processedScans++;
@@ -241,9 +254,8 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 		if (highestMatch == null) {
 			MZmineCore.getDesktop().displayErrorMessage(
 					"Unable to find initial standard match in "
-							+ origDataFile.getName());
+							+ dataFile.getName());
 			setStatus(TaskStatus.ERROR);
-			cancel();
 			return;
 		}
 
@@ -294,7 +306,7 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 			List<CorrectedSpectrum> matches = candidates.get(i);
 
 			CorrectedSpectrum bestMatch = null;
-			maxBasePeakIntensity = 0;
+			double maxBasePeakIntensity = 0;
 			maxSimilarity = 0;
 
 			for (CorrectedSpectrum s : matches) {
@@ -325,15 +337,13 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 		}
 
 		// Store retention correction results
-		Map<String, Correction> results = new HashMap<String, Correction>();
+		results = new HashMap<String, Correction>();
 
 		for (int i = 0; i < fameTimes.size(); i++)
-			results.put(fameNames.get(i), new Correction(origDataFile,
+			results.put(fameNames.get(i), new Correction(correctedDataFile,
 					fameTimes.get(i), (int) fameIndices.get(i).doubleValue()));
 
-		correctionTable.add(results);
-
-		logger.info(origDataFile + " " + fameTimes);
+		logger.info(correctedDataFile + " " + fameTimes);
 		logger.info(fameNames + "");
 
 		// Apply linear/polynomial fit
@@ -364,8 +374,7 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 		else {
 			DataPoint secondaryBasePeak = s.getSecondaryBasePeak();
 
-			if (secondaryBasePeak != null
-					&& fameBasePeaks.contains((int) secondaryBasePeak.getMZ()))
+			if (secondaryBasePeak != null && (secondaryBasePeak.getMZ() == 74 || secondaryBasePeak.getMZ() == 87))
 				return secondaryBasePeak.getIntensity();
 			else
 				return -1;
@@ -454,7 +463,7 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 		if (bestMatch == null) {
 			MZmineCore.getDesktop().displayErrorMessage(
 					"Unable to find initial standard match in "
-							+ origDataFile.getName());
+							+ dataFile.getName());
 			setStatus(TaskStatus.ERROR);
 			cancel();
 			return;
@@ -502,15 +511,13 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 		}
 
 		// Store retention correction results
-		Map<String, Correction> results = new HashMap<String, Correction>();
+		results = new HashMap<String, Correction>();
 
 		for (int i = 0; i < fameTimes.size(); i++)
-			results.put(fameNames.get(i), new Correction(origDataFile,
+			results.put(fameNames.get(i), new Correction(correctedDataFile,
 					fameTimes.get(i), (int) fameIndices.get(i).doubleValue()));
 
-		correctionTable.add(results);
-
-		logger.info(origDataFile + " " + fameTimes);
+		logger.info(correctedDataFile + " " + fameTimes);
 		logger.info(fameNames.toString());
 
 		// Apply linear/polynomial fit

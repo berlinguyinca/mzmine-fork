@@ -4,6 +4,7 @@ import edu.ucdavis.genomics.metabolomics.util.math.CombinedRegression;
 import net.sf.mzmine.data.DataPoint;
 import net.sf.mzmine.data.RawDataFile;
 import net.sf.mzmine.data.Scan;
+import net.sf.mzmine.modules.deconvolutedanalysis.famealignment.FameData;
 import net.sf.mzmine.project.impl.RawDataFileImpl;
 import net.sf.mzmine.project.impl.StorableScan;
 import net.sf.mzmine.util.Range;
@@ -17,6 +18,11 @@ public class CorrectedSpectrum extends StorableScan {
 	 * Retention index obtained from FAME correction
 	 */
 	private int retentionIndex;
+
+	/**
+	 *
+	 */
+	private double correctedRetentionTime;
 
 	/**
 	 * The unique mass as determined by ChromaTOF
@@ -37,10 +43,13 @@ public class CorrectedSpectrum extends StorableScan {
 			int numberOfDataPoints, int storageID) {
 		super(sc, (RawDataFileImpl) dataFile, numberOfDataPoints, storageID);
 
-		if (sc instanceof CorrectedSpectrum)
+		if (sc instanceof CorrectedSpectrum) {
 			this.retentionIndex = ((CorrectedSpectrum) sc).getRetentionIndex();
-		else
+			this.correctedRetentionTime = FameData.FAME_INDICES_TO_TIMES.getY(this.retentionIndex);
+		} else {
 			this.retentionIndex = -1;
+			this.correctedRetentionTime = -1;
+		}
 	}
 
 	public CorrectedSpectrum(RawDataFile dataFile, int storageID,
@@ -64,9 +73,19 @@ public class CorrectedSpectrum extends StorableScan {
 						.isCentroided(dataPoints));
 
 		this.retentionIndex = retentionIndex;
+		this.correctedRetentionTime = (retentionIndex > -1) ? FameData.FAME_INDICES_TO_TIMES.getY(this.retentionIndex) : -1;
 
 		DataPoint[] p = getDataPointsByMass(new Range(uniqueMass, uniqueMass));
 		this.uniqueMass = (p.length == 1) ? p[0] : null;
+	}
+
+	/**
+	 *
+	 * @return
+	 */
+	@Override
+	public double getRetentionTime() {
+		return isRetentionCorrected() ? correctedRetentionTime : super.getRetentionTime();
 	}
 
 	/**
@@ -134,8 +153,6 @@ public class CorrectedSpectrum extends StorableScan {
 	 */
 	public DataPoint getSecondaryBasePeak() {
 		if (secondaryBasePeak == null && getNumberOfDataPoints() > 1) {
-			System.out.println(getNumberOfDataPoints());
-			System.out.println(getDataPoints().length);
 			secondaryBasePeak = getDataPoints()[0];
 
 			for (DataPoint p : getDataPoints())

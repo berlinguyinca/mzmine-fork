@@ -10,8 +10,7 @@ import net.sf.mzmine.modules.deconvolutedanalysis.famealignment.table.ResultsLis
 import net.sf.mzmine.taskcontrol.AbstractTask;
 import net.sf.mzmine.taskcontrol.TaskStatus;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Logger;
 
 public class FameAlignmentVisualizationTask extends AbstractTask {
@@ -21,17 +20,11 @@ public class FameAlignmentVisualizationTask extends AbstractTask {
 	// List of RawDataFiles
 	private List<RawDataFile> dataFiles;
 
-	//
-	List<Map<String, Correction>> correctionTable;
-
 	// Comparison task to wait for
-	List<AbstractTask> processingTasks;
+	List<FameAlignmentProcessingTask> processingTasks;
 
-	public FameAlignmentVisualizationTask(List<RawDataFile> dataFiles,
-			List<Map<String, Correction>> correctionTable,
-			List<AbstractTask> processingTasks) {
-		this.dataFiles = dataFiles;
-		this.correctionTable = correctionTable;
+	public FameAlignmentVisualizationTask(List<FameAlignmentProcessingTask> processingTasks) {
+		this.dataFiles = new ArrayList<RawDataFile>();
 		this.processingTasks = processingTasks;
 	}
 
@@ -63,10 +56,24 @@ public class FameAlignmentVisualizationTask extends AbstractTask {
 		if (isCanceled())
 			return;
 
+
+		// Retrieve corrected data files
+		for(FameAlignmentProcessingTask task : processingTasks)
+			dataFiles.add(task.getCorrectedDataFile());
+
+		Collections.sort(dataFiles, new Comparator<RawDataFile>() {
+			@Override
+			public int compare(RawDataFile a, RawDataFile b) {
+				return a.getName().compareTo(b.getName());
+			}
+		});
+
+
 		// Produce new PeakList
 		PeakList peakList = new SimplePeakList(
 				"Retention Index Correction Results",
 				dataFiles.toArray(new RawDataFile[dataFiles.size()]));
+
 
 		// Create PeakListRows
 		int id = 0;
@@ -75,10 +82,9 @@ public class FameAlignmentVisualizationTask extends AbstractTask {
 			PeakListRow row = new SimplePeakListRow(++id);
 			row.setComment(name);
 
-			for (Map<String, Correction> results : correctionTable) {
-				if (results.containsKey(name))
-					row.addPeak(results.get(name).getDataFile(),
-							results.get(name));
+			for(FameAlignmentProcessingTask task : processingTasks) {
+				if(task.getResults().containsKey(name))
+					row.addPeak(task.getResults().get(name).getDataFile(), task.getResults().get(name));
 			}
 
 			peakList.addRow(row);
@@ -102,7 +108,7 @@ public class FameAlignmentVisualizationTask extends AbstractTask {
 		if (isCanceled())
 			return false;
 
-		for (AbstractTask task : processingTasks) {
+		for (FameAlignmentProcessingTask task : processingTasks) {
 			// If a task is still working, we are still busy
 			if (!task.isFinished())
 				return true;
