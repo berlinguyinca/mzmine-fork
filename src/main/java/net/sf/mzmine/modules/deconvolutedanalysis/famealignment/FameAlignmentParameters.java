@@ -57,19 +57,27 @@ public class FameAlignmentParameters extends SimpleParameterSet {
 			"Show Results", "Shows a table with the results of FAME detection",
 			true);
 
+	/*
+	 * Static initializer
+	 */
 	static {
 		// Define the data file MultiChoiceParameters for each spectrum type
 		SPECTRA_DATA = new EnumMap<SpectrumType, RawDataFilesMultiChoiceParameter>(
 				SpectrumType.class);
+
 		SPECTRA_DATA.put(SpectrumType.EI, new RawDataFilesMultiChoiceParameter(
 				"EI Files", "Select the EI files for analysis.", DATA_FILES,
 				SpectrumType.EI, 0));
+
 		SPECTRA_DATA.put(SpectrumType.PCI,
 				new RawDataFilesMultiChoiceParameter("PCI Files",
 						"Select the PCI files for analysis.", DATA_FILES,
 						SpectrumType.PCI, 0));
 	}
 
+	/**
+	 * Default constructor, creating a new parameter set.
+	 */
 	public FameAlignmentParameters() {
 		super(new Parameter[]{DATA_FILES, SPECTRA_DATA.get(SpectrumType.EI),
 				SPECTRA_DATA.get(SpectrumType.PCI), MATCH_TIME_WINDOW, SUFFIX,
@@ -91,8 +99,7 @@ public class FameAlignmentParameters extends SimpleParameterSet {
 	}
 
 	/**
-	 * Check that each spectrum type has a distinct set of files selected for
-	 * processing
+	 * Check that each spectrum type has a distinct set of selected files.
 	 * 
 	 * @param errorMessages
 	 *            error messages to display

@@ -23,7 +23,11 @@ import java.util.logging.Logger;
 
 public class FameAlignmentProcessingTask extends AbstractTask {
 	/** Logger */
-	private final Logger logger = Logger.getLogger(this.getClass().getName());
+	private final Logger logger = Logger.getLogger(getClass().getName());
+
+	/*
+	 * Task variables
+	 */
 
 	/** Data file to be processed */
 	private final RawDataFile dataFile;
@@ -31,17 +35,24 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 	/** Corrected data file */
 	private RawDataFile correctedDataFile = null;
 
-	/** Ionization method used for this data file */
-	SpectrumType ionizationType;
-
-	/** Time window in which to search for FAME peaks */
-	private double timeWindow;
-
 	/** Number of processed scans */
 	private int processedScans = 0;
 
 	/** Number of scans to process */
 	private int totalScans;
+
+	/*
+	 * User parameters
+	 */
+
+	/** List of clone spectra */
+	List<CorrectedSpectrum> spectra;
+
+	/** Ionization method used for this data file */
+	SpectrumType ionizationType;
+
+	/** Time window in which to search for FAME peaks */
+	private double timeWindow;
 
 	/** Filename suffix */
 	private String suffix;
@@ -49,16 +60,22 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 	/** Remove original data file */
 	private final boolean removeOriginal;
 
-	/** List of clone spectra */
-	List<CorrectedSpectrum> spectra;
-
 	/** */
-	Map<String, Correction> results = null;
+	Map<String, FameCorrection> results = null;
 
-
+	/**
+	 * 
+	 * @param dataFile
+	 * @param parameters
+	 * @param ionizationType
+	 */
 	public FameAlignmentProcessingTask(final RawDataFile dataFile,
 			final ParameterSet parameters, SpectrumType ionizationType) {
+
+		// Set original data file
 		this.dataFile = dataFile;
+
+		// Set ionization type
 		this.ionizationType = ionizationType;
 
 		// Get user parameters
@@ -96,14 +113,14 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 		return correctedDataFile;
 	}
 
-	public Map<String, Correction> getResults() {
+	public Map<String, FameCorrection> getResults() {
 		return results;
 	}
 
 	public void run() {
 		// Update the status of this task
 		setStatus(TaskStatus.PROCESSING);
-		logger.info("Started FAME marker search on " + dataFile);
+		logger.info("Started retention index correction on " + dataFile);
 
 		// Set total number of scans to process
 		totalScans = 2 * dataFile.getNumOfScans();
@@ -172,8 +189,7 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 		if (!isCanceled()) {
 			// Set task status to FINISHED
 			setStatus(TaskStatus.FINISHED);
-			logger.info("Finished performing retention index correction on "
-					+ dataFile);
+			logger.info("Finished retention index correction on " + dataFile);
 		}
 	}
 
@@ -221,10 +237,11 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 				double minRatio = FameData.MIN_QUAL_RATIO[i];
 				double maxRatio = FameData.MAX_QUAL_RATIO[i];
 
-				DataPoint[] p = s.getDataPointsByMass(new Range(qualifier, qualifier));
+				DataPoint[] p = s.getDataPointsByMass(new Range(qualifier,
+						qualifier));
 
 				// Confirm that the qualifier ion exists
-				if(p.length != 1)
+				if (p.length != 1)
 					continue;
 
 				// Check for similarity
@@ -237,9 +254,9 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 				}
 
 				if (bestSimilarity > maxSimilarity) {
-					logger.info("Best Match: " + dataFile +" "+ name + " " + similarity + " "
-							+ s.getScanNumber() + " " + s.getRetentionTime()
-							+ " " + matchesCount);
+					logger.info("Best Match: " + dataFile + " " + name + " "
+							+ similarity + " " + s.getScanNumber() + " "
+							+ s.getRetentionTime() + " " + matchesCount);
 
 					maxSimilarity = bestSimilarity;
 					highestMatch = s;
@@ -337,10 +354,10 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 		}
 
 		// Store retention correction results
-		results = new HashMap<String, Correction>();
+		results = new HashMap<String, FameCorrection>();
 
 		for (int i = 0; i < fameTimes.size(); i++)
-			results.put(fameNames.get(i), new Correction(correctedDataFile,
+			results.put(fameNames.get(i), new FameCorrection(correctedDataFile,
 					fameTimes.get(i), (int) fameIndices.get(i).doubleValue()));
 
 		logger.info(correctedDataFile + " " + fameTimes);
@@ -374,7 +391,9 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 		else {
 			DataPoint secondaryBasePeak = s.getSecondaryBasePeak();
 
-			if (secondaryBasePeak != null && (secondaryBasePeak.getMZ() == 74 || secondaryBasePeak.getMZ() == 87))
+			if (secondaryBasePeak != null
+					&& (secondaryBasePeak.getMZ() == 74 || secondaryBasePeak
+							.getMZ() == 87))
 				return secondaryBasePeak.getIntensity();
 			else
 				return -1;
@@ -511,10 +530,10 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 		}
 
 		// Store retention correction results
-		results = new HashMap<String, Correction>();
+		results = new HashMap<String, FameCorrection>();
 
 		for (int i = 0; i < fameTimes.size(); i++)
-			results.put(fameNames.get(i), new Correction(correctedDataFile,
+			results.put(fameNames.get(i), new FameCorrection(correctedDataFile,
 					fameTimes.get(i), (int) fameIndices.get(i).doubleValue()));
 
 		logger.info(correctedDataFile + " " + fameTimes);

@@ -11,7 +11,7 @@ import javax.annotation.Nonnull;
 import java.util.Collection;
 
 public class SpectraFilterModule implements MZmineProcessingModule {
-	private static final String MODULE_NAME = "Spectra filter";
+	private static final String MODULE_NAME = "Spectrum filter";
 	private static final String MODULE_DESCRIPTION = "This module applies a C13 isotope filter, and base peak/unique mass threshold, noise threshold and base peak percentage cuts.";
 
 	@Override
@@ -27,8 +27,8 @@ public class SpectraFilterModule implements MZmineProcessingModule {
 	}
 
 	@Override
-	@Nonnull
-	public ExitCode runModule(@Nonnull ParameterSet parameters,
+	public @Nonnull
+	ExitCode runModule(@Nonnull ParameterSet parameters,
 			@Nonnull Collection<Task> tasks) {
 
 		// Get all selected files
@@ -36,10 +36,8 @@ public class SpectraFilterModule implements MZmineProcessingModule {
 				SpectraFilterParameters.DATA_FILES).getValue();
 
 		// Create a new task for each file to be filtered
-		for (final RawDataFile dataFile : dataFiles) {
-			Task newTask = new SpectraFilterTask(dataFile, parameters);
-			tasks.add(newTask);
-		}
+		for (final RawDataFile dataFile : dataFiles)
+			tasks.add(new SpectraFilterTask(dataFile, parameters));
 
 		return ExitCode.OK;
 	}

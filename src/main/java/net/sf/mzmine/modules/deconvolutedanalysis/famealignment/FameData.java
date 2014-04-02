@@ -40,6 +40,9 @@ public class FameData {
 			323120, 381020, 491120, 582620, 668720, 747420, 819620, 886620,
 			948820, 1006900, 1061700, 1113100};
 
+	/**
+	 *
+	 */
 	public static final CombinedRegression FAME_INDICES_TO_TIMES;
 
 	/** FAME marker library integer masses */
@@ -47,24 +50,33 @@ public class FameData {
 			270, 298, 326, 354, 382, 410, 438, 466};
 
 	/** Possible base peak ions required for FAME marker */
-	public static final int[] FAME_BASE_PEAKS = new int[]{43, 74, 87, 117, 147, 174, 130};
+	public static final int[] FAME_BASE_PEAKS = new int[]{43, 74, 87, 117, 147,
+			174, 130};
 
 	/** Qualifying ions for each FAME marker */
-	public static final int[] QUALIFIER_IONS = new int[] {127, 141, 155, 214, 242, 270, 298, 326, 354, 382, 410, 438, 466};
+	public static final int[] QUALIFIER_IONS = new int[]{127, 141, 155, 214,
+			242, 270, 298, 326, 354, 382, 410, 438, 466};
 
 	/** Minimum ratio for each FAME marker's qualifying ion */
-	public static final double[] MIN_QUAL_RATIO = new double[] {0.06, 0.05, 0.01, 0.005, 0.008, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.005, 0.005};
+	public static final double[] MIN_QUAL_RATIO = new double[]{0.06, 0.05,
+			0.01, 0.005, 0.008, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.005,
+			0.005};
 
 	/** Maximum ratio for each FAME marker's qualifying ion */
-	public static final double[] MAX_QUAL_RATIO = new double[] {0.24, 0.19, 0.15, 0.1, 0.05, 0.05, 0.05, 0.05, 0.05, 0.06, 0.07, 0.7, 0.07};
+	public static final double[] MAX_QUAL_RATIO = new double[]{0.24, 0.19,
+			0.15, 0.1, 0.05, 0.05, 0.05, 0.05, 0.05, 0.06, 0.07, 0.7, 0.07};
 
 	/** Minimum similarity value required to be considered a match */
-	public static final int[] MIN_SIMILARITY = new int[] {600, 700, 600, 600, 650, 650, 650, 600, 650, 600, 700, 600, 600};
+	public static final int[] MIN_SIMILARITY = new int[]{600, 700, 600, 600,
+			650, 650, 650, 600, 650, 600, 700, 600, 600};
 
 	/** Stored spectrum information for each FAME marker */
 	private static Map<String, FameMassSpectrum> primeBinBaseData,
 			vocBinBaseData;
 
+	/**
+	 *
+	 */
 	private static class FameMassSpectrum {
 		private final String name;
 		private final double retentionTime;
@@ -102,7 +114,9 @@ public class FameData {
 
 	static {
 		FAME_INDICES_TO_TIMES = new CombinedRegression(5);
-		FAME_INDICES_TO_TIMES.setData(Doubles.toArray(Ints.asList(FAME_RETENTION_INDICES)), FAME_RETENTION_TIMES);
+		FAME_INDICES_TO_TIMES.setData(
+				Doubles.toArray(Ints.asList(FAME_RETENTION_INDICES)),
+				FAME_RETENTION_TIMES);
 
 		try {
 			primeBinBaseData = new TreeMap<String, FameMassSpectrum>();

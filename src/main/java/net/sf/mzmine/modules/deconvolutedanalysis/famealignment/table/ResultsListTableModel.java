@@ -1,7 +1,7 @@
 package net.sf.mzmine.modules.deconvolutedanalysis.famealignment.table;
 
 import net.sf.mzmine.data.*;
-import net.sf.mzmine.modules.deconvolutedanalysis.famealignment.Correction;
+import net.sf.mzmine.modules.deconvolutedanalysis.famealignment.FameCorrection;
 import net.sf.mzmine.modules.deconvolutedanalysis.famealignment.FameData;
 
 import javax.swing.table.AbstractTableModel;
@@ -58,7 +58,8 @@ public class ResultsListTableModel extends AbstractTableModel {
 			}
 		} else {
 			RawDataFile file = getColumnDataFile(col);
-			Correction correction = (Correction) peakListRow.getPeak(file);
+			FameCorrection correction = (FameCorrection) peakListRow
+					.getPeak(file);
 
 			if (correction == null)
 				return null;

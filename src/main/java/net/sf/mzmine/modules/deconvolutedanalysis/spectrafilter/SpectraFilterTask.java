@@ -24,8 +24,12 @@ public class SpectraFilterTask extends AbstractTask {
 	/** Double value tolerance */
 	public static final double EPSILON = 1.0e-14;
 
+	/*
+	 * Task variables
+	 */
+
 	/** Original data file to be processed */
-	private final RawDataFile origDataFile;
+	private final RawDataFile dataFile;
 
 	/** Filtered data file */
 	private RawDataFile filteredDataFile = null;
@@ -36,11 +40,9 @@ public class SpectraFilterTask extends AbstractTask {
 	/** Number of scans to process */
 	private int totalScans;
 
-	/** Filename suffix */
-	private String suffix;
-
-	/** Remove original data file */
-	private final boolean removeOriginal;
+	/*
+	 * User parameters
+	 */
 
 	/** User parameter for the C13 Isotope Cut */
 	private double c13IsotopeCut;
@@ -57,17 +59,27 @@ public class SpectraFilterTask extends AbstractTask {
 	/** User parameter for intensity percentage threshold */
 	private double intensityPercentageThreshold;
 
+	/** Filename suffix */
+	private String suffix;
+
+	/** Remove original data file */
+	private final boolean removeOriginal;
+
+	/**
+	 * Default constructor
+	 * 
+	 * @param dataFile
+	 *            data file to filter
+	 * @param parameters
+	 *            user-defined parameter set
+	 */
 	public SpectraFilterTask(final RawDataFile dataFile,
 			final ParameterSet parameters) {
 
-		origDataFile = dataFile;
+		// Set original data file
+		this.dataFile = dataFile;
 
 		// Get user parameters
-		suffix = parameters.getParameter(SpectraFilterParameters.SUFFIX)
-				.getValue();
-		removeOriginal = parameters.getParameter(
-				SpectraFilterParameters.REMOVE_ORIGINAL).getValue();
-
 		c13IsotopeCut = parameters.getParameter(
 				SpectraFilterParameters.C13_ISOTOPE_CUT).getValue();
 		basePeakThreshold = parameters.getParameter(
@@ -79,11 +91,15 @@ public class SpectraFilterTask extends AbstractTask {
 		intensityPercentageThreshold = parameters.getParameter(
 				SpectraFilterParameters.INTENSITY_PERCENTAGE_THRESHOLD)
 				.getValue();
+		suffix = parameters.getParameter(SpectraFilterParameters.SUFFIX)
+				.getValue();
+		removeOriginal = parameters.getParameter(
+				SpectraFilterParameters.REMOVE_ORIGINAL).getValue();
 	}
 
 	@Override
 	public String getTaskDescription() {
-		return "Filtering deconvoluted spectra in " + origDataFile;
+		return "Filtering spectra in " + dataFile;
 	}
 
 	@Override
@@ -100,24 +116,24 @@ public class SpectraFilterTask extends AbstractTask {
 	public void run() {
 		// Update the status of this task
 		setStatus(TaskStatus.PROCESSING);
-		logger.info("Started deconvoluted spectra filter on " + origDataFile);
+		logger.info("Started spectrum filter on " + dataFile);
 
 		// Set total number of scans to process
-		totalScans = origDataFile.getNumOfScans();
+		totalScans = dataFile.getNumOfScans();
 
 		try {
 			// Create a new file
 			final RawDataFileImpl rawDataFileWriter = (RawDataFileImpl) MZmineCore
-					.createNewFile(origDataFile.getName() + ' ' + suffix);
+					.createNewFile(dataFile.getName() + ' ' + suffix);
 
 			// Process each deconvoluted spectrum
-			for (int scanNumber : origDataFile.getScanNumbers(1)) {
+			for (int scanNumber : dataFile.getScanNumbers(1)) {
 				// Canceled?
 				if (isCanceled())
 					return;
 
 				// Duplicate current spectrum
-				Scan spectrum = origDataFile.getScan(scanNumber);
+				Scan spectrum = dataFile.getScan(scanNumber);
 
 				// Exclude the entire spectrum if its base peak intensity is
 				// less than the given threshold
@@ -194,14 +210,13 @@ public class SpectraFilterTask extends AbstractTask {
 
 				// Remove the original data file if requested
 				if (removeOriginal)
-					project.removeFile(origDataFile);
+					project.removeFile(dataFile);
 
 				setStatus(TaskStatus.FINISHED);
-				logger.info("Finished deconvoluted spectra filter "
-						+ origDataFile.getName());
+				logger.info("Finished spectrum filter " + dataFile.getName());
 			}
 		} catch (IOException e) {
-			logger.log(Level.SEVERE, "Deconvoluted spectra filtering error", e);
+			logger.log(Level.SEVERE, "Spectrum filtering error", e);
 			setStatus(TaskStatus.ERROR);
 			errorMessage = e.getMessage();
 		}

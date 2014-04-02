@@ -12,7 +12,9 @@ import java.util.List;
 
 /**
  * Extension of MultiChoiceParameter that enables users to make a selection from
- * the currently selected files in the desktop version.
+ * the currently selected files in the desktop version. For instance, this is
+ * required to perform simultaneous analysis of data with multiple ionization
+ * strategies.
  */
 public class RawDataFilesMultiChoiceParameter
 		extends
@@ -38,11 +40,39 @@ public class RawDataFilesMultiChoiceParameter
 	 */
 	private List<String> valueNames;
 
+	/**
+	 * Base constructor, creating a new MultiChoiceParameter of the given
+	 * ionization type requiring at least one selected file.
+	 * 
+	 * @param name
+	 *            parameter name
+	 * @param description
+	 *            parameter description
+	 * @param dataFiles
+	 *            parameter that provides the choices for selection
+	 * @param spectrumType
+	 *            spectrum ionization type represented by this parameter
+	 */
 	public RawDataFilesMultiChoiceParameter(String name, String description,
 			RawDataFilesParameter dataFiles, SpectrumType spectrumType) {
 		this(name, description, dataFiles, spectrumType, 1);
 	}
 
+	/**
+	 * Constructor, creating a new MultiChoiceParameter of the given ionization
+	 * type requiring the given number of selected files.
+	 * 
+	 * @param name
+	 *            parameter name
+	 * @param description
+	 *            parameter description
+	 * @param dataFiles
+	 *            parameter that provides the choices for selection
+	 * @param spectrumType
+	 *            spectrum ionization type represented by this parameter
+	 * @param minNumber
+	 *            number of selected files required by this parameter
+	 */
 	public RawDataFilesMultiChoiceParameter(String name, String description,
 			RawDataFilesParameter dataFiles, SpectrumType spectrumType,
 			int minNumber) {
@@ -50,6 +80,26 @@ public class RawDataFilesMultiChoiceParameter
 				dataFiles, spectrumType, minNumber);
 	}
 
+	/**
+	 * Constructor, creating a new MultiChoiceParameter of the given ionization
+	 * type, choices and values, and requiring the given number of selected
+	 * files.
+	 * 
+	 * @param name
+	 *            parameter name
+	 * @param description
+	 *            parameter description
+	 * @param choices
+	 *            files to be given as choices
+	 * @param values
+	 *            files to be selected by default
+	 * @param dataFiles
+	 *            parameter that provides the choices for selection
+	 * @param spectrumType
+	 *            spectrum ionization type represented by this parameter
+	 * @param minNumber
+	 *            number of selected files required by this parameter
+	 */
 	public RawDataFilesMultiChoiceParameter(String name, String description,
 			RawDataFile[] choices, RawDataFile[] values,
 			RawDataFilesParameter dataFiles, SpectrumType spectrumType,
@@ -63,8 +113,7 @@ public class RawDataFilesMultiChoiceParameter
 	}
 
 	/**
-	 * Set all selected raw data files as the potential choices before updating
-	 * selected values
+	 * Set all selected raw data files as the available choices.
 	 */
 	private void updateChoices() {
 		setChoices((dataFiles.getValue() == null)
@@ -80,6 +129,7 @@ public class RawDataFilesMultiChoiceParameter
 	 */
 	@Override
 	public MultiChoiceComponent createEditingComponent() {
+		// Update the available choices
 		updateChoices();
 
 		// Use this selector's spectrum type to choose potentially correct files
@@ -98,13 +148,14 @@ public class RawDataFilesMultiChoiceParameter
 	 * Update the choices available for selection
 	 * 
 	 * @param choices
-	 *            available to select
+	 *            files to be given as choices
 	 */
 	@Override
 	public void setChoices(RawDataFile[] choices) {
+		// Perform the default actions
 		super.setChoices(choices);
 
-		// Update selected values if any have been loaded
+		// Update selected values if any have been loaded from XML
 		if (valueNames.size() > 0) {
 			// Create a new list of loaded values that have matching choices
 			List<RawDataFile> values = new ArrayList<RawDataFile>();
@@ -144,7 +195,7 @@ public class RawDataFilesMultiChoiceParameter
 	}
 
 	/**
-	 * Create a new object with this parameter's configuration
+	 * Create a new object with this parameter's configuration.
 	 * 
 	 * @return a clone of this parameter object
 	 */
@@ -153,7 +204,8 @@ public class RawDataFilesMultiChoiceParameter
 		RawDataFilesMultiChoiceParameter copy = new RawDataFilesMultiChoiceParameter(
 				getName(), getDescription(), getChoices(), getValue(),
 				dataFiles, spectrumType, minNumber);
-		copy.setValue(this.getValue());
+
+		copy.setValue(getValue());
 		return copy;
 	}
 }

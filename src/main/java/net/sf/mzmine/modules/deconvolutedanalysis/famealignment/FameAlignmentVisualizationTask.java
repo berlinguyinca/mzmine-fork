@@ -23,7 +23,8 @@ public class FameAlignmentVisualizationTask extends AbstractTask {
 	// Comparison task to wait for
 	List<FameAlignmentProcessingTask> processingTasks;
 
-	public FameAlignmentVisualizationTask(List<FameAlignmentProcessingTask> processingTasks) {
+	public FameAlignmentVisualizationTask(
+			List<FameAlignmentProcessingTask> processingTasks) {
 		this.dataFiles = new ArrayList<RawDataFile>();
 		this.processingTasks = processingTasks;
 	}
@@ -56,9 +57,8 @@ public class FameAlignmentVisualizationTask extends AbstractTask {
 		if (isCanceled())
 			return;
 
-
 		// Retrieve corrected data files
-		for(FameAlignmentProcessingTask task : processingTasks)
+		for (FameAlignmentProcessingTask task : processingTasks)
 			dataFiles.add(task.getCorrectedDataFile());
 
 		Collections.sort(dataFiles, new Comparator<RawDataFile>() {
@@ -68,12 +68,10 @@ public class FameAlignmentVisualizationTask extends AbstractTask {
 			}
 		});
 
-
 		// Produce new PeakList
 		PeakList peakList = new SimplePeakList(
 				"Retention Index Correction Results",
 				dataFiles.toArray(new RawDataFile[dataFiles.size()]));
-
 
 		// Create PeakListRows
 		int id = 0;
@@ -82,9 +80,10 @@ public class FameAlignmentVisualizationTask extends AbstractTask {
 			PeakListRow row = new SimplePeakListRow(++id);
 			row.setComment(name);
 
-			for(FameAlignmentProcessingTask task : processingTasks) {
-				if(task.getResults().containsKey(name))
-					row.addPeak(task.getResults().get(name).getDataFile(), task.getResults().get(name));
+			for (FameAlignmentProcessingTask task : processingTasks) {
+				if (task.getResults().containsKey(name))
+					row.addPeak(task.getResults().get(name).getDataFile(), task
+							.getResults().get(name));
 			}
 
 			peakList.addRow(row);

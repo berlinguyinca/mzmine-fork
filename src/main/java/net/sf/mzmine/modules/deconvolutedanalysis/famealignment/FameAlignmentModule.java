@@ -12,7 +12,7 @@ import javax.annotation.Nonnull;
 import java.util.*;
 
 public class FameAlignmentModule implements MZmineProcessingModule {
-	private static final String MODULE_NAME = "Automated FAME alignment";
+	private static final String MODULE_NAME = "Retention correction (FAME)";
 	private static final String MODULE_DESCRIPTION = "This module aligns spectra from multiple ionization sources by the detection and matching of FAME markers.";
 
 	@Override
@@ -28,12 +28,11 @@ public class FameAlignmentModule implements MZmineProcessingModule {
 	}
 
 	@Override
-	@Nonnull
-	public ExitCode runModule(@Nonnull ParameterSet parameters,
+	public @Nonnull
+	ExitCode runModule(@Nonnull ParameterSet parameters,
 			@Nonnull Collection<Task> tasks) {
 
-		// Keep a track of local processing tasks so we can determine when they
-		// all finish
+		// Keep a track of local processing tasks so we know when they finish
 		List<FameAlignmentProcessingTask> processingTasks = new ArrayList<FameAlignmentProcessingTask>();
 
 		// Search for FAME markers in each spectra file
@@ -42,17 +41,18 @@ public class FameAlignmentModule implements MZmineProcessingModule {
 					FameAlignmentParameters.SPECTRA_DATA.get(type)).getValue();
 
 			for (RawDataFile dataFile : dataFiles) {
-				FameAlignmentProcessingTask task = new FameAlignmentProcessingTask(dataFile, parameters, type);
+				FameAlignmentProcessingTask task = new FameAlignmentProcessingTask(
+						dataFile, parameters, type);
 				processingTasks.add(task);
 				tasks.add(task);
 			}
 		}
 
 		// Display results if requested
-		if (parameters.getParameter(FameAlignmentParameters.SHOW_RESULTS).getValue()) {
+		if (parameters.getParameter(FameAlignmentParameters.SHOW_RESULTS)
+				.getValue()) {
 			// Start visualization task
-			FameAlignmentVisualizationTask visualizationTask = new FameAlignmentVisualizationTask(processingTasks);
-			tasks.add(visualizationTask);
+			tasks.add(new FameAlignmentVisualizationTask(processingTasks));
 		}
 
 		return ExitCode.OK;

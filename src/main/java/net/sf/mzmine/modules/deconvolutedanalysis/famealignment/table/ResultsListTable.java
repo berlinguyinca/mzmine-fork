@@ -23,7 +23,7 @@ public class ResultsListTable extends JTable {
 	public ResultsListTable(ResultsListTableWindow window,
 			final PeakList resultsList) {
 		this.pkTableModel = new ResultsListTableModel(resultsList);
-		this.resultsList  = resultsList;
+		this.resultsList = resultsList;
 
 		this.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		this.setAutoCreateColumnsFromModel(false);
@@ -59,6 +59,10 @@ public class ResultsListTable extends JTable {
 		double rt = FameData.FAME_RETENTION_TIMES[row];
 		double window = 15 / 60.0;
 
-		TICVisualizerModule.showNewTICVisualizerWindow(resultsList.getRawDataFiles(), new ChromatographicPeak[0], new HashMap<ChromatographicPeak, String>(), 1, PlotType.BASEPEAK, new Range(rt - window, rt + window), new Range(86.5, 87.5));
+		TICVisualizerModule.showNewTICVisualizerWindow(
+				resultsList.getRawDataFiles(), new ChromatographicPeak[0],
+				new HashMap<ChromatographicPeak, String>(), 1,
+				PlotType.BASEPEAK, new Range(rt - window, rt + window),
+				new Range(86.5, 87.5));
 	}
 }

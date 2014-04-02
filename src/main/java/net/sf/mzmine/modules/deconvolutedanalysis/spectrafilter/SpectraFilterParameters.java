@@ -70,6 +70,9 @@ public class SpectraFilterParameters extends SimpleParameterSet {
 			"If checked, original file will be replaced by the filtered version",
 			true);
 
+	/**
+	 * Default constructor, creating a new parameter set.
+	 */
 	public SpectraFilterParameters() {
 		super(new Parameter[]{DATA_FILES, C13_ISOTOPE_CUT, BASE_PEAK_THRESHOLD,
 				UNIQUE_MASS_THRESHOLD, INTENSITY_THRESHOLD,

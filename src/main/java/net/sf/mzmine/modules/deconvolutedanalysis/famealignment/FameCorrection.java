@@ -6,21 +6,37 @@ import net.sf.mzmine.util.Range;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class Correction implements ChromatographicPeak {
+/**
+ * Keeps a store of discovered FAME markers. The implementation of
+ * `ChromatagraphicPeak` is a hack to allow easy presentation of retention
+ * correction results in the MZmine table structure.
+ */
+public class FameCorrection implements ChromatographicPeak {
+	/** Data file for analysis */
 	private RawDataFile dataFile;
+
+	/** Library retention index of detected FAME marker */
 	private int retentionIndex;
+
+	/** Experimental retention time of detected FAME marker */
 	private double retentionTime;
 
-	public Correction(RawDataFile dataFile, double retentionTime,
+	/**
+	 * 
+	 * @param dataFile
+	 * @param retentionTime
+	 * @param retentionIndex
+	 */
+	public FameCorrection(RawDataFile dataFile, double retentionTime,
 			int retentionIndex) {
 		this.dataFile = dataFile;
 		this.retentionTime = retentionTime;
 		this.retentionIndex = retentionIndex;
 	}
 
-	@Nonnull
 	@Override
-	public PeakStatus getPeakStatus() {
+	public @Nonnull
+	PeakStatus getPeakStatus() {
 		return PeakStatus.UNKNOWN;
 	}
 
