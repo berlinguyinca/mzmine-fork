@@ -5,6 +5,7 @@ import com.google.common.primitives.Ints;
 import edu.ucdavis.genomics.metabolomics.util.math.CombinedRegression;
 import edu.ucdavis.genomics.metabolomics.util.math.Similarity;
 import net.sf.mzmine.data.DataPoint;
+import net.sf.mzmine.data.Scan;
 import net.sf.mzmine.data.impl.SimpleDataPoint;
 import net.sf.mzmine.main.MZmineCore;
 import net.sf.mzmine.modules.deconvolutedanalysis.CorrectedSpectrum;
@@ -15,12 +16,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
 
+/**
+ *
+ */
 public class FameData {
-	/** Local filename for FAME library spectrum data from Prime Binbase */
-	public static final String PRIME_BINBASE_DATA_FILE = "fame-primebinbase.csv";
-
-	/** Local filename for FAME library spectrum data from Volatile Binbase */
-	public static final String VOC_BINBASE_DATA_FILE = "fame-vocbinbase.csv";
+	/*
+	 * Basic FAME information
+	 */
 
 	/** Number of library FAME markers */
 	public static final int N_FAMES = 13;
@@ -40,14 +42,34 @@ public class FameData {
 			323120, 381020, 491120, 582620, 668720, 747420, 819620, 886620,
 			948820, 1006900, 1061700, 1113100};
 
-	/**
-	 *
-	 */
-	public static final CombinedRegression FAME_INDICES_TO_TIMES;
-
 	/** FAME marker library integer masses */
 	public static final int[] FAME_MASSES = new int[]{158, 172, 186, 214, 242,
 			270, 298, 326, 354, 382, 410, 438, 466};
+
+	/**
+	 * Regression fit to take library retention indices to library retention
+	 * times. Used for conversion from data retention times to "corrected"
+	 * retention times.
+	 */
+	public static final CombinedRegression FAME_INDICES_TO_TIMES;
+
+	/*
+	 * FAME spectrum information to load
+	 */
+
+	/** Local filename for FAME library spectrum data from Prime Binbase */
+	public static final String PRIME_BINBASE_DATA_FILE = "fame-primebinbase.csv";
+
+	/** Local filename for FAME library spectrum data from Volatile Binbase */
+	public static final String VOC_BINBASE_DATA_FILE = "fame-vocbinbase.csv";
+
+	/** Stored spectrum information for each FAME marker */
+	private static Map<String, FameMassSpectrum> primeBinBaseData,
+			vocBinBaseData;
+
+	/*
+	 * Qualification data for FAME marker identification
+	 */
 
 	/** Possible base peak ions required for FAME marker */
 	public static final int[] FAME_BASE_PEAKS = new int[]{43, 74, 87, 117, 147,
@@ -70,12 +92,9 @@ public class FameData {
 	public static final int[] MIN_SIMILARITY = new int[]{600, 700, 600, 600,
 			650, 650, 650, 600, 650, 600, 700, 600, 600};
 
-	/** Stored spectrum information for each FAME marker */
-	private static Map<String, FameMassSpectrum> primeBinBaseData,
-			vocBinBaseData;
-
 	/**
-	 *
+	 * Class containing identifying information for each FAME marker. Creates a
+	 * reference to BinBase's Similarity class to enable similarity comparison.
 	 */
 	private static class FameMassSpectrum {
 		private final String name;
@@ -112,6 +131,11 @@ public class FameData {
 		}
 	}
 
+	/*
+	 * Upon starting retention index correction, create the reverse library
+	 * retention index-to-time regression fit and load the spectrum data for the
+	 * FAME markers.
+	 */
 	static {
 		FAME_INDICES_TO_TIMES = new CombinedRegression(5);
 		FAME_INDICES_TO_TIMES.setData(
@@ -131,6 +155,15 @@ public class FameData {
 		}
 	}
 
+	/**
+	 * Read FAME data from Prime BinBase or Volatile BinBase.
+	 * 
+	 * @param filename
+	 *            CSV file to read and parse
+	 * @param data
+	 *            data structure in which to store the parsed data
+	 * @throws IOException
+	 */
 	private static void readFameData(String filename,
 			Map<String, FameMassSpectrum> data) throws IOException {
 		// Load data
@@ -210,7 +243,7 @@ public class FameData {
 	 *            deconvoluted spectrum object
 	 * @return similarity between referenced spectra
 	 */
-	public static double computeSimilarity(String name, CorrectedSpectrum s) {
+	public static double computeSimilarity(String name, Scan s) {
 		// Get data points and base peak intensity
 		DataPoint[] p = s.getDataPoints();
 		double maxAbundance = s.getBasePeak().getIntensity();

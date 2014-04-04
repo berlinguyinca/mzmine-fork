@@ -521,6 +521,11 @@
         <dependency>
             <groupId>edu.ucdavis.genomics.metabolomics.binbase.binbase-core.bus</groupId>
             <artifactId>bus</artifactId>
+            <version>5.0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.ucdavis.genomics.metabolomics.binbase.binbase-core.uctask</groupId>
+            <artifactId>uctask-core</artifactId>
             <version>5.0.1</version>
         </dependency>
     </dependencies>

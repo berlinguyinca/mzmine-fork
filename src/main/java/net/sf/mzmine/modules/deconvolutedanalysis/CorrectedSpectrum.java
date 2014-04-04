@@ -148,7 +148,7 @@ public class CorrectedSpectrum extends StorableScan {
 
 		this.retentionIndex = retentionIndex;
 		this.correctedRetentionTime = (retentionIndex > -1)
-				? FameData.FAME_INDICES_TO_TIMES.getY(this.retentionIndex)
+				? FameData.FAME_INDICES_TO_TIMES.getY(retentionIndex)
 				: -1;
 
 		DataPoint[] p = getDataPointsByMass(new Range(uniqueMass, uniqueMass));
@@ -168,6 +168,24 @@ public class CorrectedSpectrum extends StorableScan {
 	}
 
 	/**
+	 * Get the original retention file from data file.
+	 * 
+	 * @return retention time
+	 */
+	public double getOriginalRetentionTime() {
+		return super.getRetentionTime();
+	}
+
+	/**
+	 * Get the corrected retention time of this spectrum.
+	 * 
+	 * @return retention time
+	 */
+	public double getCorrectedRetentionTime() {
+		return correctedRetentionTime;
+	}
+
+	/**
 	 * Get the retention index of this spectrum.
 	 * 
 	 * @return retention index
@@ -184,6 +202,9 @@ public class CorrectedSpectrum extends StorableScan {
 	 */
 	public void setRetentionIndex(int retentionIndex) {
 		this.retentionIndex = retentionIndex;
+		this.correctedRetentionTime = (retentionIndex > -1)
+				? FameData.FAME_INDICES_TO_TIMES.getY(retentionIndex)
+				: -1;
 	}
 
 	/**

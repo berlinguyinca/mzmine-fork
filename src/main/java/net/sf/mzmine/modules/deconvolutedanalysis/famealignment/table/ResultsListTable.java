@@ -63,6 +63,6 @@ public class ResultsListTable extends JTable {
 				resultsList.getRawDataFiles(), new ChromatographicPeak[0],
 				new HashMap<ChromatographicPeak, String>(), 1,
 				PlotType.BASEPEAK, new Range(rt - window, rt + window),
-				new Range(86.5, 87.5));
+				new Range(0, 600));
 	}
 }

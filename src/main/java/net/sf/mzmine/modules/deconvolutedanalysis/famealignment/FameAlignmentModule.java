@@ -69,5 +69,4 @@ public class FameAlignmentModule implements MZmineProcessingModule {
 	Class<? extends ParameterSet> getParameterSetClass() {
 		return FameAlignmentParameters.class;
 	}
-
 }

@@ -63,10 +63,11 @@ public class SpectraFilterTask extends AbstractTask {
 	private String suffix;
 
 	/** Remove original data file */
-	private final boolean removeOriginal;
+	private boolean removeOriginal;
 
 	/**
-	 * Default constructor
+	 * Default constructor, initializes the task with the data file to process
+	 * and the set of user-defined parameters.
 	 * 
 	 * @param dataFile
 	 *            data file to filter
@@ -113,6 +114,9 @@ public class SpectraFilterTask extends AbstractTask {
 		return new Object[]{filteredDataFile};
 	}
 
+	/**
+	 *
+	 */
 	public void run() {
 		// Update the status of this task
 		setStatus(TaskStatus.PROCESSING);

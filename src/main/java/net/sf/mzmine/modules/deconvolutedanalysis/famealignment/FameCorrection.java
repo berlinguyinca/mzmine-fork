@@ -22,10 +22,11 @@ public class FameCorrection implements ChromatographicPeak {
 	private double retentionTime;
 
 	/**
+	 * Base constructor.
 	 * 
-	 * @param dataFile
-	 * @param retentionTime
-	 * @param retentionIndex
+	 * @param dataFile data file this FAME marker is found on
+	 * @param retentionTime retention time of discovered FAME marker
+	 * @param retentionIndex library retention index of this FAME marker
 	 */
 	public FameCorrection(RawDataFile dataFile, double retentionTime,
 			int retentionIndex) {

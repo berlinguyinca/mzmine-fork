@@ -17,15 +17,12 @@ public class FameAlignmentVisualizationTask extends AbstractTask {
 	// Logger
 	private Logger LOG = Logger.getLogger(this.getClass().getName());
 
-	// List of RawDataFiles
-	private List<RawDataFile> dataFiles;
-
 	// Comparison task to wait for
 	List<FameAlignmentProcessingTask> processingTasks;
 
 	public FameAlignmentVisualizationTask(
 			List<FameAlignmentProcessingTask> processingTasks) {
-		this.dataFiles = new ArrayList<RawDataFile>();
+
 		this.processingTasks = processingTasks;
 	}
 
@@ -58,6 +55,8 @@ public class FameAlignmentVisualizationTask extends AbstractTask {
 			return;
 
 		// Retrieve corrected data files
+		List<RawDataFile> dataFiles = new ArrayList<RawDataFile>();
+
 		for (FameAlignmentProcessingTask task : processingTasks)
 			dataFiles.add(task.getCorrectedDataFile());
 
@@ -102,6 +101,11 @@ public class FameAlignmentVisualizationTask extends AbstractTask {
 		}
 	}
 
+	/**
+	 * Checks whether any of the processing tasks are still running.
+	 * 
+	 * @return whether the processing tasks are still busy
+	 */
 	private boolean isBusy() {
 		// If the current task is cancelled, we are not busy
 		if (isCanceled())
