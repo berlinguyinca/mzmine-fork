@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<batch>
+    <batchstep method="net.sf.mzmine.modules.rawdatamethods.rawdataimport.RawDataImportModule">
+        <parameter name="Raw data file names">
+            <file>src/test/resources/deconvolutedanalysis/famealignment_PCI_Methane_Algae_SorbCon_R1.csv</file>
+            <file>src/test/resources/deconvolutedanalysis/famealignment_PCI_Methane_Algae_SorbCon_R2.csv</file>
+            <file>src/test/resources/deconvolutedanalysis/famealignment_PCI_Methane_Algae_SorbCon_R3.csv</file>
+            <file>src/test/resources/deconvolutedanalysis/famealignment_PCI_Isobutane_Algae_SorbCon_R1.csv</file>
+            <file>src/test/resources/deconvolutedanalysis/famealignment_PCI_Isobutane_Algae_SorbCon_R2.csv</file>
+            <file>src/test/resources/deconvolutedanalysis/famealignment_PCI_Isobutane_Algae_SorbCon_R3.csv</file>
+            <file>src/test/resources/deconvolutedanalysis/famealignment_DiabeticPlasma_Replicate1_PCI_Methane.csv</file>
+            <file>src/test/resources/deconvolutedanalysis/famealignment_DiabeticPlasma_Replicate2_PCI_Methane.csv</file>
+            <file>src/test/resources/deconvolutedanalysis/famealignment_DiabeticPlasma_Replicate3_PCI_Methane.csv</file>
+            <file>src/test/resources/deconvolutedanalysis/famealignment_DiabeticPlasma_Replicate1_PCI_Isobutane.csv</file>
+            <file>src/test/resources/deconvolutedanalysis/famealignment_DiabeticPlasma_Replicate2_PCI_Isobutane.csv</file>
+            <file>src/test/resources/deconvolutedanalysis/famealignment_DiabeticPlasma_Replicate3_PCI_Isobutane.csv</file>
+            <file>src/test/resources/deconvolutedanalysis/famealignment_022213_HumanPlasma_PCIIsobutane.csv</file>
+            <file>src/test/resources/deconvolutedanalysis/famealignment_051313_HumanPlasma_PCIMethane.csv</file>
+            <file>src/test/resources/deconvolutedanalysis/famealignment_070613_HumanPlasma_PCIMethane.csv</file>
+            <file>src/test/resources/deconvolutedanalysis/famealignment_070813_HumanPlasma_PCIIsobutane.csv</file>
+        </parameter>
+    </batchstep>
+
+
+    <batchstep method="net.sf.mzmine.modules.deconvolutedanalysis.famealignment.FameAlignmentModule">
+        <parameters>
+            <parameter name="Raw data files"/>
+            <parameter name="EI Files"/>
+            <parameter name="PCI Files">
+                <item>famealignment_PCI_Methane_Algae_SorbCon_R1.csv</item>
+                <item>famealignment_PCI_Methane_Algae_SorbCon_R2.csv</item>
+                <item>famealignment_PCI_Methane_Algae_SorbCon_R3.csv</item>
+                <item>famealignment_PCI_Isobutane_Algae_SorbCon_R1.csv</item>
+                <item>famealignment_PCI_Isobutane_Algae_SorbCon_R2.csv</item>
+                <item>famealignment_PCI_Isobutane_Algae_SorbCon_R3.csv</item>
+                <item>famealignment_DiabeticPlasma_Replicate1_PCI_Methane.csv</item>
+                <item>famealignment_DiabeticPlasma_Replicate2_PCI_Methane.csv</item>
+                <item>famealignment_DiabeticPlasma_Replicate3_PCI_Methane.csv</item>
+                <item>famealignment_DiabeticPlasma_Replicate1_PCI_Isobutane.csv</item>
+                <item>famealignment_DiabeticPlasma_Replicate2_PCI_Isobutane.csv</item>
+                <item>famealignment_DiabeticPlasma_Replicate3_PCI_Isobutane.csv</item>
+                <item>famealignment_022213_HumanPlasma_PCIIsobutane.csv</item>
+                <item>famealignment_051313_HumanPlasma_PCIMethane.csv</item>
+                <item>famealignment_070613_HumanPlasma_PCIMethane.csv</item>
+                <item>famealignment_070813_HumanPlasma_PCIIsobutane.csv</item>
+            </parameter>
+            <parameter name="Retention Time Search Window (s)">10</parameter>
+            <parameter name="Suffix">ri_corrected</parameter>
+            <parameter name="Remove source file after filtering">true</parameter>
+            <parameter name="Show Results">false</parameter>
+        </parameters>
+    </batchstep>
+</batch>

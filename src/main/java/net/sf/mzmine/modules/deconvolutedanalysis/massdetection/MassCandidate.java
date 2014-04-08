@@ -13,13 +13,13 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class MassCandidate implements ChromatographicPeak {
-	private RawDataFile dataFile;
-	private int spectrumNumber;
-	private double retentionTime;
-	private int ionMass;
-	private DataPoint dataPoint;
-	private SpectrumType ionizationType;
-	private CombinedRegression fit;
+	private final RawDataFile dataFile;
+	private final int spectrumNumber;
+	private final double retentionTime;
+	private final int ionMass;
+	private final DataPoint dataPoint;
+	private final SpectrumType ionizationType;
+	private final CombinedRegression fit;
 
 	// Isotope pattern. Null by default but can be set later by deisotoping
 	// method.
@@ -27,8 +27,8 @@ public class MassCandidate implements ChromatographicPeak {
 	private int charge = 0;
 
 	// Adduct matches
-	private AdductType[] adductMatches;
-	private String adductsString;
+	private final AdductType[] adductMatches;
+	private final String adductsString;
 
 	public MassCandidate(RawDataFile dataFile, int spectrumNumber,
 			double retentionTime, int ionMass, SpectrumType ionizationType,

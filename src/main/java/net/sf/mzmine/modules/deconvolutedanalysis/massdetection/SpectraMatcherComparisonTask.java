@@ -16,26 +16,26 @@ import java.util.logging.Logger;
 
 public class SpectraMatcherComparisonTask extends AbstractTask {
 	// Logger
-	private Logger LOG = Logger.getLogger(this.getClass().getName());
+	private final Logger LOG = Logger.getLogger(this.getClass().getName());
 
 	// Collection of spectra processing tasks
-	private List<SpectraMatcherProcessingTask> processingTasks;
+	private final List<SpectraMatcherProcessingTask> processingTasks;
 
 	// Collection of mass candidates sorted by data file
-	private Map<RawDataFile, List<MassCandidate>> massCandidates;
+	private final Map<RawDataFile, List<MassCandidate>> massCandidates;
 
 	// Final peak list
-	private PeakList peakList;
+	private final PeakList peakList;
 
 	// Progress counters
 	private int processedScans = 0;
 	private int totalScans;
 
 	// Time window in which to search for mass candidates
-	private double timeWindow;
+	private final double timeWindow;
 
-	// Requried number of matches for each ionization type
-	Map<SpectrumType, Integer> requiredMatches;
+	// Required number of matches for each ionization type
+	final Map<SpectrumType, Integer> requiredMatches;
 
 	public SpectraMatcherComparisonTask(
 			List<SpectraMatcherProcessingTask> processingTasks,
@@ -242,8 +242,9 @@ public class SpectraMatcherComparisonTask extends AbstractTask {
 	}
 
 	/**
+	 * Checks whether any of the processing tasks are still running.
 	 * 
-	 * @return
+	 * @return whether the processing tasks are still busy
 	 */
 	private boolean isBusy() {
 		// If the current task is cancelled, we are not busy
@@ -261,15 +262,22 @@ public class SpectraMatcherComparisonTask extends AbstractTask {
 	}
 
 	/**
+	 * Produces a `Range` time window about give retention time of rt +/-
+	 * timeWindow.
 	 * 
 	 * @param rt
-	 * @return
+	 *            retention time
+	 * @return time window about given retention time
 	 */
 	private Range getTimeWindow(double rt) {
 		return new Range(rt - timeWindow, rt + timeWindow);
 	}
 
 	/**
+	 * Produces a `Range` index window about the given retention time form RI(rt
+	 * - timeWindow) to RI(rt + timeWindow), where RI corresponds to the
+	 * regression fit from retention time to retention index derived for the
+	 * given spectrum.
 	 * 
 	 * @param m
 	 * @return
@@ -282,17 +290,22 @@ public class SpectraMatcherComparisonTask extends AbstractTask {
 	}
 
 	/**
+	 * Checks whether the two given ranges overlap.
+	 * http://world.std.com/~swmcd/steven/tech/interval.html
 	 * 
 	 * @param a
+	 *            first range
 	 * @param b
-	 * @return
+	 *            second range
+	 * @return whether the two ranges overlap
 	 */
 	private boolean rangeOverlaps(Range a, Range b) {
 		return (a.getMin() <= b.getMax()) && (a.getMax() >= b.getMin());
 	}
 
 	/**
-	 *
+	 * Comparison operator between two `Range` objects. Performs natural
+	 * comparison on the equivalent tuple object.
 	 */
 	private class RangeComparator implements Comparator<Range> {
 		@Override

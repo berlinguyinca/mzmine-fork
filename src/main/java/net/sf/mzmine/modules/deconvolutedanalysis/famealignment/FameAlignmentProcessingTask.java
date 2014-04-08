@@ -51,13 +51,13 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 	 */
 
 	/** Ionization method used for this data file */
-	SpectrumType ionizationType;
+	private final SpectrumType ionizationType;
 
 	/** Time window in which to search for FAME peaks */
-	private double timeWindow;
+	private final double timeWindow;
 
 	/** Filename suffix */
-	private String suffix;
+	private final String suffix;
 
 	/** Remove original data file */
 	private final boolean removeOriginal;
@@ -67,16 +67,21 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 	 */
 
 	/** Collection of spectra for processing and analysis */
-	List<CorrectedSpectrum> spectra;
+	final List<CorrectedSpectrum> spectra;
 
-	/** */
+	/** Map of detected FAME markers */
 	Map<String, FameCorrection> results = null;
 
 	/**
+	 * Default constructor, initializes the task with the data file to process,
+	 * the set of user-defined parameters, and the spectrum ionization type.
 	 * 
 	 * @param dataFile
+	 *            data file to correct
 	 * @param parameters
+	 *            user-defined parameters
 	 * @param ionizationType
+	 *            spectrum ionization time
 	 */
 	public FameAlignmentProcessingTask(final RawDataFile dataFile,
 			final ParameterSet parameters, SpectrumType ionizationType) {
@@ -116,29 +121,35 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 	}
 
 	/**
+	 * Gets the original data file.
 	 * 
-	 * @return
+	 * @return data file
 	 */
 	public RawDataFile getDataFile() {
 		return dataFile;
 	}
 
 	/**
+	 * Gets the corrected data file.
 	 * 
-	 * @return
+	 * @return corrected data file
 	 */
 	public RawDataFile getCorrectedDataFile() {
 		return correctedDataFile;
 	}
 
 	/**
+	 * Gets the set of detected FAME markers
 	 * 
-	 * @return
+	 * @return correction results
 	 */
 	public Map<String, FameCorrection> getResults() {
 		return results;
 	}
 
+	/**
+	 * Perform the retention index correction.
+	 */
 	public void run() {
 		// Update the status of this task
 		setStatus(TaskStatus.PROCESSING);
@@ -169,16 +180,29 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 
 				rawDataFileWriter.addScan(newSpectrum);
 
-				// Store spectrum locally as a `SimpleScan` for processing and
-				// analysis
+				// Store spectrum locally for processing and analysis
 				spectra.add(newSpectrum);
 
 				processedScans++;
 			}
 
-			// Finalize writing and add the newly created file to the project
+			// Finalize writing
 			correctedDataFile = rawDataFileWriter.finishWriting();
 
+			// Process spectrum depending on ionization type
+			switch (ionizationType) {
+				case PCI :
+				case PCI_METHANE :
+				case PCI_ISOBUTANE :
+					processPCI();
+					break;
+
+				case EI :
+					processEI();
+					break;
+			}
+
+			// Add the newly created file to the project
 			final MZmineProject project = MZmineCore.getCurrentProject();
 			project.addFile(correctedDataFile);
 
@@ -191,19 +215,6 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 			setStatus(TaskStatus.ERROR);
 			errorMessage = e.getMessage();
 			return;
-		}
-
-		// Process spectrum depending on ionization type
-		switch (ionizationType) {
-			case PCI :
-			case PCI_METHANE :
-			case PCI_ISOBUTANE :
-				processPCI();
-				break;
-
-			case EI :
-				processEI();
-				break;
 		}
 
 		// If this task was canceled, stop processing
@@ -266,8 +277,6 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 
 				// Check for ion qualifier
 				int qualifier = FameData.QUALIFIER_IONS[i];
-				double minRatio = FameData.MIN_QUAL_RATIO[i];
-				double maxRatio = FameData.MAX_QUAL_RATIO[i];
 
 				DataPoint[] p = s.getDataPointsByMass(new Range(qualifier,
 						qualifier));
@@ -375,14 +384,14 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 		}
 
 		// Store retention correction results
-		results = new HashMap<String, FameCorrection>();
+		results = new TreeMap<String, FameCorrection>();
 
 		for (int i = 0; i < fameTimes.size(); i++)
 			results.put(fameNames.get(i), new FameCorrection(correctedDataFile,
 					fameTimes.get(i), (int) fameIndices.get(i).doubleValue()));
 
 		// Log results
-		logger.info(correctedDataFile + "");
+		logger.info(dataFile + "");
 		logger.info(fameTimes + "");
 		logger.info(fameNames + "");
 
@@ -395,7 +404,7 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 			CorrectedSpectrum s = (CorrectedSpectrum) correctedDataFile
 					.getScan(scanNumber);
 			s.setRetentionIndex((int) fit.getY(s.getRetentionTime()));
-			s.setRetentionCorrection(fit);
+			s.setRetentionCorrection(fit, results);
 		}
 	}
 
@@ -406,14 +415,15 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 		// Product a list of candidates for each individual FAME peak
 		List<List<CorrectedSpectrum>> candidates = new ArrayList<List<CorrectedSpectrum>>();
 
-		CorrectedSpectrum bestMatch = null, secondaryBestMatch = null;
-		int libraryMatch = -1;
+		CorrectedSpectrum bestMatch = null, highestMatch = null;
+		double bestIntensity = 0, highestIntensity = 0;
+		int bestLibraryMatch = -1, highestLibraryMatch = -1;
 
 		for (int i = 0; i < FameData.N_FAMES; i++) {
-			// Search for [M + H]+ ion for each FAME marker
 			int mass = FameData.FAME_MASSES[i] + 1;
 			String name = FameData.FAME_NAMES[i];
 
+			// Search for [M + H]+ ion for each FAME marker
 			List<CorrectedSpectrum> matches = new ArrayList<CorrectedSpectrum>();
 			double maxBasePeakIntensity = 0;
 
@@ -430,51 +440,49 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 					// Compute maximum base peak intensity of these FAME markers
 					if (basePeak.getIntensity() > maxBasePeakIntensity)
 						maxBasePeakIntensity = basePeak.getIntensity();
+
+					// Find highest intensity FAME marker
+					if (basePeak.getIntensity() > highestIntensity) {
+						highestMatch = spectrum;
+						highestIntensity = basePeak.getIntensity();
+						highestLibraryMatch = i;
+					}
 				}
 			}
 
-			// Filter candidates
-			for (Iterator<CorrectedSpectrum> it = matches.iterator(); it
-					.hasNext();) {
-				CorrectedSpectrum s = it.next();
-
-				// Filter those peaks with low base peak intensities
-				if (s.getBasePeak().getIntensity() < maxBasePeakIntensity / 100)
-					it.remove();
-			}
-
-			// Check if there is only a single best match
-			CorrectedSpectrum highestMatch = null;
+			// Find initial standard match
+			CorrectedSpectrum bestCandidate = null;
 			int count = 0;
 
 			for (CorrectedSpectrum s : matches) {
 				if (s.getBasePeak().getIntensity() > 0.5 * maxBasePeakIntensity) {
-					if (highestMatch == null)
-						highestMatch = s;
+					bestCandidate = s;
 					count++;
 				}
 			}
 
-			if (count == 1) {
-				matches = new ArrayList<CorrectedSpectrum>();
-				matches.add(highestMatch);
+			if (count == 1 && bestCandidate != null && i > 1
+					&& i < FameData.N_FAMES - 2) {
+				if (bestMatch == null) {
+					bestMatch = bestCandidate;
+					bestIntensity = bestCandidate.getBasePeak().getIntensity();
+					bestLibraryMatch = i;
 
-				if (bestMatch == null && i > 1 && i < FameData.N_FAMES - 2) {
-					bestMatch = highestMatch;
-					libraryMatch = i;
 					logger.info("Best Match: " + name + " "
 							+ bestMatch.getScanNumber() + " "
-							+ bestMatch.getRetentionTime());
+							+ bestMatch.getRetentionTime() + " "
+							+ bestIntensity);
 				}
-
-				secondaryBestMatch = highestMatch;
 			}
 
 			candidates.add(matches);
 		}
 
-		if (bestMatch == null)
-			bestMatch = secondaryBestMatch;
+		if (bestMatch == null) {
+			bestMatch = highestMatch;
+			bestIntensity = highestIntensity;
+			bestLibraryMatch = highestLibraryMatch;
+		}
 
 		// Return an error if no initial match is found
 		if (bestMatch == null) {
@@ -495,7 +503,7 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 			List<CorrectedSpectrum> matches = candidates.get(i);
 
 			if (matches.size() > 0) {
-				double shift = FameData.FAME_RETENTION_TIMES[libraryMatch]
+				double shift = FameData.FAME_RETENTION_TIMES[bestLibraryMatch]
 						- FameData.FAME_RETENTION_TIMES[i];
 				double expectedRt = bestMatch.getRetentionTime() - shift;
 
@@ -508,13 +516,13 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 						it.remove();
 				}
 
-				double maxBasePeakIntensity = 0;
-				CorrectedSpectrum highestMatch = null;
+				highestMatch = null;
+				highestIntensity = 0;
 
 				for (CorrectedSpectrum s : matches) {
-					if (s.getBasePeak().getIntensity() > maxBasePeakIntensity) {
+					if (s.getBasePeak().getIntensity() > highestIntensity) {
 						highestMatch = s;
-						maxBasePeakIntensity = s.getBasePeak().getIntensity();
+						highestIntensity = s.getBasePeak().getIntensity();
 					}
 				}
 
@@ -528,29 +536,36 @@ public class FameAlignmentProcessingTask extends AbstractTask {
 		}
 
 		// Store retention correction results
-		results = new HashMap<String, FameCorrection>();
+		results = new TreeMap<String, FameCorrection>();
 
 		for (int i = 0; i < fameTimes.size(); i++)
 			results.put(fameNames.get(i), new FameCorrection(correctedDataFile,
 					fameTimes.get(i), (int) fameIndices.get(i).doubleValue()));
 
-		logger.info(correctedDataFile + " " + fameTimes);
-		logger.info(fameNames.toString());
+		// Log results
+		logger.info(dataFile + "");
+		logger.info(fameTimes + "");
+		logger.info(fameNames + "");
 
 		// Apply linear/polynomial fit
 		CombinedRegression fit = new CombinedRegression(5);
 		fit.setData(Doubles.toArray(fameTimes), Doubles.toArray(fameIndices));
 
 		// Add calculated retention index to each mass spectrum
-		for (CorrectedSpectrum s : spectra) {
+		for (int scanNumber : correctedDataFile.getScanNumbers(1)) {
+			CorrectedSpectrum s = (CorrectedSpectrum) correctedDataFile
+					.getScan(scanNumber);
 			s.setRetentionIndex((int) fit.getY(s.getRetentionTime()));
-			s.setRetentionCorrection(fit);
+			s.setRetentionCorrection(fit, results);
 		}
 	}
 
 	/**
+	 * Accepts a `SimpleScan` object and removes all C13 isotope ions.
+	 * Equivalent to the algorithm in the `spectrafilter` module
 	 * 
 	 * @param s
+	 *            spectrum to filter
 	 */
 	private void applyC13IsotopeFilter(SimpleScan s) {
 		// Get the data points from the spectrum and sort by m/z

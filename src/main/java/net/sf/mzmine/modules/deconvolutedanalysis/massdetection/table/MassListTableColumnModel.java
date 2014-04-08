@@ -26,16 +26,17 @@ public class MassListTableColumnModel extends DefaultTableColumnModel
 	private static final Font editFont = new Font("SansSerif", Font.PLAIN, 10);
 	private final Color alternateBackground = new Color(237, 247, 255);
 
-	private FormattedCellRenderer mzRenderer, rtRenderer;
-	private TableCellRenderer identityRenderer;
-	private DefaultTableCellRenderer defaultRenderer;
+	private final FormattedCellRenderer mzRenderer;
+	private final FormattedCellRenderer rtRenderer;
+	private final TableCellRenderer identityRenderer;
+	private final DefaultTableCellRenderer defaultRenderer;
 
-	private PeakList peakList;
-	MassListTableModel tableModel;
-	private GroupableTableHeader header;
+	private final PeakList peakList;
+	final MassListTableModel tableModel;
+	private final GroupableTableHeader header;
 
 	private TableColumn columnBeingResized;
-	private int[] columnWidths;
+	private final int[] columnWidths;
 
 	MassListTableColumnModel(GroupableTableHeader header,
 			MassListTableModel tableModel, PeakList peakList) {

@@ -24,15 +24,15 @@ public class ResultsListTableColumnModel extends DefaultTableColumnModel
 	private static final Font editFont = new Font("SansSerif", Font.PLAIN, 10);
 	private final Color alternateBackground = new Color(237, 247, 255);
 
-	private FormattedCellRenderer rtRenderer;
-	private DefaultTableCellRenderer defaultRenderer;
+	private final FormattedCellRenderer rtRenderer;
+	private final DefaultTableCellRenderer defaultRenderer;
 
-	private PeakList peakList;
-	ResultsListTableModel tableModel;
-	private GroupableTableHeader header;
+	private final PeakList peakList;
+	final ResultsListTableModel tableModel;
+	private final GroupableTableHeader header;
 
 	private TableColumn columnBeingResized;
-	private int[] columnWidths;
+	private final int[] columnWidths;
 
 	ResultsListTableColumnModel(GroupableTableHeader header,
 			ResultsListTableModel tableModel, PeakList peakList) {

@@ -23,22 +23,22 @@ public class RawDataFilesMultiChoiceParameter
 	/**
 	 * RawDataFilesParameter from which to obtain the file choices.
 	 */
-	private RawDataFilesParameter dataFiles;
+	private final RawDataFilesParameter dataFiles;
 
 	/**
 	 * Indicates the type of spectrum of the selected files.
 	 */
-	private SpectrumType spectrumType;
+	private final SpectrumType spectrumType;
 
 	/**
 	 * The minimum number of required files to select (default: 1)
 	 */
-	private int minNumber;
+	private final int minNumber;
 
 	/**
 	 * Temporary storage for selected values until choices are loaded.
 	 */
-	private List<String> valueNames;
+	private final List<String> valueNames;
 
 	/**
 	 * Base constructor, creating a new MultiChoiceParameter of the given

@@ -15,13 +15,13 @@ import java.util.logging.Logger;
 
 public class SpectraMatcherProcessingTask extends AbstractTask {
 	/** Logger */
-	private Logger LOG = Logger.getLogger(this.getClass().getName());
+	private final Logger LOG = Logger.getLogger(this.getClass().getName());
 
 	/** Data file to be processed */
 	private final RawDataFile dataFile;
 
 	/** Ionization method used for this data file */
-	SpectrumType ionizationType;
+	final SpectrumType ionizationType;
 
 	/** Adducts to search for */
 	private final AdductType[] adducts;
@@ -30,7 +30,7 @@ public class SpectraMatcherProcessingTask extends AbstractTask {
 	private final int matchesThreshold;
 
 	/** Collection of mass candidates for a specific ionization method */
-	private List<MassCandidate> massCandidates;
+	private final List<MassCandidate> massCandidates;
 
 	// Progress counters
 	private int processedScans = 0;

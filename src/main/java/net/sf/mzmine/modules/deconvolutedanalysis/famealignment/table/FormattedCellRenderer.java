@@ -32,8 +32,8 @@ class FormattedCellRenderer implements TableCellRenderer {
 	public static final Border padding = BorderFactory.createEmptyBorder(0, 5,
 			0, 10);
 	private Font font;
-	private NumberFormat format;
-	private Color alternateBackground;
+	private final NumberFormat format;
+	private final Color alternateBackground;
 
 	FormattedCellRenderer(NumberFormat format, Color alternateBackground) {
 		this.format = format;

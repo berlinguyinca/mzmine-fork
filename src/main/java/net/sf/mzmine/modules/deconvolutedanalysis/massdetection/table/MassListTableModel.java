@@ -6,7 +6,7 @@ import net.sf.mzmine.modules.deconvolutedanalysis.massdetection.MassCandidate;
 import javax.swing.table.AbstractTableModel;
 
 public class MassListTableModel extends AbstractTableModel {
-	private PeakList peakList;
+	private final PeakList peakList;
 
 	public MassListTableModel(PeakList peakList) {
 		this.peakList = peakList;

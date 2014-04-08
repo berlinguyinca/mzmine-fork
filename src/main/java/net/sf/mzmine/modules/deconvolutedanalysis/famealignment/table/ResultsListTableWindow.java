@@ -15,7 +15,7 @@ public class ResultsListTableWindow extends JInternalFrame {
 		setBackground(Color.white);
 
 		// Build table
-		ResultsListTable table = new ResultsListTable(this, resultsList);
+		ResultsListTable table = new ResultsListTable(resultsList);
 
 		add(new JScrollPane(table), BorderLayout.CENTER);
 		pack();

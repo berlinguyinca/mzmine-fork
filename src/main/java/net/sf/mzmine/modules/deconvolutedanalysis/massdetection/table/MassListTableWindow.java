@@ -16,7 +16,7 @@ public class MassListTableWindow extends JInternalFrame {
 		setBackground(Color.white);
 
 		// Build table
-		MassListTable table = new MassListTable(this, massList);
+		MassListTable table = new MassListTable(massList);
 
 		add(new JScrollPane(table), BorderLayout.CENTER);
 		pack();

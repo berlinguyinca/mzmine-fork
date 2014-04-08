@@ -8,25 +8,28 @@ import javax.annotation.Nullable;
 
 /**
  * Keeps a store of discovered FAME markers. The implementation of
- * `ChromatagraphicPeak` is a hack to allow easy presentation of retention
+ * `ChromatographicPeak` is a hack to allow easy presentation of retention
  * correction results in the MZmine table structure.
  */
 public class FameCorrection implements ChromatographicPeak {
 	/** Data file for analysis */
-	private RawDataFile dataFile;
+	private final RawDataFile dataFile;
 
 	/** Library retention index of detected FAME marker */
-	private int retentionIndex;
+	private final int retentionIndex;
 
 	/** Experimental retention time of detected FAME marker */
-	private double retentionTime;
+	private final double retentionTime;
 
 	/**
 	 * Base constructor.
 	 * 
-	 * @param dataFile data file this FAME marker is found on
-	 * @param retentionTime retention time of discovered FAME marker
-	 * @param retentionIndex library retention index of this FAME marker
+	 * @param dataFile
+	 *            data file this FAME marker is found on
+	 * @param retentionTime
+	 *            retention time of discovered FAME marker
+	 * @param retentionIndex
+	 *            library retention index of this FAME marker
 	 */
 	public FameCorrection(RawDataFile dataFile, double retentionTime,
 			int retentionIndex) {

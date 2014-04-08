@@ -1,6 +1,5 @@
 package net.sf.mzmine.modules.deconvolutedanalysis.famealignment.table;
 
-import net.sf.mzmine.data.ChromatographicPeak;
 import net.sf.mzmine.data.PeakList;
 import net.sf.mzmine.modules.deconvolutedanalysis.famealignment.FameData;
 import net.sf.mzmine.modules.visualization.tic.PlotType;
@@ -12,16 +11,14 @@ import javax.swing.*;
 import javax.swing.table.TableRowSorter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.HashMap;
 
 public class ResultsListTable extends JTable {
-	private ResultsListTableModel pkTableModel;
-	private TableRowSorter<ResultsListTableModel> sorter;
-	private ResultsListTableColumnModel cm;
-	private PeakList resultsList;
+	private final ResultsListTableModel pkTableModel;
+	private final TableRowSorter<ResultsListTableModel> sorter;
+	private final ResultsListTableColumnModel cm;
+	private final PeakList resultsList;
 
-	public ResultsListTable(ResultsListTableWindow window,
-			final PeakList resultsList) {
+	public ResultsListTable(final PeakList resultsList) {
 		this.pkTableModel = new ResultsListTableModel(resultsList);
 		this.resultsList = resultsList;
 
@@ -49,19 +46,21 @@ public class ResultsListTable extends JTable {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
 					JTable table = (JTable) e.getSource();
-					viewChromatagram(table.getSelectedRow());
+					viewChromatogram(table.getSelectedRow());
 				}
 			}
 		});
 	}
 
-	private void viewChromatagram(int row) {
+	private void viewChromatogram(int row) {
+		// Library retention time for this FAME marker
 		double rt = FameData.FAME_RETENTION_TIMES[row];
-		double window = 15 / 60.0;
+
+		// Tine window in minutes
+		double window = 0.5;
 
 		TICVisualizerModule.showNewTICVisualizerWindow(
-				resultsList.getRawDataFiles(), new ChromatographicPeak[0],
-				new HashMap<ChromatographicPeak, String>(), 1,
+				resultsList.getRawDataFiles(), null, null, 1,
 				PlotType.BASEPEAK, new Range(rt - window, rt + window),
 				new Range(0, 600));
 	}

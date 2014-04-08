@@ -10,13 +10,13 @@ import java.util.logging.Logger;
 
 public class SpectraMatcherVisualizationTask extends AbstractTask {
 	// Logger
-	private Logger LOG = Logger.getLogger(this.getClass().getName());
+	private final Logger LOG = Logger.getLogger(this.getClass().getName());
 
 	// Final peak list
-	private PeakList peakList;
+	private final PeakList peakList;
 
 	// Comparison task to wait for
-	AbstractTask comparisonTask;
+	final AbstractTask comparisonTask;
 
 	public SpectraMatcherVisualizationTask(PeakList peakList,
 			AbstractTask comparisonTask) {

@@ -26,14 +26,14 @@ public class MassListTable extends JTable {
 
 	private static final Font comboFont = new Font("SansSerif", Font.PLAIN, 10);
 
-	private MassListTableModel pkTableModel;
-	private PeakList peakList;
+	private final MassListTableModel pkTableModel;
+	private final PeakList peakList;
 	private PeakListRow peakListRow;
-	private TableRowSorter<MassListTableModel> sorter;
-	private MassListTableColumnModel cm;
+	private final TableRowSorter<MassListTableModel> sorter;
+	private final MassListTableColumnModel cm;
 	private DefaultCellEditor currentEditor = null;
 
-	public MassListTable(MassListTableWindow window, final PeakList peakList) {
+	public MassListTable(final PeakList peakList) {
 		this.peakList = peakList;
 		this.pkTableModel = new MassListTableModel(peakList);
 
@@ -162,6 +162,7 @@ public class MassListTable extends JTable {
 	 * When user sorts the table, we have to cancel current combobox for
 	 * identity selection. Unfortunately, this doesn't happen automatically.
 	 */
+	@Override
 	public void sorterChanged(RowSorterEvent e) {
 		if (currentEditor != null)
 			currentEditor.stopCellEditing();

@@ -15,10 +15,10 @@ import java.util.logging.Logger;
 
 public class FameAlignmentVisualizationTask extends AbstractTask {
 	// Logger
-	private Logger LOG = Logger.getLogger(this.getClass().getName());
+	private final Logger LOG = Logger.getLogger(this.getClass().getName());
 
 	// Comparison task to wait for
-	List<FameAlignmentProcessingTask> processingTasks;
+	final List<FameAlignmentProcessingTask> processingTasks;
 
 	public FameAlignmentVisualizationTask(
 			List<FameAlignmentProcessingTask> processingTasks) {

@@ -8,7 +8,7 @@ import javax.swing.table.AbstractTableModel;
 import java.util.Arrays;
 
 public class ResultsListTableModel extends AbstractTableModel {
-	private PeakList peakList;
+	private final PeakList peakList;
 
 	public ResultsListTableModel(PeakList peakList) {
 		this.peakList = peakList;
@@ -39,8 +39,8 @@ public class ResultsListTableModel extends AbstractTableModel {
 	}
 
 	/**
-	 * This method returns the value at given coordinates of the dataset or null
-	 * if it is a missing value
+	 * This method returns the value at given coordinates of the data set or
+	 * null if it is a missing value
 	 */
 	public Object getValueAt(int row, int col) {
 		PeakListRow peakListRow = peakList.getRow(row);

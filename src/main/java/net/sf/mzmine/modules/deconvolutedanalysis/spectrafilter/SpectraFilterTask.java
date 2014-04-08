@@ -45,25 +45,25 @@ public class SpectraFilterTask extends AbstractTask {
 	 */
 
 	/** User parameter for the C13 Isotope Cut */
-	private double c13IsotopeCut;
+	private final double c13IsotopeCut;
 
 	/** User parameter for the base peak intensity threshold */
-	private int basePeakThreshold;
+	private final int basePeakThreshold;
 
 	/** User parameter for the unique mass intensity threshold */
-	private int uniqueMassThreshold;
+	private final int uniqueMassThreshold;
 
 	/** User parameter for the intensity threshold cut */
-	private int intensityThreshold;
+	private final int intensityThreshold;
 
 	/** User parameter for intensity percentage threshold */
-	private double intensityPercentageThreshold;
+	private final double intensityPercentageThreshold;
 
 	/** Filename suffix */
-	private String suffix;
+	private final String suffix;
 
 	/** Remove original data file */
-	private boolean removeOriginal;
+	private final boolean removeOriginal;
 
 	/**
 	 * Default constructor, initializes the task with the data file to process
@@ -114,9 +114,6 @@ public class SpectraFilterTask extends AbstractTask {
 		return new Object[]{filteredDataFile};
 	}
 
-	/**
-	 *
-	 */
 	public void run() {
 		// Update the status of this task
 		setStatus(TaskStatus.PROCESSING);
@@ -195,7 +192,8 @@ public class SpectraFilterTask extends AbstractTask {
 				// Add scan to new data file
 				int storageID = rawDataFileWriter
 						.storeDataPoints(filteredDataPoints
-								.toArray(new DataPoint[0]));
+								.toArray(new DataPoint[filteredDataPoints
+										.size()]));
 				CorrectedSpectrum newSpectrum = new CorrectedSpectrum(spectrum,
 						rawDataFileWriter, filteredDataPoints.size(), storageID);
 				rawDataFileWriter.addScan(newSpectrum);

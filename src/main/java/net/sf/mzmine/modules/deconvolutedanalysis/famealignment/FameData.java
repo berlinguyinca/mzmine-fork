@@ -8,7 +8,6 @@ import net.sf.mzmine.data.DataPoint;
 import net.sf.mzmine.data.Scan;
 import net.sf.mzmine.data.impl.SimpleDataPoint;
 import net.sf.mzmine.main.MZmineCore;
-import net.sf.mzmine.modules.deconvolutedanalysis.CorrectedSpectrum;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -64,8 +63,8 @@ public class FameData {
 	public static final String VOC_BINBASE_DATA_FILE = "fame-vocbinbase.csv";
 
 	/** Stored spectrum information for each FAME marker */
-	private static Map<String, FameMassSpectrum> primeBinBaseData,
-			vocBinBaseData;
+	private static final Map<String, FameMassSpectrum> primeBinBaseData;
+	private static final Map<String, FameMassSpectrum> vocBinBaseData;
 
 	/*
 	 * Qualification data for FAME marker identification
@@ -101,7 +100,7 @@ public class FameData {
 		private final double retentionTime;
 		private final int retentionIndex;
 		private final DataPoint[] spectrum;
-		private Similarity similarity;
+		private final Similarity similarity;
 
 		public FameMassSpectrum(String name, double retentionTime,
 				int retentionIndex, String spectrum) {

@@ -4,11 +4,14 @@ import edu.ucdavis.genomics.metabolomics.util.math.CombinedRegression;
 import net.sf.mzmine.data.DataPoint;
 import net.sf.mzmine.data.RawDataFile;
 import net.sf.mzmine.data.Scan;
+import net.sf.mzmine.modules.deconvolutedanalysis.famealignment.FameCorrection;
 import net.sf.mzmine.modules.deconvolutedanalysis.famealignment.FameData;
 import net.sf.mzmine.project.impl.RawDataFileImpl;
 import net.sf.mzmine.project.impl.StorableScan;
 import net.sf.mzmine.util.Range;
 import net.sf.mzmine.util.ScanUtils;
+
+import java.util.Map;
 
 /**
  * StorableScan with the added functionality of allowing for retention index
@@ -40,6 +43,11 @@ public class CorrectedSpectrum extends StorableScan {
 	private CombinedRegression fit = null;
 
 	/**
+	 * Map of retention correction results
+	 */
+	private Map<String, FameCorrection> correctionResults = null;
+
+	/**
 	 * Secondary base peak
 	 */
 	private DataPoint secondaryBasePeak = null;
@@ -50,7 +58,7 @@ public class CorrectedSpectrum extends StorableScan {
 	 * points are stored.
 	 * 
 	 * Additionally requires the number of data points and the within the given
-	 * data file since the `numberOfDataPoints` paramater in the Scan object may
+	 * data file since the `numberOfDataPoints` parameter in the Scan object may
 	 * be outdated if the data points in `dataFile` are modified.
 	 * 
 	 * @param sc
@@ -68,12 +76,12 @@ public class CorrectedSpectrum extends StorableScan {
 
 		if (sc instanceof CorrectedSpectrum) {
 			this.retentionIndex = ((CorrectedSpectrum) sc).getRetentionIndex();
-			this.correctedRetentionTime = (this.retentionIndex > -1)
+			this.correctedRetentionTime = (this.retentionIndex > Integer.MIN_VALUE)
 					? FameData.FAME_INDICES_TO_TIMES.getY(this.retentionIndex)
-					: -1;
+					: Integer.MIN_VALUE;
 		} else {
-			this.retentionIndex = -1;
-			this.correctedRetentionTime = -1;
+			this.retentionIndex = Integer.MIN_VALUE;
+			this.correctedRetentionTime = Integer.MIN_VALUE;
 		}
 	}
 
@@ -94,8 +102,8 @@ public class CorrectedSpectrum extends StorableScan {
 	 */
 	public CorrectedSpectrum(RawDataFile dataFile, int storageID,
 			int spectrumNumber, double retentionTime, DataPoint[] dataPoints) {
-		this(dataFile, storageID, spectrumNumber, retentionTime, -1, -1,
-				dataPoints);
+		this(dataFile, storageID, spectrumNumber, retentionTime,
+				Integer.MIN_VALUE, Integer.MIN_VALUE, dataPoints);
 	}
 
 	/**
@@ -117,8 +125,8 @@ public class CorrectedSpectrum extends StorableScan {
 	public CorrectedSpectrum(RawDataFile dataFile, int storageID,
 			int spectrumNumber, double retentionTime, int uniqueMass,
 			DataPoint[] dataPoints) {
-		this(dataFile, storageID, spectrumNumber, retentionTime, -1,
-				uniqueMass, dataPoints);
+		this(dataFile, storageID, spectrumNumber, retentionTime,
+				Integer.MIN_VALUE, uniqueMass, dataPoints);
 	}
 
 	/**
@@ -147,9 +155,9 @@ public class CorrectedSpectrum extends StorableScan {
 						.isCentroided(dataPoints));
 
 		this.retentionIndex = retentionIndex;
-		this.correctedRetentionTime = (retentionIndex > -1)
+		this.correctedRetentionTime = (retentionIndex > Integer.MIN_VALUE)
 				? FameData.FAME_INDICES_TO_TIMES.getY(retentionIndex)
-				: -1;
+				: Integer.MIN_VALUE;
 
 		DataPoint[] p = getDataPointsByMass(new Range(uniqueMass, uniqueMass));
 		this.uniqueMass = (p.length == 1) ? p[0] : null;
@@ -202,9 +210,9 @@ public class CorrectedSpectrum extends StorableScan {
 	 */
 	public void setRetentionIndex(int retentionIndex) {
 		this.retentionIndex = retentionIndex;
-		this.correctedRetentionTime = (retentionIndex > -1)
+		this.correctedRetentionTime = (retentionIndex > Integer.MIN_VALUE)
 				? FameData.FAME_INDICES_TO_TIMES.getY(retentionIndex)
-				: -1;
+				: Integer.MIN_VALUE;
 	}
 
 	/**
@@ -222,7 +230,7 @@ public class CorrectedSpectrum extends StorableScan {
 	 * @return whether a retention index exists
 	 */
 	public boolean isRetentionCorrected() {
-		return retentionIndex >= 0;
+		return retentionIndex > Integer.MIN_VALUE;
 	}
 
 	/**
@@ -236,14 +244,26 @@ public class CorrectedSpectrum extends StorableScan {
 	}
 
 	/**
+	 * Returns a map of the correction results, indicating the detected FAME
+	 * markers and their corresponding retention times and indices.
+	 * 
+	 * @return retention correction results
+	 */
+	public Map<String, FameCorrection> getRetentionCorrectionResults() {
+		return correctionResults;
+	}
+
+	/**
 	 * Sets the regression formula used to convert this spectrum's retention
 	 * time to a retention index.
 	 * 
 	 * @param fit
 	 *            new regression formula
 	 */
-	public void setRetentionCorrection(CombinedRegression fit) {
+	public void setRetentionCorrection(CombinedRegression fit,
+			Map<String, FameCorrection> correctionResults) {
 		this.fit = fit;
+		this.correctionResults = correctionResults;
 	}
 
 	/**
