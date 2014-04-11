@@ -2,6 +2,21 @@
 <batch>
     <batchstep method="net.sf.mzmine.modules.rawdatamethods.rawdataimport.RawDataImportModule">
         <parameter name="Raw data file names">
+            <file>src/test/resources/deconvolutedanalysis/famealignment_EI_Algae_SorbCon_R1.csv</file>
+            <file>src/test/resources/deconvolutedanalysis/famealignment_EI_Algae_SorbCon_R2.csv</file>
+            <file>src/test/resources/deconvolutedanalysis/famealignment_EI_Algae_SorbCon_R3.csv</file>
+            <file>src/test/resources/deconvolutedanalysis/famealignment_EI_Algae_SorbCon_1to10_R1.csv</file>
+            <file>src/test/resources/deconvolutedanalysis/famealignment_EI_Algae_SorbCon_1to10_R2.csv</file>
+            <file>src/test/resources/deconvolutedanalysis/famealignment_EI_Algae_SorbCon_1to10_R3.csv</file>
+            <file>src/test/resources/deconvolutedanalysis/famealignment_DiabeticPlasma_Replicate1_EI_1to1.csv</file>
+            <file>src/test/resources/deconvolutedanalysis/famealignment_DiabeticPlasma_Replicate2_EI_1to1.csv</file>
+            <file>src/test/resources/deconvolutedanalysis/famealignment_DiabeticPlasma_Replicate3_EI_1to1.csv</file>
+            <file>src/test/resources/deconvolutedanalysis/famealignment_DiabeticPlasma_Replicate1_EI_1to10.csv</file>
+            <file>src/test/resources/deconvolutedanalysis/famealignment_DiabeticPlasma_Replicate2_EI_1to10.csv</file>
+            <file>src/test/resources/deconvolutedanalysis/famealignment_DiabeticPlasma_Replicate3_EI_1to10.csv</file>
+            <file>src/test/resources/deconvolutedanalysis/famealignment_050913_HumanPlasma_EI.csv</file>
+            <file>src/test/resources/deconvolutedanalysis/famealignment_070513_HumanPlasma_EI.csv</file>
+
             <file>src/test/resources/deconvolutedanalysis/famealignment_PCI_Methane_Algae_SorbCon_R1.csv</file>
             <file>src/test/resources/deconvolutedanalysis/famealignment_PCI_Methane_Algae_SorbCon_R2.csv</file>
             <file>src/test/resources/deconvolutedanalysis/famealignment_PCI_Methane_Algae_SorbCon_R3.csv</file>
@@ -21,11 +36,25 @@
         </parameter>
     </batchstep>
 
-
     <batchstep method="net.sf.mzmine.modules.deconvolutedanalysis.famealignment.FameAlignmentModule">
         <parameters>
             <parameter name="Raw data files"/>
-            <parameter name="EI Files"/>
+            <parameter name="EI Files">
+                <item>famealignment_EI_Algae_SorbCon_R1.csv</item>
+                <item>famealignment_EI_Algae_SorbCon_R2.csv</item>
+                <item>famealignment_EI_Algae_SorbCon_R3.csv</item>
+                <item>famealignment_EI_Algae_SorbCon_1to10_R1.csv</item>
+                <item>famealignment_EI_Algae_SorbCon_1to10_R2.csv</item>
+                <item>famealignment_EI_Algae_SorbCon_1to10_R3.csv</item>
+                <item>famealignment_DiabeticPlasma_Replicate1_EI_1to1.csv</item>
+                <item>famealignment_DiabeticPlasma_Replicate2_EI_1to1.csv</item>
+                <item>famealignment_DiabeticPlasma_Replicate3_EI_1to1.csv</item>
+                <item>famealignment_DiabeticPlasma_Replicate1_EI_1to10.csv</item>
+                <item>famealignment_DiabeticPlasma_Replicate2_EI_1to10.csv</item>
+                <item>famealignment_DiabeticPlasma_Replicate3_EI_1to10.csv</item>
+                <item>famealignment_050913_HumanPlasma_EI.csv</item>
+                <item>famealignment_070513_HumanPlasma_EI.csv</item>
+            </parameter>
             <parameter name="PCI Files">
                 <item>famealignment_PCI_Methane_Algae_SorbCon_R1.csv</item>
                 <item>famealignment_PCI_Methane_Algae_SorbCon_R2.csv</item>

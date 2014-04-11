@@ -1,6 +1,8 @@
 package net.sf.mzmine.modules.deconvolutedanalysis.famealignment;
 
 import net.sf.mzmine.data.RawDataFile;
+import net.sf.mzmine.desktop.impl.MainWindow;
+import net.sf.mzmine.main.MZmineCore;
 import net.sf.mzmine.modules.MZmineModuleCategory;
 import net.sf.mzmine.modules.MZmineProcessingModule;
 import net.sf.mzmine.modules.deconvolutedanalysis.SpectrumType;
@@ -50,7 +52,7 @@ public class FameAlignmentModule implements MZmineProcessingModule {
 
 		// Display results if requested
 		if (parameters.getParameter(FameAlignmentParameters.SHOW_RESULTS)
-				.getValue()) {
+				.getValue() && MZmineCore.getDesktop() instanceof MainWindow) {
 			// Start visualization task
 			tasks.add(new FameAlignmentVisualizationTask(processingTasks));
 		}

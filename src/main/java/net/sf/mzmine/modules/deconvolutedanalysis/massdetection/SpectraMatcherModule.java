@@ -3,6 +3,8 @@ package net.sf.mzmine.modules.deconvolutedanalysis.massdetection;
 import net.sf.mzmine.data.PeakList;
 import net.sf.mzmine.data.RawDataFile;
 import net.sf.mzmine.data.impl.SimplePeakList;
+import net.sf.mzmine.desktop.impl.MainWindow;
+import net.sf.mzmine.main.MZmineCore;
 import net.sf.mzmine.modules.MZmineModuleCategory;
 import net.sf.mzmine.modules.MZmineProcessingModule;
 import net.sf.mzmine.modules.deconvolutedanalysis.SpectrumType;
@@ -83,9 +85,9 @@ public class SpectraMatcherModule implements MZmineProcessingModule {
 		tasks.add(comparisonTask);
 
 		// Start visualization task
-		SpectraMatcherVisualizationTask visualizationTask = new SpectraMatcherVisualizationTask(
-				peakList, comparisonTask);
-		tasks.add(visualizationTask);
+		if (MZmineCore.getDesktop() instanceof MainWindow)
+			tasks.add(new SpectraMatcherVisualizationTask(peakList,
+					comparisonTask));
 
 		return ExitCode.OK;
 	}

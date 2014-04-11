@@ -75,10 +75,12 @@ public class CorrectedSpectrum extends StorableScan {
 		super(sc, (RawDataFileImpl) dataFile, numberOfDataPoints, storageID);
 
 		if (sc instanceof CorrectedSpectrum) {
-			this.retentionIndex = ((CorrectedSpectrum) sc).getRetentionIndex();
-			this.correctedRetentionTime = (this.retentionIndex > Integer.MIN_VALUE)
-					? FameData.FAME_INDICES_TO_TIMES.getY(this.retentionIndex)
-					: Integer.MIN_VALUE;
+			CorrectedSpectrum s = (CorrectedSpectrum) sc;
+			this.setRetentionTime(s.getOriginalRetentionTime());
+			this.retentionIndex = s.getRetentionIndex();
+			this.correctedRetentionTime = s.getCorrectedRetentionTime();
+			this.fit = s.getRetentionCorrection();
+			this.correctionResults = s.getRetentionCorrectionResults();
 		} else {
 			this.retentionIndex = Integer.MIN_VALUE;
 			this.correctedRetentionTime = Integer.MIN_VALUE;

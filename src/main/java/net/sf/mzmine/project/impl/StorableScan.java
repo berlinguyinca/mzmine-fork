@@ -220,6 +220,10 @@ public class StorableScan implements Scan {
 		return retentionTime;
 	}
 
+	public void setRetentionTime(double retentionTime) {
+		this.retentionTime = retentionTime;
+	}
+
 	void updateValues() {
 		DataPoint dataPoints[] = getDataPoints();
 

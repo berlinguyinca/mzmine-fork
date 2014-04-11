@@ -13,39 +13,64 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class MassCandidate implements ChromatographicPeak {
+	/** Data file containing this mass candidate */
 	private final RawDataFile dataFile;
+
+	/** Spectrum containing this mass candidate */
+	private final CorrectedSpectrum spectrum;
+
+	/** Spectrum number continaing this mass candidate */
 	private final int spectrumNumber;
+
+	/** Corrected retention time of this mass candidate */
 	private final double retentionTime;
+
+	/** Original, uncorrected retention time of this mass candidate */
+	private final double originalRetentionTime;
+
+	/** Predicted m/z value of this mass candidate */
 	private final int ionMass;
+
+	/** Data point corresponding to this mass candidate */
 	private final DataPoint dataPoint;
+
+	/** Ionization type of this file */
 	private final SpectrumType ionizationType;
+
+	/** Retention correction for this file */
 	private final CombinedRegression fit;
 
-	// Isotope pattern. Null by default but can be set later by deisotoping
-	// method.
+	/**
+	 * Isotope pattern. Null by default but can be set later by deisotoping
+	 * method.
+	 */
 	private IsotopePattern isotopePattern;
-	private int charge = 0;
 
-	// Adduct matches
+	/** Charge of ion */
+	private int charge = 1;
+
+	/** Adduct matches */
 	private final AdductType[] adductMatches;
+
+	/** Adduct matches in string format */
 	private final String adductsString;
 
 	public MassCandidate(RawDataFile dataFile, int spectrumNumber,
-			double retentionTime, int ionMass, SpectrumType ionizationType,
+			Scan spectrum, int ionMass, SpectrumType ionizationType,
 			List<AdductType> adductMatches) {
 
 		this.dataFile = dataFile;
 		this.spectrumNumber = spectrumNumber;
-		this.retentionTime = retentionTime;
+		this.spectrum = (CorrectedSpectrum) spectrum;
+		this.retentionTime = this.spectrum.getRetentionTime();
+		this.originalRetentionTime = this.spectrum.getOriginalRetentionTime();
 		this.ionMass = ionMass;
 		this.ionizationType = ionizationType;
 		this.adductMatches = adductMatches.toArray(new AdductType[adductMatches
 				.size()]);
 		this.dataPoint = new SimpleDataPoint(ionMass, retentionTime);
 
-		fit = ((CorrectedSpectrum) dataFile
-				.getScan(dataFile.getScanNumbers()[0]))
-				.getRetentionCorrection();
+		fit = this.spectrum.getRetentionCorrection();
 
 		// Generate string representation of adduct matches
 		StringBuilder sb = new StringBuilder();
@@ -56,6 +81,10 @@ public class MassCandidate implements ChromatographicPeak {
 		if (adductMatches.size() > 0)
 			sb.deleteCharAt(sb.length() - 1);
 		adductsString = sb.toString();
+	}
+
+	public Scan getSpectrum() {
+		return spectrum;
 	}
 
 	@Nonnull
@@ -80,6 +109,17 @@ public class MassCandidate implements ChromatographicPeak {
 
 	public double getRetentionTime() {
 		return retentionTime;
+	}
+
+	public double getOriginalRetentionTime() {
+		return originalRetentionTime;
+	}
+
+	public int getRetentionIndex() {
+		if (spectrum instanceof CorrectedSpectrum)
+			return ((CorrectedSpectrum) spectrum).getRetentionIndex();
+		else
+			return Integer.MIN_VALUE;
 	}
 
 	public int getIonMass() {
@@ -177,5 +217,10 @@ public class MassCandidate implements ChromatographicPeak {
 
 	public String getAdductsString() {
 		return adductsString;
+	}
+
+	public String toString() {
+		return String.valueOf(retentionTime + " "
+				+ ((CorrectedSpectrum) spectrum).getRetentionIndex());
 	}
 }

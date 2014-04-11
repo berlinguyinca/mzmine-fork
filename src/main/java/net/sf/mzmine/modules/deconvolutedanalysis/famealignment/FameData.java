@@ -63,8 +63,8 @@ public class FameData {
 	public static final String VOC_BINBASE_DATA_FILE = "fame-vocbinbase.csv";
 
 	/** Stored spectrum information for each FAME marker */
-	private static final Map<String, FameMassSpectrum> primeBinBaseData;
-	private static final Map<String, FameMassSpectrum> vocBinBaseData;
+	private static Map<String, FameMassSpectrum> primeBinBaseData,
+			vocBinBaseData;
 
 	/*
 	 * Qualification data for FAME marker identification

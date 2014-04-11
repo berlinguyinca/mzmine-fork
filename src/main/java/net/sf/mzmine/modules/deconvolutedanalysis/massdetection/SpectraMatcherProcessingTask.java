@@ -102,8 +102,7 @@ public class SpectraMatcherProcessingTask extends AbstractTask {
 
 				if (adductMatches.size() >= matchesThreshold) {
 					massCandidates.add(new MassCandidate(dataFile, scanNumber,
-							spectrum.getRetentionTime(), i, ionizationType,
-							adductMatches));
+							spectrum, i, ionizationType, adductMatches));
 					matchesFound++;
 				}
 			}

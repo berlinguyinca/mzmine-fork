@@ -5,6 +5,8 @@ import net.sf.mzmine.data.PeakList;
 import net.sf.mzmine.data.PeakListRow;
 import net.sf.mzmine.data.RawDataFile;
 import net.sf.mzmine.data.impl.SimplePeakListRow;
+import net.sf.mzmine.main.MZmineCore;
+import net.sf.mzmine.modules.deconvolutedanalysis.CorrectedSpectrum;
 import net.sf.mzmine.modules.deconvolutedanalysis.SpectrumType;
 import net.sf.mzmine.parameters.ParameterSet;
 import net.sf.mzmine.taskcontrol.AbstractTask;
@@ -152,7 +154,8 @@ public class SpectraMatcherComparisonTask extends AbstractTask {
 		}
 
 		// Combine any possible overlapping ranges
-		for (Map<Range, List<MassCandidate>> map : massRanges.values()) {
+		for (Integer mass : massRanges.keySet()) {
+			Map<Range, List<MassCandidate>> map = massRanges.get(mass);
 			Range[] keys = map.keySet().toArray(new Range[map.size()]);
 
 			for (int i = 0; i < keys.length - 1;) {
@@ -184,6 +187,7 @@ public class SpectraMatcherComparisonTask extends AbstractTask {
 			for (Map.Entry<Range, List<MassCandidate>> e : map.entrySet()) {
 				Map<SpectrumType, List<String>> files = new EnumMap<SpectrumType, List<String>>(
 						SpectrumType.class);
+
 				double averageRT = 0;
 
 				for (SpectrumType type : SpectraMatcherParameters.SPECTRA_DATA
@@ -231,6 +235,8 @@ public class SpectraMatcherComparisonTask extends AbstractTask {
 
 			peakList.addRow(row);
 		}
+
+		MZmineCore.getCurrentProject().addPeakList(peakList);
 
 		// If this task was canceled, stop processing
 		if (!isCanceled()) {
@@ -284,7 +290,7 @@ public class SpectraMatcherComparisonTask extends AbstractTask {
 	 */
 	private Range getRIWindow(MassCandidate m) {
 		CombinedRegression fit = m.getFit();
-		double rt = m.getRetentionTime();
+		double rt = m.getOriginalRetentionTime();
 
 		return new Range(fit.getY(rt - timeWindow), fit.getY(rt + timeWindow));
 	}

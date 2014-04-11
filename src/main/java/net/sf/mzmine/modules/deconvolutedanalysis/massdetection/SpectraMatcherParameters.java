@@ -20,12 +20,12 @@ import java.util.Map;
 
 public class SpectraMatcherParameters extends SimpleParameterSet {
 	/**
-	 *
+	 * Stores an array of default adducts/losses for each ionization type.
 	 */
 	public static final Map<SpectrumType, AdductType[]> ADDUCTS;
 
 	/**
-	 *
+	 * User parameters in which to select and add adducts/losses for analysis.
 	 */
 	public static final Map<SpectrumType, AdductsParameter> ADDUCT_PARAMS;
 
@@ -40,25 +40,29 @@ public class SpectraMatcherParameters extends SimpleParameterSet {
 	public static final Map<SpectrumType, RawDataFilesMultiChoiceParameter> SPECTRA_DATA;
 
 	/**
-	 *
+	 * The numbers of required adducts/losses to match to be considered a
+	 * candidate.
 	 */
 	public static final Map<SpectrumType, IntegerParameter> ADDUCT_MATCHES;
 
 	/**
-	 *
+	 * The numbers of files to be matched to be considered a detected mass.
 	 */
 	public static final Map<SpectrumType, IntegerParameter> FILE_MATCHES;
 
 	/**
-	 *
+	 * Search window to join ranges for each mass candidate.
 	 */
 	public static final DoubleParameter MATCH_TIME_WINDOW = new DoubleParameter(
 			"Retention Time Search Window (s)",
 			"Time window, in seconds, in which masses should be considered as the same molecule.",
-			NumberFormat.getNumberInstance(), 2.5, 0.01, 60.0);
+			NumberFormat.getNumberInstance(), 1.0, 0.01, 60.0);
 
+	/*
+	 * Initialize the parameters for each ionization type.
+	 */
 	static {
-		//
+		// Define the default adducts/losses types for each spectrum type
 		ADDUCTS = new EnumMap<SpectrumType, AdductType[]>(SpectrumType.class);
 		ADDUCTS.put(SpectrumType.EI, new AdductType[]{
 				new AdductType("[M]+", 0), new AdductType("[M-CH3]+", -15),
@@ -80,7 +84,7 @@ public class SpectraMatcherParameters extends SimpleParameterSet {
 				new AdductType("[M-CH4+H]+", -15),
 				new AdductType("[M-TMSOH+H]+", -89)});
 
-		//
+		// Define the AdductParameters for each spectrum type
 		ADDUCT_PARAMS = new EnumMap<SpectrumType, AdductsParameter>(
 				SpectrumType.class);
 		ADDUCT_PARAMS.put(SpectrumType.EI, new AdductsParameter("EI",
@@ -111,7 +115,7 @@ public class SpectraMatcherParameters extends SimpleParameterSet {
 						"Select the PCI-Isobutane files for analysis.",
 						DATA_FILES, SpectrumType.PCI_ISOBUTANE));
 
-		// Define the required adducts/losses parameters
+		// Define the parameter for the number of required adducts/losses
 		ADDUCT_MATCHES = new EnumMap<SpectrumType, IntegerParameter>(
 				SpectrumType.class);
 		ADDUCT_MATCHES

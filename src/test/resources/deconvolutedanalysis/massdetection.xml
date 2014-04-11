@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<batch>
+    <batchstep method="net.sf.mzmine.modules.rawdatamethods.rawdataimport.RawDataImportModule">
+        <parameter name="Raw data file names">
+            <file>../data/ChromaTOF-Deconvoluted/EI_Algae_SorbCon_R1.csv</file>
+            <file>../data/ChromaTOF-Deconvoluted/EI_Algae_SorbCon_R2.csv</file>
+            <file>../data/ChromaTOF-Deconvoluted/EI_Algae_SorbCon_R3.csv</file>
+            <file>../data/ChromaTOF-Deconvoluted/EI_Algae_SorbCon_1to10_R1.csv</file>
+            <file>../data/ChromaTOF-Deconvoluted/EI_Algae_SorbCon_1to10_R2.csv</file>
+            <file>../data/ChromaTOF-Deconvoluted/EI_Algae_SorbCon_1to10_R3.csv</file>
+            <file>../data/ChromaTOF-Deconvoluted/PCI_Methane_Algae_SorbCon_R1.csv</file>
+            <file>../data/ChromaTOF-Deconvoluted/PCI_Methane_Algae_SorbCon_R2.csv</file>
+            <file>../data/ChromaTOF-Deconvoluted/PCI_Methane_Algae_SorbCon_R3.csv</file>
+            <file>../data/ChromaTOF-Deconvoluted/PCI_Isobutane_Algae_SorbCon_R1.csv</file>
+            <file>../data/ChromaTOF-Deconvoluted/PCI_Isobutane_Algae_SorbCon_R2.csv</file>
+            <file>../data/ChromaTOF-Deconvoluted/PCI_Isobutane_Algae_SorbCon_R3.csv</file>
+        </parameter>
+    </batchstep>
+
+    <batchstep method="net.sf.mzmine.modules.deconvolutedanalysis.famealignment.FameAlignmentModule">
+        <parameters>
+            <parameter name="Raw data files"/>
+            <parameter name="EI Files">
+                <item>EI_Algae_SorbCon_R1.csv</item>
+                <item>EI_Algae_SorbCon_R2.csv</item>
+                <item>EI_Algae_SorbCon_R3.csv</item>
+                <item>EI_Algae_SorbCon_1to10_R1.csv</item>
+                <item>EI_Algae_SorbCon_1to10_R2.csv</item>
+                <item>EI_Algae_SorbCon_1to10_R3.csv</item>
+            </parameter>
+            <parameter name="PCI Files">
+                <item>PCI_Methane_Algae_SorbCon_R1.csv</item>
+                <item>PCI_Methane_Algae_SorbCon_R2.csv</item>
+                <item>PCI_Methane_Algae_SorbCon_R3.csv</item>
+                <item>PCI_Isobutane_Algae_SorbCon_R1.csv</item>
+                <item>PCI_Isobutane_Algae_SorbCon_R2.csv</item>
+                <item>PCI_Isobutane_Algae_SorbCon_R3.csv</item>
+            </parameter>
+            <parameter name="Retention Time Search Window (s)">10</parameter>
+            <parameter name="Suffix">ri_corrected</parameter>
+            <parameter name="Remove source file after filtering">true</parameter>
+            <parameter name="Show Results">false</parameter>
+        </parameters>
+    </batchstep>
+
+    <batchstep method="net.sf.mzmine.modules.deconvolutedanalysis.spectrafilter.SpectraFilterModule">
+        <parameters>
+            <parameter name="Raw data files"/>
+            <parameter name="C13 Isotope Cut">0.5</parameter>
+            <parameter name="Intensity Threshold">50</parameter>
+            <parameter name="Base Peak Threshold (Percentage)">0.01</parameter>
+            <parameter name="Suffix">filtered</parameter>
+            <parameter name="Remove source file after filtering">true</parameter>
+        </parameters>
+    </batchstep>
+
+    <batchstep method="net.sf.mzmine.modules.deconvolutedanalysis.massdetection.SpectraMatcherModule">
+        <parameters>
+            <parameter name="Raw data files"/>
+            <parameter name="EI Files">
+                <item>EI_Algae_SorbCon_R1.csv ri_corrected filtered</item>
+                <item>EI_Algae_SorbCon_R2.csv ri_corrected filtered</item>
+                <item>EI_Algae_SorbCon_R3.csv ri_corrected filtered</item>
+                <item>EI_Algae_SorbCon_1to10_R1.csv ri_corrected filtered</item>
+                <item>EI_Algae_SorbCon_1to10_R2.csv ri_corrected filtered</item>
+                <item>EI_Algae_SorbCon_1to10_R3.csv ri_corrected filtered</item>
+            </parameter>
+            <parameter name="Required EI Files">4</parameter>
+            <parameter name="EI">
+                <adduct mass_difference="0.0" name="[M]+" selected="true"/>
+                <adduct mass_difference="-15.0" name="[M-CH3]+" selected="true"/>
+                <adduct mass_difference="-18.0" name="[M-H2O]+" selected="true"/>
+                <adduct mass_difference="-89.0" name="[M-OTMS]+" selected="true"/>
+                <adduct mass_difference="-178.0" name="[M-OTMS_2]+" selected="true"/>
+            </parameter>
+            <parameter name="Required EI Neutral Losses">2</parameter>
+            <parameter name="PCI-Methane Files">
+                <item>PCI_Methane_Algae_SorbCon_R1.csv ri_corrected filtered</item>
+                <item>PCI_Methane_Algae_SorbCon_R2.csv ri_corrected filtered</item>
+                <item>PCI_Methane_Algae_SorbCon_R3.csv ri_corrected filtered</item>
+            </parameter>
+            <parameter name="Required PCI-Methane Files">2</parameter>
+            <parameter name="PCI-Methane">
+                <adduct mass_difference="1.0" name="[M+H]+" selected="true"/>
+                <adduct mass_difference="29.0" name="[M+C2H5]+" selected="true"/>
+                <adduct mass_difference="41.0" name="[M+C3H5]+" selected="true"/>
+                <adduct mass_difference="-1.0" name="[M-H]+" selected="true"/>
+                <adduct mass_difference="-15.0" name="[M-CH4+H]+" selected="true"/>
+                <adduct mass_difference="-17.0" name="[M-H2O+H]+" selected="true"/>
+                <adduct mass_difference="-89.0" name="[M-TMSOH+H]+" selected="true"/>
+            </parameter>
+            <parameter name="Required PCI-Methane Adducts/Losses">3</parameter>
+            <parameter name="PCI-Isobutane Files">
+                <item>PCI_Isobutane_Algae_SorbCon_R1.csv ri_corrected filtered</item>
+                <item>PCI_Isobutane_Algae_SorbCon_R2.csv ri_corrected filtered</item>
+                <item>PCI_Isobutane_Algae_SorbCon_R3.csv ri_corrected filtered</item>
+            </parameter>
+            <parameter name="Required PCI-Isobutane Files">1</parameter>
+            <parameter name="PCI-Isobutane">
+                <adduct mass_difference="1.0" name="[M+H]+" selected="true"/>
+                <adduct mass_difference="39.0" name="[M+C3H3]+" selected="true"/>
+                <adduct mass_difference="57.0" name="[M+C4H9]+" selected="true"/>
+                <adduct mass_difference="41.0" name="[M+C3H5]+" selected="true"/>
+                <adduct mass_difference="43.0" name="[M+C3H7]+" selected="true"/>
+                <adduct mass_difference="-17.0" name="[M-H2O+H]+" selected="true"/>
+                <adduct mass_difference="-15.0" name="[M-CH4+H]+" selected="true"/>
+                <adduct mass_difference="-89.0" name="[M-TMSOH+H]+" selected="true"/>
+            </parameter>
+            <parameter name="Required PCI-Isobutane Adducts/Losses">1</parameter>
+            <parameter name="Retention Time Search Window (s)">1</parameter>
+        </parameters>
+    </batchstep>
+</batch>
