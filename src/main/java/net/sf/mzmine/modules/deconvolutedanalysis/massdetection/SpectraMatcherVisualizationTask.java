@@ -53,8 +53,7 @@ public class SpectraMatcherVisualizationTask extends AbstractTask {
 			return;
 
 		// Add table to the GUI
-		MassListTableWindow window = new MassListTableWindow(peakList);
-		MZmineCore.getDesktop().addInternalFrame(window);
+		MZmineCore.getDesktop().addInternalFrame(new MassListTableWindow(peakList));
 
 		// If this task was canceled, stop processing
 		if (!isCanceled()) {

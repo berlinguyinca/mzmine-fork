@@ -24,10 +24,10 @@ import javax.annotation.Nonnull;
 import net.sf.mzmine.data.PeakList;
 import net.sf.mzmine.main.MZmineCore;
 import net.sf.mzmine.modules.MZmineModule;
+import net.sf.mzmine.modules.deconvolutedanalysis.massdetection.table.MassListTableWindow;
 import net.sf.mzmine.parameters.ParameterSet;
 
 public class PeakListTableModule implements MZmineModule {
-
 	private static final String MODULE_NAME = "Peak list table";
 
 	@Override
@@ -39,9 +39,18 @@ public class PeakListTableModule implements MZmineModule {
 	public static void showNewPeakListVisualizerWindow(PeakList peakList) {
 		ParameterSet parameters = MZmineCore.getConfiguration()
 				.getModuleParameters(PeakListTableModule.class);
-		PeakListTableWindow window = new PeakListTableWindow(peakList,
-				parameters);
-		MZmineCore.getDesktop().addInternalFrame(window);
+
+		// If our peak list is a list of mass candidates from the
+		// deconvolutedanalysis.massdetection module, use our custom table
+		// window.
+		if (peakList.getName().startsWith("Mass Candidates"))
+			MZmineCore.getDesktop().addInternalFrame(
+					new MassListTableWindow(peakList));
+
+		// Otherwise, use this module's PeakListTableWindow
+		else
+			MZmineCore.getDesktop().addInternalFrame(
+					new PeakListTableWindow(peakList, parameters));
 	}
 
 	@Override
@@ -49,5 +58,4 @@ public class PeakListTableModule implements MZmineModule {
 	Class<? extends ParameterSet> getParameterSetClass() {
 		return PeakListTableParameters.class;
 	}
-
 }
