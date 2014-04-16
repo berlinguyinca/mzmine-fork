@@ -46,6 +46,9 @@ import net.sf.mzmine.modules.projectmethods.projectload.version_2_3.UserParamete
 import net.sf.mzmine.modules.projectmethods.projectload.version_2_5.PeakListOpenHandler_2_5;
 import net.sf.mzmine.modules.projectmethods.projectload.version_2_5.RawDataFileOpenHandler_2_5;
 import net.sf.mzmine.modules.projectmethods.projectload.version_2_5.UserParameterOpenHandler_2_5;
+import net.sf.mzmine.modules.projectmethods.projectload.version_2_5_fiehnlab.PeakListOpenHandler_2_5_FiehnlabFork;
+import net.sf.mzmine.modules.projectmethods.projectload.version_2_5_fiehnlab.RawDataFileOpenHandler_2_5_FiehnlabFork;
+import net.sf.mzmine.modules.projectmethods.projectload.version_2_5_fiehnlab.UserParameterOpenHandler_2_5_FiehnlabFork;
 import net.sf.mzmine.modules.projectmethods.projectsave.ProjectSavingTask;
 import net.sf.mzmine.parameters.ParameterSet;
 import net.sf.mzmine.project.ProjectManager;
@@ -274,6 +277,8 @@ public class ProjectOpeningTask extends AbstractTask {
 							+ mzmineVersionString);
 		}
 
+		logger.info("Project version: "+ projectVersionString);
+
 		// Check if the project version is 2.0 to 2.2
 		if ((projectMajorVersion == 2) && (projectMinorVersion <= 2)) {
 			rawDataFileOpenHandler = new RawDataFileOpenHandler_2_0();
@@ -286,6 +291,16 @@ public class ProjectOpeningTask extends AbstractTask {
 			rawDataFileOpenHandler = new RawDataFileOpenHandler_2_3();
 			peakListOpenHandler = new PeakListOpenHandler_2_3(dataFilesIDMap);
 			userParameterOpenHandler = new UserParameterOpenHandler_2_3(
+					newProject, dataFilesIDMap);
+			return;
+		}
+
+		// Check if the project version is of the Fiehn lab fork
+		if (projectVersionString.contains("FiehnlabFork")) {
+			rawDataFileOpenHandler = new RawDataFileOpenHandler_2_5_FiehnlabFork();
+			peakListOpenHandler = new PeakListOpenHandler_2_5_FiehnlabFork(
+					dataFilesIDMap);
+			userParameterOpenHandler = new UserParameterOpenHandler_2_5_FiehnlabFork(
 					newProject, dataFilesIDMap);
 			return;
 		}

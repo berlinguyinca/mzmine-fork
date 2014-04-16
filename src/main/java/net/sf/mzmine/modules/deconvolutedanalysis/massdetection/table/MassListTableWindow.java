@@ -9,7 +9,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.print.PrinterException;
 
-public class MassListTableWindow extends JInternalFrame implements ActionListener {
+public class MassListTableWindow extends JInternalFrame
+		implements
+			ActionListener {
 	/**
 	 * Table containing mass candidate information.
 	 */
@@ -17,11 +19,13 @@ public class MassListTableWindow extends JInternalFrame implements ActionListene
 
 	/**
 	 * Default constructor, creating an empty table.
-	 *
-	 * @param massList `PeakList` object containing mass candidates
+	 * 
+	 * @param massList
+	 *            `PeakList` object containing mass candidates
 	 */
 	public MassListTableWindow(PeakList massList) {
-		super("Multi-ionization Spectra Match Candidates", true, true, true, true);
+		super("Multi-ionization Spectra Match Candidates", true, true, true,
+				true);
 
 		setResizable(true);
 		setIconifiable(true);
@@ -41,13 +45,14 @@ public class MassListTableWindow extends JInternalFrame implements ActionListene
 
 	/**
 	 * Methods for ActionListener interface implementation
-	 *
-	 * @param event performed event
+	 * 
+	 * @param event
+	 *            performed event
 	 */
 	public void actionPerformed(ActionEvent event) {
 		String command = event.getActionCommand();
 
-		if(command.equals("Export as CSV")) {
+		if (command.equals("Export as CSV")) {
 
 		}
 

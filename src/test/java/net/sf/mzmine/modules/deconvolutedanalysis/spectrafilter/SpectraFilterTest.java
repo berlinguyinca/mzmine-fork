@@ -16,6 +16,10 @@ public class SpectraFilterTest {
 	public void testFilterData() throws Exception {
 		MZmineCore.initializeHeadless();
 
+		for (RawDataFile dataFile : MZmineCore.getCurrentProject()
+				.getDataFiles())
+			MZmineCore.getCurrentProject().removeFile(dataFile);
+
 		File batchFile = new File(
 				"src/test/resources/deconvolutedanalysis/spectrafiltertest.xml");
 		Assert.assertTrue(batchFile.exists());
@@ -27,8 +31,13 @@ public class SpectraFilterTest {
 		assert (filesCount > 0);
 
 		// Get data file and scan
-		RawDataFile dataFile = MZmineCore.getCurrentProject().getDataFiles()[0];
+		RawDataFile[] dataFiles = MZmineCore.getCurrentProject().getDataFiles();
+		RawDataFile dataFile = dataFiles[dataFiles.length - 1];
+
 		assert (dataFile != null);
+
+		for (RawDataFile f : MZmineCore.getCurrentProject().getDataFiles())
+			System.out.println(f);
 
 		Scan spectrum = dataFile.getScan(1);
 

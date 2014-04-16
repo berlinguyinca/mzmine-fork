@@ -4,6 +4,7 @@ import junit.framework.Assert;
 import net.sf.mzmine.data.ChromatographicPeak;
 import net.sf.mzmine.data.PeakList;
 import net.sf.mzmine.data.PeakListRow;
+import net.sf.mzmine.data.RawDataFile;
 import net.sf.mzmine.main.MZmineCore;
 import net.sf.mzmine.modules.batchmode.BatchModeModule;
 import net.sf.mzmine.util.ExitCode;
@@ -15,6 +16,13 @@ public class MassDetectionTest {
 	@Test
 	public void testMassDetectionSet1() throws Exception {
 		MZmineCore.initializeHeadless();
+
+		for (RawDataFile dataFile : MZmineCore.getCurrentProject()
+				.getDataFiles())
+			MZmineCore.getCurrentProject().removeFile(dataFile);
+
+		for (PeakList peakList : MZmineCore.getCurrentProject().getPeakLists())
+			MZmineCore.getCurrentProject().removePeakList(peakList);
 
 		File batchFile = new File(
 				"src/test/resources/deconvolutedanalysis/massdetection_set1.xml");

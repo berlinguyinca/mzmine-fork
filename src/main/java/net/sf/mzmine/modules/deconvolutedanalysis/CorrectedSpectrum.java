@@ -33,9 +33,14 @@ public class CorrectedSpectrum extends StorableScan {
 	private double correctedRetentionTime;
 
 	/**
+	 * Integer m/z value of this spectrum's unique mass as determined by ChromaTOF
+	 */
+	private int uniqueMassValue;
+
+	/**
 	 * The unique mass as determined by ChromaTOF
 	 */
-	private DataPoint uniqueMass;
+	private DataPoint uniqueMass = null;
 
 	/**
 	 * Regression algorithm for retention index correction
@@ -77,6 +82,7 @@ public class CorrectedSpectrum extends StorableScan {
 		if (sc instanceof CorrectedSpectrum) {
 			CorrectedSpectrum s = (CorrectedSpectrum) sc;
 			this.setRetentionTime(s.getOriginalRetentionTime());
+			this.uniqueMass = s.getUniqueMass();
 			this.retentionIndex = s.getRetentionIndex();
 			this.correctedRetentionTime = s.getCorrectedRetentionTime();
 			this.fit = s.getRetentionCorrection();
@@ -105,11 +111,11 @@ public class CorrectedSpectrum extends StorableScan {
 	public CorrectedSpectrum(RawDataFile dataFile, int storageID,
 			int spectrumNumber, double retentionTime, DataPoint[] dataPoints) {
 		this(dataFile, storageID, spectrumNumber, retentionTime,
-				Integer.MIN_VALUE, Integer.MIN_VALUE, dataPoints);
+				Integer.MIN_VALUE, -1, dataPoints);
 	}
 
 	/**
-	 * Base constructor with added `uniqueMass` parameter.
+	 * Constructor with added `uniqueMass` parameter.
 	 * 
 	 * @param dataFile
 	 *            data file object containing this spectrum's data points
@@ -132,7 +138,7 @@ public class CorrectedSpectrum extends StorableScan {
 	}
 
 	/**
-	 * Base constructor with added `uniqueMass` and 'retentionIndex' parameters.
+	 * Constructor with added `uniqueMass` and 'retentionIndex' parameters.
 	 * 
 	 * @param dataFile
 	 *            data file object containing this spectrum's data points
@@ -152,17 +158,45 @@ public class CorrectedSpectrum extends StorableScan {
 	public CorrectedSpectrum(RawDataFile dataFile, int storageID,
 			int spectrumNumber, double retentionTime, int retentionIndex,
 			int uniqueMass, DataPoint[] dataPoints) {
-		super((RawDataFileImpl) dataFile, storageID, dataPoints.length,
-				spectrumNumber, 1, retentionTime, -1, 0.0, 1, null, ScanUtils
+		this(dataFile, storageID, spectrumNumber, retentionTime,
+				retentionIndex, uniqueMass, dataPoints.length, ScanUtils
 						.isCentroided(dataPoints));
+	}
+
+	/**
+	 * Constructor with added `uniqueMass` and 'retentionIndex' parameters.
+	 * 
+	 * @param dataFile
+	 *            data file object containing this spectrum's data points
+	 * @param storageID
+	 *            unique storage id of the location of data points in `dataFile`
+	 * @param spectrumNumber
+	 *            sequential identifier of this spectrum in `dataFile`
+	 * @param retentionTime
+	 *            retention time associated with this spectrum
+	 * @param retentionIndex
+	 *            corrected retention index of this spectrum
+	 * @param uniqueMass
+	 *            unique mass of this spectrum for quantification
+	 * @param numberOfDataPoints
+	 *            number of data points in this spectrum
+	 * @param isCentroided
+	 *            whether or not this spectrum is centroided
+	 */
+	public CorrectedSpectrum(RawDataFile dataFile, int storageID,
+			int spectrumNumber, double retentionTime, int retentionIndex,
+			int uniqueMass, int numberOfDataPoints, boolean isCentroided) {
+
+		super((RawDataFileImpl) dataFile, storageID, numberOfDataPoints,
+				spectrumNumber, 1, retentionTime, -1, 0.0, 1, null,
+				isCentroided);
 
 		this.retentionIndex = retentionIndex;
 		this.correctedRetentionTime = (retentionIndex > Integer.MIN_VALUE)
 				? FameData.FAME_INDICES_TO_TIMES.getY(retentionIndex)
 				: Integer.MIN_VALUE;
 
-		DataPoint[] p = getDataPointsByMass(new Range(uniqueMass, uniqueMass));
-		this.uniqueMass = (p.length == 1) ? p[0] : null;
+		this.uniqueMassValue = uniqueMass;
 	}
 
 	/**
@@ -223,6 +257,11 @@ public class CorrectedSpectrum extends StorableScan {
 	 * @return unique mass
 	 */
 	public DataPoint getUniqueMass() {
+		if(uniqueMass == null && uniqueMassValue > 0) {
+			DataPoint[] p = getDataPointsByMass(new Range(uniqueMassValue, uniqueMassValue));
+			uniqueMass = (p.length == 1) ? p[0] : null;
+		}
+
 		return uniqueMass;
 	}
 

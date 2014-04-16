@@ -33,8 +33,11 @@ import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 
+import edu.ucdavis.genomics.metabolomics.util.math.CombinedRegression;
 import net.sf.mzmine.data.MassList;
 import net.sf.mzmine.data.Scan;
+import net.sf.mzmine.modules.deconvolutedanalysis.CorrectedSpectrum;
+import net.sf.mzmine.modules.deconvolutedanalysis.famealignment.FameCorrection;
 import net.sf.mzmine.project.impl.RawDataFileImpl;
 import net.sf.mzmine.project.impl.StorableMassList;
 import net.sf.mzmine.project.impl.StorableScan;
@@ -55,6 +58,9 @@ class RawDataFileSaveHandler {
 	private Map<Integer, Long> consolidatedDataPointsOffsets;
 	private Map<Integer, Integer> dataPointsLengths;
 	private double progress = 0;
+
+	private CombinedRegression fit = null;
+	private Map<String, FameCorrection> correctionResults = null;
 
 	RawDataFileSaveHandler(ZipOutputStream zipOutputStream) {
 		this.zipOutputStream = zipOutputStream;
@@ -218,8 +224,55 @@ class RawDataFileSaveHandler {
 			progress = 0.9 + (0.1 * ((double) completedScans / numOfScans));
 		}
 
-		hd.endElement("", "", RawDataElementName.RAWDATA.getElementName());
+		// CorrectedSpectrum entries
+		if (fit != null) {
+			double[] xdata = fit.getXData(), ydata = fit.getYData();
 
+			hd.startElement("", "",
+					RawDataElementName.CORRECTION_FIT.getElementName(), atts);
+			for (int i = 0; i < xdata.length; i++) {
+				atts.addAttribute("", "",
+						RawDataElementName.XDATA.getElementName(), "CDATA",
+						String.valueOf(xdata[i]));
+				atts.addAttribute("", "",
+						RawDataElementName.YDATA.getElementName(), "CDATA",
+						String.valueOf(ydata[i]));
+				hd.startElement(
+						"",
+						"",
+						RawDataElementName.CORRECTION_FIT_DATA.getElementName(),
+						atts);
+				atts.clear();
+				hd.endElement("", "",
+						RawDataElementName.CORRECTION_FIT_DATA.getElementName());
+			}
+			hd.endElement("", "",
+					RawDataElementName.CORRECTION_FIT.getElementName());
+
+			hd.startElement("", "",
+					RawDataElementName.CORRECTION_RESULTS.getElementName(),
+					atts);
+			for (String s : correctionResults.keySet()) {
+				atts.addAttribute("", "",
+						RawDataElementName.NAME.getElementName(), "CDATA", s);
+				atts.addAttribute("", "", RawDataElementName.RETENTION_TIME
+						.getElementName(), "CDATA", String
+						.valueOf(correctionResults.get(s).getRetentionTime()));
+				atts.addAttribute("", "", RawDataElementName.RETENTION_INDEX
+						.getElementName(), "CDATA", String
+						.valueOf(correctionResults.get(s).getRetentionIndex()));
+				hd.startElement("", "",
+						RawDataElementName.CORRECTION_DATA.getElementName(),
+						atts);
+				atts.clear();
+				hd.endElement("", "",
+						RawDataElementName.CORRECTION_DATA.getElementName());
+			}
+			hd.endElement("", "",
+					RawDataElementName.CORRECTION_RESULTS.getElementName());
+		}
+
+		hd.endElement("", "", RawDataElementName.RAWDATA.getElementName());
 	}
 
 	/**
@@ -322,7 +375,6 @@ class RawDataFileSaveHandler {
 			}
 			hd.endElement("", "",
 					RawDataElementName.QUANTITY_FRAGMENT_SCAN.getElementName());
-
 		}
 
 		// <MASS_LIST>
@@ -338,7 +390,48 @@ class RawDataFileSaveHandler {
 					RawDataElementName.MASS_LIST.getElementName(), atts);
 			atts.clear();
 			hd.endElement("", "", RawDataElementName.MASS_LIST.getElementName());
+		}
 
+		// CorrectedSpectrum entries
+		hd.startElement("", "",
+				RawDataElementName.CORRECTED_SPECTRUM.getElementName(), atts);
+		hd.characters(new char[] {scan instanceof CorrectedSpectrum ? '1' : '0'},
+				0, 1);
+		hd.endElement("", "",
+				RawDataElementName.CORRECTED_SPECTRUM.getElementName());
+
+		if (scan instanceof CorrectedSpectrum) {
+			CorrectedSpectrum s = (CorrectedSpectrum) scan;
+
+			hd.startElement(
+					"",
+					"",
+					RawDataElementName.ORIGINAL_RETENTION_TIME.getElementName(),
+					atts);
+			hd.characters(String.valueOf(s.getOriginalRetentionTime())
+					.toCharArray(), 0,
+					String.valueOf(s.getOriginalRetentionTime()).length());
+			hd.endElement("", "",
+					RawDataElementName.ORIGINAL_RETENTION_TIME.getElementName());
+
+			hd.startElement("", "",
+					RawDataElementName.RETENTION_INDEX.getElementName(), atts);
+			hd.characters(String.valueOf(s.getRetentionIndex()).toCharArray(),
+					0, String.valueOf(s.getRetentionIndex()).length());
+			hd.endElement("", "",
+					RawDataElementName.RETENTION_INDEX.getElementName());
+
+			hd.startElement("", "",
+					RawDataElementName.UNIQUE_MASS.getElementName(), atts);
+			if(s.getUniqueMass() == null)
+				hd.characters(new char[] {'-', '1'}, 0, 2);
+			else
+				hd.characters(String.valueOf(s.getUniqueMass().getMZ()).toCharArray(), 0, String.valueOf(s.getUniqueMass().getMZ()).length());
+			hd.endElement("", "",
+					RawDataElementName.UNIQUE_MASS.getElementName());
+
+			fit = s.getRetentionCorrection();
+			correctionResults = s.getRetentionCorrectionResults();
 		}
 	}
 

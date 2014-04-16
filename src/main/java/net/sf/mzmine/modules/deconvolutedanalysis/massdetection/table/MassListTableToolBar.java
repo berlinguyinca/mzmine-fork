@@ -6,7 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 
 class MassListTableToolBar extends JToolBar {
-	private static final Icon propertiesIcon = new ImageIcon("icons/propertiesicon.png");
+	private static final Icon propertiesIcon = new ImageIcon(
+			"icons/propertiesicon.png");
 	private static final Icon printIcon = new ImageIcon("icons/printicon.png");
 
 	MassListTableToolBar(MassListTableWindow masterFrame) {
@@ -17,7 +18,7 @@ class MassListTableToolBar extends JToolBar {
 		setBackground(Color.white);
 
 		GUIUtils.addButton(this, null, propertiesIcon, masterFrame,
-				"Export as CSV", "Set table properties");
+				"Export as CSV", "Export as CSV");
 
 		addSeparator();
 

@@ -19,6 +19,10 @@ public class FameAlignmentTest {
 	public void testAlignData() throws Exception {
 		MZmineCore.initializeHeadless();
 
+		for (RawDataFile dataFile : MZmineCore.getCurrentProject()
+				.getDataFiles())
+			MZmineCore.getCurrentProject().removeFile(dataFile);
+
 		File batchFile = new File(
 				"src/test/resources/deconvolutedanalysis/famealignment.xml");
 		Assert.assertTrue(batchFile.exists());

@@ -28,7 +28,13 @@ enum RawDataElementName {
 			"precursor_charge"), RETENTION_TIME("rt"), CENTROIDED("centroid"), QUANTITY_DATAPOINTS(
 			"num_dp"), MASS_LIST("mass_list"), STORED_DATAPOINTS(
 			"stored_datapoints"), STORED_DATA("stored_data"), STORAGE_ID(
-			"storage_id");
+			"storage_id"),
+
+	CORRECTED_SPECTRUM("corrected_spectrum"), RETENTION_INDEX("retention_index"), ORIGINAL_RETENTION_TIME(
+			"original_retention_time"), UNIQUE_MASS("unique_mass"), CORRECTION_FIT(
+			"correction_fit"), CORRECTION_FIT_DATA("correction_fit_data"), XDATA(
+			"xdata"), YDATA("ydata"), CORRECTION_RESULTS("correction_results"), CORRECTION_DATA(
+			"correction_data");
 
 	private String elementName;
 
