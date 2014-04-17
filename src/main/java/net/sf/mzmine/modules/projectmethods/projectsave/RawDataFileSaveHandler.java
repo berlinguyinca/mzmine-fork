@@ -395,8 +395,8 @@ class RawDataFileSaveHandler {
 		// CorrectedSpectrum entries
 		hd.startElement("", "",
 				RawDataElementName.CORRECTED_SPECTRUM.getElementName(), atts);
-		hd.characters(new char[] {scan instanceof CorrectedSpectrum ? '1' : '0'},
-				0, 1);
+		hd.characters(
+				new char[]{scan instanceof CorrectedSpectrum ? '1' : '0'}, 0, 1);
 		hd.endElement("", "",
 				RawDataElementName.CORRECTED_SPECTRUM.getElementName());
 
@@ -423,10 +423,12 @@ class RawDataFileSaveHandler {
 
 			hd.startElement("", "",
 					RawDataElementName.UNIQUE_MASS.getElementName(), atts);
-			if(s.getUniqueMass() == null)
-				hd.characters(new char[] {'-', '1'}, 0, 2);
+			if (s.getUniqueMass() == null)
+				hd.characters(new char[]{'-', '1'}, 0, 2);
 			else
-				hd.characters(String.valueOf(s.getUniqueMass().getMZ()).toCharArray(), 0, String.valueOf(s.getUniqueMass().getMZ()).length());
+				hd.characters(String.valueOf(s.getUniqueMass().getMZ())
+						.toCharArray(), 0,
+						String.valueOf(s.getUniqueMass().getMZ()).length());
 			hd.endElement("", "",
 					RawDataElementName.UNIQUE_MASS.getElementName());
 

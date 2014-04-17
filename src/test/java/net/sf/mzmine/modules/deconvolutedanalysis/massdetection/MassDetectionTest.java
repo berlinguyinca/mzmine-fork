@@ -11,8 +11,11 @@ import net.sf.mzmine.util.ExitCode;
 import org.junit.Test;
 
 import java.io.File;
+import java.util.logging.Logger;
 
 public class MassDetectionTest {
+	private Logger logger = Logger.getLogger(this.getClass().getName());
+
 	@Test
 	public void testMassDetectionSet1() throws Exception {
 		MZmineCore.initializeHeadless();
@@ -34,6 +37,8 @@ public class MassDetectionTest {
 
 		PeakList peakList = MZmineCore.getCurrentProject().getPeakLists()[0];
 		assert (peakList.getNumberOfRows() > 0);
+
+		logger.info("Set #1 Mass Candidates: " + peakList.getNumberOfRows());
 
 		for (PeakListRow row : peakList.getRows()) {
 			assert (row.getNumberOfPeaks() > 0);
@@ -63,6 +68,8 @@ public class MassDetectionTest {
 		PeakList peakList = MZmineCore.getCurrentProject().getPeakLists()[0];
 		assert (peakList.getNumberOfRows() > 0);
 
+		logger.info("Set #2 Mass Candidates: " + peakList.getNumberOfRows());
+
 		for (PeakListRow row : peakList.getRows()) {
 			assert (row.getNumberOfPeaks() > 0);
 			assert (row.getRawDataFiles().length > 0);
@@ -90,6 +97,8 @@ public class MassDetectionTest {
 
 		PeakList peakList = MZmineCore.getCurrentProject().getPeakLists()[0];
 		assert (peakList.getNumberOfRows() > 0);
+
+		logger.info("Set #3 Mass Candidates: " + peakList.getNumberOfRows());
 
 		for (PeakListRow row : peakList.getRows()) {
 			assert (row.getNumberOfPeaks() > 0);

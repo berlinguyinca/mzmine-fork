@@ -277,7 +277,7 @@ public class ProjectOpeningTask extends AbstractTask {
 							+ mzmineVersionString);
 		}
 
-		logger.info("Project version: "+ projectVersionString);
+		logger.info("Project version: " + projectVersionString);
 
 		// Check if the project version is 2.0 to 2.2
 		if ((projectMajorVersion == 2) && (projectMinorVersion <= 2)) {

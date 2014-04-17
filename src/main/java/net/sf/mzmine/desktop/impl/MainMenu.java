@@ -175,7 +175,7 @@ public class MainMenu extends JMenuBar implements ActionListener {
 		/*
 		 * Deconvoluted Data Analysis menu
 		 */
-		deconvolutedAnalysisMenu = new JMenu("Deconvoluted data analysis");
+		deconvolutedAnalysisMenu = new JMenu("[M]+ Finder");
 		add(deconvolutedAnalysisMenu);
 
 		/*

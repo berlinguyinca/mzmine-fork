@@ -33,7 +33,8 @@ public class CorrectedSpectrum extends StorableScan {
 	private double correctedRetentionTime;
 
 	/**
-	 * Integer m/z value of this spectrum's unique mass as determined by ChromaTOF
+	 * Integer m/z value of this spectrum's unique mass as determined by
+	 * ChromaTOF
 	 */
 	private int uniqueMassValue;
 
@@ -257,8 +258,9 @@ public class CorrectedSpectrum extends StorableScan {
 	 * @return unique mass
 	 */
 	public DataPoint getUniqueMass() {
-		if(uniqueMass == null && uniqueMassValue > 0) {
-			DataPoint[] p = getDataPointsByMass(new Range(uniqueMassValue, uniqueMassValue));
+		if (uniqueMass == null && uniqueMassValue > 0) {
+			DataPoint[] p = getDataPointsByMass(new Range(uniqueMassValue,
+					uniqueMassValue));
 			uniqueMass = (p.length == 1) ? p[0] : null;
 		}
 

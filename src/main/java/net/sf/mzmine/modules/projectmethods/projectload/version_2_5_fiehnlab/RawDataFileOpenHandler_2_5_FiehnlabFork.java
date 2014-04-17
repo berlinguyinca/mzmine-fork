@@ -250,8 +250,14 @@ public class RawDataFileOpenHandler_2_5_FiehnlabFork extends DefaultHandler
 			String name = attrs
 					.getValue(RawDataElementName_2_5_FiehnlabFork.NAME
 							.getElementName());
-			double retentionTime = Double.parseDouble(attrs.getValue(RawDataElementName_2_5_FiehnlabFork.RETENTION_TIME.getElementName()));
-			double retentionIndex = Double.parseDouble(attrs.getValue(RawDataElementName_2_5_FiehnlabFork.RETENTION_INDEX.getElementName()));
+			double retentionTime = Double
+					.parseDouble(attrs
+							.getValue(RawDataElementName_2_5_FiehnlabFork.RETENTION_TIME
+									.getElementName()));
+			double retentionIndex = Double
+					.parseDouble(attrs
+							.getValue(RawDataElementName_2_5_FiehnlabFork.RETENTION_INDEX
+									.getElementName()));
 			partialCorrectionResults.put(name, new FameCorrection(null,
 					retentionTime, (int) retentionIndex));
 		}
